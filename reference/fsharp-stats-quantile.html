@@ -1,61 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-root="https://fslab.org/FSharp.Stats/">
 <head>
-    <meta charset="utf-8">
-    <title>Quantile (FSharp.Stats)</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
-    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
-
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <!-- END SEARCH BOX: this adds support for the search box -->
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors" name="author">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="FSharp.Stats">
+    <meta property="og:title" content="Quantile (FSharp.Stats)" />
+    <meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="https://fslab.org/FSharp.Stats/">
+    <meta name="twitter:title" content="Quantile (FSharp.Stats)">
     
-</head> 
+    <title>Quantile (FSharp.Stats) | FSharp.Stats</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/img/favicon.ico" rel="icon" sizes="32x32" type="image/png"/>
+    <script type="application/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-set-dark.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-theme.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+<title>{{fsdocs-page-title}}</title>
+<meta name="author" content="{{fsdocs-authors}}">
+<meta name="description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
 
-<body>
-    <div class="columns is-fullheight m-0">
-        <div id="fsdocs-menu" class="column is-2 is-paddingless">
-            <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-light">
-                    <a href="https://fslab.org/FSharp.Stats/">
-                        <figure class="image is-128x128 container">
-                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
-                        </figure>
-                    </a>
-                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
-                </div>
-                <div class="content">
-                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-                    <div id="header">
-                        <div class="searchbox" id="fsdocs-searchbox">
-                            <label for="search-by">
-                                <i class="fas fa-search"></i>
-                            </label>
-                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
-                            <span data-search-clear="">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- END SEARCH BOX: this adds support for the search box -->
-                    <ul class="navbar-nav">
-                        <li class="nav-header">Links</li>
-                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
-                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
-                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
-                        <li class="nav-header">
+<!-- Opengraph properties (https://ogp.me/) -->
+<meta property="og:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}" />
+<meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="FSharp.Stats" />
+<meta property="og:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta property="og:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<!-- Twitter cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="twitter:url" content="https://fslab.org/FSharp.Stats/">
+<meta name="twitter:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}">
+<meta name="twitter:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta name="twitter:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+<script src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
+<script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
+    
+</head>
+<body class="api-docs">
+<header>
+    <div class="start">
+        <div id="menu-toggle">
+            <iconify-icon class="icon closed" height="22" icon="eva:menu-fill" width="22"></iconify-icon>
+            <iconify-icon class="icon open" height="22" icon="mi:close" width="22"></iconify-icon>
+            <input type="checkbox" name="mobile-menu" />
+            <ul class="menu">
+                <li class="nav-header">Links</li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+                </li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+                    Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+                    Repository</a></li>
+                <li class="nav-header ">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+                <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
@@ -63,14 +183,152 @@
     All Namespaces
   </a>
 </li>
-                    </ul>
-                </div>
-            </aside>
+            </ul>
         </div>
-        <div class="column is-10 is-paddingless">
-            <div class="section pt-4">
-                <div class="container" id="fsdocs-content">
-                    <div>
+        <a href="https://fslab.org/FSharp.Stats/">
+            <img alt="Header menu logo" src="https://fslab.org/FSharp.Stats/img/logo.png">
+            <strong>FSharp.Stats</strong>
+        </a>
+    </div>
+    <div class="end">
+        <a href="https://github.com/fslaborg/FSharp.Stats/" target="_blank">
+            <iconify-icon icon="uil:github" width="26" height="26"></iconify-icon>
+        </a>
+        <iconify-icon id="search-btn" icon="carbon:search" class="search" width="24" height="24"></iconify-icon>
+        <fsdocs-theme-toggle></fsdocs-theme-toggle>
+    </div>
+</header>
+<aside id="fsdocs-main-menu">
+    <ul class="menu">
+        <li class="nav-header">Links</li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+        </li>
+        <li class="nav-item"><a class="nav-link"
+                                href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+            Notes</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+            Repository</a></li>
+        <li class="nav-header ">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+    </ul>
+</aside>
+<main>
+    <div id="content">
+        <div>
   <h2>
     Quantile Module
   </h2>
@@ -88,9 +346,7 @@
   <div class="fsdocs-xmldoc">
     <div>
       <p class="fsdocs-summary">
-        
- Module to estimate different quantile measures
-
+         Module to estimate different quantile measures
       </p>
     </div>
   </div>
@@ -123,21 +379,16 @@
           <td class="fsdocs-entity-xmldoc">
             <div>
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FSharp.Stats.Quantile.InPlace`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FSharp.Stats.Quantile.InPlace\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
               </div>
               <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L22-22" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+                <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
               </a>
               <p class="fsdocs-summary">
-                
- ! Works inplace and can thus causes the data array to be reordered
-
+                 ! Works inplace and can thus causes the data array to be reordered
               </p>
             </div>
           </td>
@@ -155,21 +406,16 @@
           <td class="fsdocs-entity-xmldoc">
             <div>
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FSharp.Stats.Quantile.OfSorted`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FSharp.Stats.Quantile.OfSorted\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
               </div>
               <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L208-208" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+                <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
               </a>
               <p class="fsdocs-summary">
-                
- ! Input needs to be sorted
-
+                 ! Input needs to be sorted
               </p>
             </div>
           </td>
@@ -187,16 +433,13 @@
           <td class="fsdocs-entity-xmldoc">
             <div>
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('``cref:T:FSharp.Stats.Quantile.QuantileFunction`1``')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FSharp.Stats.Quantile.QuantileFunction`1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
               </div>
               <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L7-7" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+                <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
               </a>
               <p class="fsdocs-summary">
                 
@@ -226,7 +469,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '800', 800)" onmouseover="showTip(event, '800', 800)">
+              <code onmouseout="hideTip(event, '230', 230)" onmouseover="showTip(event, '230', 230)">
                 <p>
                   <a id="california">
                     <a href="#california">
@@ -235,7 +478,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="800">
+              <div class="fsdocs-tip" id="230">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>california&#32;<span>q&#32;data</span></span></code>
@@ -258,7 +501,7 @@
                         data
                       </b>
                       :
-                      <code><span>seq&lt;float&gt;</span></code>
+                      <code><span>float&#32;seq</span></code>
                        - 
                       
                     </span>
@@ -276,77 +519,80 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.california`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.california\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L474-474" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Estimates the q-th quantile from the unsorted data.
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.california`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.california\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L474-474" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Estimates the q-th quantile from the unsorted data.
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  q
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  data
-                </span>
-                :
-                <code><span>seq&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    q
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    data
+                  </span>
+                  :
+                  <code><span>float&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"></code></pre>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '801', 801)" onmouseover="showTip(event, '801', 801)">
+              <code onmouseout="hideTip(event, '231', 231)" onmouseover="showTip(event, '231', 231)">
                 <p>
                   <a id="compute">
                     <a href="#compute">
@@ -355,7 +601,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="801">
+              <div class="fsdocs-tip" id="231">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>compute&#32;<span>q&#32;data</span></span></code>
@@ -378,7 +624,7 @@
                         data
                       </b>
                       :
-                      <code><span>seq&lt;float&gt;</span></code>
+                      <code><span>float&#32;seq</span></code>
                        - 
                       
                     </span>
@@ -399,77 +645,80 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.compute`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.compute\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L403-403" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Estimates the q-th quantile from the unsorted data.<br />Approximately median-unbiased regardless of the sample distribution.
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.compute`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.compute\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L403-403" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Estimates the q-th quantile from the unsorted data.<br />Approximately median-unbiased regardless of the sample distribution.
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  q
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  data
-                </span>
-                :
-                <code><span>seq&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    q
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    data
+                  </span>
+                  :
+                  <code><span>float&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"></code></pre>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '802', 802)" onmouseover="showTip(event, '802', 802)">
+              <code onmouseout="hideTip(event, '232', 232)" onmouseover="showTip(event, '232', 232)">
                 <p>
                   <a id="computePercentiles">
                     <a href="#computePercentiles">
@@ -478,7 +727,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="802">
+              <div class="fsdocs-tip" id="232">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>computePercentiles&#32;<span>calcMethod&#32;percentile&#32;data</span></span></code>
@@ -491,7 +740,9 @@
                         calcMethod
                       </b>
                       :
-                      <code><span>float&#32;->&#32;<span>float[]</span>&#32;->&#32;'a</span></code>
+                      <code><span>float&#32;->&#32;<span>float&#32;array</span>&#32;->&#32;'a</span></code>
+                       - 
+                      
                     </span>
                     <br/>
                     <span>
@@ -499,7 +750,7 @@
                         percentile
                       </b>
                       :
-                      <code><span>seq&lt;float&gt;</span></code>
+                      <code><span>float&#32;seq</span></code>
                        - 
                       
                     </span>
@@ -509,7 +760,7 @@
                         data
                       </b>
                       :
-                      <code><span>seq&lt;float&gt;</span></code>
+                      <code><span>float&#32;seq</span></code>
                        - 
                       
                     </span>
@@ -518,7 +769,7 @@
                   <br/>
                   <span>
                     Returns: 
-                    <code><span>seq&lt;'a&gt;</span></code>
+                    <code><span>'a&#32;seq</span></code>
                   </span>
                   
                   <br/>
@@ -527,85 +778,92 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Quantile.computePercentiles``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.computePercentiles``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L553-553" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Computes percentiles<br />percentiles: Each percentile must be between 0.0 and 1.0 (inclusive)<br />CalcMethod should be ofSorted array
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Quantile.computePercentiles``1```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.computePercentiles``1\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L553-553" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Computes percentiles<br />percentiles: Each percentile must be between 0.0 and 1.0 (inclusive)<br />CalcMethod should be ofSorted array
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  calcMethod
-                </span>
-                :
-                <code><span>float&#32;->&#32;<span>float[]</span>&#32;->&#32;'a</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  percentile
-                </span>
-                :
-                <code><span>seq&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  data
-                </span>
-                :
-                <code><span>seq&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span>seq&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    calcMethod
+                  </span>
+                  :
+                  <code><span>float&#32;->&#32;<span>float&#32;array</span>&#32;->&#32;'a</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    percentile
+                  </span>
+                  :
+                  <code><span>float&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    data
+                  </span>
+                  :
+                  <code><span>float&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><span>'a&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"></code></pre>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '803', 803)" onmouseover="showTip(event, '803', 803)">
+              <code onmouseout="hideTip(event, '233', 233)" onmouseover="showTip(event, '233', 233)">
                 <p>
                   <a id="empiricalInvCdf">
                     <a href="#empiricalInvCdf">
@@ -614,7 +872,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="803">
+              <div class="fsdocs-tip" id="233">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>empiricalInvCdf&#32;<span>q&#32;data</span></span></code>
@@ -637,7 +895,7 @@
                         data
                       </b>
                       :
-                      <code><span>seq&lt;float&gt;</span></code>
+                      <code><span>float&#32;seq</span></code>
                        - 
                       
                     </span>
@@ -655,77 +913,80 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.empiricalInvCdf`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.empiricalInvCdf\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L432-432" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Estimates the q-th quantile from the unsorted data.
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.empiricalInvCdf`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.empiricalInvCdf\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L432-432" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Estimates the q-th quantile from the unsorted data.
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  q
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  data
-                </span>
-                :
-                <code><span>seq&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    q
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    data
+                  </span>
+                  :
+                  <code><span>float&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"></code></pre>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '804', 804)" onmouseover="showTip(event, '804', 804)">
+              <code onmouseout="hideTip(event, '234', 234)" onmouseover="showTip(event, '234', 234)">
                 <p>
                   <a id="empiricalInvCdfAverage">
                     <a href="#empiricalInvCdfAverage">
@@ -734,7 +995,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="804">
+              <div class="fsdocs-tip" id="234">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>empiricalInvCdfAverage&#32;<span>q&#32;data</span></span></code>
@@ -757,7 +1018,7 @@
                         data
                       </b>
                       :
-                      <code><span>seq&lt;float&gt;</span></code>
+                      <code><span>float&#32;seq</span></code>
                        - 
                       
                     </span>
@@ -775,77 +1036,80 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.empiricalInvCdfAverage`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.empiricalInvCdfAverage\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L446-446" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Estimates the q-th quantile from the unsorted data.
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.empiricalInvCdfAverage`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.empiricalInvCdfAverage\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L446-446" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Estimates the q-th quantile from the unsorted data.
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  q
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  data
-                </span>
-                :
-                <code><span>seq&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    q
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    data
+                  </span>
+                  :
+                  <code><span>float&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"></code></pre>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '805', 805)" onmouseover="showTip(event, '805', 805)">
+              <code onmouseout="hideTip(event, '235', 235)" onmouseover="showTip(event, '235', 235)">
                 <p>
                   <a id="hazen">
                     <a href="#hazen">
@@ -854,7 +1118,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="805">
+              <div class="fsdocs-tip" id="235">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>hazen&#32;<span>q&#32;data</span></span></code>
@@ -877,7 +1141,7 @@
                         data
                       </b>
                       :
-                      <code><span>seq&lt;float&gt;</span></code>
+                      <code><span>float&#32;seq</span></code>
                        - 
                       
                     </span>
@@ -895,77 +1159,80 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.hazen`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.hazen\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L488-488" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Estimates the q-th quantile from the unsorted data.
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.hazen`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.hazen\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L488-488" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Estimates the q-th quantile from the unsorted data.
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  q
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  data
-                </span>
-                :
-                <code><span>seq&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    q
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    data
+                  </span>
+                  :
+                  <code><span>float&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"></code></pre>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '806', 806)" onmouseover="showTip(event, '806', 806)">
+              <code onmouseout="hideTip(event, '236', 236)" onmouseover="showTip(event, '236', 236)">
                 <p>
                   <a id="interQuantileRange">
                     <a href="#interQuantileRange">
@@ -974,7 +1241,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="806">
+              <div class="fsdocs-tip" id="236">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>interQuantileRange&#32;<span>qf&#32;data</span></span></code>
@@ -1010,58 +1277,57 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Quantile.interQuantileRange``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.interQuantileRange``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L539-539" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
- Computes the interquartile range (IQR)
-
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  qf
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-quantile-quantilefunction-1.html">QuantileFunction</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  data
-                </span>
-                :
-                <code><span>'a&#32;array</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Quantile.interQuantileRange``1```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.interQuantileRange``1\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L539-539" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                     Computes the interquartile range (IQR)
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    qf
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-quantile-quantilefunction-1.html">QuantileFunction</a>&lt;'a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs"></dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    data
+                  </span>
+                  :
+                  <code><span>'a&#32;array</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs"></dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs"></dd>
+              </dl>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '807', 807)" onmouseover="showTip(event, '807', 807)">
+              <code onmouseout="hideTip(event, '237', 237)" onmouseover="showTip(event, '237', 237)">
                 <p>
                   <a id="mode">
                     <a href="#mode">
@@ -1070,7 +1336,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="807">
+              <div class="fsdocs-tip" id="237">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>mode&#32;<span>q&#32;data</span></span></code>
@@ -1093,7 +1359,7 @@
                         data
                       </b>
                       :
-                      <code><span>seq&lt;float&gt;</span></code>
+                      <code><span>float&#32;seq</span></code>
                        - 
                       
                     </span>
@@ -1111,77 +1377,80 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.mode`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.mode\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L516-516" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Estimates the q-th quantile from the unsorted data.<br />R! default
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.mode`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.mode\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L516-516" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Estimates the q-th quantile from the unsorted data.<br />R! default
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  q
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  data
-                </span>
-                :
-                <code><span>seq&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    q
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    data
+                  </span>
+                  :
+                  <code><span>float&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"></code></pre>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '808', 808)" onmouseover="showTip(event, '808', 808)">
+              <code onmouseout="hideTip(event, '238', 238)" onmouseover="showTip(event, '238', 238)">
                 <p>
                   <a id="nearest">
                     <a href="#nearest">
@@ -1190,7 +1459,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="808">
+              <div class="fsdocs-tip" id="238">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>nearest&#32;<span>q&#32;data</span></span></code>
@@ -1213,7 +1482,7 @@
                         data
                       </b>
                       :
-                      <code><span>seq&lt;float&gt;</span></code>
+                      <code><span>float&#32;seq</span></code>
                        - 
                       
                     </span>
@@ -1231,77 +1500,80 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.nearest`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.nearest\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L460-460" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Estimates the q-th quantile from the unsorted data.
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.nearest`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.nearest\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L460-460" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Estimates the q-th quantile from the unsorted data.
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  q
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  data
-                </span>
-                :
-                <code><span>seq&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    q
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    data
+                  </span>
+                  :
+                  <code><span>float&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"></code></pre>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '809', 809)" onmouseover="showTip(event, '809', 809)">
+              <code onmouseout="hideTip(event, '239', 239)" onmouseover="showTip(event, '239', 239)">
                 <p>
                   <a id="nist">
                     <a href="#nist">
@@ -1310,7 +1582,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="809">
+              <div class="fsdocs-tip" id="239">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>nist&#32;<span>q&#32;data</span></span></code>
@@ -1333,7 +1605,7 @@
                         data
                       </b>
                       :
-                      <code><span>seq&lt;float&gt;</span></code>
+                      <code><span>float&#32;seq</span></code>
                        - 
                       
                     </span>
@@ -1351,77 +1623,80 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.nist`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.nist\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L502-502" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Estimates the q-th quantile from the unsorted data.
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.nist`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.nist\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L502-502" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Estimates the q-th quantile from the unsorted data.
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  q
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  data
-                </span>
-                :
-                <code><span>seq&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    q
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    data
+                  </span>
+                  :
+                  <code><span>float&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"></code></pre>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '810', 810)" onmouseover="showTip(event, '810', 810)">
+              <code onmouseout="hideTip(event, '240', 240)" onmouseover="showTip(event, '240', 240)">
                 <p>
                   <a id="normal">
                     <a href="#normal">
@@ -1430,7 +1705,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="810">
+              <div class="fsdocs-tip" id="240">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>normal&#32;<span>q&#32;data</span></span></code>
@@ -1453,7 +1728,7 @@
                         data
                       </b>
                       :
-                      <code><span>seq&lt;float&gt;</span></code>
+                      <code><span>float&#32;seq</span></code>
                        - 
                       
                     </span>
@@ -1471,71 +1746,74 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.normal`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.normal\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L530-530" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Estimates the q-th quantile from the unsorted data.
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.Quantile.normal`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Quantile.normal\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Quantile.fs#L530-530" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Estimates the q-th quantile from the unsorted data.
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  q
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  data
-                </span>
-                :
-                <code><span>seq&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    q
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    data
+                  </span>
+                  :
+                  <code><span>float&#32;seq</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"></code></pre>
+
+
+              </p>
+            </details>
           </td>
         </tr>
       </tbody>
@@ -1550,19 +1828,24 @@
   <div></div>
   <div></div>
 </div>
-                </div>
-            </div>
-        </div>
         
     </div>
+</main>
+<aside id="fsdocs-page-menu">
+    <p id="on-this-page">On this page</p>
+    <div class="empty"></div>
+</aside>
+<dialog>
+    <input type="search" placeholder="Search docs" />
+    <div class="results">
+        <ul></ul>
+        <p class="empty">Type something to start searching.</p>
+    </div>
+</dialog>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-toggle.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
 
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
-    <!-- END SEARCH BOX: this adds support for the search box -->
 </body>
-
 </html>

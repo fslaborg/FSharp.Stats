@@ -1,184 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-root="https://fslab.org/FSharp.Stats/">
 <head>
-    <meta charset="utf-8">
-    <title>Imputation</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
-    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.18.1.min.js"></script>
-    <script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <!-- END SEARCH BOX: this adds support for the search box -->
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors" name="author">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="FSharp.Stats">
+    <meta property="og:title" content="Imputation" />
+    <meta property="og:url" content="https://fslab.org/FSharp.Stats/Imputation.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="https://fslab.org/FSharp.Stats/">
+    <meta name="twitter:title" content="Imputation">
     
-</head> 
+    <title>Imputation | FSharp.Stats</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/img/favicon.ico" rel="icon" sizes="32x32" type="image/png"/>
+    <script type="application/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-set-dark.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-theme.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+<title>{{fsdocs-page-title}}</title>
+<meta name="author" content="{{fsdocs-authors}}">
+<meta name="description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
 
-<body>
-    <div class="columns is-fullheight m-0">
-        <div id="fsdocs-menu" class="column is-2 is-paddingless">
-            <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-light">
-                    <a href="https://fslab.org/FSharp.Stats/">
-                        <figure class="image is-128x128 container">
-                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
-                        </figure>
-                    </a>
-                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
-                </div>
-                <div class="content">
-                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-                    <div id="header">
-                        <div class="searchbox" id="fsdocs-searchbox">
-                            <label for="search-by">
-                                <i class="fas fa-search"></i>
-                            </label>
-                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
-                            <span data-search-clear="">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- END SEARCH BOX: this adds support for the search box -->
-                    <ul class="navbar-nav">
-                        <li class="nav-header">Links</li>
-                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
-                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
-                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
-                        <li class="nav-header">
+<!-- Opengraph properties (https://ogp.me/) -->
+<meta property="og:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}" />
+<meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="FSharp.Stats" />
+<meta property="og:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta property="og:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<!-- Twitter cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="twitter:url" content="https://fslab.org/FSharp.Stats/">
+<meta name="twitter:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}">
+<meta name="twitter:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta name="twitter:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+<script src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
+<script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
+    
+</head>
+<body class="content">
+<header>
+    <div class="start">
+        <div id="menu-toggle">
+            <iconify-icon class="icon closed" height="22" icon="eva:menu-fill" width="22"></iconify-icon>
+            <iconify-icon class="icon open" height="22" icon="mi:close" width="22"></iconify-icon>
+            <input type="checkbox" name="mobile-menu" />
+            <ul class="menu">
+                <li class="nav-header">Links</li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+                </li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+                    Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+                    Repository</a></li>
+                <li class="nav-header active">
   Documentation
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
     Basic statistics
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
     Probability distributions
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
     Statistical testing
   </a>
 </li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Matrix_Vector.html">
-    Matrix and Vector
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/LinearAlgebra.html">
-    Linear Algebra
-  </a>
-</li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
     Correlation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
     Covariance
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
     Fitting
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
     Interpolation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
     Growth curve
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
     Cross validation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
     Fit quality
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item active">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
     Imputation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
     Clustering
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
     Comparison metrics
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
     Differentiation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
     Integration
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
     Signal processing
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
     Normalization
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
     Ranking
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
     Quantile
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
     Intervals
   </a>
 </li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
-    Machine Learning
-  </a>
-</li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
     Optimization
   </a>
 </li>
-                        <li class="nav-header">
+                <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
@@ -186,29 +183,167 @@
     All Namespaces
   </a>
 </li>
-                    </ul>
-                </div>
-            </aside>
+            </ul>
         </div>
-        <div class="column is-10 is-paddingless">
-            <div class="section pt-4">
-                <div class="container" id="fsdocs-content">
-                    
+        <a href="https://fslab.org/FSharp.Stats/">
+            <img alt="Header menu logo" src="https://fslab.org/FSharp.Stats/img/logo.png">
+            <strong>FSharp.Stats</strong>
+        </a>
+    </div>
+    <div class="end">
+        <a href="https://github.com/fslaborg/FSharp.Stats/" target="_blank">
+            <iconify-icon icon="uil:github" width="26" height="26"></iconify-icon>
+        </a>
+        <iconify-icon id="search-btn" icon="carbon:search" class="search" width="24" height="24"></iconify-icon>
+        <fsdocs-theme-toggle></fsdocs-theme-toggle>
+    </div>
+</header>
+<aside id="fsdocs-main-menu">
+    <ul class="menu">
+        <li class="nav-header">Links</li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+        </li>
+        <li class="nav-item"><a class="nav-link"
+                                href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+            Notes</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+            Repository</a></li>
+        <li class="nav-header active">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item active">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+    </ul>
+</aside>
+<main>
+    <div id="content">
+        
 <h1><a name="Imputation" class="anchor" href="#Imputation">Imputation</a></h1>
 <p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Imputation.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a>
 <a href="https://fslab.org/FSharp.Stats/Imputation.ipynb"><img src="https://fslab.org/FSharp.Stats/img/badge-notebook.svg" alt="Notebook" /></a></p>
 <p>Short documentation how to impute values</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs9', 13)" onmouseover="showTip(event, 'fs9', 13)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="id">Stats</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs9', 15)" onmouseover="showTip(event, 'fs9', 15)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 16)" onmouseover="showTip(event, 'fs10', 16)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs11', 17)" onmouseover="showTip(event, 'fs11', 17)" class="id">ML</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs11', 15)" onmouseover="showTip(event, 'fs11', 15)" class="id">Stats</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs10', 16)" onmouseover="showTip(event, 'fs10', 16)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs11', 17)" onmouseover="showTip(event, 'fs11', 17)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 18)" onmouseover="showTip(event, 'fs12', 18)" class="id">ML</span>
 
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 18)" onmouseover="showTip(event, 'fs12', 18)" class="id">a</span> <span class="o">=</span> <span class="pn">[</span><span class="n">3.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 19)" onmouseover="showTip(event, 'fs13', 19)" class="id">b</span> <span class="o">=</span> <span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs14', 20)" onmouseover="showTip(event, 'fs14', 20)" class="id">nan</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 21)" onmouseover="showTip(event, 'fs15', 21)" class="id">c</span> <span class="o">=</span> <span class="pn">[</span><span onmouseout="hideTip(event, 'fs14', 22)" onmouseover="showTip(event, 'fs14', 22)" class="id">nan</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs14', 23)" onmouseover="showTip(event, 'fs14', 23)" class="id">nan</span><span class="pn">;</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 24)" onmouseover="showTip(event, 'fs16', 24)" class="id">d</span> <span class="o">=</span> <span class="pn">[</span><span class="n">5.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">6.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 25)" onmouseover="showTip(event, 'fs17', 25)" class="id">e</span> <span class="o">=</span> <span class="pn">[</span><span class="n">0.5</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 19)" onmouseover="showTip(event, 'fs13', 19)" class="id">a</span> <span class="o">=</span> <span class="pn">[</span><span class="n">3.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 20)" onmouseover="showTip(event, 'fs14', 20)" class="id">b</span> <span class="o">=</span> <span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs15', 21)" onmouseover="showTip(event, 'fs15', 21)" class="id">nan</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 22)" onmouseover="showTip(event, 'fs16', 22)" class="id">c</span> <span class="o">=</span> <span class="pn">[</span><span onmouseout="hideTip(event, 'fs15', 23)" onmouseover="showTip(event, 'fs15', 23)" class="id">nan</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs15', 24)" onmouseover="showTip(event, 'fs15', 24)" class="id">nan</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 25)" onmouseover="showTip(event, 'fs17', 25)" class="id">d</span> <span class="o">=</span> <span class="pn">[</span><span class="n">5.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">6.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 26)" onmouseover="showTip(event, 'fs18', 26)" class="id">e</span> <span class="o">=</span> <span class="pn">[</span><span class="n">0.5</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="pn">]</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 26)" onmouseover="showTip(event, 'fs18', 26)" class="id">data</span> <span class="o">=</span> <span class="pn">[</span><span onmouseout="hideTip(event, 'fs12', 27)" onmouseover="showTip(event, 'fs12', 27)" class="id">a</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs13', 28)" onmouseover="showTip(event, 'fs13', 28)" class="id">b</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs15', 29)" onmouseover="showTip(event, 'fs15', 29)" class="id">c</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs16', 30)" onmouseover="showTip(event, 'fs16', 30)" class="id">d</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs17', 31)" onmouseover="showTip(event, 'fs17', 31)" class="id">e</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 27)" onmouseover="showTip(event, 'fs19', 27)" class="id">data</span> <span class="o">=</span> <span class="pn">[</span><span onmouseout="hideTip(event, 'fs13', 28)" onmouseover="showTip(event, 'fs13', 28)" class="id">a</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs14', 29)" onmouseover="showTip(event, 'fs14', 29)" class="id">b</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs16', 30)" onmouseover="showTip(event, 'fs16', 30)" class="id">c</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs17', 31)" onmouseover="showTip(event, 'fs17', 31)" class="id">d</span><span class="pn">;</span><span onmouseout="hideTip(event, 'fs18', 32)" onmouseover="showTip(event, 'fs18', 32)" class="id">e</span><span class="pn">]</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>"rawData
 
@@ -224,8 +359,8 @@ _________________________________________________________
 <h2><a name="k-Nearest-imputation" class="anchor" href="#k-Nearest-imputation">k-Nearest imputation</a></h2>
 <p>Missing data imputation based on the k-nearest neighbour algorithm:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// init kNearest MatrixBaseImpute</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 39)" onmouseover="showTip(event, 'fs23', 39)" class="fn">kn</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs24', 40)" onmouseover="showTip(event, 'fs24', 40)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs25', 41)" onmouseover="showTip(event, 'fs25', 41)" class="id">MatrixBaseImputation</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs26', 42)" onmouseover="showTip(event, 'fs26', 42)" class="vt">float</span><span class="pn">[</span><span class="pn">]</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs26', 43)" onmouseover="showTip(event, 'fs26', 43)" class="vt">float</span><span class="pn">&gt;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 44)" onmouseover="showTip(event, 'fs24', 44)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 45)" onmouseover="showTip(event, 'fs27', 45)" class="id">kNearestImpute</span> <span class="n">2</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 46)" onmouseover="showTip(event, 'fs28', 46)" class="id">imputedData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 47)" onmouseover="showTip(event, 'fs24', 47)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs29', 48)" onmouseover="showTip(event, 'fs29', 48)" class="id">imputeBy</span> <span onmouseout="hideTip(event, 'fs23', 49)" onmouseover="showTip(event, 'fs23', 49)" class="fn">kn</span> <span onmouseout="hideTip(event, 'fs30', 50)" onmouseover="showTip(event, 'fs30', 50)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 51)" onmouseover="showTip(event, 'fs31', 51)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs18', 52)" onmouseover="showTip(event, 'fs18', 52)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 40)" onmouseover="showTip(event, 'fs24', 40)" class="fn">kn</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs25', 41)" onmouseover="showTip(event, 'fs25', 41)" class="m">Imputation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 42)" onmouseover="showTip(event, 'fs26', 42)" class="id">MatrixBaseImputation</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs27', 43)" onmouseover="showTip(event, 'fs27', 43)" class="vt">float</span><span class="pn">[</span><span class="pn">]</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs27', 44)" onmouseover="showTip(event, 'fs27', 44)" class="vt">float</span><span class="pn">&gt;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 45)" onmouseover="showTip(event, 'fs25', 45)" class="m">Imputation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 46)" onmouseover="showTip(event, 'fs28', 46)" class="id">kNearestImpute</span> <span class="n">2</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 47)" onmouseover="showTip(event, 'fs29', 47)" class="id">imputedData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 48)" onmouseover="showTip(event, 'fs25', 48)" class="m">Imputation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 49)" onmouseover="showTip(event, 'fs30', 49)" class="id">imputeBy</span> <span onmouseout="hideTip(event, 'fs24', 50)" onmouseover="showTip(event, 'fs24', 50)" class="fn">kn</span> <span onmouseout="hideTip(event, 'fs31', 51)" onmouseover="showTip(event, 'fs31', 51)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 52)" onmouseover="showTip(event, 'fs32', 52)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs19', 53)" onmouseover="showTip(event, 'fs19', 53)" class="id">data</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>"k nearest neighbours imputed data
 
@@ -241,18 +376,18 @@ _________________________________________________________
 <h2><a name="random-imputation" class="anchor" href="#random-imputation">random imputation</a></h2>
 <p>...</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// init random VectorBaseImpute</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 60)" onmouseover="showTip(event, 'fs33', 60)" class="fn">rnd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 61)" onmouseover="showTip(event, 'fs24', 61)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 62)" onmouseover="showTip(event, 'fs34', 62)" class="id">rnd</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs35', 63)" onmouseover="showTip(event, 'fs35', 63)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 64)" onmouseover="showTip(event, 'fs36', 64)" class="id">Random</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs34', 61)" onmouseover="showTip(event, 'fs34', 61)" class="fn">rnd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 62)" onmouseover="showTip(event, 'fs25', 62)" class="m">Imputation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 63)" onmouseover="showTip(event, 'fs35', 63)" class="id">rnd</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs36', 64)" onmouseover="showTip(event, 'fs36', 64)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 65)" onmouseover="showTip(event, 'fs37', 65)" class="id">Random</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 65)" onmouseover="showTip(event, 'fs37', 65)" class="id">rndRowWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 66)" onmouseover="showTip(event, 'fs24', 66)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 67)" onmouseover="showTip(event, 'fs38', 67)" class="id">imputeRowWiseBy</span> <span onmouseout="hideTip(event, 'fs33', 68)" onmouseover="showTip(event, 'fs33', 68)" class="fn">rnd</span> <span onmouseout="hideTip(event, 'fs30', 69)" onmouseover="showTip(event, 'fs30', 69)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 70)" onmouseover="showTip(event, 'fs31', 70)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs18', 71)" onmouseover="showTip(event, 'fs18', 71)" class="id">data</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 72)" onmouseover="showTip(event, 'fs39', 72)" class="id">rndColWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 73)" onmouseover="showTip(event, 'fs24', 73)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 74)" onmouseover="showTip(event, 'fs40', 74)" class="id">imputeColWiseBy</span> <span onmouseout="hideTip(event, 'fs33', 75)" onmouseover="showTip(event, 'fs33', 75)" class="fn">rnd</span> <span onmouseout="hideTip(event, 'fs30', 76)" onmouseover="showTip(event, 'fs30', 76)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 77)" onmouseover="showTip(event, 'fs31', 77)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs18', 78)" onmouseover="showTip(event, 'fs18', 78)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs38', 66)" onmouseover="showTip(event, 'fs38', 66)" class="id">rndRowWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 67)" onmouseover="showTip(event, 'fs25', 67)" class="m">Imputation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 68)" onmouseover="showTip(event, 'fs39', 68)" class="id">imputeRowWiseBy</span> <span onmouseout="hideTip(event, 'fs34', 69)" onmouseover="showTip(event, 'fs34', 69)" class="fn">rnd</span> <span onmouseout="hideTip(event, 'fs31', 70)" onmouseover="showTip(event, 'fs31', 70)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 71)" onmouseover="showTip(event, 'fs32', 71)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs19', 72)" onmouseover="showTip(event, 'fs19', 72)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 73)" onmouseover="showTip(event, 'fs40', 73)" class="id">rndColWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 74)" onmouseover="showTip(event, 'fs25', 74)" class="m">Imputation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 75)" onmouseover="showTip(event, 'fs41', 75)" class="id">imputeColWiseBy</span> <span onmouseout="hideTip(event, 'fs34', 76)" onmouseover="showTip(event, 'fs34', 76)" class="fn">rnd</span> <span onmouseout="hideTip(event, 'fs31', 77)" onmouseover="showTip(event, 'fs31', 77)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 78)" onmouseover="showTip(event, 'fs32', 78)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs19', 79)" onmouseover="showTip(event, 'fs19', 79)" class="id">data</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>"rndRowDataMatrix imputed data
 
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     3.000     5.000
-2     |    3.000     2.000     3.000     4.000     3.000
+1     |    1.000     2.000     3.000     2.000     5.000
+2     |    2.000     2.000     3.000     4.000     2.000
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
@@ -262,23 +397,23 @@ _________________________________________________________
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
 1     |    1.000     2.000     3.000     4.000     5.000
-2     |    1.000     2.000     3.000     4.000     5.000
+2     |    5.000     2.000     3.000     4.000     5.000
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
 <a name="normal imputation"></a>
 <h2><a name="normal-imputation" class="anchor" href="#normal-imputation">normal imputation</a></h2>
 <p>...</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs43', 93)" onmouseover="showTip(event, 'fs43', 93)" class="id">normalRowWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 94)" onmouseover="showTip(event, 'fs24', 94)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 95)" onmouseover="showTip(event, 'fs38', 95)" class="id">imputeRowWiseBy</span> <span onmouseout="hideTip(event, 'fs24', 96)" onmouseover="showTip(event, 'fs24', 96)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 97)" onmouseover="showTip(event, 'fs44', 97)" class="id">normal</span> <span onmouseout="hideTip(event, 'fs30', 98)" onmouseover="showTip(event, 'fs30', 98)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 99)" onmouseover="showTip(event, 'fs31', 99)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs18', 100)" onmouseover="showTip(event, 'fs18', 100)" class="id">data</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs45', 101)" onmouseover="showTip(event, 'fs45', 101)" class="id">normalColWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 102)" onmouseover="showTip(event, 'fs24', 102)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 103)" onmouseover="showTip(event, 'fs40', 103)" class="id">imputeColWiseBy</span> <span onmouseout="hideTip(event, 'fs24', 104)" onmouseover="showTip(event, 'fs24', 104)" class="m">Impute</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 105)" onmouseover="showTip(event, 'fs44', 105)" class="id">normal</span> <span onmouseout="hideTip(event, 'fs30', 106)" onmouseover="showTip(event, 'fs30', 106)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 107)" onmouseover="showTip(event, 'fs31', 107)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs18', 108)" onmouseover="showTip(event, 'fs18', 108)" class="id">data</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 94)" onmouseover="showTip(event, 'fs44', 94)" class="id">normalRowWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 95)" onmouseover="showTip(event, 'fs25', 95)" class="m">Imputation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 96)" onmouseover="showTip(event, 'fs39', 96)" class="id">imputeRowWiseBy</span> <span onmouseout="hideTip(event, 'fs25', 97)" onmouseover="showTip(event, 'fs25', 97)" class="m">Imputation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs45', 98)" onmouseover="showTip(event, 'fs45', 98)" class="id">normal</span> <span onmouseout="hideTip(event, 'fs31', 99)" onmouseover="showTip(event, 'fs31', 99)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 100)" onmouseover="showTip(event, 'fs32', 100)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs19', 101)" onmouseover="showTip(event, 'fs19', 101)" class="id">data</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs46', 102)" onmouseover="showTip(event, 'fs46', 102)" class="id">normalColWise</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs25', 103)" onmouseover="showTip(event, 'fs25', 103)" class="m">Imputation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 104)" onmouseover="showTip(event, 'fs41', 104)" class="id">imputeColWiseBy</span> <span onmouseout="hideTip(event, 'fs25', 105)" onmouseover="showTip(event, 'fs25', 105)" class="m">Imputation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs45', 106)" onmouseover="showTip(event, 'fs45', 106)" class="id">normal</span> <span onmouseout="hideTip(event, 'fs31', 107)" onmouseover="showTip(event, 'fs31', 107)" class="m">Ops</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 108)" onmouseover="showTip(event, 'fs32', 108)" class="id">isNan</span> <span onmouseout="hideTip(event, 'fs19', 109)" onmouseover="showTip(event, 'fs19', 109)" class="id">data</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>"normalRowDataMatrix imputed data
 
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     1.777     5.000
-2     |    2.165     2.000     3.000     4.000     3.034
+1     |    1.000     2.000     3.000     1.579     5.000
+2     |    3.499     2.000     3.000     4.000     3.112
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
@@ -287,26 +422,24 @@ _________________________________________________________
                0         1         2         3         4 
 _________________________________________________________
 0     |    3.000     2.000     3.000     4.000     5.000
-1     |    1.000     2.000     3.000     5.343     5.000
-2     |    -0.64     2.000     3.000     4.000     5.000
+1     |    1.000     2.000     3.000     3.089     5.000
+2     |    3.343     2.000     3.000     4.000     5.000
 3     |    5.000     2.000     6.000     4.000     5.000
 4     |    0.500     2.000     3.000     5.000     5.000
 "</code></pre></td></tr></table>
 
-                </div>
-            </div>
-        </div>
-        <div class="fsdocs-tip" id="fs1">namespace Plotly</div>
-<div class="fsdocs-tip" id="fs2">namespace Plotly.NET</div>
-<div class="fsdocs-tip" id="fs3">module Defaults
+        <div class="fsdocs-tip" id="fs1">namespace FsMath</div>
+<div class="fsdocs-tip" id="fs2">namespace Plotly</div>
+<div class="fsdocs-tip" id="fs3">namespace Plotly.NET</div>
+<div class="fsdocs-tip" id="fs4">module Defaults
 
 from Plotly.NET<br /><em>&lt;summary&gt;
  Contains mutable global default values.
 
  Changing these values will apply the default values to all consecutive Chart generations.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs4">val mutable DefaultDisplayOptions: Plotly.NET.DisplayOptions</div>
-<div class="fsdocs-tip" id="fs5">Multiple items<br />type DisplayOptions =
+<div class="fsdocs-tip" id="fs5">val mutable DefaultDisplayOptions: Plotly.NET.DisplayOptions</div>
+<div class="fsdocs-tip" id="fs6">Multiple items<br />type DisplayOptions =
   inherit DynamicObj
   new: unit -&gt; DisplayOptions
   static member addAdditionalHeadTags: additionalHeadTags: XmlNode list -&gt; (DisplayOptions -&gt; DisplayOptions)
@@ -315,99 +448,123 @@ from Plotly.NET<br /><em>&lt;summary&gt;
   static member getAdditionalHeadTags: displayOpts: DisplayOptions -&gt; XmlNode list
   static member getDescription: displayOpts: DisplayOptions -&gt; XmlNode list
   static member getPlotlyReference: displayOpts: DisplayOptions -&gt; PlotlyJSReference
-  static member init: ?AdditionalHeadTags: XmlNode list * ?Description: XmlNode list * ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions
+  static member init: [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AdditionalHeadTags: XmlNode list * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Description: XmlNode list * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions
   static member initCDNOnly: unit -&gt; DisplayOptions
   ...<br /><br />--------------------<br />new: unit -&gt; Plotly.NET.DisplayOptions</div>
-<div class="fsdocs-tip" id="fs6">static member Plotly.NET.DisplayOptions.init: ?AdditionalHeadTags: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?Description: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?PlotlyJSReference: Plotly.NET.PlotlyJSReference -&gt; Plotly.NET.DisplayOptions</div>
-<div class="fsdocs-tip" id="fs7">type PlotlyJSReference =
+<div class="fsdocs-tip" id="fs7">static member Plotly.NET.DisplayOptions.init: [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AdditionalHeadTags: Giraffe.ViewEngine.HtmlElements.XmlNode list * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Description: Giraffe.ViewEngine.HtmlElements.XmlNode list * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?PlotlyJSReference: Plotly.NET.PlotlyJSReference -&gt; Plotly.NET.DisplayOptions</div>
+<div class="fsdocs-tip" id="fs8">type PlotlyJSReference =
   | CDN of string
   | Full
   | Require of string
   | NoReference<br /><em>&lt;summary&gt;
 Sets how plotly is referenced in the head of html docs.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs8">union case Plotly.NET.PlotlyJSReference.NoReference: Plotly.NET.PlotlyJSReference</div>
-<div class="fsdocs-tip" id="fs9">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="fsdocs-tip" id="fs10">namespace FSharp.Stats</div>
-<div class="fsdocs-tip" id="fs11">namespace FSharp.Stats.ML</div>
-<div class="fsdocs-tip" id="fs12">val a: float list</div>
-<div class="fsdocs-tip" id="fs13">val b: float list</div>
-<div class="fsdocs-tip" id="fs14">val nan: float<br /><em>&lt;summary&gt;Equivalent to &lt;see cref=&quot;P:System.Double.NaN&quot; /&gt;&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs15">val c: float list</div>
-<div class="fsdocs-tip" id="fs16">val d: float list</div>
-<div class="fsdocs-tip" id="fs17">val e: float list</div>
-<div class="fsdocs-tip" id="fs18">val data: float list list</div>
-<div class="fsdocs-tip" id="fs19">val missingDataMatrix: string</div>
-<div class="fsdocs-tip" id="fs20">module FSIPrinters
+<div class="fsdocs-tip" id="fs9">union case Plotly.NET.PlotlyJSReference.NoReference: Plotly.NET.PlotlyJSReference</div>
+<div class="fsdocs-tip" id="fs10">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs11">namespace FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs12">namespace FSharp.Stats.ML</div>
+<div class="fsdocs-tip" id="fs13">val a: float list</div>
+<div class="fsdocs-tip" id="fs14">val b: float list</div>
+<div class="fsdocs-tip" id="fs15">val nan: float</div>
+<div class="fsdocs-tip" id="fs16">val c: float list</div>
+<div class="fsdocs-tip" id="fs17">val d: float list</div>
+<div class="fsdocs-tip" id="fs18">val e: float list</div>
+<div class="fsdocs-tip" id="fs19">val data: float list list</div>
+<div class="fsdocs-tip" id="fs20">val missingDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs21">module FSIPrinters
 
 from FSharp.Stats</div>
-<div class="fsdocs-tip" id="fs21">val matrix: mat: Matrix&lt;float&gt; -&gt; string</div>
-<div class="fsdocs-tip" id="fs22">Multiple items<br />val matrix: ll: seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs23">val kn: Impute.MatrixBaseImputation&lt;float[],float&gt;</div>
-<div class="fsdocs-tip" id="fs24">module Impute
+<div class="fsdocs-tip" id="fs22">val matrix: mat: Matrix&lt;float&gt; -&gt; string</div>
+<div class="fsdocs-tip" id="fs23">val matrix: ll: #(&#39;b seq) seq -&gt; Matrix&lt;&#39;b&gt; (requires &#39;b :&gt; System.Numerics.INumber&lt;&#39;b&gt; and default constructor and value type and comparison and &#39;b :&gt; System.ValueType)</div>
+<div class="fsdocs-tip" id="fs24">val kn: Imputation.MatrixBaseImputation&lt;float array,float&gt;</div>
+<div class="fsdocs-tip" id="fs25">module Imputation
 
 from FSharp.Stats.ML<br /><em>&lt;summary&gt;
  Module for data imputation and missing value filtering
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs25">type MatrixBaseImputation&lt;&#39;a,&#39;b&gt; = seq&lt;&#39;a&gt; -&gt; &#39;a -&gt; int -&gt; &#39;b<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs26">type MatrixBaseImputation&lt;&#39;a,&#39;b&gt; = &#39;a seq -&gt; &#39;a -&gt; int -&gt; &#39;b<br /><em>&lt;summary&gt;
  Type definintion for a vector based imputation
  The imputed values are based on the given whole dataset
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs26">Multiple items<br />val float: value: &#39;T -&gt; float (requires member op_Explicit)<br /><em>&lt;summary&gt;Converts the argument to 64-bit float. This is a direct conversion for all 
- primitive numeric types. For strings, the input is converted using &lt;c&gt;Double.Parse()&lt;/c&gt;  
- with InvariantCulture settings. Otherwise the operation requires an appropriate
- static conversion method on the input type.&lt;/summary&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The converted float&lt;/returns&gt;<br />&lt;example id=&quot;float-example&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;&lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />[&lt;Struct&gt;]
-type float = System.Double<br /><em>&lt;summary&gt;An abbreviation for the CLI type &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category&gt;Basic Types&lt;/category&gt;</em><br /><br />--------------------<br />type float&lt;&#39;Measure&gt; =
-  float<br /><em>&lt;summary&gt;The type of double-precision floating point numbers, annotated with a unit of measure.
- The unit of measure is erased in compiled code and when values of this type
- are analyzed using reflection. The type is representationally equivalent to
- &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category index=&quot;6&quot;&gt;Basic Types with Units of Measure&lt;/category&gt;</em></div>
-<div class="fsdocs-tip" id="fs27">val kNearestImpute: k: int -&gt; data: seq&lt;float[]&gt; -&gt; arr: float[] -&gt; index: int -&gt; float<br /><em>&lt;summary&gt;Imputation by k-nearest neighbour&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;k&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs28">val imputedData: float[][]</div>
-<div class="fsdocs-tip" id="fs29">val imputeBy: impute: Impute.MatrixBaseImputation&lt;&#39;a[],&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;Imputes rows by matrix-based imputation&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;impute&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;isMissing&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs30">module Ops
+<div class="fsdocs-tip" id="fs27">Multiple items<br />val float: value: &#39;T -&gt; float (requires member op_Explicit)<br /><br />--------------------<br />type float = System.Double<br /><br />--------------------<br />type float&lt;&#39;Measure&gt; =
+  float</div>
+<div class="fsdocs-tip" id="fs28">val kNearestImpute: k: int -&gt; data: float array seq -&gt; arr: float array -&gt; index: int -&gt; float<br /><em>&lt;summary&gt;Imputation by k-nearest neighbour&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;k&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;arr&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;index&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs29">val imputedData: float array array</div>
+<div class="fsdocs-tip" id="fs30">val imputeBy: impute: Imputation.MatrixBaseImputation&lt;&#39;a array,&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: #(&#39;a seq) seq -&gt; &#39;a array array<br /><em>&lt;summary&gt;Imputes rows by matrix-based imputation&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;impute&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;isMissing&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs31">module Ops
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
- Operations module (automatically opened)
+ Operations module
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs31">val isNan: num: &#39;c -&gt; bool (requires equality)<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs32">val isNan: num: &#39;a -&gt; bool (requires equality)<br /><em>&lt;summary&gt;
  Returs true if x is nan (generics) equality
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs32">val imputedDataMatrix: string</div>
-<div class="fsdocs-tip" id="fs33">val rnd: (seq&lt;float&gt; -&gt; int -&gt; float)</div>
-<div class="fsdocs-tip" id="fs34">val rnd: rnd: System.Random -&gt; fdata: seq&lt;&#39;a&gt; -&gt; index: int -&gt; &#39;a<br /><em>&lt;summary&gt;Imputation by random sampling from the input vector&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;rnd&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs35">namespace System</div>
-<div class="fsdocs-tip" id="fs36">Multiple items<br />type Random =
+<div class="fsdocs-tip" id="fs33">val imputedDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs34">val rnd: (float seq -&gt; int -&gt; float)</div>
+<div class="fsdocs-tip" id="fs35">val rnd: rnd: System.Random -&gt; fdata: &#39;a seq -&gt; index: int -&gt; &#39;a<br /><em>&lt;summary&gt;Imputation by random sampling from the input vector&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;rnd&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;fdata&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;index&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs36">namespace System</div>
+<div class="fsdocs-tip" id="fs37">Multiple items<br />type Random =
   new: unit -&gt; unit + 1 overload
+  member GetItems&lt;&#39;T&gt; : choices: ReadOnlySpan&lt;&#39;T&gt; * length: int -&gt; &#39;T array + 2 overloads
   member Next: unit -&gt; int + 2 overloads
-  member NextBytes: buffer: byte[] -&gt; unit + 1 overload
+  member NextBytes: buffer: byte array -&gt; unit + 1 overload
   member NextDouble: unit -&gt; float
   member NextInt64: unit -&gt; int64 + 2 overloads
   member NextSingle: unit -&gt; float32
+  member Shuffle&lt;&#39;T&gt; : values: Span&lt;&#39;T&gt; -&gt; unit + 1 overload
   static member Shared: Random<br /><em>&lt;summary&gt;Represents a pseudo-random number generator, which is an algorithm that produces a sequence of numbers that meet certain statistical requirements for randomness.&lt;/summary&gt;</em><br /><br />--------------------<br />System.Random() : System.Random<br />System.Random(Seed: int) : System.Random</div>
-<div class="fsdocs-tip" id="fs37">val rndRowWise: float[][]</div>
-<div class="fsdocs-tip" id="fs38">val imputeRowWiseBy: impute: Impute.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;Imputes row-wise by vector-based imputation&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;impute&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;isMissing&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs39">val rndColWise: float[][]</div>
-<div class="fsdocs-tip" id="fs40">val imputeColWiseBy: impute: Impute.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: seq&lt;#seq&lt;&#39;a&gt;&gt; -&gt; &#39;a[][]<br /><em>&lt;summary&gt;Imputes column-wise by vector-based imputation&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;impute&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;isMissing&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs41">val rndRowDataMatrix: string</div>
-<div class="fsdocs-tip" id="fs42">val rndColDataMatrix: string</div>
-<div class="fsdocs-tip" id="fs43">val normalRowWise: float[][]</div>
-<div class="fsdocs-tip" id="fs44">val normal: fdata: seq&lt;float&gt; -&gt; index: int -&gt; float<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs38">val rndRowWise: float array array</div>
+<div class="fsdocs-tip" id="fs39">val imputeRowWiseBy: impute: Imputation.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: #(&#39;a seq) seq -&gt; &#39;a array array<br /><em>&lt;summary&gt;Imputes row-wise by vector-based imputation&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;impute&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;isMissing&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs40">val rndColWise: float array array</div>
+<div class="fsdocs-tip" id="fs41">val imputeColWiseBy: impute: Imputation.VectorBaseImputation&lt;&#39;a&gt; -&gt; isMissing: (&#39;a -&gt; bool) -&gt; data: #(&#39;a seq) seq -&gt; &#39;a array array<br /><em>&lt;summary&gt;Imputes column-wise by vector-based imputation&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;impute&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;isMissing&quot;&gt;&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs42">val rndRowDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs43">val rndColDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs44">val normalRowWise: float array array</div>
+<div class="fsdocs-tip" id="fs45">val normal: fdata: float seq -&gt; index: int -&gt; float<br /><em>&lt;summary&gt;
  Imputation by sampling from a gausian normal distribution based on the input vector
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs45">val normalColWise: float[][]</div>
-<div class="fsdocs-tip" id="fs46">val normalRowDataMatrix: string</div>
-<div class="fsdocs-tip" id="fs47">val normalColDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs46">val normalColWise: float array array</div>
+<div class="fsdocs-tip" id="fs47">val normalRowDataMatrix: string</div>
+<div class="fsdocs-tip" id="fs48">val normalColDataMatrix: string</div>
 
     </div>
+</main>
+<aside id="fsdocs-page-menu">
+    <p id="on-this-page">On this page</p>
+    <ul>
+  <li class="level-1">
+    <a href="#Imputation">
+      Imputation
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#k-Nearest-imputation">
+      k-Nearest imputation
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#random-imputation">
+      random imputation
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#normal-imputation">
+      normal imputation
+    </a>
+  </li>
+</ul>
+</aside>
+<dialog>
+    <input type="search" placeholder="Search docs" />
+    <div class="results">
+        <ul></ul>
+        <p class="empty">Type something to start searching.</p>
+    </div>
+</dialog>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-toggle.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
 
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
-    <!-- END SEARCH BOX: this adds support for the search box -->
 </body>
-
 </html>

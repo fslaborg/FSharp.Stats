@@ -1,61 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-root="https://fslab.org/FSharp.Stats/">
 <head>
-    <meta charset="utf-8">
-    <title>Interval (FSharp.Stats)</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
-    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
-
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <!-- END SEARCH BOX: this adds support for the search box -->
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors" name="author">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="FSharp.Stats">
+    <meta property="og:title" content="Interval (FSharp.Stats)" />
+    <meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="https://fslab.org/FSharp.Stats/">
+    <meta name="twitter:title" content="Interval (FSharp.Stats)">
     
-</head> 
+    <title>Interval (FSharp.Stats) | FSharp.Stats</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/img/favicon.ico" rel="icon" sizes="32x32" type="image/png"/>
+    <script type="application/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-set-dark.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-theme.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+<title>{{fsdocs-page-title}}</title>
+<meta name="author" content="{{fsdocs-authors}}">
+<meta name="description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
 
-<body>
-    <div class="columns is-fullheight m-0">
-        <div id="fsdocs-menu" class="column is-2 is-paddingless">
-            <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-light">
-                    <a href="https://fslab.org/FSharp.Stats/">
-                        <figure class="image is-128x128 container">
-                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
-                        </figure>
-                    </a>
-                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
-                </div>
-                <div class="content">
-                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-                    <div id="header">
-                        <div class="searchbox" id="fsdocs-searchbox">
-                            <label for="search-by">
-                                <i class="fas fa-search"></i>
-                            </label>
-                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
-                            <span data-search-clear="">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- END SEARCH BOX: this adds support for the search box -->
-                    <ul class="navbar-nav">
-                        <li class="nav-header">Links</li>
-                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
-                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
-                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
-                        <li class="nav-header">
+<!-- Opengraph properties (https://ogp.me/) -->
+<meta property="og:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}" />
+<meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="FSharp.Stats" />
+<meta property="og:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta property="og:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<!-- Twitter cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="twitter:url" content="https://fslab.org/FSharp.Stats/">
+<meta name="twitter:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}">
+<meta name="twitter:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta name="twitter:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+<script src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
+<script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
+    
+</head>
+<body class="api-docs">
+<header>
+    <div class="start">
+        <div id="menu-toggle">
+            <iconify-icon class="icon closed" height="22" icon="eva:menu-fill" width="22"></iconify-icon>
+            <iconify-icon class="icon open" height="22" icon="mi:close" width="22"></iconify-icon>
+            <input type="checkbox" name="mobile-menu" />
+            <ul class="menu">
+                <li class="nav-header">Links</li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+                </li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+                    Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+                    Repository</a></li>
+                <li class="nav-header ">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+                <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
@@ -63,14 +183,152 @@
     All Namespaces
   </a>
 </li>
-                    </ul>
-                </div>
-            </aside>
+            </ul>
         </div>
-        <div class="column is-10 is-paddingless">
-            <div class="section pt-4">
-                <div class="container" id="fsdocs-content">
-                    <div>
+        <a href="https://fslab.org/FSharp.Stats/">
+            <img alt="Header menu logo" src="https://fslab.org/FSharp.Stats/img/logo.png">
+            <strong>FSharp.Stats</strong>
+        </a>
+    </div>
+    <div class="end">
+        <a href="https://github.com/fslaborg/FSharp.Stats/" target="_blank">
+            <iconify-icon icon="uil:github" width="26" height="26"></iconify-icon>
+        </a>
+        <iconify-icon id="search-btn" icon="carbon:search" class="search" width="24" height="24"></iconify-icon>
+        <fsdocs-theme-toggle></fsdocs-theme-toggle>
+    </div>
+</header>
+<aside id="fsdocs-main-menu">
+    <ul class="menu">
+        <li class="nav-header">Links</li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+        </li>
+        <li class="nav-item"><a class="nav-link"
+                                href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+            Notes</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+            Repository</a></li>
+        <li class="nav-header ">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+    </ul>
+</aside>
+<main>
+    <div id="content">
+        <div>
   <h2>
     Interval Module
   </h2>
@@ -111,7 +369,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '457', 457)" onmouseover="showTip(event, '457', 457)">
+              <code onmouseout="hideTip(event, '133', 133)" onmouseover="showTip(event, '133', 133)">
                 <p>
                   <a id="add">
                     <a href="#add">
@@ -120,7 +378,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="457">
+              <div class="fsdocs-tip" id="133">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>add&#32;<span>a&#32;b</span></span></code>
@@ -135,7 +393,7 @@
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                        - 
-                      
+                      The first interval
                     </span>
                     <br/>
                     <span>
@@ -145,7 +403,7 @@
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                        - 
-                      
+                      The second interval
                     </span>
                     <br/>
                   </ul>
@@ -154,7 +412,7 @@
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                   </span>
-                  
+                  The sum of the two intervals
                   <br/>
                   Modifiers: 
                   inline
@@ -166,77 +424,81 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.add``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.add``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L264-264" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Add two given intervals. 
-              </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  a
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  b
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.add``1```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.add``1\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L421-421" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Adds two intervals
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    a
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The first interval
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    b
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The second interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    The sum of the two intervals
+                  </p>
+                </dd>
+              </dl>
+              <table class="fsdocs-exception-list">
+                <tr>
+                  <td>
+                    <a href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception ">
+                      InvalidOperationException 
+                    </a>
+                  </td>
+                  <td>
+                    Thrown when trying to add (half) open intervals
+                  </td>
+                </tr>
+              </table>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '458', 458)" onmouseover="showTip(event, '458', 458)">
+              <code onmouseout="hideTip(event, '134', 134)" onmouseover="showTip(event, '134', 134)">
                 <p>
                   <a id="createClosedOfSize">
                     <a href="#createClosedOfSize">
@@ -245,7 +507,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="458">
+              <div class="fsdocs-tip" id="134">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>createClosedOfSize&#32;<span>min&#32;size</span></span></code>
@@ -258,9 +520,9 @@
                         min
                       </b>
                       :
-                      <code>^f</code>
+                      <code>^a</code>
                        - 
-                      
+                      The start value of the interval
                     </span>
                     <br/>
                     <span>
@@ -268,100 +530,102 @@
                         size
                       </b>
                       :
-                      <code>^g</code>
+                      <code>^b</code>
                        - 
-                      
+                      The size of the interval
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^f&gt;</span></code>
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                   </span>
-                  
+                  A closed interval
                   <br/>
                   Modifiers: 
                   inline
                   <br/>
                   Type parameters: 
-                  ^f, ^g
+                  ^a, ^b
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createClosedOfSize``2```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createClosedOfSize``2\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L157-157" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Creates closed interval [min,max] by given start and size
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createClosedOfSize``2```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createClosedOfSize``2\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L306-306" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Creates a closed interval [min, min + size]
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    min
+                  </span>
+                  :
+                  <code>^a</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The start value of the interval
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    size
+                  </span>
+                  :
+                  <code>^b</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The size of the interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    A closed interval
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create a closed interval of size 5.0 starting at 2.0: [2.0, 7.0]</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">createClosedOfSize</span> <span class="n">2.0</span> <span class="n">5.0</span>
+</code></pre>
+
+
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  min
-                </span>
-                :
-                <code>^f</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  size
-                </span>
-                :
-                <code>^g</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^f&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '459', 459)" onmouseover="showTip(event, '459', 459)">
+              <code onmouseout="hideTip(event, '135', 135)" onmouseover="showTip(event, '135', 135)">
                 <p>
                   <a id="createLeftOpenOfSize">
                     <a href="#createLeftOpenOfSize">
@@ -370,7 +634,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="459">
+              <div class="fsdocs-tip" id="135">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>createLeftOpenOfSize&#32;<span>min&#32;size</span></span></code>
@@ -383,9 +647,9 @@
                         min
                       </b>
                       :
-                      <code>^b</code>
+                      <code>^a</code>
                        - 
-                      
+                      The start value of the interval
                     </span>
                     <br/>
                     <span>
@@ -393,98 +657,102 @@
                         size
                       </b>
                       :
-                      <code>^a</code>
+                      <code>^b</code>
                        - 
-                      
+                      The size of the interval
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^b&gt;</span></code>
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                   </span>
-                  
+                  A left-open interval if size is non-zero, otherwise an empty interval
                   <br/>
                   Modifiers: 
                   inline
                   <br/>
+                  Type parameters: 
+                  ^a, ^b
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createLeftOpenOfSize``2```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createLeftOpenOfSize``2\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L183-183" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Creates closed interval [min,max] by given start and size
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createLeftOpenOfSize``2```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createLeftOpenOfSize``2\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L334-334" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Creates a left-open interval (min, min + size]
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    min
+                  </span>
+                  :
+                  <code>^a</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The start value of the interval
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    size
+                  </span>
+                  :
+                  <code>^b</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The size of the interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    A left-open interval if size is non-zero, otherwise an empty interval
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create a left-open interval of size 5.0 starting at 2.0: (2.0, 7.0]</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">createLeftOpenOfSize</span> <span class="n">2.0</span> <span class="n">5.0</span>
+</code></pre>
+
+
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  min
-                </span>
-                :
-                <code>^b</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  size
-                </span>
-                :
-                <code>^a</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^b&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '460', 460)" onmouseover="showTip(event, '460', 460)">
+              <code onmouseout="hideTip(event, '136', 136)" onmouseover="showTip(event, '136', 136)">
                 <p>
                   <a id="createOpenOfSize">
                     <a href="#createOpenOfSize">
@@ -493,7 +761,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="460">
+              <div class="fsdocs-tip" id="136">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>createOpenOfSize&#32;<span>min&#32;size</span></span></code>
@@ -508,7 +776,7 @@
                       :
                       <code>^a</code>
                        - 
-                      
+                      The start value of the interval
                     </span>
                     <br/>
                     <span>
@@ -516,7 +784,9 @@
                         size
                       </b>
                       :
-                      <code>^a</code>
+                      <code>^b</code>
+                       - 
+                      The size of the interval
                     </span>
                     <br/>
                   </ul>
@@ -525,85 +795,91 @@
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                   </span>
-                  
+                  An open interval if size is non-zero, otherwise an empty interval
                   <br/>
                   Modifiers: 
                   inline
                   <br/>
                   Type parameters: 
-                  ^a
+                  ^a, ^b
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createOpenOfSize``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createOpenOfSize``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L168-168" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Creates open interval (min,max) by given start and size
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createOpenOfSize``2```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createOpenOfSize``2\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L319-319" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Creates an open interval (min, min + size)
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    min
+                  </span>
+                  :
+                  <code>^a</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The start value of the interval
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    size
+                  </span>
+                  :
+                  <code>^b</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The size of the interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    An open interval if size is non-zero, otherwise an empty interval
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create an open interval of size 5.0 starting at 2.0: (2.0, 7.0)</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">createOpenOfSize</span> <span class="n">2.0</span> <span class="n">5.0</span>
+</code></pre>
+
+
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  min
-                </span>
-                :
-                <code>^a</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  size
-                </span>
-                :
-                <code>^a</code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '461', 461)" onmouseover="showTip(event, '461', 461)">
+              <code onmouseout="hideTip(event, '137', 137)" onmouseover="showTip(event, '137', 137)">
                 <p>
                   <a id="createRightOpenOfSize">
                     <a href="#createRightOpenOfSize">
@@ -612,7 +888,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="461">
+              <div class="fsdocs-tip" id="137">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>createRightOpenOfSize&#32;<span>min&#32;size</span></span></code>
@@ -625,9 +901,9 @@
                         min
                       </b>
                       :
-                      <code>^b</code>
+                      <code>^a</code>
                        - 
-                      
+                      The start value of the interval
                     </span>
                     <br/>
                     <span>
@@ -635,98 +911,102 @@
                         size
                       </b>
                       :
-                      <code>^a</code>
+                      <code>^b</code>
                        - 
-                      
+                      The size of the interval
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^b&gt;</span></code>
+                    <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                   </span>
-                  
+                  A right-open interval if size is non-zero, otherwise an empty interval
                   <br/>
                   Modifiers: 
                   inline
                   <br/>
+                  Type parameters: 
+                  ^a, ^b
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createRightOpenOfSize``2```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createRightOpenOfSize``2\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L198-198" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Creates closed interval [min,max] by given start and size
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.createRightOpenOfSize``2```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.createRightOpenOfSize``2\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L349-349" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Creates a right-open interval [min, min + size)
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    min
+                  </span>
+                  :
+                  <code>^a</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The start value of the interval
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    size
+                  </span>
+                  :
+                  <code>^b</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The size of the interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    A right-open interval if size is non-zero, otherwise an empty interval
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create a right-open interval of size 5.0 starting at 2.0: [2.0, 7.0)</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">createRightOpenOfSize</span> <span class="n">2.0</span> <span class="n">5.0</span>
+</code></pre>
+
+
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  min
-                </span>
-                :
-                <code>^b</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  size
-                </span>
-                :
-                <code>^a</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^b&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '462', 462)" onmouseover="showTip(event, '462', 462)">
+              <code onmouseout="hideTip(event, '138', 138)" onmouseover="showTip(event, '138', 138)">
                 <p>
                   <a id="getEnd">
                     <a href="#getEnd">
@@ -735,7 +1015,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="462">
+              <div class="fsdocs-tip" id="138">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>getEnd&#32;<span>interval</span></span></code>
@@ -749,6 +1029,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                       - 
+                      The input interval
                     </span>
                     <br/>
                   </ul>
@@ -757,6 +1039,7 @@
                     Returns: 
                     <code>'a</code>
                   </span>
+                  The end value of the interval
                   <br/>
                   Modifiers: 
                   inline
@@ -768,48 +1051,70 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getEnd``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getEnd``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L145-145" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getEnd``1```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getEnd``1\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L293-293" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Returns the end value of the interval
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    interval
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The input interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>'a</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    The end value of the interval
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create a closed interval [2.0, 7.0]</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">interval</span> <span class="o">=</span> <span class="id">Interval</span><span class="pn">.</span><span class="id">CreateClosed</span><span class="pn">(</span><span class="n">2.0</span><span class="pn">,</span> <span class="n">7.0</span><span class="pn">)</span>
+ <span class="c">// Get the end value of the interval (7.0)</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">getEnd</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="id">interval</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val interval: obj</div>
+
+
               </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  interval
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>'a</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '463', 463)" onmouseover="showTip(event, '463', 463)">
+              <code onmouseout="hideTip(event, '139', 139)" onmouseover="showTip(event, '139', 139)">
                 <p>
                   <a id="getSize">
                     <a href="#getSize">
@@ -818,7 +1123,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="463">
+              <div class="fsdocs-tip" id="139">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>getSize&#32;<span>interval</span></span></code>
@@ -833,86 +1138,103 @@
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                        - 
-                      
+                      The input interval
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>^b</code>
+                    <code>'b</code>
                   </span>
-                  
+                  The size of the interval
                   <br/>
                   Modifiers: 
                   inline
                   <br/>
                   Type parameters: 
-                  ^a, ^b, ^a
+                  ^a, &#39;b, ^c
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getSize``3```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getSize``3\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L212-212" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Returns the size of an Interval [min,max] (max - min)
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getSize``3```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getSize``3\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L366-366" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Returns the size of the interval (max - min)
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    interval
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The input interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>'b</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    The size of the interval
+                  </p>
+                </dd>
+              </dl>
+              <table class="fsdocs-exception-list">
+                <tr>
+                  <td>
+                    <a href="https://learn.microsoft.com/dotnet/api/system.dividebyzeroexception">
+                      DivideByZeroException
+                    </a>
+                  </td>
+                  <td>
+                    Thrown when the interval is empty and a NaN value does not exist for the type
+                  </td>
+                </tr>
+              </table>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create an open interval (2.0, 10.0)</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">interval</span> <span class="o">=</span> <span class="id">Interval</span><span class="pn">.</span><span class="id">CreateOpen</span><span class="pn">(</span><span class="n">2.0</span><span class="pn">,</span> <span class="n">10.0</span><span class="pn">)</span>
+ <span class="c">// Get the size of the interval (8.0)</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">getSize</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="id">interval</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val interval: obj</div>
+
+
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  interval
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>^b</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '464', 464)" onmouseover="showTip(event, '464', 464)">
+              <code onmouseout="hideTip(event, '140', 140)" onmouseover="showTip(event, '140', 140)">
                 <p>
                   <a id="getSizeBy">
                     <a href="#getSizeBy">
@@ -921,7 +1243,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="464">
+              <div class="fsdocs-tip" id="140">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>getSizeBy&#32;<span>projection&#32;interval</span></span></code>
@@ -936,7 +1258,7 @@
                       :
                       <code><span>'a&#32;->&#32;^b</span></code>
                        - 
-                      
+                      A function to project the interval values to the desired type
                     </span>
                     <br/>
                     <span>
@@ -946,96 +1268,117 @@
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                        - 
-                      
+                      The input interval
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>^c</code>
+                    <code>'a0</code>
                   </span>
-                  
+                  The size of the projected interval
                   <br/>
                   Modifiers: 
                   inline
                   <br/>
+                  Type parameters: 
+                  &#39;a, ^b, &#39;a
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getSizeBy``3```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getSizeBy``3\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L230-230" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Returns the range of an Interval [min,max] (projection max - projection min)
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getSizeBy``3```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getSizeBy``3\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L388-388" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Returns the size of the interval after applying a projection function (projection max - projection min)
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    projection
+                  </span>
+                  :
+                  <code><span>'a&#32;->&#32;^b</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    A function to project the interval values to the desired type
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    interval
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The input interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>'a0</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    The size of the projected interval
+                  </p>
+                </dd>
+              </dl>
+              <table class="fsdocs-exception-list">
+                <tr>
+                  <td>
+                    <a href="https://learn.microsoft.com/dotnet/api/system.dividebyzeroexception">
+                      DivideByZeroException
+                    </a>
+                  </td>
+                  <td>
+                    Thrown when the interval is empty and a NaN value does not exist for the type
+                  </td>
+                </tr>
+              </table>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create a closed interval [&#39;a&#39;, &#39;c&#39;]</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">interval</span> <span class="o">=</span> <span class="id">Interval</span><span class="pn">.</span><span class="id">CreateClosed</span><span class="pn">(</span><span class="s">&#39;a&#39;</span><span class="pn">,</span> <span class="s">&#39;c&#39;</span><span class="pn">)</span>
+ <span class="c">// Get the size of the interval using the ASCII values of the characters (3)</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">getSizeBy</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">int</span> <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="id">interval</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val interval: obj</div>
+<div class="fsdocs-tip" id="fs2">Multiple items<br />val int: value: &#39;T -&gt; int (requires member op_Explicit)<br /><br />--------------------<br />type int = int32<br /><br />--------------------<br />type int&lt;&#39;Measure&gt; =
+  int</div>
+
+
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  projection
-                </span>
-                :
-                <code><span>'a&#32;->&#32;^b</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  interval
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>^c</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '465', 465)" onmouseover="showTip(event, '465', 465)">
+              <code onmouseout="hideTip(event, '141', 141)" onmouseover="showTip(event, '141', 141)">
                 <p>
                   <a id="getStart">
                     <a href="#getStart">
@@ -1044,7 +1387,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="465">
+              <div class="fsdocs-tip" id="141">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>getStart&#32;<span>interval</span></span></code>
@@ -1058,6 +1401,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                       - 
+                      The input interval
                     </span>
                     <br/>
                   </ul>
@@ -1066,6 +1411,7 @@
                     Returns: 
                     <code>'a</code>
                   </span>
+                  The start value of the interval
                   <br/>
                   Modifiers: 
                   inline
@@ -1077,72 +1423,94 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getStart``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getStart``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L142-142" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getStart``1```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getStart``1\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L279-279" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Returns the start value of the interval
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    interval
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The input interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>'a</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    The start value of the interval
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create a closed interval [2.0, 7.0]</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">interval</span> <span class="o">=</span> <span class="id">Interval</span><span class="pn">.</span><span class="id">CreateClosed</span><span class="pn">(</span><span class="n">2.0</span><span class="pn">,</span> <span class="n">7.0</span><span class="pn">)</span>
+ <span class="c">// Get the start value of the interval (2.0)</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">getStart</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="id">interval</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val interval: obj</div>
+
+
               </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  interval
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>'a</code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '466', 466)" onmouseover="showTip(event, '466', 466)">
+              <code onmouseout="hideTip(event, '142', 142)" onmouseover="showTip(event, '142', 142)">
                 <p>
                   <a id="getValueAt">
                     <a href="#getValueAt">
-                      <code><span>getValueAt&#32;<span>percentage&#32;interval</span></span></code>
+                      <code><span>getValueAt&#32;<span>proportion&#32;interval</span></span></code>
                     </a>
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="466">
+              <div class="fsdocs-tip" id="142">
                 <div class="member-tooltip">
                   Full Usage: 
-                  <code><span>getValueAt&#32;<span>percentage&#32;interval</span></span></code>
+                  <code><span>getValueAt&#32;<span>proportion&#32;interval</span></span></code>
                   <br/>
                   <br/>
                   Parameters: 
                   <ul>
                     <span>
                       <b>
-                        percentage
+                        proportion
                       </b>
                       :
-                      <code>float</code>
+                      <code>^a</code>
                        - 
-                      
+                      The proportion (0.0 - 1.0 inside, < 0.0 or > 1.0 outside)
                     </span>
                     <br/>
                     <span>
@@ -1150,98 +1518,120 @@
                         interval
                       </b>
                       :
-                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^d&gt;</span></code>
                        - 
-                      
+                      The input interval
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code>float</code>
+                    <code>'e</code>
                   </span>
-                  
+                  The value at the given proportion, or NaN if the interval is empty
                   <br/>
                   Modifiers: 
                   inline
                   <br/>
+                  Type parameters: 
+                  ^a, ^b, ^c, ^d, &#39;e, ^f, ^g
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getValueAt``2```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getValueAt``2\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L387-387" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Get the value at a given percentage within (0.0 - 1.0) or outside (< 0.0, > 1.0) of the interval. Rounding to nearest neighbour occurs when needed.
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.getValueAt``7```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.getValueAt``7\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L626-626" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Get the value at a given proportion within (0.0 - 1.0) or outside (< 0.0, > 1.0) of the interval. Rounding to nearest neighbour occurs when needed.
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  percentage
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  interval
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    proportion
+                  </span>
+                  :
+                  <code>^a</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The proportion (0.0 - 1.0 inside, < 0.0 or > 1.0 outside)
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    interval
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^d&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The input interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>'e</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    The value at the given proportion, or NaN if the interval is empty
+                  </p>
+                </dd>
+              </dl>
+              <table class="fsdocs-exception-list">
+                <tr>
+                  <td>
+                    <a href="https://learn.microsoft.com/dotnet/api/system.dividebyzeroexception">
+                      DivideByZeroException
+                    </a>
+                  </td>
+                  <td>
+                    Thrown when the interval is empty and a NaN value does not exist for the type
+                  </td>
+                </tr>
+              </table>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create a closed interval [0.0, 10.0]</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">interval</span> <span class="o">=</span> <span class="id">Interval</span><span class="pn">.</span><span class="id">CreateClosed</span><span class="pn">(</span><span class="n">0.0</span><span class="pn">,</span> <span class="n">10.0</span><span class="pn">)</span>
+ <span class="c">// Get the value at 0.5 within the interval (5.0)</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">getValueAt</span> <span class="n">0.5</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="id">interval</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val interval: obj</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '467', 467)" onmouseover="showTip(event, '467', 467)">
+              <code onmouseout="hideTip(event, '143', 143)" onmouseover="showTip(event, '143', 143)">
                 <p>
                   <a id="intersect">
                     <a href="#intersect">
@@ -1250,7 +1640,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="467">
+              <div class="fsdocs-tip" id="143">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>intersect&#32;<span>a&#32;b</span></span></code>
@@ -1265,7 +1655,7 @@
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                        - 
-                      
+                      The first interval
                     </span>
                     <br/>
                     <span>
@@ -1275,7 +1665,7 @@
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                        - 
-                      
+                      The second interval
                     </span>
                     <br/>
                   </ul>
@@ -1284,7 +1674,7 @@
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                   </span>
-                  
+                  The intersection of the two intervals
                   <br/>
                   Modifiers: 
                   inline
@@ -1296,77 +1686,85 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.intersect``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.intersect``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L340-340" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Returns the intersection of this interval with another.
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.intersect``1```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.intersect``1\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L493-493" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Returns the intersection of two intervals
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    a
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The first interval
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    b
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The second interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    The intersection of the two intervals
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create an open interval (0.0, 10.0)</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">interval1</span> <span class="o">=</span> <span class="id">Interval</span><span class="pn">.</span><span class="id">CreateOpen</span><span class="pn">(</span><span class="n">0.0</span><span class="pn">,</span> <span class="n">10.0</span><span class="pn">)</span>
+ <span class="c">// Create a closed interval [5.0, 15.0]</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">interval2</span> <span class="o">=</span> <span class="id">Interval</span><span class="pn">.</span><span class="id">CreateClosed</span><span class="pn">(</span><span class="n">5.0</span><span class="pn">,</span> <span class="n">15.0</span><span class="pn">)</span>
+ <span class="c">// Get the intersection of the two intervals [5.0, 10.0)</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">intersect</span> <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="id">interval1</span> <span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="id">interval2</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val interval1: obj</div>
+<div class="fsdocs-tip" id="fs2">val interval2: obj</div>
+
+
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  a
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  b
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '468', 468)" onmouseover="showTip(event, '468', 468)">
+              <code onmouseout="hideTip(event, '144', 144)" onmouseover="showTip(event, '144', 144)">
                 <p>
                   <a id="isIntersection">
                     <a href="#isIntersection">
@@ -1375,7 +1773,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="468">
+              <div class="fsdocs-tip" id="144">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>isIntersection&#32;<span>a&#32;b</span></span></code>
@@ -1390,7 +1788,7 @@
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                        - 
-                      
+                      The first interval
                     </span>
                     <br/>
                     <span>
@@ -1400,7 +1798,7 @@
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
                        - 
-                      
+                      The second interval
                     </span>
                     <br/>
                   </ul>
@@ -1409,7 +1807,7 @@
                     Returns: 
                     <code>bool</code>
                   </span>
-                  
+                  True if the intervals intersect, false otherwise
                   <br/>
                   Modifiers: 
                   inline
@@ -1421,77 +1819,85 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.isIntersection``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.isIntersection``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L302-302" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Checking for intersection of both intervals
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.isIntersection``1```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.isIntersection``1\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L458-458" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Checks if two intervals intersect
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    a
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The first interval
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    b
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The second interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>bool</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    True if the intervals intersect, false otherwise
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create an open interval (0.0, 10.0)</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">interval1</span> <span class="o">=</span> <span class="id">Interval</span><span class="pn">.</span><span class="id">CreateOpen</span><span class="pn">(</span><span class="n">0.0</span><span class="pn">,</span> <span class="n">10.0</span><span class="pn">)</span>
+ <span class="c">// Create a closed interval [5.0, 15.0]</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">interval2</span> <span class="o">=</span> <span class="id">Interval</span><span class="pn">.</span><span class="id">CreateClosed</span><span class="pn">(</span><span class="n">5.0</span><span class="pn">,</span> <span class="n">15.0</span><span class="pn">)</span>
+ <span class="c">// Check if the two intervals intersect (true)</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">isIntersection</span> <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="id">interval1</span> <span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="id">interval2</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val interval1: obj</div>
+<div class="fsdocs-tip" id="fs2">val interval2: obj</div>
+
+
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  a
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  b
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>bool</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '469', 469)" onmouseover="showTip(event, '469', 469)">
+              <code onmouseout="hideTip(event, '145', 145)" onmouseover="showTip(event, '145', 145)">
                 <p>
                   <a id="subtract">
                     <a href="#subtract">
@@ -1500,7 +1906,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="469">
+              <div class="fsdocs-tip" id="145">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>subtract&#32;<span>a&#32;b</span></span></code>
@@ -1515,7 +1921,7 @@
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                        - 
-                      
+                      The first interval
                     </span>
                     <br/>
                     <span>
@@ -1525,7 +1931,7 @@
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                        - 
-                      
+                      The interval to subtract
                     </span>
                     <br/>
                   </ul>
@@ -1534,7 +1940,7 @@
                     Returns: 
                     <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                   </span>
-                  
+                  The difference of the two intervals
                   <br/>
                   Modifiers: 
                   inline
@@ -1546,77 +1952,81 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.subtract``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.subtract``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L282-282" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Subtract a given interval from the other interval.
-              </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  a
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  b
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.subtract``1```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.subtract``1\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L435-435" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Subtracts one interval from another
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    a
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The first interval
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    b
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The interval to subtract
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    The difference of the two intervals
+                  </p>
+                </dd>
+              </dl>
+              <table class="fsdocs-exception-list">
+                <tr>
+                  <td>
+                    <a href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">
+                      InvalidOperationException
+                    </a>
+                  </td>
+                  <td>
+                    Thrown when trying to subtract (half) open intervals
+                  </td>
+                </tr>
+              </table>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '470', 470)" onmouseover="showTip(event, '470', 470)">
+              <code onmouseout="hideTip(event, '146', 146)" onmouseover="showTip(event, '146', 146)">
                 <p>
                   <a id="trySize">
                     <a href="#trySize">
@@ -1625,7 +2035,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="470">
+              <div class="fsdocs-tip" id="146">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>trySize&#32;<span>interval</span></span></code>
@@ -1640,84 +2050,91 @@
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
                        - 
-                      
+                      The input interval
                     </span>
                     <br/>
                   </ul>
                   <br/>
                   <span>
                     Returns: 
-                    <code><span>^b&#32;option</span></code>
+                    <code><span>'b&#32;option</span></code>
                   </span>
-                  
+                  An option containing the size of the interval, or None if the interval is empty
                   <br/>
                   Modifiers: 
                   inline
                   <br/>
+                  Type parameters: 
+                  ^a, &#39;b
                 </div>
               </div>
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.trySize``2```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.trySize``2\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L247-247" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                Returns the size of an closed interval
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.trySize``2```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.trySize``2\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L408-408" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Returns an option containing the size of the interval, if it exists
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    interval
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The input interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><span>'b&#32;option</span></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    An option containing the size of the interval, or None if the interval is empty
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create an open interval (2.0, 10.0)</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">interval</span> <span class="o">=</span> <span class="id">Interval</span><span class="pn">.</span><span class="id">CreateOpen</span><span class="pn">(</span><span class="n">2.0</span><span class="pn">,</span> <span class="n">10.0</span><span class="pn">)</span>
+ <span class="c">// Get the size of the interval Some(8.0)</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">trySize</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="id">interval</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val interval: obj</div>
+
+
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  interval
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;^a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span>^b&#32;option</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""></code></pre>
-            </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '471', 471)" onmouseover="showTip(event, '471', 471)">
+              <code onmouseout="hideTip(event, '147', 147)" onmouseover="showTip(event, '147', 147)">
                 <p>
                   <a id="values">
                     <a href="#values">
@@ -1726,7 +2143,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="471">
+              <div class="fsdocs-tip" id="147">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>values&#32;<span>interval</span></span></code>
@@ -1740,6 +2157,8 @@
                       </b>
                       :
                       <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                       - 
+                      The input interval
                     </span>
                     <br/>
                   </ul>
@@ -1748,6 +2167,7 @@
                     Returns: 
                     <code><span>'a&#32;*&#32;'a</span></code>
                   </span>
+                  A tuple of the start and end values
                   <br/>
                   Modifiers: 
                   inline
@@ -1759,42 +2179,64 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.values``1```')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.values``1\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L139-139" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('```cref:M:FSharp.Stats.Interval.values``1```')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.Interval.values``1\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interval.fs#L265-265" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    Returns a tuple of the start and end values of the interval
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    interval
+                  </span>
+                  :
+                  <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    The input interval
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><span>'a&#32;*&#32;'a</span></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    A tuple of the start and end values
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> <span class="c">// Create a closed interval [2.0, 7.0]</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">interval</span> <span class="o">=</span> <span class="id">Interval</span><span class="pn">.</span><span class="id">CreateClosed</span><span class="pn">(</span><span class="n">2.0</span><span class="pn">,</span> <span class="n">7.0</span><span class="pn">)</span>
+ <span class="c">// Get the start and end values of the interval (2.0, 7.0)</span>
+ <span class="id">Interval</span><span class="pn">.</span><span class="id">values</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="id">interval</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val interval: obj</div>
+
+
               </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  interval
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interval-1.html">Interval</a>&lt;'a&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><span>'a&#32;*&#32;'a</span></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
+            </details>
           </td>
         </tr>
       </tbody>
@@ -1809,19 +2251,24 @@
   <div></div>
   <div></div>
 </div>
-                </div>
-            </div>
-        </div>
         
     </div>
+</main>
+<aside id="fsdocs-page-menu">
+    <p id="on-this-page">On this page</p>
+    <div class="empty"></div>
+</aside>
+<dialog>
+    <input type="search" placeholder="Search docs" />
+    <div class="results">
+        <ul></ul>
+        <p class="empty">Type something to start searching.</p>
+    </div>
+</dialog>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-toggle.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
 
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
-    <!-- END SEARCH BOX: this adds support for the search box -->
 </body>
-
 </html>

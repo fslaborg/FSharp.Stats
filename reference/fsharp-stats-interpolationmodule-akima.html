@@ -1,61 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-root="https://fslab.org/FSharp.Stats/">
 <head>
-    <meta charset="utf-8">
-    <title>Akima (FSharp.Stats)</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
-    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
-
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <!-- END SEARCH BOX: this adds support for the search box -->
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors" name="author">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="FSharp.Stats">
+    <meta property="og:title" content="Akima (FSharp.Stats)" />
+    <meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="https://fslab.org/FSharp.Stats/">
+    <meta name="twitter:title" content="Akima (FSharp.Stats)">
     
-</head> 
+    <title>Akima (FSharp.Stats) | FSharp.Stats</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/img/favicon.ico" rel="icon" sizes="32x32" type="image/png"/>
+    <script type="application/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-set-dark.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-theme.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+<title>{{fsdocs-page-title}}</title>
+<meta name="author" content="{{fsdocs-authors}}">
+<meta name="description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
 
-<body>
-    <div class="columns is-fullheight m-0">
-        <div id="fsdocs-menu" class="column is-2 is-paddingless">
-            <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-light">
-                    <a href="https://fslab.org/FSharp.Stats/">
-                        <figure class="image is-128x128 container">
-                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
-                        </figure>
-                    </a>
-                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
-                </div>
-                <div class="content">
-                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-                    <div id="header">
-                        <div class="searchbox" id="fsdocs-searchbox">
-                            <label for="search-by">
-                                <i class="fas fa-search"></i>
-                            </label>
-                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
-                            <span data-search-clear="">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- END SEARCH BOX: this adds support for the search box -->
-                    <ul class="navbar-nav">
-                        <li class="nav-header">Links</li>
-                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
-                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
-                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
-                        <li class="nav-header">
+<!-- Opengraph properties (https://ogp.me/) -->
+<meta property="og:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}" />
+<meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="FSharp.Stats" />
+<meta property="og:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta property="og:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<!-- Twitter cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="twitter:url" content="https://fslab.org/FSharp.Stats/">
+<meta name="twitter:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}">
+<meta name="twitter:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta name="twitter:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+<script src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
+<script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
+    
+</head>
+<body class="api-docs">
+<header>
+    <div class="start">
+        <div id="menu-toggle">
+            <iconify-icon class="icon closed" height="22" icon="eva:menu-fill" width="22"></iconify-icon>
+            <iconify-icon class="icon open" height="22" icon="mi:close" width="22"></iconify-icon>
+            <input type="checkbox" name="mobile-menu" />
+            <ul class="menu">
+                <li class="nav-header">Links</li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+                </li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+                    Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+                    Repository</a></li>
+                <li class="nav-header ">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+                <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
@@ -63,14 +183,152 @@
     All Namespaces
   </a>
 </li>
-                    </ul>
-                </div>
-            </aside>
+            </ul>
         </div>
-        <div class="column is-10 is-paddingless">
-            <div class="section pt-4">
-                <div class="container" id="fsdocs-content">
-                    <div>
+        <a href="https://fslab.org/FSharp.Stats/">
+            <img alt="Header menu logo" src="https://fslab.org/FSharp.Stats/img/logo.png">
+            <strong>FSharp.Stats</strong>
+        </a>
+    </div>
+    <div class="end">
+        <a href="https://github.com/fslaborg/FSharp.Stats/" target="_blank">
+            <iconify-icon icon="uil:github" width="26" height="26"></iconify-icon>
+        </a>
+        <iconify-icon id="search-btn" icon="carbon:search" class="search" width="24" height="24"></iconify-icon>
+        <fsdocs-theme-toggle></fsdocs-theme-toggle>
+    </div>
+</header>
+<aside id="fsdocs-main-menu">
+    <ul class="menu">
+        <li class="nav-header">Links</li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+        </li>
+        <li class="nav-item"><a class="nav-link"
+                                href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+            Notes</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+            Repository</a></li>
+        <li class="nav-header ">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+    </ul>
+</aside>
+<main>
+    <div id="content">
+        <div>
   <h2>
     Akima Module
   </h2>
@@ -94,10 +352,8 @@
   <div class="fsdocs-xmldoc">
     <div>
       <p class="fsdocs-summary">
-        
-   Module to create piecewise cubic polynomials (cubic subsplines) from x,y coordinates. 
+           Module to create piecewise cubic polynomials (cubic subsplines) from x,y coordinates. 
    Akima subsplines are more flexible than standard cubic splines because the are NOT continuous in the function curvature, thereby diminishing oscillating behaviour.
- 
       </p>
     </div>
   </div>
@@ -130,21 +386,16 @@
           <td class="fsdocs-entity-xmldoc">
             <div>
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FSharp.Stats.InterpolationModule.Akima.SubSplineCoef`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FSharp.Stats.InterpolationModule.Akima.SubSplineCoef\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L756-756" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L754-754" class="fsdocs-source-link" title="Source on GitHub">
+                <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
               </a>
               <p class="fsdocs-summary">
-                
-   Subsplines differ from regular splines because they are discontinuous in the second derivative.
- 
+                   Subsplines differ from regular splines because they are discontinuous in the second derivative.
               </p>
             </div>
           </td>
@@ -171,7 +422,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '416', 416)" onmouseover="showTip(event, '416', 416)">
+              <code onmouseout="hideTip(event, '92', 92)" onmouseover="showTip(event, '92', 92)">
                 <p>
                   <a id="definiteIntegral">
                     <a href="#definiteIntegral">
@@ -180,7 +431,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="416">
+              <div class="fsdocs-tip" id="92">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>definiteIntegral&#32;<span>integrateF&#32;xVal1&#32;xVal2</span></span></code>
@@ -194,6 +445,8 @@
                       </b>
                       :
                       <code><span>float&#32;->&#32;float</span></code>
+                       - 
+                      Integration function.
                     </span>
                     <br/>
                     <span>
@@ -229,78 +482,83 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.definiteIntegral`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.definiteIntegral\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1021-1021" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.definiteIntegral`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.definiteIntegral\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1018-1018" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Returns integral from interpolating function from x=xVal1 to x=xVal2. 
  
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  integrateF
-                </span>
-                :
-                <code><span>float&#32;->&#32;float</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  xVal1
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  X value from where the integral should be calculated.
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  xVal2
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  X value up to which the integral should be calculated.
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Integral (area under the curve) from x=xVal1 to x=xVal2
-                </p>
-              </dd>
-            </dl>
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    integrateF
+                  </span>
+                  :
+                  <code><span>float&#32;->&#32;float</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Integration function.
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    xVal1
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    X value from where the integral should be calculated.
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    xVal2
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    X value up to which the integral should be calculated.
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Integral (area under the curve) from x=xVal1 to x=xVal2
+                  </p>
+                </dd>
+              </dl>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '417', 417)" onmouseover="showTip(event, '417', 417)">
+              <code onmouseout="hideTip(event, '93', 93)" onmouseover="showTip(event, '93', 93)">
                 <p>
                   <a id="getFirstDerivative">
                     <a href="#getFirstDerivative">
@@ -309,7 +567,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="417">
+              <div class="fsdocs-tip" id="93">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>getFirstDerivative&#32;<span>splineCoeffs&#32;xVal</span></span></code>
@@ -350,94 +608,102 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.getFirstDerivative`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.getFirstDerivative\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L957-957" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.getFirstDerivative`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.getFirstDerivative\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L954-954" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Returns function that takes x value and predicts the corresponding slope. 
  
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  splineCoeffs
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Interpolation functions coefficients.
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  xVal
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  X value of which the slope should be predicted.
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Function that takes an x value and returns slope.
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""> 
- // e.g. days since a certain event
- let xData = vector [|0.;1.;5.;4.;3.;|]
- // some measured feature
- let yData = vector [|1.;5.;4.;13.;17.|]
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    splineCoeffs
+                  </span>
+                  :
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Interpolation functions coefficients.
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    xVal
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    X value of which the slope should be predicted.
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Function that takes an x value and returns slope.
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> 
+ <span class="c">// e.g. days since a certain event</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">xData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="pn">|]</span>
+ <span class="c">// some measured feature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">yData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">|]</span>
 
- // get coefficients for piecewise interpolating cubic polynomials
- let coefficients = 
-     Akima.interpolate xData yData
+ <span class="c">// get coefficients for piecewise interpolating cubic polynomials</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">coefficients</span> <span class="o">=</span> 
+     <span class="id">Akima</span><span class="pn">.</span><span class="id">interpolate</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="id">yData</span>
 
- // get function to predict slope
- let interpolFunc = 
-     Akima.getFirstDerivative coefficients
+ <span class="c">// get function to predict slope</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="fn">interpolFunc</span> <span class="o">=</span> 
+     <span class="id">Akima</span><span class="pn">.</span><span class="id">getFirstDerivative</span> <span onmouseout="hideTip(event, 'fs3', 7)" onmouseover="showTip(event, 'fs3', 7)" class="id">coefficients</span>
 
- // get slope at x=3.4
- interpolFunc 3.4</code></pre>
-            </p>
+ <span class="c">// get slope at x=3.4</span>
+ <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="fn">interpolFunc</span> <span class="n">3.4</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val xData: obj</div>
+<div class="fsdocs-tip" id="fs2">val yData: obj</div>
+<div class="fsdocs-tip" id="fs3">val coefficients: obj</div>
+<div class="fsdocs-tip" id="fs4">val interpolFunc: (float -&gt; obj)</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '418', 418)" onmouseover="showTip(event, '418', 418)">
+              <code onmouseout="hideTip(event, '94', 94)" onmouseover="showTip(event, '94', 94)">
                 <p>
                   <a id="getSecondDerivative">
                     <a href="#getSecondDerivative">
@@ -446,7 +712,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="418">
+              <div class="fsdocs-tip" id="94">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>getSecondDerivative&#32;<span>splineCoeffs&#32;xVal</span></span></code>
@@ -487,94 +753,102 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.getSecondDerivative`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.getSecondDerivative\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L988-988" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.getSecondDerivative`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.getSecondDerivative\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L985-985" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Returns function that takes x value and predicts the corresponding interpolating curvature. 
  
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  splineCoeffs
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Interpolation functions coefficients.
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  xVal
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  X value of which the curvature should be predicted.
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Function that takes an x value and returns curvature.
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""> 
- // e.g. days since a certain event
- let xData = vector [|0.;1.;5.;4.;3.;|]
- // some measured feature
- let yData = vector [|1.;5.;4.;13.;17.|]
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    splineCoeffs
+                  </span>
+                  :
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Interpolation functions coefficients.
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    xVal
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    X value of which the curvature should be predicted.
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Function that takes an x value and returns curvature.
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> 
+ <span class="c">// e.g. days since a certain event</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">xData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="pn">|]</span>
+ <span class="c">// some measured feature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">yData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">|]</span>
 
- // get coefficients for piecewise interpolating cubic polynomials
- let coefficients = 
-     Akima.interpolate xData yData
+ <span class="c">// get coefficients for piecewise interpolating cubic polynomials</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">coefficients</span> <span class="o">=</span> 
+     <span class="id">Akima</span><span class="pn">.</span><span class="id">interpolate</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="id">yData</span>
 
- // get function to predict curvature
- let interpolFunc = 
-     Akima.getSecondDerivative coefficients
+ <span class="c">// get function to predict curvature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="fn">interpolFunc</span> <span class="o">=</span> 
+     <span class="id">Akima</span><span class="pn">.</span><span class="id">getSecondDerivative</span> <span onmouseout="hideTip(event, 'fs3', 7)" onmouseover="showTip(event, 'fs3', 7)" class="id">coefficients</span>
 
- // get curvature at x=3.4
- interpolFunc 3.4</code></pre>
-            </p>
+ <span class="c">// get curvature at x=3.4</span>
+ <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="fn">interpolFunc</span> <span class="n">3.4</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val xData: obj</div>
+<div class="fsdocs-tip" id="fs2">val yData: obj</div>
+<div class="fsdocs-tip" id="fs3">val coefficients: obj</div>
+<div class="fsdocs-tip" id="fs4">val interpolFunc: (float -&gt; obj)</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '419', 419)" onmouseover="showTip(event, '419', 419)">
+              <code onmouseout="hideTip(event, '95', 95)" onmouseover="showTip(event, '95', 95)">
                 <p>
                   <a id="integrate">
                     <a href="#integrate">
@@ -583,7 +857,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="419">
+              <div class="fsdocs-tip" id="95">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>integrate&#32;<span>splineCoeffs&#32;xVal</span></span></code>
@@ -624,70 +898,71 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.integrate`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.integrate\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1008-1008" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.integrate`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.integrate\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1005-1005" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Returns integral from interpolating function from x=0 to x=xVal. 
  
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  splineCoeffs
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Interpolation functions coefficients.
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  xVal
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  X value up to which the integral should be calculated.
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Integral (area under the curve) from x=0 to x=xVal
-                </p>
-              </dd>
-            </dl>
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    splineCoeffs
+                  </span>
+                  :
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Interpolation functions coefficients.
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    xVal
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    X value up to which the integral should be calculated.
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Integral (area under the curve) from x=0 to x=xVal
+                  </p>
+                </dd>
+              </dl>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '420', 420)" onmouseover="showTip(event, '420', 420)">
+              <code onmouseout="hideTip(event, '96', 96)" onmouseover="showTip(event, '96', 96)">
                 <p>
                   <a id="interpolate">
                     <a href="#interpolate">
@@ -696,7 +971,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="420">
+              <div class="fsdocs-tip" id="96">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>interpolate&#32;<span>xValues&#32;yValues</span></span></code>
@@ -737,87 +1012,94 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.interpolate`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.interpolate\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L860-860" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.interpolate`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.interpolate\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L857-857" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Computes coefficients for piecewise interpolating subsplines.
  
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  xValues
-                </span>
-                :
-                <code><span>float[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  yValues
-                </span>
-                :
-                <code><span>float[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  function value at x values
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Coefficients that define the interpolating function.
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""> 
- // e.g. days since a certain event
- let xData = vector [|0.;1.;5.;4.;3.;|]
- // some measured feature
- let yData = vector [|1.;5.;4.;13.;17.|]
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    xValues
+                  </span>
+                  :
+                  <code><span>float[]</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    yValues
+                  </span>
+                  :
+                  <code><span>float[]</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    function value at x values
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Coefficients that define the interpolating function.
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> 
+ <span class="c">// e.g. days since a certain event</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">xData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="pn">|]</span>
+ <span class="c">// some measured feature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">yData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">|]</span>
 
- // get coefficients for piecewise interpolating cubic polynomials
- let coefficients = 
-     Akima.interpolate xData yData</code></pre>
-            </p>
+ <span class="c">// get coefficients for piecewise interpolating cubic polynomials</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">coefficients</span> <span class="o">=</span> 
+     <span class="id">Akima</span><span class="pn">.</span><span class="id">interpolate</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="id">yData</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val xData: obj</div>
+<div class="fsdocs-tip" id="fs2">val yData: obj</div>
+<div class="fsdocs-tip" id="fs3">val coefficients: obj</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '421', 421)" onmouseover="showTip(event, '421', 421)">
+              <code onmouseout="hideTip(event, '97', 97)" onmouseover="showTip(event, '97', 97)">
                 <p>
                   <a id="interpolateHermiteSorted">
                     <a href="#interpolateHermiteSorted">
@@ -826,7 +1108,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="421">
+              <div class="fsdocs-tip" id="97">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>interpolateHermiteSorted&#32;<span>xValues&#32;yValues&#32;firstDerivatives</span></span></code>
@@ -877,99 +1159,106 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.interpolateHermiteSorted`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.interpolateHermiteSorted\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L820-820" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.interpolateHermiteSorted`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.interpolateHermiteSorted\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L817-817" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Computes coefficients for piecewise interpolating subsplines.
  
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  xValues
-                </span>
-                :
-                <code><span>float[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  x values that are sorted ascending. Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  yValues
-                </span>
-                :
-                <code><span>float[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  function value at x values
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  firstDerivatives
-                </span>
-                :
-                <code><span>float[]</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  first derivatives at x values
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Coefficients that define the interpolating function.
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""> 
- // e.g. days since a certain event
- let xData = vector [|0.;1.;5.;4.;3.;|]
- // some measured feature
- let yData = vector [|1.;5.;4.;13.;17.|]
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    xValues
+                  </span>
+                  :
+                  <code><span>float[]</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    x values that are sorted ascending. Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    yValues
+                  </span>
+                  :
+                  <code><span>float[]</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    function value at x values
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    firstDerivatives
+                  </span>
+                  :
+                  <code><span>float[]</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    first derivatives at x values
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Coefficients that define the interpolating function.
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> 
+ <span class="c">// e.g. days since a certain event</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">xData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="pn">|]</span>
+ <span class="c">// some measured feature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">yData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">|]</span>
 
- // get coefficients for piecewise interpolating cubic polynomials
- let coefficients = 
-     Akima.interpolate xData yData</code></pre>
-            </p>
+ <span class="c">// get coefficients for piecewise interpolating cubic polynomials</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">coefficients</span> <span class="o">=</span> 
+     <span class="id">Akima</span><span class="pn">.</span><span class="id">interpolate</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="id">yData</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val xData: obj</div>
+<div class="fsdocs-tip" id="fs2">val yData: obj</div>
+<div class="fsdocs-tip" id="fs3">val coefficients: obj</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '422', 422)" onmouseover="showTip(event, '422', 422)">
+              <code onmouseout="hideTip(event, '98', 98)" onmouseover="showTip(event, '98', 98)">
                 <p>
                   <a id="predict">
                     <a href="#predict">
@@ -978,7 +1267,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="422">
+              <div class="fsdocs-tip" id="98">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>predict&#32;<span>splineCoeffs&#32;xVal</span></span></code>
@@ -1019,88 +1308,96 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.predict`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.predict\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L925-925" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.Akima.predict`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.Akima.predict\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L922-922" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Returns function that takes x value and predicts the corresponding interpolating y value. 
  
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              Second derivative (curvature) is NOT continuous at knots to allow higher flexibility to reduce oscillations! For reference see: http://www.dorn.org/uni/sls/kap06/f08_0204.htm.
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  splineCoeffs
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Interpolation functions coefficients.
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  xVal
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  X value of which the y value should be predicted.
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Function that takes an x value and returns function value.
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""> 
- // e.g. days since a certain event
- let xData = vector [|0.;1.;5.;4.;3.;|]
- // some measured feature
- let yData = vector [|1.;5.;4.;13.;17.|]
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    splineCoeffs
+                  </span>
+                  :
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-akima-subsplinecoef.html">SubSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Interpolation functions coefficients.
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    xVal
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    X value of which the y value should be predicted.
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Function that takes an x value and returns function value.
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> 
+ <span class="c">// e.g. days since a certain event</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">xData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="pn">|]</span>
+ <span class="c">// some measured feature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">yData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">|]</span>
 
- // get coefficients for piecewise interpolating cubic polynomials
- let coefficients = 
-     Akima.interpolate xData yData
+ <span class="c">// get coefficients for piecewise interpolating cubic polynomials</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">coefficients</span> <span class="o">=</span> 
+     <span class="id">Akima</span><span class="pn">.</span><span class="id">interpolate</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="id">yData</span>
 
- // get function to predict y value
- let interpolFunc = 
-     Akima.predict coefficients
+ <span class="c">// get function to predict y value</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="fn">interpolFunc</span> <span class="o">=</span> 
+     <span class="id">Akima</span><span class="pn">.</span><span class="id">predict</span> <span onmouseout="hideTip(event, 'fs3', 7)" onmouseover="showTip(event, 'fs3', 7)" class="id">coefficients</span>
 
- // get function value at x=3.4
- interpolFunc 3.4</code></pre>
-            </p>
+ <span class="c">// get function value at x=3.4</span>
+ <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="fn">interpolFunc</span> <span class="n">3.4</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val xData: obj</div>
+<div class="fsdocs-tip" id="fs2">val yData: obj</div>
+<div class="fsdocs-tip" id="fs3">val coefficients: obj</div>
+<div class="fsdocs-tip" id="fs4">val interpolFunc: (float -&gt; obj)</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
       </tbody>
@@ -1115,19 +1412,24 @@
   <div></div>
   <div></div>
 </div>
-                </div>
-            </div>
-        </div>
         
     </div>
+</main>
+<aside id="fsdocs-page-menu">
+    <p id="on-this-page">On this page</p>
+    <div class="empty"></div>
+</aside>
+<dialog>
+    <input type="search" placeholder="Search docs" />
+    <div class="results">
+        <ul></ul>
+        <p class="empty">Type something to start searching.</p>
+    </div>
+</dialog>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-toggle.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
 
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
-    <!-- END SEARCH BOX: this adds support for the search box -->
 </body>
-
 </html>

@@ -1,185 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-root="https://fslab.org/FSharp.Stats/">
 <head>
-    <meta charset="utf-8">
-    <title>FSharp.Stats
-</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
-    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.18.1.min.js"></script>
-    <script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <!-- END SEARCH BOX: this adds support for the search box -->
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors" name="author">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="FSharp.Stats">
+    <meta property="og:title" content="FSharp.Stats
+" />
+    <meta property="og:url" content="https://fslab.org/FSharp.Stats/index.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="https://fslab.org/FSharp.Stats/">
+    <meta name="twitter:title" content="FSharp.Stats
+">
     
-</head> 
+    <title>FSharp.Stats
+ | FSharp.Stats</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/img/favicon.ico" rel="icon" sizes="32x32" type="image/png"/>
+    <script type="application/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-set-dark.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-theme.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+<title>{{fsdocs-page-title}}</title>
+<meta name="author" content="{{fsdocs-authors}}">
+<meta name="description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
 
-<body>
-    <div class="columns is-fullheight m-0">
-        <div id="fsdocs-menu" class="column is-2 is-paddingless">
-            <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-light">
-                    <a href="https://fslab.org/FSharp.Stats/">
-                        <figure class="image is-128x128 container">
-                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
-                        </figure>
-                    </a>
-                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
-                </div>
-                <div class="content">
-                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-                    <div id="header">
-                        <div class="searchbox" id="fsdocs-searchbox">
-                            <label for="search-by">
-                                <i class="fas fa-search"></i>
-                            </label>
-                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
-                            <span data-search-clear="">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- END SEARCH BOX: this adds support for the search box -->
-                    <ul class="navbar-nav">
-                        <li class="nav-header">Links</li>
-                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
-                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
-                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
-                        <li class="nav-header">
+<!-- Opengraph properties (https://ogp.me/) -->
+<meta property="og:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}" />
+<meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="FSharp.Stats" />
+<meta property="og:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta property="og:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<!-- Twitter cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="twitter:url" content="https://fslab.org/FSharp.Stats/">
+<meta name="twitter:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}">
+<meta name="twitter:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta name="twitter:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+<script src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
+<script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
+    
+</head>
+<body class="content">
+<header>
+    <div class="start">
+        <div id="menu-toggle">
+            <iconify-icon class="icon closed" height="22" icon="eva:menu-fill" width="22"></iconify-icon>
+            <iconify-icon class="icon open" height="22" icon="mi:close" width="22"></iconify-icon>
+            <input type="checkbox" name="mobile-menu" />
+            <ul class="menu">
+                <li class="nav-header">Links</li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+                </li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+                    Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+                    Repository</a></li>
+                <li class="nav-header ">
   Documentation
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
     Basic statistics
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
     Probability distributions
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
     Statistical testing
   </a>
 </li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Matrix_Vector.html">
-    Matrix and Vector
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/LinearAlgebra.html">
-    Linear Algebra
-  </a>
-</li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
     Correlation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
     Covariance
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
     Fitting
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
     Interpolation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
     Growth curve
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
     Cross validation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
     Fit quality
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
     Imputation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
     Clustering
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
     Comparison metrics
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
     Differentiation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
     Integration
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
     Signal processing
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
     Normalization
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
     Ranking
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
     Quantile
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
     Intervals
   </a>
 </li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
-    Machine Learning
-  </a>
-</li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
     Optimization
   </a>
 </li>
-                        <li class="nav-header">
+                <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
@@ -187,14 +186,152 @@
     All Namespaces
   </a>
 </li>
-                    </ul>
-                </div>
-            </aside>
+            </ul>
         </div>
-        <div class="column is-10 is-paddingless">
-            <div class="section pt-4">
-                <div class="container" id="fsdocs-content">
-                    <h1><a name="FSharp-Stats" class="anchor" href="#FSharp-Stats">FSharp.Stats</a></h1>
+        <a href="https://fslab.org/FSharp.Stats/">
+            <img alt="Header menu logo" src="https://fslab.org/FSharp.Stats/img/logo.png">
+            <strong>FSharp.Stats</strong>
+        </a>
+    </div>
+    <div class="end">
+        <a href="https://github.com/fslaborg/FSharp.Stats/" target="_blank">
+            <iconify-icon icon="uil:github" width="26" height="26"></iconify-icon>
+        </a>
+        <iconify-icon id="search-btn" icon="carbon:search" class="search" width="24" height="24"></iconify-icon>
+        <fsdocs-theme-toggle></fsdocs-theme-toggle>
+    </div>
+</header>
+<aside id="fsdocs-main-menu">
+    <ul class="menu">
+        <li class="nav-header">Links</li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+        </li>
+        <li class="nav-item"><a class="nav-link"
+                                href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+            Notes</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+            Repository</a></li>
+        <li class="nav-header ">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+    </ul>
+</aside>
+<main>
+    <div id="content">
+        <h1><a name="FSharp-Stats" class="anchor" href="#FSharp-Stats">FSharp.Stats</a></h1>
 <p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/index.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a>
 <a href="https://fslab.org/FSharp.Stats/index.ipynb"><img src="https://fslab.org/FSharp.Stats/img/badge-notebook.svg" alt="Notebook" /></a></p>
 <p>FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.</p>
@@ -223,74 +360,71 @@
 <h2><a name="Example" class="anchor" href="#Example">Example</a></h2>
 <p>The following examples show how easy it is to start working with FSharp.Stats.</p>
 <h3><a name="Distributions" class="anchor" href="#Distributions">Distributions</a></h3>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 14)" onmouseover="showTip(event, 'fs1', 14)" class="id">Plotly</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 15)" onmouseover="showTip(event, 'fs2', 15)" class="id">NET</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs9', 16)" onmouseover="showTip(event, 'fs9', 16)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 17)" onmouseover="showTip(event, 'fs10', 17)" class="id">Stats</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs2', 14)" onmouseover="showTip(event, 'fs2', 14)" class="id">Plotly</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs3', 15)" onmouseover="showTip(event, 'fs3', 15)" class="id">NET</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs10', 16)" onmouseover="showTip(event, 'fs10', 16)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs11', 17)" onmouseover="showTip(event, 'fs11', 17)" class="id">Stats</span>
 
 <span class="c">// initialize a normal distribution with mean 25 and standard deviation 0.1</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="id">normalDistribution</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs12', 19)" onmouseover="showTip(event, 'fs12', 19)" class="id">Distributions</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 20)" onmouseover="showTip(event, 'fs13', 20)" class="id">Continuous</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 21)" onmouseover="showTip(event, 'fs14', 21)" class="rt">Normal</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 22)" onmouseover="showTip(event, 'fs15', 22)" class="id">Init</span> <span class="n">25.</span> <span class="n">0.1</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 18)" onmouseover="showTip(event, 'fs12', 18)" class="id">normalDistribution</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 19)" onmouseover="showTip(event, 'fs13', 19)" class="id">Distributions</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 20)" onmouseover="showTip(event, 'fs14', 20)" class="id">Continuous</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 21)" onmouseover="showTip(event, 'fs15', 21)" class="rt">Normal</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 22)" onmouseover="showTip(event, 'fs16', 22)" class="id">Init</span> <span class="n">25.</span> <span class="n">0.1</span>
 
 <span class="c">// draw independently 30 times from the given distribution </span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 23)" onmouseover="showTip(event, 'fs16', 23)" class="id">sample</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 24)" onmouseover="showTip(event, 'fs17', 24)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 25)" onmouseover="showTip(event, 'fs18', 25)" class="id">init</span> <span class="n">30</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs11', 26)" onmouseover="showTip(event, 'fs11', 26)" class="id">normalDistribution</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 27)" onmouseover="showTip(event, 'fs19', 27)" class="id">Sample</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 23)" onmouseover="showTip(event, 'fs17', 23)" class="id">sample</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 24)" onmouseover="showTip(event, 'fs18', 24)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 25)" onmouseover="showTip(event, 'fs19', 25)" class="id">init</span> <span class="n">30</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs12', 26)" onmouseover="showTip(event, 'fs12', 26)" class="id">normalDistribution</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 27)" onmouseover="showTip(event, 'fs20', 27)" class="id">Sample</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>[|24.99727622; 25.06055898; 25.21393263; 24.8971857; 24.91225859; 25.23438048;
-  25.07679621; 25.0681794; 25.01695179; 24.84005237; 24.85819025; 24.9916305;
-  24.95026837; 25.02802016; 24.94947687; 25.0185527; 25.14615721; 24.97609585;
-  24.92894713; 25.05215953; 24.95001096; 25.11773529; 24.90043007; 24.97443445;
-  24.88734092; 24.9275594; 24.98039062; 24.9694966; 25.03934624; 24.97018376|]</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>[|24.99844989; 25.00530612; 25.04702238; 24.95356321; 25.02750694; 25.02318838;
+  25.14543129; 25.05784648; 25.03018155; 24.96244479; 25.01249229; 25.2462045;
+  25.02238345; 24.88739678; 25.07576913; 25.02076516; 24.90386312; 24.93530848;
+  24.94900494; 24.91481409; 24.99453664; 25.03416734; 24.95211553; 25.09465522;
+  25.06010406; 24.95033101; 25.07229753; 24.91115577; 25.03964812; 24.89998754|]</code></pre></td></tr></table>
 <h3><a name="Basic-descriptive-statistics" class="anchor" href="#Basic-descriptive-statistics">Basic descriptive statistics</a></h3>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// calculate the mean of the given sample</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 28)" onmouseover="showTip(event, 'fs20', 28)" class="id">mean</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs21', 29)" onmouseover="showTip(event, 'fs21', 29)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 30)" onmouseover="showTip(event, 'fs22', 30)" class="id">mean</span> <span onmouseout="hideTip(event, 'fs16', 31)" onmouseover="showTip(event, 'fs16', 31)" class="id">sample</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 28)" onmouseover="showTip(event, 'fs21', 28)" class="id">mean</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 29)" onmouseover="showTip(event, 'fs22', 29)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs23', 30)" onmouseover="showTip(event, 'fs23', 30)" class="id">mean</span> <span onmouseout="hideTip(event, 'fs17', 31)" onmouseover="showTip(event, 'fs17', 31)" class="id">sample</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>24.99779998</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>25.00759806</code></pre></td></tr></table>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// calculate the bessel corrected sample standard deviation of the given sample</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 32)" onmouseover="showTip(event, 'fs23', 32)" class="id">stDev</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs21', 33)" onmouseover="showTip(event, 'fs21', 33)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 34)" onmouseover="showTip(event, 'fs24', 34)" class="id">stDev</span> <span onmouseout="hideTip(event, 'fs16', 35)" onmouseover="showTip(event, 'fs16', 35)" class="id">sample</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 32)" onmouseover="showTip(event, 'fs24', 32)" class="id">stDev</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 33)" onmouseover="showTip(event, 'fs22', 33)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs25', 34)" onmouseover="showTip(event, 'fs25', 34)" class="id">stDev</span> <span onmouseout="hideTip(event, 'fs17', 35)" onmouseover="showTip(event, 'fs17', 35)" class="id">sample</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>0.09533512325</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.07821544929</code></pre></td></tr></table>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// calculate the coefficient of variation of the given sample </span>
 <span class="c">// Attention: CV is valid only if a hypothetical real zero value exists for the data.</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 36)" onmouseover="showTip(event, 'fs25', 36)" class="id">cv</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs21', 37)" onmouseover="showTip(event, 'fs21', 37)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 38)" onmouseover="showTip(event, 'fs26', 38)" class="id">cv</span> <span onmouseout="hideTip(event, 'fs16', 39)" onmouseover="showTip(event, 'fs16', 39)" class="id">sample</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 36)" onmouseover="showTip(event, 'fs26', 36)" class="id">cv</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 37)" onmouseover="showTip(event, 'fs22', 37)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 38)" onmouseover="showTip(event, 'fs27', 38)" class="id">cv</span> <span onmouseout="hideTip(event, 'fs17', 39)" onmouseover="showTip(event, 'fs17', 39)" class="id">sample</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>0.003813740543</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>0.003127667404</code></pre></td></tr></table>
 <h3><a name="Vectors-Matrices-and-linear-algebra" class="anchor" href="#Vectors-Matrices-and-linear-algebra">Vectors, Matrices and linear algebra</a></h3>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// create a vector </span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 40)" onmouseover="showTip(event, 'fs27', 40)" class="id">vecB</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs28', 41)" onmouseover="showTip(event, 'fs28', 41)" class="fn">vector</span> <span class="pn">[</span><span class="n">19.</span><span class="pn">;</span><span class="n">11.</span><span class="pn">;</span><span class="n">35.</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 40)" onmouseover="showTip(event, 'fs28', 40)" class="id">vecB</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs29', 41)" onmouseover="showTip(event, 'fs29', 41)" class="fn">vector</span> <span class="pn">[</span><span class="n">19.</span><span class="pn">;</span><span class="n">11.</span><span class="pn">;</span><span class="n">35.</span><span class="pn">]</span>
 
 <span class="c">// create a matrix </span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 42)" onmouseover="showTip(event, 'fs29', 42)" class="id">matA</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs30', 43)" onmouseover="showTip(event, 'fs30', 43)" class="fn">matrix</span> <span class="pn">[</span><span class="pn">[</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">0.</span><span class="pn">]</span><span class="pn">;</span><span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">]</span><span class="pn">;</span><span class="pn">[</span><span class="n">5.</span><span class="pn">;</span><span class="n">0.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">]</span><span class="pn">]</span>
-
-<span class="c">// solve the linear system of equations</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 44)" onmouseover="showTip(event, 'fs31', 44)" class="id">vecX</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 45)" onmouseover="showTip(event, 'fs9', 45)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 46)" onmouseover="showTip(event, 'fs10', 46)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 47)" onmouseover="showTip(event, 'fs32', 47)" class="id">Algebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 48)" onmouseover="showTip(event, 'fs33', 48)" class="m">LinearAlgebra</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 49)" onmouseover="showTip(event, 'fs34', 49)" class="id">SolveLinearSystem</span> <span onmouseout="hideTip(event, 'fs29', 50)" onmouseover="showTip(event, 'fs29', 50)" class="id">matA</span> <span onmouseout="hideTip(event, 'fs27', 51)" onmouseover="showTip(event, 'fs27', 51)" class="id">vecB</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 42)" onmouseover="showTip(event, 'fs30', 42)" class="id">matA</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 43)" onmouseover="showTip(event, 'fs31', 43)" class="fn">matrix</span> <span class="pn">[</span><span class="pn">[</span><span class="n">3.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">0.</span><span class="pn">]</span><span class="pn">;</span><span class="pn">[</span><span class="n">1.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">;</span><span class="n">2.</span><span class="pn">]</span><span class="pn">;</span><span class="pn">[</span><span class="n">5.</span><span class="pn">;</span><span class="n">0.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">]</span><span class="pn">]</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>vector [|5.0; 1.0; 2.0|]</code></pre></td></tr></table>
+<table class="pre"><tr><td><pre><code>No value returned by any evaluator</code></pre></td></tr></table>
 <h3><a name="Interpolation" class="anchor" href="#Interpolation">Interpolation</a></h3>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 52)" onmouseover="showTip(event, 'fs35', 52)" class="id">xData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs28', 53)" onmouseover="showTip(event, 'fs28', 53)" class="fn">vector</span> <span class="pn">[|</span><span class="n">1.</span> <span class="o">..</span> <span class="n">10.</span><span class="pn">|]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs36', 54)" onmouseover="showTip(event, 'fs36', 54)" class="id">yData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs28', 55)" onmouseover="showTip(event, 'fs28', 55)" class="fn">vector</span> <span class="pn">[|</span><span class="n">4.</span><span class="pn">;</span><span class="n">7.</span><span class="pn">;</span><span class="n">9.</span><span class="pn">;</span><span class="n">12.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">30.</span><span class="pn">|]</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 44)" onmouseover="showTip(event, 'fs32', 44)" class="id">xData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs29', 45)" onmouseover="showTip(event, 'fs29', 45)" class="fn">vector</span> <span class="pn">[|</span><span class="n">1.</span> <span class="o">..</span> <span class="n">10.</span><span class="pn">|]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 46)" onmouseover="showTip(event, 'fs33', 46)" class="id">yData</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs29', 47)" onmouseover="showTip(event, 'fs29', 47)" class="fn">vector</span> <span class="pn">[|</span><span class="n">4.</span><span class="pn">;</span><span class="n">7.</span><span class="pn">;</span><span class="n">9.</span><span class="pn">;</span><span class="n">12.</span><span class="pn">;</span><span class="n">15.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">;</span><span class="n">16.</span><span class="pn">;</span><span class="n">23.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">30.</span><span class="pn">|]</span>
 
 <span class="c">// get coefficients of interpolating polynomial</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 56)" onmouseover="showTip(event, 'fs37', 56)" class="id">interpolatingCoefficients</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs38', 57)" onmouseover="showTip(event, 'fs38', 57)" class="m">Interpolation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 58)" onmouseover="showTip(event, 'fs39', 58)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 59)" onmouseover="showTip(event, 'fs40', 59)" class="id">interpolate</span> <span onmouseout="hideTip(event, 'fs35', 60)" onmouseover="showTip(event, 'fs35', 60)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs36', 61)" onmouseover="showTip(event, 'fs36', 61)" class="id">yData</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs34', 48)" onmouseover="showTip(event, 'fs34', 48)" class="id">interpolatingCoefficients</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs35', 49)" onmouseover="showTip(event, 'fs35', 49)" class="m">Interpolation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 50)" onmouseover="showTip(event, 'fs36', 50)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 51)" onmouseover="showTip(event, 'fs37', 51)" class="id">interpolate</span> <span onmouseout="hideTip(event, 'fs32', 52)" onmouseover="showTip(event, 'fs32', 52)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs33', 53)" onmouseover="showTip(event, 'fs33', 53)" class="id">yData</span>
 
 <span class="c">// get fitting function of interpolating polynomial</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs41', 62)" onmouseover="showTip(event, 'fs41', 62)" class="fn">interpolFitFunc</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs38', 63)" onmouseover="showTip(event, 'fs38', 63)" class="m">Interpolation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 64)" onmouseover="showTip(event, 'fs39', 64)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 65)" onmouseover="showTip(event, 'fs42', 65)" class="id">predict</span> <span onmouseout="hideTip(event, 'fs37', 66)" onmouseover="showTip(event, 'fs37', 66)" class="id">interpolatingCoefficients</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs38', 54)" onmouseover="showTip(event, 'fs38', 54)" class="fn">interpolFitFunc</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs35', 55)" onmouseover="showTip(event, 'fs35', 55)" class="m">Interpolation</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 56)" onmouseover="showTip(event, 'fs36', 56)" class="m">Polynomial</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 57)" onmouseover="showTip(event, 'fs39', 57)" class="id">predict</span> <span onmouseout="hideTip(event, 'fs34', 58)" onmouseover="showTip(event, 'fs34', 58)" class="id">interpolatingCoefficients</span>
 </code></pre>
 <h3><a name="Regression" class="anchor" href="#Regression">Regression</a></h3>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// get coefficients of 3rd order regression polynomial</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs50', 78)" onmouseover="showTip(event, 'fs50', 78)" class="id">regressionCoefficients</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs51', 79)" onmouseover="showTip(event, 'fs51', 79)" class="id">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 80)" onmouseover="showTip(event, 'fs52', 80)" class="rt">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 81)" onmouseover="showTip(event, 'fs53', 81)" class="id">fit</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs35', 82)" onmouseover="showTip(event, 'fs35', 82)" class="id">xData</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs36', 83)" onmouseover="showTip(event, 'fs36', 83)" class="id">yData</span><span class="pn">,</span><span class="fn">FittingMethod</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs51', 84)" onmouseover="showTip(event, 'fs51', 84)" class="id">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 85)" onmouseover="showTip(event, 'fs54', 85)" class="rt">Method</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs55', 86)" onmouseover="showTip(event, 'fs55', 86)" class="id">Polynomial</span> <span class="n">3</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs47', 70)" onmouseover="showTip(event, 'fs47', 70)" class="id">regressionCoefficients</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs48', 71)" onmouseover="showTip(event, 'fs48', 71)" class="id">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 72)" onmouseover="showTip(event, 'fs49', 72)" class="rt">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 73)" onmouseover="showTip(event, 'fs50', 73)" class="id">fit</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs32', 74)" onmouseover="showTip(event, 'fs32', 74)" class="id">xData</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs33', 75)" onmouseover="showTip(event, 'fs33', 75)" class="id">yData</span><span class="pn">,</span><span class="fn">FittingMethod</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs48', 76)" onmouseover="showTip(event, 'fs48', 76)" class="id">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 77)" onmouseover="showTip(event, 'fs51', 77)" class="rt">Method</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 78)" onmouseover="showTip(event, 'fs52', 78)" class="id">Polynomial</span> <span class="n">3</span><span class="pn">)</span>
     
 <span class="c">// get fitting function of 3rd order regression polynomial</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs56', 87)" onmouseover="showTip(event, 'fs56', 87)" class="fn">regressionPredictionFunc</span><span class="pn">:</span> <span onmouseout="hideTip(event, 'fs57', 88)" onmouseover="showTip(event, 'fs57', 88)" class="vt">float</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs57', 89)" onmouseover="showTip(event, 'fs57', 89)" class="vt">float</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs51', 90)" onmouseover="showTip(event, 'fs51', 90)" class="id">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 91)" onmouseover="showTip(event, 'fs52', 91)" class="rt">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs58', 92)" onmouseover="showTip(event, 'fs58', 92)" class="id">predict</span> <span onmouseout="hideTip(event, 'fs50', 93)" onmouseover="showTip(event, 'fs50', 93)" class="id">regressionCoefficients</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 79)" onmouseover="showTip(event, 'fs53', 79)" class="fn">regressionPredictionFunc</span><span class="pn">:</span> <span onmouseout="hideTip(event, 'fs54', 80)" onmouseover="showTip(event, 'fs54', 80)" class="vt">float</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs54', 81)" onmouseover="showTip(event, 'fs54', 81)" class="vt">float</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs48', 82)" onmouseover="showTip(event, 'fs48', 82)" class="id">Fitting</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 83)" onmouseover="showTip(event, 'fs49', 83)" class="rt">LinearRegression</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs55', 84)" onmouseover="showTip(event, 'fs55', 84)" class="id">predict</span> <span onmouseout="hideTip(event, 'fs47', 85)" onmouseover="showTip(event, 'fs47', 85)" class="id">regressionCoefficients</span>
 </code></pre>
 <p>The resulting interpolating and regression polynomials are plotted below using <a href="https://github.com/plotly/Plotly.NET">Plotly.NET</a>.</p>
-<div><div id="141c755e-1dba-45d9-a17f-27908650134f"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_141c755e1dba45d9a17f27908650134f = function() {
-    var data = [{"type":"scatter","mode":"markers","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.0,7.0,9.0,12.0,15.0,17.0,16.0,23.0,5.0,30.0],"marker":{},"line":{}},{"type":"scatter","name":"interpol polynomial","mode":"lines","x":[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7000000000000002,1.8,1.9,2.0,2.1,2.2,2.3,2.4000000000000004,2.5,2.6,2.7,2.8,2.9000000000000004,3.0,3.1,3.2,3.3000000000000003,3.4000000000000004,3.5,3.6,3.7,3.8000000000000003,3.9000000000000004,4.0,4.1,4.2,4.300000000000001,4.4,4.5,4.6,4.7,4.800000000000001,4.9,5.0,5.1000000000000005,5.2,5.3,5.4,5.5,5.6000000000000005,5.7,5.800000000000001,5.9,6.0,6.1000000000000005,6.2,6.300000000000001,6.4,6.5,6.6000000000000005,6.7,6.800000000000001,6.9,7.0,7.1000000000000005,7.2,7.300000000000001,7.4,7.5,7.6000000000000005,7.7,7.800000000000001,7.9,8.0,8.100000000000001,8.2,8.3,8.4,8.5,8.600000000000001,8.7,8.8,8.9,9.0,9.1,9.200000000000001,9.3,9.4,9.5,9.6,9.700000000000001,9.8,9.9,10.0],"y":[4.000000000000001,9.677506472156333,12.653219225718779,13.75671890177262,13.633243955273898,12.77432250979497,11.544644300783702,10.205497566308734,8.93507799031007,7.845959513350153,6.999999999869821,6.42093838892843,6.104924057464143,6.0292036910343665,6.159175987077711,6.454010009655073,6.8710089726980925,7.368887650777605,7.9101185023215645,8.462488940393584,8.999999999931159,9.503224928489665,9.959234969522889,10.361188813081526,10.707671859104721,11.001861572164998,11.250585804686779,11.463332027729962,11.65125693426279,11.82623786981651,11.99999999984226,12.183346040407116,12.385508761437677,12.613640317522254,12.872446771072987,13.163970947132157,13.487521996702753,13.839745747247207,14.214826086318453,14.604804251938276,15.000000000008185,15.389516175080644,15.76180623363689,16.105282754741893,16.40894392329028,16.66299438484384,16.859436748995904,16.99261035953168,17.05965475859557,17.0608765366851,17.000000000274667,16.88428428221232,16.724492185723648,16.534699174324487,16.33193451551415,16.135650635002094,15.967021260876209,15.84807391416689,15.800667750590947,15.845333673809364,16.000000000283762,16.27863381183124,16.68983541771013,17.235431126406183,17.90911774727283,18.695220947440248,19.567638733045897,20.489050961172325,21.410485862812493,22.271345113927964,23.000000000494765,23.515082714991877,23.727608730230713,23.544078661798267,22.87072081968654,21.6190490736044,19.712924365827348,17.097322550602257,13.749025895434897,9.689470805518795,5.000000000582077,-0.16021656058728695,-5.533311078208499,-10.738599672098644,-15.244901069090702,-18.338958740700036,-19.08961464453023,-16.307363767409697,-8.498899353435263,6.183761200867593,30.000000001396984],"marker":{},"line":{}},{"type":"scatter","name":"regression polynomial","mode":"lines","x":[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7000000000000002,1.8,1.9,2.0,2.1,2.2,2.3,2.4000000000000004,2.5,2.6,2.7,2.8,2.9000000000000004,3.0,3.1,3.2,3.3000000000000003,3.4000000000000004,3.5,3.6,3.7,3.8000000000000003,3.9000000000000004,4.0,4.1,4.2,4.300000000000001,4.4,4.5,4.6,4.7,4.800000000000001,4.9,5.0,5.1000000000000005,5.2,5.3,5.4,5.5,5.6000000000000005,5.7,5.800000000000001,5.9,6.0,6.1000000000000005,6.2,6.300000000000001,6.4,6.5,6.6000000000000005,6.7,6.800000000000001,6.9,7.0,7.1000000000000005,7.2,7.300000000000001,7.4,7.5,7.6000000000000005,7.7,7.800000000000001,7.9,8.0,8.100000000000001,8.2,8.3,8.4,8.5,8.600000000000001,8.7,8.8,8.9,9.0,9.1,9.200000000000001,9.3,9.4,9.5,9.6,9.700000000000001,9.8,9.9,10.0],"y":[2.422377622374652,3.079641025638399,3.7109743589720567,4.316939393937402,4.8980979020962,5.45501165501023,5.988242424241262,6.498351981351064,6.985902097901411,7.451454545454075,7.895571095570825,8.318813519813437,8.721743589743683,9.104923076923328,9.468913752914151,9.814277389277926,10.141575757576415,10.451370629371397,10.744223776224642,11.020696969697926,11.281351981353014,11.52675058275168,11.757454545455701,11.974025641026845,12.177025641026882,12.367016317017589,12.544559440560732,12.71021678321809,12.864550116551424,13.00812121212252,13.141491841493135,13.265223776225053,13.37987878788004,13.486018648019876,13.584205128206317,13.675000000001146,13.758965034966135,13.836662004663053,13.908652680653672,13.97549883449976,14.037762237763115,14.096004662005464,14.150787878788615,14.202673659674321,14.252223776224362,14.30000000000051,14.346564102564535,14.392477855478216,14.438303030303306,14.484601398601598,14.531934731934847,14.580864801864838,14.631953379953327,14.685762237762116,14.74285314685294,14.803787878787599,14.86912820512785,14.939435897435477,15.01527272727223,15.097200466199919,15.185780885780275,15.28157575757507,15.385146853146125,15.497055944055163,15.617864801863988,15.748135198134342,15.888428904428004,16.03930769230677,16.2013333333324,16.37506759906664,16.561072261071295,16.75990909090813,16.972139860138903,17.198326340325387,17.439030303029384,17.694813519812634,17.96623776223693,18.253864801864005,18.558256410255687,18.879974358973698,19.21958041957984,19.57763636363586,19.954703962703576,20.35134498834472,20.768121212121073,21.20559440559441,21.664326340326497,22.144878787879108,22.647813519813994,23.173692307693003,23.72307692307784],"marker":{},"line":{}}];
+<div><div id="955dcbeb-d3ff-4a11-96a6-f4d84414b0b9"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_955dcbebd3ff4a1196a6f4d84414b0b9 = function() {
+    var data = [{"type":"scatter","mode":"markers","x":[1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0],"y":[4.0,7.0,9.0,12.0,15.0,17.0,16.0,23.0,5.0,30.0],"marker":{},"line":{}},{"type":"scatter","name":"interpol polynomial","mode":"lines","x":[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7000000000000002,1.8,1.9,2.0,2.1,2.2,2.3,2.4000000000000004,2.5,2.6,2.7,2.8,2.9000000000000004,3.0,3.1,3.2,3.3000000000000003,3.4000000000000004,3.5,3.6,3.7,3.8000000000000003,3.9000000000000004,4.0,4.1,4.2,4.300000000000001,4.4,4.5,4.6,4.7,4.800000000000001,4.9,5.0,5.1000000000000005,5.2,5.3,5.4,5.5,5.6000000000000005,5.7,5.800000000000001,5.9,6.0,6.1000000000000005,6.2,6.300000000000001,6.4,6.5,6.6000000000000005,6.7,6.800000000000001,6.9,7.0,7.1000000000000005,7.2,7.300000000000001,7.4,7.5,7.6000000000000005,7.7,7.800000000000001,7.9,8.0,8.100000000000001,8.2,8.3,8.4,8.5,8.600000000000001,8.7,8.8,8.9,9.0,9.1,9.200000000000001,9.3,9.4,9.5,9.6,9.700000000000001,9.8,9.9,10.0],"y":[3.99999999999985,9.67750647222964,12.653219225862813,13.756718901985058,13.63324395555071,12.774322510134837,11.54464430118226,10.205497566763595,8.93507799081842,7.845959513911084,7.000000000479068,6.420938389584631,6.10492405816309,6.029203691774468,6.159175987855329,6.454010010471345,6.871008973552108,7.3688876516589055,7.910118503235607,8.462488941334911,9.000000000895223,9.503224929481014,9.959234970532428,10.36118881411835,10.707671860152459,11.001861573230926,11.250585805759982,11.463332028828631,11.65125693536146,11.826237870929731,12.000000000970033,12.183346041505786,12.385508762572726,12.613640318642751,12.872446772178932,13.163970948267206,13.487521997837803,13.839745748382256,14.214826087424399,14.604804253015118,15.000000001172339,15.389516176215693,15.761806234684627,16.105282755876942,16.408943924396226,16.662994386007995,16.85943675010185,16.992610360637627,17.059654759701516,17.060876537791046,17.00000000120599,16.88428428320185,16.724492186771386,16.534699175372225,16.33193451644547,16.135650635933416,15.967021262040362,15.848073915098212,15.800667751405854,15.845333674740687,16.000000001215085,16.27863381287898,16.68983541840862,17.235431127104675,17.909117748436984,18.695220948837232,19.56763873374439,20.489050962336478,21.410485863743816,22.271345114393625,23.000000001426088,23.51508271569037,23.727608730696375,23.54407866272959,22.8707208201522,21.619049074070062,19.712924365827348,17.09732255199924,13.749025895434897,9.689470806450117,5.000000001513399,-0.16021656012162566,-5.5333110763458535,-10.738599671167322,-15.244901068159379,-18.338958739768714,-19.08961464173626,-16.307363766478375,-8.498899354366586,6.183761199936271,30.00000000325963],"marker":{},"line":{}},{"type":"scatter","name":"regression polynomial","mode":"lines","x":[1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7000000000000002,1.8,1.9,2.0,2.1,2.2,2.3,2.4000000000000004,2.5,2.6,2.7,2.8,2.9000000000000004,3.0,3.1,3.2,3.3000000000000003,3.4000000000000004,3.5,3.6,3.7,3.8000000000000003,3.9000000000000004,4.0,4.1,4.2,4.300000000000001,4.4,4.5,4.6,4.7,4.800000000000001,4.9,5.0,5.1000000000000005,5.2,5.3,5.4,5.5,5.6000000000000005,5.7,5.800000000000001,5.9,6.0,6.1000000000000005,6.2,6.300000000000001,6.4,6.5,6.6000000000000005,6.7,6.800000000000001,6.9,7.0,7.1000000000000005,7.2,7.300000000000001,7.4,7.5,7.6000000000000005,7.7,7.800000000000001,7.9,8.0,8.100000000000001,8.2,8.3,8.4,8.5,8.600000000000001,8.7,8.8,8.9,9.0,9.1,9.200000000000001,9.3,9.4,9.5,9.6,9.700000000000001,9.8,9.9,10.0],"y":[2.4223776223746443,3.0796410256384004,3.710974358972067,4.31693939393742,4.898097902096227,5.455011655010265,5.988242424241303,6.498351981351113,6.985902097901463,7.45145454545413,7.8955710955708875,8.318813519813505,8.721743589743753,9.104923076923399,9.46891375291423,9.814277389278002,10.141575757576495,10.451370629371482,10.744223776224725,11.02069696969801,11.281351981353101,11.52675058275177,11.75745454545579,11.974025641026932,12.177025641026972,12.367016317017674,12.544559440560818,12.710216783218172,12.864550116551513,13.0081212121226,13.141491841493213,13.265223776225127,13.37987878788012,13.48601864801994,13.584205128206388,13.675000000001212,13.758965034966195,13.836662004663111,13.90865268065373,13.975498834499824,14.037762237763161,14.09600466200552,14.150787878788655,14.20267365967436,14.252223776224405,14.300000000000544,14.346564102564571,14.392477855478234,14.43830303030333,14.484601398601619,14.53193473193486,14.580864801864848,14.631953379953345,14.685762237762113,14.742853146852944,14.803787878787602,14.869128205127844,14.939435897435466,15.015272727272233,15.0972004661999,15.185780885780254,15.28157575757507,15.38514685314611,15.497055944055127,15.617864801863952,15.748135198134314,15.88842890442799,16.039307692306735,16.201333333332357,16.375067599066597,16.56107226107126,16.759909090908096,16.97213986013886,17.19832634032535,17.439030303029362,17.69481351981259,17.96623776223688,18.25386480186399,18.55825641025566,18.879974358973655,19.219580419579827,19.577636363635875,19.95470396270359,20.351344988344707,20.76812121212106,21.20559440559441,21.66432634032651,22.144878787879136,22.64781351981405,23.173692307693045,23.723076923077855],"marker":{},"line":{}}];
     var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}}};
     var config = {"responsive":true};
-    Plotly.newPlot('141c755e-1dba-45d9-a17f-27908650134f', data, layout, config);
+    Plotly.newPlot('955dcbeb-d3ff-4a11-96a6-f4d84414b0b9', data, layout, config);
 };
-renderPlotly_141c755e1dba45d9a17f27908650134f();
+renderPlotly_955dcbebd3ff4a1196a6f4d84414b0b9();
 </script></div>
 <h2><a name="Samples-amp-documentation" class="anchor" href="#Samples-amp-documentation">Samples &amp; documentation</a></h2>
 <p>The library comes with comprehensible documentation.
@@ -312,20 +446,18 @@ also want to read the <a href="https://github.com/fslaborg/FSharp.Stats/blob/dev
 redistribution for both commercial and non-commercial purposes. For more information see the
 <a href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License file</a> in the GitHub repository.</p>
 
-                </div>
-            </div>
-        </div>
-        <div class="fsdocs-tip" id="fs1">namespace Plotly</div>
-<div class="fsdocs-tip" id="fs2">namespace Plotly.NET</div>
-<div class="fsdocs-tip" id="fs3">module Defaults
+        <div class="fsdocs-tip" id="fs1">namespace FsMath</div>
+<div class="fsdocs-tip" id="fs2">namespace Plotly</div>
+<div class="fsdocs-tip" id="fs3">namespace Plotly.NET</div>
+<div class="fsdocs-tip" id="fs4">module Defaults
 
 from Plotly.NET<br /><em>&lt;summary&gt;
  Contains mutable global default values.
 
  Changing these values will apply the default values to all consecutive Chart generations.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs4">val mutable DefaultDisplayOptions: DisplayOptions</div>
-<div class="fsdocs-tip" id="fs5">Multiple items<br />type DisplayOptions =
+<div class="fsdocs-tip" id="fs5">val mutable DefaultDisplayOptions: Plotly.NET.DisplayOptions</div>
+<div class="fsdocs-tip" id="fs6">Multiple items<br />type DisplayOptions =
   inherit DynamicObj
   new: unit -&gt; DisplayOptions
   static member addAdditionalHeadTags: additionalHeadTags: XmlNode list -&gt; (DisplayOptions -&gt; DisplayOptions)
@@ -334,27 +466,27 @@ from Plotly.NET<br /><em>&lt;summary&gt;
   static member getAdditionalHeadTags: displayOpts: DisplayOptions -&gt; XmlNode list
   static member getDescription: displayOpts: DisplayOptions -&gt; XmlNode list
   static member getPlotlyReference: displayOpts: DisplayOptions -&gt; PlotlyJSReference
-  static member init: ?AdditionalHeadTags: XmlNode list * ?Description: XmlNode list * ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions
+  static member init: [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AdditionalHeadTags: XmlNode list * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Description: XmlNode list * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions
   static member initCDNOnly: unit -&gt; DisplayOptions
-  ...<br /><br />--------------------<br />new: unit -&gt; DisplayOptions</div>
-<div class="fsdocs-tip" id="fs6">static member DisplayOptions.init: ?AdditionalHeadTags: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?Description: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions</div>
-<div class="fsdocs-tip" id="fs7">type PlotlyJSReference =
+  ...<br /><br />--------------------<br />new: unit -&gt; Plotly.NET.DisplayOptions</div>
+<div class="fsdocs-tip" id="fs7">static member Plotly.NET.DisplayOptions.init: [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AdditionalHeadTags: Giraffe.ViewEngine.HtmlElements.XmlNode list * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Description: Giraffe.ViewEngine.HtmlElements.XmlNode list * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?PlotlyJSReference: Plotly.NET.PlotlyJSReference -&gt; Plotly.NET.DisplayOptions</div>
+<div class="fsdocs-tip" id="fs8">type PlotlyJSReference =
   | CDN of string
   | Full
   | Require of string
   | NoReference<br /><em>&lt;summary&gt;
 Sets how plotly is referenced in the head of html docs.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs8">union case PlotlyJSReference.NoReference: PlotlyJSReference</div>
-<div class="fsdocs-tip" id="fs9">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="fsdocs-tip" id="fs10">namespace FSharp.Stats</div>
-<div class="fsdocs-tip" id="fs11">val normalDistribution: Distributions.ContinuousDistribution&lt;float,float&gt;</div>
-<div class="fsdocs-tip" id="fs12">namespace FSharp.Stats.Distributions</div>
-<div class="fsdocs-tip" id="fs13">namespace FSharp.Stats.Distributions.Continuous</div>
-<div class="fsdocs-tip" id="fs14">type Normal =
+<div class="fsdocs-tip" id="fs9">union case Plotly.NET.PlotlyJSReference.NoReference: Plotly.NET.PlotlyJSReference</div>
+<div class="fsdocs-tip" id="fs10">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs11">namespace FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs12">val normalDistribution: Distributions.ContinuousDistribution&lt;float,float&gt;</div>
+<div class="fsdocs-tip" id="fs13">namespace FSharp.Stats.Distributions</div>
+<div class="fsdocs-tip" id="fs14">namespace FSharp.Stats.Distributions.Continuous</div>
+<div class="fsdocs-tip" id="fs15">type Normal =
   static member CDF: mu: float -&gt; sigma: float -&gt; x: float -&gt; float
   static member CheckParam: mu: float -&gt; sigma: float -&gt; unit
-  static member Estimate: samples: seq&lt;float&gt; -&gt; ContinuousDistribution&lt;float,float&gt;
+  static member Estimate: samples: float seq -&gt; ContinuousDistribution&lt;float,float&gt;
   static member Init: mu: float -&gt; sigma: float -&gt; ContinuousDistribution&lt;float,float&gt;
   static member InvCDF: mu: float -&gt; sigma: float -&gt; p: float -&gt; float
   static member Mean: mu: float -&gt; sigma: float -&gt; float
@@ -365,66 +497,59 @@ Sets how plotly is referenced in the head of html docs.
   ...<br /><em>&lt;summary&gt;
  Normal distribution.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs15">static member Distributions.Continuous.Normal.Init: mu: float -&gt; sigma: float -&gt; Distributions.ContinuousDistribution&lt;float,float&gt;</div>
-<div class="fsdocs-tip" id="fs16">val sample: float[]</div>
-<div class="fsdocs-tip" id="fs17">Multiple items<br />module Array
+<div class="fsdocs-tip" id="fs16">static member Distributions.Continuous.Normal.Init: mu: float -&gt; sigma: float -&gt; Distributions.ContinuousDistribution&lt;float,float&gt;</div>
+<div class="fsdocs-tip" id="fs17">val sample: float array</div>
+<div class="fsdocs-tip" id="fs18">Multiple items<br />module Array
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
  Module to compute common statistical measure on array
 &lt;/summary&gt;</em><br /><br />--------------------<br />module Array
 
-from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with arrays.&lt;/summary&gt;<br />&lt;remarks&gt;
-  See also &lt;a href=&quot;https://docs.microsoft.com/dotnet/fsharp/language-reference/arrays&quot;&gt;F# Language Guide - Arrays&lt;/a&gt;.
- &lt;/remarks&gt;</em><br /><br />--------------------<br />type Array =
+from Microsoft.FSharp.Collections<br /><br />--------------------<br />type Array =
   new: unit -&gt; Array
   static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float array
-  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float[]<br /><br />--------------------<br />new: unit -&gt; Array</div>
-<div class="fsdocs-tip" id="fs18">val init: count: int -&gt; initializer: (int -&gt; &#39;T) -&gt; &#39;T[]<br /><em>&lt;summary&gt;Creates an array given the dimension and a generator function to compute the elements.&lt;/summary&gt;<br />&lt;param name=&quot;count&quot;&gt;The number of elements to initialize.&lt;/param&gt;<br />&lt;param name=&quot;initializer&quot;&gt;The function to generate the initial values for each index.&lt;/param&gt;<br />&lt;returns&gt;The created array.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentException&quot;&gt;Thrown when count is negative.&lt;/exception&gt;<br />&lt;example id=&quot;init-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- Array.init 4 (fun v -&amp;gt; v + 5)
- &lt;/code&gt;
- Evaluates to &lt;c&gt;[| 5; 6; 7; 8 |]&lt;/c&gt;&lt;/example&gt;<br />&lt;example id=&quot;init-2&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- Array.init -5 (fun v -&amp;gt; v + 5)
- &lt;/code&gt;
- Throws &lt;c&gt;ArgumentException&lt;/c&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs19">abstract Distributions.ContinuousDistribution.Sample: unit -&gt; &#39;b</div>
-<div class="fsdocs-tip" id="fs20">val mean: float</div>
-<div class="fsdocs-tip" id="fs21">Multiple items<br />module Seq
+  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float array<br /><br />--------------------<br />new: unit -&gt; Array</div>
+<div class="fsdocs-tip" id="fs19">val init: count: int -&gt; initializer: (int -&gt; &#39;T) -&gt; &#39;T array</div>
+<div class="fsdocs-tip" id="fs20">abstract Distributions.ContinuousDistribution.Sample: unit -&gt; &#39;b</div>
+<div class="fsdocs-tip" id="fs21">val mean: float</div>
+<div class="fsdocs-tip" id="fs22">Multiple items<br />module Seq
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
- Module to compute common statistical measure
-&lt;/summary&gt;</em><br /><br />--------------------<br />module Seq
+ Module to compute common statistical measures.
+ &lt;/summary&gt;</em><br /><br />--------------------<br />module Seq
 
-from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.seq`1&quot; /&gt;.&lt;/summary&gt;</em><br /><br />--------------------<br />type Seq =
+from Microsoft.FSharp.Collections<br /><br />--------------------<br />type Seq =
   new: unit -&gt; Seq
-  static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; seq&lt;float&gt;
-  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; seq&lt;float&gt;<br /><br />--------------------<br />new: unit -&gt; Seq</div>
-<div class="fsdocs-tip" id="fs22">val mean: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (+) and member get_Zero and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
-   Computes the population mean (Normalized by N)
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns default value if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;population mean (Normalized by N)&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs23">val stDev: float</div>
-<div class="fsdocs-tip" id="fs24">val stDev: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/) and member Sqrt)<br /><em>&lt;summary&gt;
-   Computes the sample standard deviation
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;standard deviation of a sample (Bessel&#39;s correction by N-1)&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs25">val cv: float</div>
-<div class="fsdocs-tip" id="fs26">val cv: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member Sqrt and member (+) and member (/) and member (/))<br /><em>&lt;summary&gt;
-   Computes the Coefficient of Variation of a sample (Bessel&#39;s correction by N-1)
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;Coefficient of Variation of a sample (Bessel&#39;s correction by N-1)&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs27">val vecB: Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs28">Multiple items<br />val vector: l: seq&lt;float&gt; -&gt; Vector&lt;float&gt;<br /><br />--------------------<br />type vector = Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs29">val matA: Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs30">Multiple items<br />val matrix: ll: seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs31">val vecX: Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs32">namespace FSharp.Stats.Algebra</div>
-<div class="fsdocs-tip" id="fs33">Multiple items<br />module LinearAlgebra
-
-from FSharp.Stats.Algebra<br /><br />--------------------<br />type LinearAlgebra =
-  new: unit -&gt; LinearAlgebra
-  static member nullspace: ?Accuracy: float -&gt; (Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;)<br /><br />--------------------<br />new: unit -&gt; Algebra.LinearAlgebra</div>
-<div class="fsdocs-tip" id="fs34">val SolveLinearSystem: A: matrix -&gt; b: vector -&gt; Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs35">val xData: Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs36">val yData: Vector&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs37">val interpolatingCoefficients: Interpolation.Polynomial.PolynomialCoef</div>
-<div class="fsdocs-tip" id="fs38">Multiple items<br />module Interpolation
+  static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float seq
+  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float seq<br /><br />--------------------<br />new: unit -&gt; Seq</div>
+<div class="fsdocs-tip" id="fs23">val mean: items: &#39;T seq -&gt; &#39;U (requires member (+) and member Zero and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
+ Computes the population mean (Normalized by N).
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The population mean (Normalized by N).&lt;/returns&gt;<br />&lt;exception cref=&quot;System.DivideByZeroException&quot;&gt;Thrown if the sequence is empty and type cannot divide by zero.&lt;/exception&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let m = Seq.mean values // returns 3.0
+ &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs24">val stDev: float</div>
+<div class="fsdocs-tip" id="fs25">val stDev: items: &#39;T seq -&gt; &#39;U (requires member (-) and member Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/) and member Sqrt)<br /><em>&lt;summary&gt;
+ Computes the sample standard deviation.
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;The sample standard deviation (Bessel&#39;s correction by N-1) of the input sequence.&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let sd = Seq.stDev values // returns approximately 1.58114
+ &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs26">val cv: float</div>
+<div class="fsdocs-tip" id="fs27">val cv: items: &#39;T seq -&gt; &#39;U (requires member (-) and member Zero and member DivideByInt and member (+) and member ( * ) and member Sqrt and member (+) and member (/) and member (/))<br /><em>&lt;summary&gt;
+ Computes the Coefficient of Variation of a sample (Bessel&#39;s correction by N-1).
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;The Coefficient of Variation of a sample (Bessel&#39;s correction by N-1) of the input sequence.&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let cv = Seq.cv values // returns approximately 0.52705
+ &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs28">val vecB: Vector&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs29">val vector: l: &#39;a seq -&gt; Vector&lt;&#39;a&gt; (requires &#39;a :&gt; System.Numerics.INumber&lt;&#39;a&gt;)</div>
+<div class="fsdocs-tip" id="fs30">val matA: Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs31">val matrix: ll: #(&#39;b seq) seq -&gt; Matrix&lt;&#39;b&gt; (requires &#39;b :&gt; System.Numerics.INumber&lt;&#39;b&gt; and default constructor and value type and comparison and &#39;b :&gt; System.ValueType)</div>
+<div class="fsdocs-tip" id="fs32">val xData: Vector&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs33">val yData: Vector&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs34">val interpolatingCoefficients: Interpolation.Polynomial.PolynomialCoef</div>
+<div class="fsdocs-tip" id="fs35">Multiple items<br />module Interpolation
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
    This module contains functionalities to perform various interpolation methods for two dimensional data.
@@ -437,7 +562,7 @@ from FSharp.Stats<br /><em>&lt;summary&gt;
   static member predict: coef: InterpolationCoefficients -&gt; (float -&gt; float)<br /><em>&lt;summary&gt;
    This type contains functionalities to perform various interpolation methods for two dimensional data. It summarizes functions contained within the interpolation module.
  &lt;/summary&gt;</em><br /><br />--------------------<br />new: unit -&gt; Interpolation</div>
-<div class="fsdocs-tip" id="fs39">module Polynomial
+<div class="fsdocs-tip" id="fs36">module Polynomial
 
 from FSharp.Stats.InterpolationModule<br /><em>&lt;summary&gt;
    Calculates polynomials that interpolatethe two dimensional data. The polynomial order is equal to the number of data points - 1.
@@ -446,7 +571,7 @@ from FSharp.Stats.InterpolationModule<br /><em>&lt;summary&gt;
    But polynomial regression with degree = datapointNumber - 1 cannot be used for polynomial interpolation 
    because the least squares approach is not sufficient to converge interpolating.
  &lt;/remarks&gt;</em></div>
-<div class="fsdocs-tip" id="fs40">val interpolate: xData: Vector&lt;float&gt; -&gt; yData: Vector&lt;float&gt; -&gt; Interpolation.Polynomial.PolynomialCoef<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs37">val interpolate: xData: Vector&lt;float&gt; -&gt; yData: Vector&lt;float&gt; -&gt; Interpolation.Polynomial.PolynomialCoef<br /><em>&lt;summary&gt;
    Calculates the polynomial coefficients for interpolating the given unsorted data. 
  &lt;/summary&gt;<br />&lt;remarks&gt;No duplicates allowed!&lt;/remarks&gt;<br />&lt;param name=&quot;xData&quot;&gt;Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)&lt;/param&gt;<br />&lt;param name=&quot;yData&quot;&gt;vector of y values&lt;/param&gt;<br />&lt;returns&gt;vector of polynomial coefficients sorted as [constant;linear;quadratic;...]&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt; 
  // e.g. days since a certain event
@@ -458,8 +583,8 @@ from FSharp.Stats.InterpolationModule<br /><em>&lt;summary&gt;
  let coefficients = 
      Interpolation.Polynomial.coefficients xData yData 
  &lt;/code&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs41">val interpolFitFunc: (float -&gt; float)</div>
-<div class="fsdocs-tip" id="fs42">val predict: coef: Interpolation.Polynomial.PolynomialCoef -&gt; x: float -&gt; float<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs38">val interpolFitFunc: (float -&gt; float)</div>
+<div class="fsdocs-tip" id="fs39">val predict: coef: Interpolation.Polynomial.PolynomialCoef -&gt; x: float -&gt; float<br /><em>&lt;summary&gt;
    takes polynomial coefficients and x value to predict the corresponding interpolating y value
  &lt;/summary&gt;<br />&lt;param name=&quot;coef&quot;&gt;polynomial coefficients (e.g. determined by Polynomial.coefficients), sorted as [constant;linear;quadratic;...]&lt;/param&gt;<br />&lt;param name=&quot;x&quot;&gt;x value of which the corresponding y value should be predicted&lt;/param&gt;<br />&lt;returns&gt;predicted y value with given polynomial coefficients at X=x&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt; 
  // e.g. days since a certain event
@@ -474,16 +599,14 @@ from FSharp.Stats.InterpolationModule<br /><em>&lt;summary&gt;
  // Predict the temperature value at midnight between day 1 and 2. 
  Interpolation.Polynomial.fit coefficients 1.5
  &lt;/code&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs43">val interpolChart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs44">Multiple items<br />module List
+<div class="fsdocs-tip" id="fs40">val interpolChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs41">Multiple items<br />module List
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
  Module to compute common statistical measure on list
 &lt;/summary&gt;</em><br /><br />--------------------<br />module List
 
-from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.list`1&quot; /&gt;.&lt;/summary&gt;<br />&lt;namespacedoc&gt;&lt;summary&gt;Operations for collections such as lists, arrays, sets, maps and sequences. See also 
-    &lt;a href=&quot;https://docs.microsoft.com/dotnet/fsharp/language-reference/fsharp-collection-types&quot;&gt;F# Collection Types&lt;/a&gt; in the F# Language Guide.
- &lt;/summary&gt;&lt;/namespacedoc&gt;</em><br /><br />--------------------<br />type List =
+from Microsoft.FSharp.Collections<br /><br />--------------------<br />type List =
   new: unit -&gt; List
   static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float list
   static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float list<br /><br />--------------------<br />type List&lt;&#39;T&gt; =
@@ -499,43 +622,34 @@ from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations fo
   member Head: &#39;T
   member IsEmpty: bool
   member Item: index: int -&gt; &#39;T with get
-  ...<br /><em>&lt;summary&gt;The type of immutable singly-linked lists.&lt;/summary&gt;<br />&lt;remarks&gt;Use the constructors &lt;c&gt;[]&lt;/c&gt; and &lt;c&gt;::&lt;/c&gt; (infix) to create values of this type, or
- the notation &lt;c&gt;[1;2;3]&lt;/c&gt;. Use the values in the &lt;c&gt;List&lt;/c&gt; module to manipulate 
- values of this type, or pattern match against the values directly.
- &lt;/remarks&gt;<br />&lt;exclude /&gt;</em><br /><br />--------------------<br />new: unit -&gt; List</div>
-<div class="fsdocs-tip" id="fs45">val map: mapping: (&#39;T -&gt; &#39;U) -&gt; list: &#39;T list -&gt; &#39;U list<br /><em>&lt;summary&gt;Builds a new collection whose elements are the results of applying the given function
- to each of the elements of the collection.&lt;/summary&gt;<br />&lt;param name=&quot;mapping&quot;&gt;The function to transform elements from the input list.&lt;/param&gt;<br />&lt;param name=&quot;list&quot;&gt;The input list.&lt;/param&gt;<br />&lt;returns&gt;The list of transformed elements.&lt;/returns&gt;<br />&lt;example id=&quot;map-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- let inputs = [ &quot;a&quot;; &quot;bbb&quot;; &quot;cc&quot; ]
-
- inputs |&amp;gt; List.map (fun x -&amp;gt; x.Length)
- &lt;/code&gt;
- Evaluates to &lt;c&gt;[ 1; 3; 2 ]&lt;/c&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs46">val x: float</div>
-<div class="fsdocs-tip" id="fs47">val data: (float * float) list</div>
-<div class="fsdocs-tip" id="fs48">type Chart =
-  static member AnnotatedHeatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * annotationText: seq&lt;#seq&lt;string&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;&#39;a3&gt; * ?MultiX: seq&lt;seq&lt;&#39;a3&gt;&gt; * ?XGap: int * ?Y: seq&lt;&#39;a4&gt; * ?MultiY: seq&lt;seq&lt;&#39;a4&gt;&gt; * ?YGap: int * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 1 overload
-  static member Area: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?FillColor: Color * ?FillPatternShape: PatternShape * ?FillPattern: Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
-  static member Bar: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;&#39;a1&gt; * ?MultiKeys: seq&lt;seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
-  static member BoxPlot: ?X: seq&lt;&#39;a0&gt; * ?MultiX: seq&lt;seq&lt;&#39;a0&gt;&gt; * ?Y: seq&lt;&#39;a1&gt; * ?MultiY: seq&lt;seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?FillColor: Color * ?MarkerColor: Color * ?Marker: Marker * ?Opacity: float * ?WhiskerWidth: float * ?BoxPoints: BoxPoints * ?BoxMean: BoxMean * ?Jitter: float * ?PointPos: float * ?Orientation: Orientation * ?OutlineColor: Color * ?OutlineWidth: float * ?Outline: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?Notched: bool * ?NotchWidth: float * ?QuartileMethod: QuartileMethod * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a0 :&gt; IConvertible and &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible) + 2 overloads
-  static member Bubble: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * sizes: seq&lt;int&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
-  static member Candlestick: ``open`` : seq&lt;#IConvertible&gt; * high: seq&lt;#IConvertible&gt; * low: seq&lt;#IConvertible&gt; * close: seq&lt;#IConvertible&gt; * ?X: seq&lt;&#39;a4&gt; * ?MultiX: seq&lt;seq&lt;&#39;a4&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?Line: Line * ?IncreasingColor: Color * ?Increasing: FinanceMarker * ?DecreasingColor: Color * ?Decreasing: FinanceMarker * ?WhiskerWidth: float * ?ShowXAxisRangeSlider: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 2 overloads
-  static member Column: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;&#39;a1&gt; * ?MultiKeys: seq&lt;seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
-  static member Contour: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;&#39;a2&gt; * ?MultiX: seq&lt;seq&lt;&#39;a2&gt;&gt; * ?Y: seq&lt;&#39;a3&gt; * ?MultiY: seq&lt;seq&lt;&#39;a3&gt;&gt; * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?Transpose: bool * ?ContourLineColor: Color * ?ContourLineDash: DrawingStyle * ?ContourLineSmoothing: float * ?ContourLine: Line * ?ContoursColoring: ContourColoring * ?ContoursOperation: ConstraintOperation * ?ContoursType: ContourType * ?ShowContourLabels: bool * ?ContourLabelFont: Font * ?Contours: Contours * ?FillColor: Color * ?NContours: int * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
-  static member Funnel: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Width: float * ?Offset: float * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?Orientation: Orientation * ?AlignmentGroup: string * ?OffsetGroup: string * ?MarkerColor: Color * ?MarkerOutline: Line * ?Marker: Marker * ?TextInfo: TextInfo * ?ConnectorLineColor: Color * ?ConnectorLineStyle: DrawingStyle * ?ConnectorFillColor: Color * ?ConnectorLine: Line * ?Connector: FunnelConnector * ?InsideTextFont: Font * ?OutsideTextFont: Font * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
-  static member Heatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?X: seq&lt;&#39;a2&gt; * ?MultiX: seq&lt;seq&lt;&#39;a2&gt;&gt; * ?Y: seq&lt;&#39;a3&gt; * ?MultiY: seq&lt;seq&lt;&#39;a3&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?XGap: int * ?YGap: int * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  ...<br /><br />--------------------<br />new: unit -&gt; List</div>
+<div class="fsdocs-tip" id="fs42">val map: mapping: (&#39;T -&gt; &#39;U) -&gt; list: &#39;T list -&gt; &#39;U list</div>
+<div class="fsdocs-tip" id="fs43">val x: float</div>
+<div class="fsdocs-tip" id="fs44">val data: (float * float) list</div>
+<div class="fsdocs-tip" id="fs45">type Chart =
+  static member AnnotatedHeatmap: zData: #(&#39;a1 seq) seq * annotationText: #(string seq) seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a3 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a3 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a4 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a5 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a5 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorBar: ColorBar * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ReverseScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ZSmooth: SmoothAlg * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Transpose: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?ReverseYAxis: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 1 overload
+  static member Area: x: #IConvertible seq * y: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowMarkers: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: MarkerSymbol * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: MarkerSymbol seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineDash: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: GroupNorm * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillPatternShape: PatternShape * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillPattern: Pattern * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Bar: values: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Keys: &#39;a1 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiKeys: &#39;a1 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPatternShape: PatternShape * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerPatternShape: PatternShape seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPattern: Pattern * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Base: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiWidth: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member BoxPlot: [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a0 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a0 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a1 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a1 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?WhiskerWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BoxPoints: BoxPoints * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BoxMean: BoxMean * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Jitter: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?PointPos: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OutlineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OutlineWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Outline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Notched: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?NotchWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?QuartileMethod: QuartileMethod * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a0 :&gt; IConvertible and &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible) + 2 overloads
+  static member Bubble: x: #IConvertible seq * y: #IConvertible seq * sizes: int seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: MarkerSymbol * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: MarkerSymbol seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineDash: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: GroupNorm * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Candlestick: ``open`` : #IConvertible seq * high: #IConvertible seq * low: #IConvertible seq * close: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a4 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a5 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a5 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?IncreasingColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Increasing: FinanceMarker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?DecreasingColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Decreasing: FinanceMarker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?WhiskerWidth: float * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?ShowXAxisRangeSlider: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 2 overloads
+  static member Column: values: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Keys: &#39;a1 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiKeys: &#39;a1 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPatternShape: PatternShape * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerPatternShape: PatternShape seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPattern: Pattern * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Base: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiWidth: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member Contour: zData: #(&#39;a1 seq) seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a2 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a3 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a3 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorBar: ColorBar * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ReverseScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Transpose: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLineDash: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLineSmoothing: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLine: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContoursColoring: ContourColoring * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContoursOperation: ConstraintOperation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContoursType: ContourType * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowContourLabels: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLabelFont: Font * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Contours: Contours * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?NContours: int * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
+  static member Funnel: x: #IConvertible seq * y: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Offset: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextInfo: TextInfo * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorLineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorLineStyle: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorFillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorLine: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Connector: FunnelConnector * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?InsideTextFont: Font * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OutsideTextFont: Font * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
+  static member Heatmap: zData: #(&#39;a1 seq) seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a2 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a3 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a3 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorBar: ColorBar * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ReverseScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ZSmooth: SmoothAlg * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Transpose: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?ReverseYAxis: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
   ...</div>
-<div class="fsdocs-tip" id="fs49">static member Chart.Line: xy: seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?LineColor: Color * ?LineColorScale: StyleParam.Colorscale * ?LineWidth: float * ?LineDash: StyleParam.DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?Fill: StyleParam.Fill * ?FillColor: Color * ?FillPattern: TraceObjects.Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)<br />static member Chart.Line: x: seq&lt;#System.IConvertible&gt; * y: seq&lt;#System.IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?LineColor: Color * ?LineColorScale: StyleParam.Colorscale * ?LineWidth: float * ?LineDash: StyleParam.DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?Fill: StyleParam.Fill * ?FillColor: Color * ?FillPattern: TraceObjects.Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible)</div>
-<div class="fsdocs-tip" id="fs50">val regressionCoefficients: Fitting.LinearRegression.Coefficients</div>
-<div class="fsdocs-tip" id="fs51">namespace FSharp.Stats.Fitting</div>
-<div class="fsdocs-tip" id="fs52">Multiple items<br />module LinearRegression
+<div class="fsdocs-tip" id="fs46">static member Chart.Line: xy: (#System.IConvertible * #System.IConvertible) seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowMarkers: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;c * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;c seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: StyleParam.TextPosition * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: StyleParam.TextPosition seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: StyleParam.Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: StyleParam.MarkerSymbol * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: StyleParam.MarkerSymbol seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: TraceObjects.Marker * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColorScale: StyleParam.Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineWidth: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineDash: StyleParam.DrawingStyle * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: StyleParam.Orientation * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: StyleParam.GroupNorm * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Fill: StyleParam.Fill * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?FillPattern: TraceObjects.Pattern * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)<br />static member Chart.Line: x: #System.IConvertible seq * y: #System.IConvertible seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowMarkers: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: StyleParam.TextPosition * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: StyleParam.TextPosition seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: StyleParam.Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: StyleParam.MarkerSymbol * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: StyleParam.MarkerSymbol seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: TraceObjects.Marker * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColorScale: StyleParam.Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineWidth: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineDash: StyleParam.DrawingStyle * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: StyleParam.Orientation * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: StyleParam.GroupNorm * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Fill: StyleParam.Fill * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?FillPattern: TraceObjects.Pattern * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible)</div>
+<div class="fsdocs-tip" id="fs47">val regressionCoefficients: Fitting.LinearRegression.Coefficients</div>
+<div class="fsdocs-tip" id="fs48">namespace FSharp.Stats.Fitting</div>
+<div class="fsdocs-tip" id="fs49">Multiple items<br />module LinearRegression
 
 from FSharp.Stats.Fitting<br /><em>&lt;summary&gt;
    Linear regression is used to estimate the relationship of one variable (y) with another (x) by expressing y in terms of a linear function of x.
  &lt;/summary&gt;</em><br /><br />--------------------<br />type LinearRegression =
   new: unit -&gt; LinearRegression
-  static member fit: xData: vector * yData: Vector&lt;float&gt; * ?FittingMethod: Method * ?Constraint: Constraint&lt;float * float&gt; * ?Weighting: vector -&gt; Coefficients + 1 overload
+  static member fit: xData: Vector&lt;float&gt; * yData: Vector&lt;float&gt; * ?FittingMethod: Method * ?Constraint: Constraint&lt;float * float&gt; * ?Weighting: Vector&lt;float&gt; -&gt; Coefficients + 1 overload
   static member predict: coeff: Coefficients -&gt; xValue: float -&gt; float
-  static member predictMultivariate: coeff: Coefficients -&gt; xVector: vector -&gt; float<br /><em>&lt;summary&gt;
+  static member predictMultivariate: coeff: Coefficients -&gt; xVector: Vector&lt;float&gt; -&gt; float<br /><em>&lt;summary&gt;
    This LinearRegression type summarized the most common fitting procedures.
  &lt;/summary&gt;<br />&lt;returns&gt;Either linear regression coefficients or a prediction function to map x values/vectors to its corresponding y value.&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt; 
    // e.g. days since experiment start
@@ -550,51 +664,104 @@ from FSharp.Stats.Fitting<br /><em>&lt;summary&gt;
    // Predict the size on day 10.5
    LinearRegression.predict(coefficientsSimpleLinear) 10.5
  &lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />new: unit -&gt; Fitting.LinearRegression</div>
-<div class="fsdocs-tip" id="fs53">static member Fitting.LinearRegression.fit: xData: matrix * yData: Vector&lt;float&gt; * ?FittingMethod: Fitting.Method -&gt; Fitting.LinearRegression.Coefficients<br />static member Fitting.LinearRegression.fit: xData: vector * yData: Vector&lt;float&gt; * ?FittingMethod: Fitting.Method * ?Constraint: Fitting.Constraint&lt;float * float&gt; * ?Weighting: vector -&gt; Fitting.LinearRegression.Coefficients</div>
-<div class="fsdocs-tip" id="fs54">type Method =
+<div class="fsdocs-tip" id="fs50">static member Fitting.LinearRegression.fit: xData: Matrix&lt;float&gt; * yData: Vector&lt;float&gt; * ?FittingMethod: Fitting.Method -&gt; Fitting.LinearRegression.Coefficients<br />static member Fitting.LinearRegression.fit: xData: Vector&lt;float&gt; * yData: Vector&lt;float&gt; * ?FittingMethod: Fitting.Method * ?Constraint: Fitting.Constraint&lt;float * float&gt; * ?Weighting: Vector&lt;float&gt; -&gt; Fitting.LinearRegression.Coefficients</div>
+<div class="fsdocs-tip" id="fs51">type Method =
   | SimpleLinear
   | Polynomial of int
-  | Robust of RobustEstimator<br /><em>&lt;summary&gt;
+  | Robust of RobustEstimator
+  member Equals: Method * IEqualityComparer -&gt; bool<br /><em>&lt;summary&gt;
    Defines regression method.
  &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs55">union case Fitting.Method.Polynomial: int -&gt; Fitting.Method<br /><em>&lt;summary&gt;Fits a polynomial of the specified order (degree) to twodimensional data (OLS).&lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs56">val regressionPredictionFunc: (float -&gt; float)</div>
-<div class="fsdocs-tip" id="fs57">Multiple items<br />val float: value: &#39;T -&gt; float (requires member op_Explicit)<br /><em>&lt;summary&gt;Converts the argument to 64-bit float. This is a direct conversion for all 
- primitive numeric types. For strings, the input is converted using &lt;c&gt;Double.Parse()&lt;/c&gt;  
- with InvariantCulture settings. Otherwise the operation requires an appropriate
- static conversion method on the input type.&lt;/summary&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The converted float&lt;/returns&gt;<br />&lt;example id=&quot;float-example&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;&lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />[&lt;Struct&gt;]
-type float = System.Double<br /><em>&lt;summary&gt;An abbreviation for the CLI type &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category&gt;Basic Types&lt;/category&gt;</em><br /><br />--------------------<br />type float&lt;&#39;Measure&gt; =
-  float<br /><em>&lt;summary&gt;The type of double-precision floating point numbers, annotated with a unit of measure.
- The unit of measure is erased in compiled code and when values of this type
- are analyzed using reflection. The type is representationally equivalent to
- &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category index=&quot;6&quot;&gt;Basic Types with Units of Measure&lt;/category&gt;</em></div>
-<div class="fsdocs-tip" id="fs58">static member Fitting.LinearRegression.predict: coeff: Fitting.LinearRegression.Coefficients -&gt; xValue: float -&gt; float</div>
-<div class="fsdocs-tip" id="fs59">val regressionChart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs60">val combChart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs61">val rawChart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs62">static member Chart.Point: xy: seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible)<br />static member Chart.Point: x: seq&lt;#System.IConvertible&gt; * y: seq&lt;#System.IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)</div>
-<div class="fsdocs-tip" id="fs63">static member Chart.combine: gCharts: seq&lt;GenericChart.GenericChart&gt; -&gt; GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs64">static member Chart.withTemplate: template: Template -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
-<div class="fsdocs-tip" id="fs65">module ChartTemplates
+<div class="fsdocs-tip" id="fs52">union case Fitting.Method.Polynomial: int -&gt; Fitting.Method<br /><em>&lt;summary&gt;Fits a polynomial of the specified order (degree) to twodimensional data (OLS).&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs53">val regressionPredictionFunc: (float -&gt; float)</div>
+<div class="fsdocs-tip" id="fs54">Multiple items<br />val float: value: &#39;T -&gt; float (requires member op_Explicit)<br /><br />--------------------<br />type float = System.Double<br /><br />--------------------<br />type float&lt;&#39;Measure&gt; =
+  float</div>
+<div class="fsdocs-tip" id="fs55">static member Fitting.LinearRegression.predict: coeff: Fitting.LinearRegression.Coefficients -&gt; xValue: float -&gt; float</div>
+<div class="fsdocs-tip" id="fs56">val regressionChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs57">val combChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs58">val rawChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs59">static member Chart.Point: xy: (#System.IConvertible * #System.IConvertible) seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: StyleParam.TextPosition * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: StyleParam.TextPosition seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: StyleParam.Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: StyleParam.MarkerSymbol * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: StyleParam.MarkerSymbol seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: TraceObjects.Marker * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: StyleParam.Orientation * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: StyleParam.GroupNorm * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible)<br />static member Chart.Point: x: #System.IConvertible seq * y: #System.IConvertible seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;c * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;c seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: StyleParam.TextPosition * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: StyleParam.TextPosition seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: StyleParam.Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: StyleParam.MarkerSymbol * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: StyleParam.MarkerSymbol seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: TraceObjects.Marker * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: StyleParam.Orientation * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: StyleParam.GroupNorm * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)</div>
+<div class="fsdocs-tip" id="fs60">static member Chart.combine: gCharts: GenericChart.GenericChart seq -&gt; GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs61">static member Chart.withTemplate: template: Template -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs62">module ChartTemplates
 
 from Plotly.NET</div>
-<div class="fsdocs-tip" id="fs66">val lightMirrored: Template</div>
-<div class="fsdocs-tip" id="fs67">module GenericChart
+<div class="fsdocs-tip" id="fs63">val lightMirrored: Template</div>
+<div class="fsdocs-tip" id="fs64">module GenericChart
 
 from Plotly.NET<br /><em>&lt;summary&gt;
  Module to represent a GenericChart
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs68">val toChartHTML: gChart: GenericChart.GenericChart -&gt; string</div>
+<div class="fsdocs-tip" id="fs65">val toChartHTML: gChart: GenericChart.GenericChart -&gt; string</div>
 
     </div>
+</main>
+<aside id="fsdocs-page-menu">
+    <p id="on-this-page">On this page</p>
+    <ul>
+  <li class="level-1">
+    <a href="#FSharp-Stats">
+      FSharp.Stats
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Installation">
+      Installation
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Example">
+      Example
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Distributions">
+      Distributions
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Basic-descriptive-statistics">
+      Basic descriptive statistics
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Vectors-Matrices-and-linear-algebra">
+      Vectors, Matrices and linear algebra
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Interpolation">
+      Interpolation
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Regression">
+      Regression
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Samples-amp-documentation">
+      Samples &amp; documentation
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Contributing-and-copyright">
+      Contributing and copyright
+    </a>
+  </li>
+</ul>
+</aside>
+<dialog>
+    <input type="search" placeholder="Search docs" />
+    <div class="results">
+        <ul></ul>
+        <p class="empty">Type something to start searching.</p>
+    </div>
+</dialog>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-toggle.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
 
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
-    <!-- END SEARCH BOX: this adds support for the search box -->
 </body>
-
 </html>

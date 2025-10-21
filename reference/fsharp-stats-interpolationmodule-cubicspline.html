@@ -1,61 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-root="https://fslab.org/FSharp.Stats/">
 <head>
-    <meta charset="utf-8">
-    <title>CubicSpline (FSharp.Stats)</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
-    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
-
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <!-- END SEARCH BOX: this adds support for the search box -->
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors" name="author">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="FSharp.Stats">
+    <meta property="og:title" content="CubicSpline (FSharp.Stats)" />
+    <meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="https://fslab.org/FSharp.Stats/">
+    <meta name="twitter:title" content="CubicSpline (FSharp.Stats)">
     
-</head> 
+    <title>CubicSpline (FSharp.Stats) | FSharp.Stats</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/img/favicon.ico" rel="icon" sizes="32x32" type="image/png"/>
+    <script type="application/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-set-dark.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-theme.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+<title>{{fsdocs-page-title}}</title>
+<meta name="author" content="{{fsdocs-authors}}">
+<meta name="description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
 
-<body>
-    <div class="columns is-fullheight m-0">
-        <div id="fsdocs-menu" class="column is-2 is-paddingless">
-            <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-light">
-                    <a href="https://fslab.org/FSharp.Stats/">
-                        <figure class="image is-128x128 container">
-                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
-                        </figure>
-                    </a>
-                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
-                </div>
-                <div class="content">
-                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-                    <div id="header">
-                        <div class="searchbox" id="fsdocs-searchbox">
-                            <label for="search-by">
-                                <i class="fas fa-search"></i>
-                            </label>
-                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
-                            <span data-search-clear="">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- END SEARCH BOX: this adds support for the search box -->
-                    <ul class="navbar-nav">
-                        <li class="nav-header">Links</li>
-                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
-                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
-                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
-                        <li class="nav-header">
+<!-- Opengraph properties (https://ogp.me/) -->
+<meta property="og:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}" />
+<meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="FSharp.Stats" />
+<meta property="og:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta property="og:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<!-- Twitter cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="twitter:url" content="https://fslab.org/FSharp.Stats/">
+<meta name="twitter:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}">
+<meta name="twitter:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta name="twitter:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+<script src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
+<script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
+    
+</head>
+<body class="api-docs">
+<header>
+    <div class="start">
+        <div id="menu-toggle">
+            <iconify-icon class="icon closed" height="22" icon="eva:menu-fill" width="22"></iconify-icon>
+            <iconify-icon class="icon open" height="22" icon="mi:close" width="22"></iconify-icon>
+            <input type="checkbox" name="mobile-menu" />
+            <ul class="menu">
+                <li class="nav-header">Links</li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+                </li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+                    Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+                    Repository</a></li>
+                <li class="nav-header ">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+                <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
@@ -63,14 +183,152 @@
     All Namespaces
   </a>
 </li>
-                    </ul>
-                </div>
-            </aside>
+            </ul>
         </div>
-        <div class="column is-10 is-paddingless">
-            <div class="section pt-4">
-                <div class="container" id="fsdocs-content">
-                    <div>
+        <a href="https://fslab.org/FSharp.Stats/">
+            <img alt="Header menu logo" src="https://fslab.org/FSharp.Stats/img/logo.png">
+            <strong>FSharp.Stats</strong>
+        </a>
+    </div>
+    <div class="end">
+        <a href="https://github.com/fslaborg/FSharp.Stats/" target="_blank">
+            <iconify-icon icon="uil:github" width="26" height="26"></iconify-icon>
+        </a>
+        <iconify-icon id="search-btn" icon="carbon:search" class="search" width="24" height="24"></iconify-icon>
+        <fsdocs-theme-toggle></fsdocs-theme-toggle>
+    </div>
+</header>
+<aside id="fsdocs-main-menu">
+    <ul class="menu">
+        <li class="nav-header">Links</li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+        </li>
+        <li class="nav-item"><a class="nav-link"
+                                href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+            Notes</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+            Repository</a></li>
+        <li class="nav-header ">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+    </ul>
+</aside>
+<main>
+    <div id="content">
+        <div>
   <h2>
     CubicSpline Module
   </h2>
@@ -94,10 +352,8 @@
   <div class="fsdocs-xmldoc">
     <div>
       <p class="fsdocs-summary">
-        
-   Cubic splines interpolate two dimensional data by applying piecewise cubic polynomials that are continuous at the input coordinates (knots).
+           Cubic splines interpolate two dimensional data by applying piecewise cubic polynomials that are continuous at the input coordinates (knots).
    The function itself, the first- and second derivative are continuous at the knots.
- 
       </p>
     </div>
   </div>
@@ -130,21 +386,16 @@
           <td class="fsdocs-entity-xmldoc">
             <div>
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FSharp.Stats.InterpolationModule.CubicSpline.Hermite`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FSharp.Stats.InterpolationModule.CubicSpline.Hermite\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1752-1752" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1747-1747" class="fsdocs-source-link" title="Source on GitHub">
+                <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
               </a>
               <p class="fsdocs-summary">
-                
- Hermite cubic splines are defined by the function values and their slopes (first derivatives). If the slopws are unknown, they must be estimated.
- 
+                 Hermite cubic splines are defined by the function values and their slopes (first derivatives). If the slopws are unknown, they must be estimated.
               </p>
             </div>
           </td>
@@ -162,16 +413,13 @@
           <td class="fsdocs-entity-xmldoc">
             <div>
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FSharp.Stats.InterpolationModule.CubicSpline.BoundaryCondition`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FSharp.Stats.InterpolationModule.CubicSpline.BoundaryCondition\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1033-1033" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1030-1030" class="fsdocs-source-link" title="Source on GitHub">
+                <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
               </a>
               <p class="fsdocs-summary">
                 
@@ -192,21 +440,16 @@
           <td class="fsdocs-entity-xmldoc">
             <div>
               <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:T:FSharp.Stats.InterpolationModule.CubicSpline.CubicSplineCoef`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
               </div>
               <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'T:FSharp.Stats.InterpolationModule.CubicSpline.CubicSplineCoef\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
+                <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
               </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1052-1052" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
+              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1049-1049" class="fsdocs-source-link" title="Source on GitHub">
+                <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
               </a>
               <p class="fsdocs-summary">
-                
- Contains x data, y data (c0), slopes (c1), curvatures (c2), and the third derivative at each knot
- 
+                 Contains x data, y data (c0), slopes (c1), curvatures (c2), and the third derivative at each knot
               </p>
             </div>
           </td>
@@ -233,7 +476,7 @@
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '429', 429)" onmouseover="showTip(event, '429', 429)">
+              <code onmouseout="hideTip(event, '105', 105)" onmouseover="showTip(event, '105', 105)">
                 <p>
                   <a id="getFirstDerivative">
                     <a href="#getFirstDerivative">
@@ -242,7 +485,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="429">
+              <div class="fsdocs-tip" id="105">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>getFirstDerivative&#32;<span>coefficients&#32;x</span></span></code>
@@ -283,93 +526,101 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.getFirstDerivative`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.getFirstDerivative\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1688-1688" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.getFirstDerivative`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.getFirstDerivative\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1683-1683" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Returns function that takes x value and predicts the corresponding slope.
  
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                x values outside of the xValue range are predicted by straight lines defined by the nearest knot!
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              x values outside of the xValue range are predicted by straight lines defined by the nearest knot!
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  coefficients
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Interpolation functions coefficients.
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  x
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  X value of which the slope should be predicted.
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Function that takes an x value and returns the function slope.
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""> 
- // e.g. days since a certain event
- let xData = vector [|0.;1.;5.;4.;3.;|]
- // some measured feature
- let yData = vector [|1.;5.;4.;13.;17.|]
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    coefficients
+                  </span>
+                  :
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Interpolation functions coefficients.
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    x
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    X value of which the slope should be predicted.
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Function that takes an x value and returns the function slope.
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> 
+ <span class="c">// e.g. days since a certain event</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">xData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="pn">|]</span>
+ <span class="c">// some measured feature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">yData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">|]</span>
  
- // get coefficients for piecewise interpolating cubic polynomials
- let coefficients = 
-     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+ <span class="c">// get coefficients for piecewise interpolating cubic polynomials</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">coefficients</span> <span class="o">=</span> 
+     <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">interpolate</span> <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">BoundaryConditions</span><span class="pn">.</span><span class="id">Natural</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="id">yData</span>
 
- // get slope function
- let func = CubicSpline.getFirstDerivative(coefLinSpl)
+ <span class="c">// get slope function</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="fn">func</span> <span class="o">=</span> <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">getFirstDerivative</span><span class="pn">(</span><span class="id">coefLinSpl</span><span class="pn">)</span>
 
- // get slope at x=3.4
- func 3.4</code></pre>
-            </p>
+ <span class="c">// get slope at x=3.4</span>
+ <span onmouseout="hideTip(event, 'fs4', 7)" onmouseover="showTip(event, 'fs4', 7)" class="fn">func</span> <span class="n">3.4</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val xData: obj</div>
+<div class="fsdocs-tip" id="fs2">val yData: obj</div>
+<div class="fsdocs-tip" id="fs3">val coefficients: obj</div>
+<div class="fsdocs-tip" id="fs4">val func: (float -&gt; obj)</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '430', 430)" onmouseover="showTip(event, '430', 430)">
+              <code onmouseout="hideTip(event, '106', 106)" onmouseover="showTip(event, '106', 106)">
                 <p>
                   <a id="getSecondDerivative">
                     <a href="#getSecondDerivative">
@@ -378,7 +629,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="430">
+              <div class="fsdocs-tip" id="106">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>getSecondDerivative&#32;<span>coefficients&#32;x</span></span></code>
@@ -419,93 +670,101 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.getSecondDerivative`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.getSecondDerivative\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1717-1717" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.getSecondDerivative`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.getSecondDerivative\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1712-1712" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Returns function that takes x value and predicts the corresponding curvature.
  
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                x values outside of the xValue range are predicted by straight lines defined by the nearest knot!
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              x values outside of the xValue range are predicted by straight lines defined by the nearest knot!
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  coefficients
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Interpolation functions coefficients.
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  x
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  X value of which the curvature should be predicted.
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Function that takes an x value and returns the function curvature.
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""> 
- // e.g. days since a certain event
- let xData = vector [|0.;1.;5.;4.;3.;|]
- // some measured feature
- let yData = vector [|1.;5.;4.;13.;17.|]
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    coefficients
+                  </span>
+                  :
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Interpolation functions coefficients.
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    x
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    X value of which the curvature should be predicted.
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Function that takes an x value and returns the function curvature.
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> 
+ <span class="c">// e.g. days since a certain event</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">xData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="pn">|]</span>
+ <span class="c">// some measured feature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">yData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">|]</span>
  
- // get coefficients for piecewise interpolating cubic polynomials
- let coefficients = 
-     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+ <span class="c">// get coefficients for piecewise interpolating cubic polynomials</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">coefficients</span> <span class="o">=</span> 
+     <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">interpolate</span> <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">BoundaryConditions</span><span class="pn">.</span><span class="id">Natural</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="id">yData</span>
 
- // get curvature function
- let func = CubicSpline.getSecondDerivative(coefLinSpl)
+ <span class="c">// get curvature function</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="fn">func</span> <span class="o">=</span> <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">getSecondDerivative</span><span class="pn">(</span><span class="id">coefLinSpl</span><span class="pn">)</span>
 
- // get curvature at x=3.4
- func 3.4</code></pre>
-            </p>
+ <span class="c">// get curvature at x=3.4</span>
+ <span onmouseout="hideTip(event, 'fs4', 7)" onmouseover="showTip(event, 'fs4', 7)" class="fn">func</span> <span class="n">3.4</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val xData: obj</div>
+<div class="fsdocs-tip" id="fs2">val yData: obj</div>
+<div class="fsdocs-tip" id="fs3">val coefficients: obj</div>
+<div class="fsdocs-tip" id="fs4">val func: (float -&gt; obj)</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '431', 431)" onmouseover="showTip(event, '431', 431)">
+              <code onmouseout="hideTip(event, '107', 107)" onmouseover="showTip(event, '107', 107)">
                 <p>
                   <a id="getThirdDerivative">
                     <a href="#getThirdDerivative">
@@ -514,7 +773,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="431">
+              <div class="fsdocs-tip" id="107">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>getThirdDerivative&#32;<span>coefficients&#32;x</span></span></code>
@@ -555,93 +814,101 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.getThirdDerivative`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.getThirdDerivative\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1746-1746" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.getThirdDerivative`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.getThirdDerivative\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1741-1741" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Returns function that takes x value and predicts the corresponding third derivative.
  
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                x values outside of the xValue range are predicted by straight lines defined by the nearest knot!
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              x values outside of the xValue range are predicted by straight lines defined by the nearest knot!
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  coefficients
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Interpolation functions coefficients.
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  x
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  X value of which the y value should be predicted.
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Function that takes an x value and returns the function third derivative.
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""> 
- // e.g. days since a certain event
- let xData = vector [|0.;1.;5.;4.;3.;|]
- // some measured feature
- let yData = vector [|1.;5.;4.;13.;17.|]
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    coefficients
+                  </span>
+                  :
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Interpolation functions coefficients.
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    x
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    X value of which the y value should be predicted.
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Function that takes an x value and returns the function third derivative.
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> 
+ <span class="c">// e.g. days since a certain event</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">xData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="pn">|]</span>
+ <span class="c">// some measured feature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">yData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">|]</span>
  
- // get coefficients for piecewise interpolating cubic polynomials
- let coefficients = 
-     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+ <span class="c">// get coefficients for piecewise interpolating cubic polynomials</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">coefficients</span> <span class="o">=</span> 
+     <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">interpolate</span> <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">BoundaryConditions</span><span class="pn">.</span><span class="id">Natural</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="id">yData</span>
 
- // get third derivative function
- let func = CubicSpline.getThirdDerivative(coefLinSpl)
+ <span class="c">// get third derivative function</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="fn">func</span> <span class="o">=</span> <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">getThirdDerivative</span><span class="pn">(</span><span class="id">coefLinSpl</span><span class="pn">)</span>
 
- // get third derivative at x=3.4
- func 3.4</code></pre>
-            </p>
+ <span class="c">// get third derivative at x=3.4</span>
+ <span onmouseout="hideTip(event, 'fs4', 7)" onmouseover="showTip(event, 'fs4', 7)" class="fn">func</span> <span class="n">3.4</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val xData: obj</div>
+<div class="fsdocs-tip" id="fs2">val yData: obj</div>
+<div class="fsdocs-tip" id="fs3">val coefficients: obj</div>
+<div class="fsdocs-tip" id="fs4">val func: (float -&gt; obj)</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '432', 432)" onmouseover="showTip(event, '432', 432)">
+              <code onmouseout="hideTip(event, '108', 108)" onmouseover="showTip(event, '108', 108)">
                 <p>
                   <a id="interpolate">
                     <a href="#interpolate">
@@ -650,7 +917,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="432">
+              <div class="fsdocs-tip" id="108">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>interpolate&#32;<span>boundaryCondition&#32;xValues&#32;yValues</span></span></code>
@@ -673,7 +940,7 @@
                         xValues
                       </b>
                       :
-                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                      <code><span>Vector&lt;float&gt;</span></code>
                        - 
                       Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)
                     </span>
@@ -683,7 +950,7 @@
                         yValues
                       </b>
                       :
-                      <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
+                      <code><span>Vector&lt;float&gt;</span></code>
                        - 
                       function value at x values
                     </span>
@@ -701,97 +968,104 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.interpolate`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.interpolate\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1393-1393" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.interpolate`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.interpolate\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1388-1388" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Computes coefficients for piecewise interpolating splines. In the form of [a0;b0;c0;d0;a1;b1;...;d(n-2)]. 
    where: fn(x) = (an)x^3+(bn)x^2+(cn)x+(dn)
  
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  boundaryCondition
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-boundarycondition.html">BoundaryCondition</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Condition that defines how slopes and curvatures are defined at the left- and rightmost knot
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  xValues
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  yValues
-                </span>
-                :
-                <code><span><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector-1.html">Vector</a>&lt;float&gt;</span></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  function value at x values
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Coefficients that define the interpolating function.
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""> 
- // e.g. days since a certain event
- let xData = vector [|0.;1.;5.;4.;3.;|]
- // some measured feature
- let yData = vector [|1.;5.;4.;13.;17.|]
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    boundaryCondition
+                  </span>
+                  :
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-boundarycondition.html">BoundaryCondition</a></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Condition that defines how slopes and curvatures are defined at the left- and rightmost knot
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    xValues
+                  </span>
+                  :
+                  <code><span>Vector&lt;float&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Note: Must not contain duplicate x values (use Approximation.regularizeValues to preprocess data!)
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    yValues
+                  </span>
+                  :
+                  <code><span>Vector&lt;float&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    function value at x values
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Coefficients that define the interpolating function.
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> 
+ <span class="c">// e.g. days since a certain event</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">xData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="pn">|]</span>
+ <span class="c">// some measured feature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">yData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">|]</span>
 
- // get coefficients for piecewise interpolating cubic polynomials
- let coefficients = 
-     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData</code></pre>
-            </p>
+ <span class="c">// get coefficients for piecewise interpolating cubic polynomials</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">coefficients</span> <span class="o">=</span> 
+     <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">interpolate</span> <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">BoundaryConditions</span><span class="pn">.</span><span class="id">Natural</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="id">yData</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val xData: obj</div>
+<div class="fsdocs-tip" id="fs2">val yData: obj</div>
+<div class="fsdocs-tip" id="fs3">val coefficients: obj</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '433', 433)" onmouseover="showTip(event, '433', 433)">
+              <code onmouseout="hideTip(event, '109', 109)" onmouseover="showTip(event, '109', 109)">
                 <p>
                   <a id="interpolateWithCurvature">
                     <a href="#interpolateWithCurvature">
@@ -800,7 +1074,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="433">
+              <div class="fsdocs-tip" id="109">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>interpolateWithCurvature&#32;<span>x&#32;y&#32;curvatures</span></span></code>
@@ -813,7 +1087,7 @@
                         x
                       </b>
                       :
-                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                      <code><span>Vector&lt;float&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -821,7 +1095,7 @@
                         y
                       </b>
                       :
-                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                      <code><span>Vector&lt;float&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -829,7 +1103,7 @@
                         curvatures
                       </b>
                       :
-                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                      <code><span>Vector&lt;float&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -844,66 +1118,65 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.interpolateWithCurvature`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.interpolateWithCurvature\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1356-1356" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-   Interpolates x and y coordinates with given slopes at the knots. Probably makes no sense because slope isnt continuous anymore
- 
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  x
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  y
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  curvatures
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.interpolateWithCurvature`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.interpolateWithCurvature\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1351-1351" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                       Interpolates x and y coordinates with given slopes at the knots. Probably makes no sense because slope isnt continuous anymore
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    x
+                  </span>
+                  :
+                  <code><span>Vector&lt;float&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs"></dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    y
+                  </span>
+                  :
+                  <code><span>Vector&lt;float&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs"></dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    curvatures
+                  </span>
+                  :
+                  <code><span>Vector&lt;float&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs"></dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-return-docs"></dd>
+              </dl>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '434', 434)" onmouseover="showTip(event, '434', 434)">
+              <code onmouseout="hideTip(event, '110', 110)" onmouseover="showTip(event, '110', 110)">
                 <p>
                   <a id="interpolateWithSlopes">
                     <a href="#interpolateWithSlopes">
@@ -912,7 +1185,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="434">
+              <div class="fsdocs-tip" id="110">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>interpolateWithSlopes&#32;<span>x&#32;y&#32;slopes</span></span></code>
@@ -925,7 +1198,7 @@
                         x
                       </b>
                       :
-                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                      <code><span>Vector&lt;float&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -933,7 +1206,7 @@
                         y
                       </b>
                       :
-                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                      <code><span>Vector&lt;float&gt;</span></code>
                     </span>
                     <br/>
                     <span>
@@ -941,7 +1214,7 @@
                         slopes
                       </b>
                       :
-                      <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
+                      <code><span>Vector&lt;float&gt;</span></code>
                     </span>
                     <br/>
                   </ul>
@@ -956,66 +1229,65 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.interpolateWithSlopes`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.interpolateWithSlopes\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1334-1334" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
-   Interpolates x and y coordinates with given slopes at the knots. Curvature cannot be set anymore
- 
-              </p>
-            </div>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  x
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  y
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  slopes
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-vector.html">vector</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs"></dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-return-docs"></dd>
-            </dl>
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.interpolateWithSlopes`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.interpolateWithSlopes\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1329-1329" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                       Interpolates x and y coordinates with given slopes at the knots. Curvature cannot be set anymore
+                  </p>
+                </div>
+              </summary>
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    x
+                  </span>
+                  :
+                  <code><span>Vector&lt;float&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs"></dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    y
+                  </span>
+                  :
+                  <code><span>Vector&lt;float&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs"></dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    slopes
+                  </span>
+                  :
+                  <code><span>Vector&lt;float&gt;</span></code>
+                </dt>
+                <dd class="fsdocs-param-docs"></dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-return-docs"></dd>
+              </dl>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '435', 435)" onmouseover="showTip(event, '435', 435)">
+              <code onmouseout="hideTip(event, '111', 111)" onmouseover="showTip(event, '111', 111)">
                 <p>
                   <a id="predict">
                     <a href="#predict">
@@ -1024,7 +1296,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="435">
+              <div class="fsdocs-tip" id="111">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>predict&#32;<span>coefficients&#32;x</span></span></code>
@@ -1065,93 +1337,101 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.predict`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.predict\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1630-1630" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.predict`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.predict\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1625-1625" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Returns function that takes x value and predicts the corresponding interpolating y value.
  
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                x values outside of the xValue range are predicted by straight lines defined by the nearest knot!
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              x values outside of the xValue range are predicted by straight lines defined by the nearest knot!
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  coefficients
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Interpolation functions coefficients.
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  x
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  X value of which the y value should be predicted.
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Function that takes an x value and returns function value.
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""> 
- // e.g. days since a certain event
- let xData = vector [|0.;1.;5.;4.;3.;|]
- // some measured feature
- let yData = vector [|1.;5.;4.;13.;17.|]
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    coefficients
+                  </span>
+                  :
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Interpolation functions coefficients.
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    x
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    X value of which the y value should be predicted.
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Function that takes an x value and returns function value.
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> 
+ <span class="c">// e.g. days since a certain event</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">xData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="pn">|]</span>
+ <span class="c">// some measured feature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">yData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">|]</span>
  
- // get coefficients for piecewise interpolating cubic polynomials
- let coefficients = 
-     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+ <span class="c">// get coefficients for piecewise interpolating cubic polynomials</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">coefficients</span> <span class="o">=</span> 
+     <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">interpolate</span> <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">BoundaryConditions</span><span class="pn">.</span><span class="id">Natural</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="id">yData</span>
 
- // get interpolating function 
- let func = CubicSpline.predict(coefLinSpl)
+ <span class="c">// get interpolating function </span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="fn">func</span> <span class="o">=</span> <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">predict</span><span class="pn">(</span><span class="id">coefLinSpl</span><span class="pn">)</span>
 
- // get function value at x=3.4
- func 3.4</code></pre>
-            </p>
+ <span class="c">// get function value at x=3.4</span>
+ <span onmouseout="hideTip(event, 'fs4', 7)" onmouseover="showTip(event, 'fs4', 7)" class="fn">func</span> <span class="n">3.4</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val xData: obj</div>
+<div class="fsdocs-tip" id="fs2">val yData: obj</div>
+<div class="fsdocs-tip" id="fs3">val coefficients: obj</div>
+<div class="fsdocs-tip" id="fs4">val func: (float -&gt; obj)</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
         <tr>
           <td class="fsdocs-member-usage">
             <div>
-              <code onmouseout="hideTip(event, '436', 436)" onmouseover="showTip(event, '436', 436)">
+              <code onmouseout="hideTip(event, '112', 112)" onmouseover="showTip(event, '112', 112)">
                 <p>
                   <a id="predictWithinRange">
                     <a href="#predictWithinRange">
@@ -1160,7 +1440,7 @@
                   </a>
                 </p>
               </code>
-              <div class="fsdocs-tip" id="436">
+              <div class="fsdocs-tip" id="112">
                 <div class="member-tooltip">
                   Full Usage: 
                   <code><span>predictWithinRange&#32;<span>coefficients&#32;x</span></span></code>
@@ -1201,87 +1481,95 @@
             </div>
           </td>
           <td class="fsdocs-member-xmldoc">
-            <div class="fsdocs-summary">
-              <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.predictWithinRange`')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-md-hover.png" class="hover"/>
-              </div>
-              <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.predictWithinRange\'/>')">
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/copy-xml-hover.png" class="hover"/>
-              </div>
-              <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1601-1601" class="fsdocs-source-link" title="Source on GitHub">
-                <img src="https://fslab.org/FSharp.Stats/content/img/github.png" class="normal"/>
-                <img src="https://fslab.org/FSharp.Stats/content/img/github-hover.png" class="hover"/>
-              </a>
-              <p class="fsdocs-summary">
-                
+            <details>
+              <summary>
+                <div class="fsdocs-summary">
+                  <div class="fsdocs-source-link" title="Copy signature (Markdown)" onclick="Clipboard_CopyTo('`cref:M:FSharp.Stats.InterpolationModule.CubicSpline.predictWithinRange`')">
+                    <iconify-icon icon="bi:filetype-md" height="24" width="24"></iconify-icon>
+                  </div>
+                  <div class="fsdocs-source-link" title="Copy signature (XML)" onclick="Clipboard_CopyTo('<see cref=\'M:FSharp.Stats.InterpolationModule.CubicSpline.predictWithinRange\'/>')">
+                    <iconify-icon icon="bi:filetype-xml" height="24" width="24"></iconify-icon>
+                  </div>
+                  <a href="https://github.com/fslaborg/FSharp.Stats/tree/master/src/FSharp.Stats/Interpolation.fs#L1596-1596" class="fsdocs-source-link" title="Source on GitHub">
+                    <iconify-icon icon="ri:github-fill" height="24" width="24"></iconify-icon>
+                  </a>
+                  <p class="fsdocs-summary">
+                    
    Returns function that takes x value (that lies within the range of input x values) and predicts the corresponding interpolating y value.
  
+                  </p>
+                </div>
+              </summary>
+              <p class="fsdocs-remarks">
+                Only defined within the range of the given xValues!
               </p>
-            </div>
-            <p class="fsdocs-remarks">
-              Only defined within the range of the given xValues!
-            </p>
-            <dl class="fsdocs-params">
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  coefficients
-                </span>
-                :
-                <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  Interpolation functions coefficients.
-                </p>
-              </dd>
-              <dt class="fsdocs-param">
-                <span class="fsdocs-param-name">
-                  x
-                </span>
-                :
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-param-docs">
-                <p>
-                  X value of which the y value should be predicted.
-                </p>
-              </dd>
-            </dl>
-            <dl class="fsdocs-returns">
-              <dt>
-                <span class="fsdocs-return-name">
-                  Returns: 
-                </span>
-                <code>float</code>
-              </dt>
-              <dd class="fsdocs-return-docs">
-                <p>
-                  Function that takes an x value and returns function value.
-                </p>
-              </dd>
-            </dl>
-            <h5 class="fsdocs-example-header">
-              Example
-            </h5>
-            <p class="fsdocs-example" id="example">
-              <pre><code class=""> 
- // e.g. days since a certain event
- let xData = vector [|0.;1.;5.;4.;3.;|]
- // some measured feature
- let yData = vector [|1.;5.;4.;13.;17.|]
+              <dl class="fsdocs-params">
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    coefficients
+                  </span>
+                  :
+                  <code><a href="https://fslab.org/FSharp.Stats/reference/fsharp-stats-interpolationmodule-cubicspline-cubicsplinecoef.html">CubicSplineCoef</a></code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    Interpolation functions coefficients.
+                  </p>
+                </dd>
+                <dt class="fsdocs-param">
+                  <span class="fsdocs-param-name">
+                    x
+                  </span>
+                  :
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-param-docs">
+                  <p>
+                    X value of which the y value should be predicted.
+                  </p>
+                </dd>
+              </dl>
+              <dl class="fsdocs-returns">
+                <dt>
+                  <span class="fsdocs-return-name">
+                    Returns: 
+                  </span>
+                  <code>float</code>
+                </dt>
+                <dd class="fsdocs-return-docs">
+                  <p>
+                    Function that takes an x value and returns function value.
+                  </p>
+                </dd>
+              </dl>
+              <h5 class="fsdocs-example-header">
+                Example
+              </h5>
+              <p class="fsdocs-example" id="example">
+                <pre class="fssnip highlighted"><code lang="fsharp"> 
+ <span class="c">// e.g. days since a certain event</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">xData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">0.</span><span class="pn">;</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">3.</span><span class="pn">;</span><span class="pn">|]</span>
+ <span class="c">// some measured feature</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">yData</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[|</span><span class="n">1.</span><span class="pn">;</span><span class="n">5.</span><span class="pn">;</span><span class="n">4.</span><span class="pn">;</span><span class="n">13.</span><span class="pn">;</span><span class="n">17.</span><span class="pn">|]</span>
  
- // get coefficients for piecewise interpolating cubic polynomials
- let coefficients = 
-     CubicSpline.interpolate CubicSpline.BoundaryConditions.Natural xData yData
+ <span class="c">// get coefficients for piecewise interpolating cubic polynomials</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">coefficients</span> <span class="o">=</span> 
+     <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">interpolate</span> <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">BoundaryConditions</span><span class="pn">.</span><span class="id">Natural</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="id">xData</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="id">yData</span>
 
- // get interpolating value
- let func = CubicSpline.predictWithinRange(coefLinSpl)
+ <span class="c">// get interpolating value</span>
+ <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="fn">func</span> <span class="o">=</span> <span class="id">CubicSpline</span><span class="pn">.</span><span class="id">predictWithinRange</span><span class="pn">(</span><span class="id">coefLinSpl</span><span class="pn">)</span>
 
- // get function value at x=3.4
- func 3.4</code></pre>
-            </p>
+ <span class="c">// get function value at x=3.4</span>
+ <span onmouseout="hideTip(event, 'fs4', 7)" onmouseover="showTip(event, 'fs4', 7)" class="fn">func</span> <span class="n">3.4</span>
+</code></pre>
+<div class="fsdocs-tip" id="fs1">val xData: obj</div>
+<div class="fsdocs-tip" id="fs2">val yData: obj</div>
+<div class="fsdocs-tip" id="fs3">val coefficients: obj</div>
+<div class="fsdocs-tip" id="fs4">val func: (float -&gt; obj)</div>
+
+
+              </p>
+            </details>
           </td>
         </tr>
       </tbody>
@@ -1296,19 +1584,24 @@
   <div></div>
   <div></div>
 </div>
-                </div>
-            </div>
-        </div>
         
     </div>
+</main>
+<aside id="fsdocs-page-menu">
+    <p id="on-this-page">On this page</p>
+    <div class="empty"></div>
+</aside>
+<dialog>
+    <input type="search" placeholder="Search docs" />
+    <div class="results">
+        <ul></ul>
+        <p class="empty">Type something to start searching.</p>
+    </div>
+</dialog>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-toggle.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
 
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
-    <!-- END SEARCH BOX: this adds support for the search box -->
 </body>
-
 </html>

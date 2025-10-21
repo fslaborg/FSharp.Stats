@@ -1,184 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-root="https://fslab.org/FSharp.Stats/">
 <head>
-    <meta charset="utf-8">
-    <title>Basic statistics</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
-    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.18.1.min.js"></script>
-    <script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <!-- END SEARCH BOX: this adds support for the search box -->
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors" name="author">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="FSharp.Stats">
+    <meta property="og:title" content="Basic statistics" />
+    <meta property="og:url" content="https://fslab.org/FSharp.Stats/BasicStats.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="https://fslab.org/FSharp.Stats/">
+    <meta name="twitter:title" content="Basic statistics">
     
-</head> 
+    <title>Basic statistics | FSharp.Stats</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/img/favicon.ico" rel="icon" sizes="32x32" type="image/png"/>
+    <script type="application/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-set-dark.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-theme.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+<title>{{fsdocs-page-title}}</title>
+<meta name="author" content="{{fsdocs-authors}}">
+<meta name="description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
 
-<body>
-    <div class="columns is-fullheight m-0">
-        <div id="fsdocs-menu" class="column is-2 is-paddingless">
-            <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-light">
-                    <a href="https://fslab.org/FSharp.Stats/">
-                        <figure class="image is-128x128 container">
-                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
-                        </figure>
-                    </a>
-                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
-                </div>
-                <div class="content">
-                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-                    <div id="header">
-                        <div class="searchbox" id="fsdocs-searchbox">
-                            <label for="search-by">
-                                <i class="fas fa-search"></i>
-                            </label>
-                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
-                            <span data-search-clear="">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- END SEARCH BOX: this adds support for the search box -->
-                    <ul class="navbar-nav">
-                        <li class="nav-header">Links</li>
-                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
-                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
-                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
-                        <li class="nav-header">
+<!-- Opengraph properties (https://ogp.me/) -->
+<meta property="og:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}" />
+<meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="FSharp.Stats" />
+<meta property="og:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta property="og:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<!-- Twitter cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="twitter:url" content="https://fslab.org/FSharp.Stats/">
+<meta name="twitter:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}">
+<meta name="twitter:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta name="twitter:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+<script src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
+<script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
+    
+</head>
+<body class="content">
+<header>
+    <div class="start">
+        <div id="menu-toggle">
+            <iconify-icon class="icon closed" height="22" icon="eva:menu-fill" width="22"></iconify-icon>
+            <iconify-icon class="icon open" height="22" icon="mi:close" width="22"></iconify-icon>
+            <input type="checkbox" name="mobile-menu" />
+            <ul class="menu">
+                <li class="nav-header">Links</li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+                </li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+                    Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+                    Repository</a></li>
+                <li class="nav-header active">
   Documentation
 </li>             
-<li class="nav-item">
+<li class="nav-item active">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
     Basic statistics
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
     Probability distributions
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
     Statistical testing
   </a>
 </li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Matrix_Vector.html">
-    Matrix and Vector
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/LinearAlgebra.html">
-    Linear Algebra
-  </a>
-</li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
     Correlation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
     Covariance
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
     Fitting
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
     Interpolation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
     Growth curve
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
     Cross validation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
     Fit quality
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
     Imputation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
     Clustering
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
     Comparison metrics
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
     Differentiation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
     Integration
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
     Signal processing
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
     Normalization
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
     Ranking
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
     Quantile
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
     Intervals
   </a>
 </li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
-    Machine Learning
-  </a>
-</li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
     Optimization
   </a>
 </li>
-                        <li class="nav-header">
+                <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
@@ -186,39 +183,156 @@
     All Namespaces
   </a>
 </li>
-                    </ul>
-                </div>
-            </aside>
+            </ul>
         </div>
-        <div class="column is-10 is-paddingless">
-            <div class="section pt-4">
-                <div class="container" id="fsdocs-content">
-                    
+        <a href="https://fslab.org/FSharp.Stats/">
+            <img alt="Header menu logo" src="https://fslab.org/FSharp.Stats/img/logo.png">
+            <strong>FSharp.Stats</strong>
+        </a>
+    </div>
+    <div class="end">
+        <a href="https://github.com/fslaborg/FSharp.Stats/" target="_blank">
+            <iconify-icon icon="uil:github" width="26" height="26"></iconify-icon>
+        </a>
+        <iconify-icon id="search-btn" icon="carbon:search" class="search" width="24" height="24"></iconify-icon>
+        <fsdocs-theme-toggle></fsdocs-theme-toggle>
+    </div>
+</header>
+<aside id="fsdocs-main-menu">
+    <ul class="menu">
+        <li class="nav-header">Links</li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+        </li>
+        <li class="nav-item"><a class="nav-link"
+                                href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+            Notes</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+            Repository</a></li>
+        <li class="nav-header active">
+  Documentation
+</li>             
+<li class="nav-item active">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+    </ul>
+</aside>
+<main>
+    <div id="content">
+        
 <h1><a name="Basics" class="anchor" href="#Basics">Basics</a></h1>
 <p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/BasicStats.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a>
 <a href="https://fslab.org/FSharp.Stats/BasicStats.ipynb"><img src="https://fslab.org/FSharp.Stats/img/badge-notebook.svg" alt="Notebook" /></a></p>
 <p><em>Summary:</em> this tutorial gives an overview over how to do some of the basic statistical measurements with FSharp.Stats.</p>
-<h3><a name="Table-of-contents" class="anchor" href="#Table-of-contents">Table of contents</a></h3>
-<ul>
-<li>
-<a href="#Central-tendency">Central tendency</a>
-<ul>
-<li><a href="#Mean">Mean</a></li>
-<li><a href="#Truncated-mean">Truncated mean</a></li>
-<li><a href="#Median">Median</a></li>
-<li><a href="#Harmonic-mean">Harmonic mean</a></li>
-<li><a href="#Geometric-mean">Geometric mean</a></li>
-</ul>
-</li>
-<li>
-<a href="#Dispersion">Dispersion</a>
-<ul>
-<li><a href="#Range">Range</a></li>
-<li><a href="#Variance-and-standard-deviation">Variance and Standard Deviation</a></li>
-<li><a href="#Coefficient-of-variation">Coefficient of variation</a></li>
-</ul>
-</li>
-</ul>
 <h2><a name="Central-tendency" class="anchor" href="#Central-tendency">Central tendency</a></h2>
 <p>A <a href="https://en.wikipedia.org/wiki/Central_tendency">central tendency</a> (or measure of central tendency) is a central or typical value for a probability distribution.
 It may also be called a center or location of the distribution. Colloquially, measures of central tendency are often called averages.</p>
@@ -364,101 +478,204 @@ which takes an additional converter function:</p>
 </code></pre>
 <table class="pre"><tr><td><pre><code>0.5313890073</code></pre></td></tr></table>
 
-                </div>
-            </div>
-        </div>
         <div class="fsdocs-tip" id="fs1">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
 <div class="fsdocs-tip" id="fs2">namespace FSharp.Stats</div>
 <div class="fsdocs-tip" id="fs3">val mean1: float</div>
 <div class="fsdocs-tip" id="fs4">Multiple items<br />module Seq
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
- Module to compute common statistical measure
-&lt;/summary&gt;</em><br /><br />--------------------<br />module Seq
+ Module to compute common statistical measures.
+ &lt;/summary&gt;</em><br /><br />--------------------<br />module Seq
 
-from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.seq`1&quot; /&gt;.&lt;/summary&gt;</em><br /><br />--------------------<br />type Seq =
+from Microsoft.FSharp.Collections<br /><br />--------------------<br />type Seq =
   new: unit -&gt; Seq
-  static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; seq&lt;float&gt;
-  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; seq&lt;float&gt;<br /><br />--------------------<br />new: unit -&gt; Seq</div>
-<div class="fsdocs-tip" id="fs5">val meanBy: f: (&#39;T -&gt; &#39;U) -&gt; items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member get_Zero and member (+) and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
-   Computes the population mean (Normalized by N)s
- &lt;/summary&gt;<br />&lt;param name=&quot;f&quot;&gt;A function applied to transform each element of the sequence.&lt;/param&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;population mean (Normalized by N)&lt;/returns&gt;</em></div>
-<div class="fsdocs-tip" id="fs6">Multiple items<br />val float: value: &#39;T -&gt; float (requires member op_Explicit)<br /><em>&lt;summary&gt;Converts the argument to 64-bit float. This is a direct conversion for all 
- primitive numeric types. For strings, the input is converted using &lt;c&gt;Double.Parse()&lt;/c&gt;  
- with InvariantCulture settings. Otherwise the operation requires an appropriate
- static conversion method on the input type.&lt;/summary&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The converted float&lt;/returns&gt;<br />&lt;example id=&quot;float-example&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;&lt;/code&gt;&lt;/example&gt;</em><br /><br />--------------------<br />[&lt;Struct&gt;]
-type float = System.Double<br /><em>&lt;summary&gt;An abbreviation for the CLI type &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category&gt;Basic Types&lt;/category&gt;</em><br /><br />--------------------<br />type float&lt;&#39;Measure&gt; =
-  float<br /><em>&lt;summary&gt;The type of double-precision floating point numbers, annotated with a unit of measure.
- The unit of measure is erased in compiled code and when values of this type
- are analyzed using reflection. The type is representationally equivalent to
- &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category index=&quot;6&quot;&gt;Basic Types with Units of Measure&lt;/category&gt;</em></div>
+  static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float seq
+  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float seq<br /><br />--------------------<br />new: unit -&gt; Seq</div>
+<div class="fsdocs-tip" id="fs5">val meanBy: f: (&#39;T -&gt; &#39;U) -&gt; items: &#39;T seq -&gt; &#39;U (requires member Zero and member (+) and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
+ Computes the population mean (Normalized by N) by applying a function to each element.
+ &lt;/summary&gt;<br />&lt;param name=&quot;f&quot;&gt;A function applied to transform each element of the sequence.&lt;/param&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The population mean (Normalized by N) of the transformed sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;System.DivideByZeroException&quot;&gt;Thrown if the sequence is empty and type cannot divide by zero.&lt;/exception&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let m = Seq.meanBy (fun x -&amp;gt; x * 2.0) values // returns 6.0
+ &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs6">Multiple items<br />val float: value: &#39;T -&gt; float (requires member op_Explicit)<br /><br />--------------------<br />type float = System.Double<br /><br />--------------------<br />type float&lt;&#39;Measure&gt; =
+  float</div>
 <div class="fsdocs-tip" id="fs7">val mean2: float</div>
-<div class="fsdocs-tip" id="fs8">val mean: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (+) and member get_Zero and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
-   Computes the population mean (Normalized by N)
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns default value if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;population mean (Normalized by N)&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs8">val mean: items: &#39;T seq -&gt; &#39;U (requires member (+) and member Zero and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
+ Computes the population mean (Normalized by N).
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The population mean (Normalized by N).&lt;/returns&gt;<br />&lt;exception cref=&quot;System.DivideByZeroException&quot;&gt;Thrown if the sequence is empty and type cannot divide by zero.&lt;/exception&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let m = Seq.mean values // returns 3.0
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs9">val truncMean1: float</div>
-<div class="fsdocs-tip" id="fs10">val meanTruncated: percent: float -&gt; data: seq&lt;&#39;T&gt; -&gt; &#39;U (requires comparison and member (+) and member get_Zero and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
-   Computes the truncated (trimmed) mean where x percent of the highest, and x percent of the lowest values are discarded (total 2x)
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;truncated (trimmed) mean&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs10">val meanTruncated: proportion: float -&gt; data: &#39;T seq -&gt; &#39;T (requires member Zero and comparison and member (+) and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
+ Computes the truncated (trimmed) mean where x*count of the highest, and x*count of the lowest values are discarded (total 2x).
+ &lt;/summary&gt;<br />&lt;param name=&quot;proportion&quot;&gt;The proportion of values to discard from each end.&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The truncated (trimmed) mean of the input sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;System.DivideByZeroException&quot;&gt;Thrown if the sequence is empty and type cannot divide by zero.&lt;/exception&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = {1.0 .. 10.0}
+ let m = Seq.meanTruncated 0.2 values // returns mean of {3.0 .. 8.0} or 5.5 
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs11">val truncMean2: float</div>
-<div class="fsdocs-tip" id="fs12">val meanTruncatedBy: f: (&#39;T -&gt; &#39;U) -&gt; percent: float -&gt; data: seq&lt;&#39;T&gt; -&gt; &#39;U (requires comparison and member get_Zero and member (+) and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
-   Computes the truncated (trimmed) mean
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;param name=&quot;f&quot;&gt;A function applied to transform each element of the sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;truncated (trimmed) mean&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs12">val meanTruncatedBy: f: (&#39;T -&gt; &#39;U) -&gt; proportion: float -&gt; data: &#39;T seq -&gt; &#39;U (requires comparison and member Zero and member (+) and member DivideByInt and member (/))<br /><em>&lt;summary&gt;
+ Computes the truncated (trimmed) mean by applying a function to each element.
+ &lt;/summary&gt;<br />&lt;param name=&quot;f&quot;&gt;A function applied to transform each element of the sequence.&lt;/param&gt;<br />&lt;param name=&quot;proportion&quot;&gt;The proportion of values to discard from each end.&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The truncated (trimmed) mean of the transformed input sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;System.DivideByZeroException&quot;&gt;Thrown if the sequence is empty and type cannot divide by zero.&lt;/exception&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let m = Seq.meanTruncatedBy (fun x -&amp;gt; x * 2.0) 0.2 values // returns 7.0
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs13">val median1: int</div>
-<div class="fsdocs-tip" id="fs14">val median: items: seq&lt;&#39;T&gt; -&gt; &#39;T (requires comparison and member get_Zero and member get_One and member (+) and member (/) and member (/))<br /><em>&lt;summary&gt;Sample Median&lt;/summary&gt;<br />&lt;remarks&gt;&lt;/remarks&gt;<br />&lt;param name=&quot;items&quot;&gt;&lt;/param&gt;<br />&lt;returns&gt;&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;&lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs14">val median: items: &#39;T seq -&gt; &#39;T (requires comparison and member Zero and member One and member (+) and member (/) and member (/))<br /><em>&lt;summary&gt;
+ Computes the sample median.
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The sample median of the input sequence.&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1; 2; 3; 4; 5]
+ let m = Seq.median values // returns 3
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs15">val harmonicMean1: float</div>
-<div class="fsdocs-tip" id="fs16">val meanHarmonic: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (/) and member get_Zero and member get_One and member (+) and comparison and member (/) and member (+))<br /><em>&lt;summary&gt;
-   Computes harmonic mean
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;harmonic mean&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs16">val meanHarmonic: items: &#39;T seq -&gt; &#39;T (requires member Zero and member One and member (+) and comparison and member (/))<br /><em>&lt;summary&gt;
+ Computes the harmonic mean.
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The harmonic mean of the input sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;System.DivideByZeroException&quot;&gt;Thrown if the sequence is empty and type cannot divide by zero.&lt;/exception&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let m = Seq.meanHarmonic values // returns approximately 2.18978
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs17">val harmonicMean2: float</div>
-<div class="fsdocs-tip" id="fs18">val meanHarmonicBy: f: (&#39;T -&gt; &#39;U) -&gt; items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member get_Zero and member get_One and member (+) and comparison and member (/))<br /><em>&lt;summary&gt;
-   Computes harmonic mean
- &lt;/summary&gt;<br />&lt;param name=&quot;f&quot;&gt;A function applied to transform each element of the sequence.&lt;/param&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;harmonic mean&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs18">val meanHarmonicBy: f: (&#39;T -&gt; &#39;U) -&gt; items: &#39;T seq -&gt; &#39;U (requires member Zero and member One and member (+) and comparison and member (/))<br /><em>&lt;summary&gt;
+ Computes the harmonic mean by applying a function to each element.
+ &lt;/summary&gt;<br />&lt;param name=&quot;f&quot;&gt;A function applied to transform each element of the sequence.&lt;/param&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The harmonic mean of the transformed input sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;System.DivideByZeroException&quot;&gt;Thrown if the sequence is empty and type cannot divide by zero.&lt;/exception&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let m = Seq.meanHarmonicBy (fun x -&amp;gt; x * 2.0) values // returns approximately 4.37956
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs19">val geometricMean1: float</div>
-<div class="fsdocs-tip" id="fs20">val meanGeometric: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (+) and member Log and member get_Zero and member DivideByInt and member Exp and member (/))<br /><em>&lt;summary&gt;
-   Computes gemetric mean
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;gemetric mean&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs20">val meanGeometric: items: &#39;T seq -&gt; &#39;U (requires member (+) and member Log and member Zero and member DivideByInt and member Exp and member (/))<br /><em>&lt;summary&gt;
+ Computes the geometric mean.
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The geometric mean of the input sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;System.DivideByZeroException&quot;&gt;Thrown if the sequence is empty and type cannot divide by zero.&lt;/exception&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let m = Seq.meanGeometric values // returns approximately 2.60517
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs21">val geometricMean2: float</div>
-<div class="fsdocs-tip" id="fs22">val meanGeometricBy: f: (&#39;T -&gt; &#39;a) -&gt; items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (+) and member Log and member get_Zero and member DivideByInt and member Exp and member (/))<br /><em>&lt;summary&gt;
-   Computes gemetric mean
- &lt;/summary&gt;<br />&lt;param name=&quot;f&quot;&gt;A function applied to transform each element of the sequence.&lt;/param&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;gemetric mean&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs22">val meanGeometricBy: f: (&#39;T -&gt; &#39;a) -&gt; items: &#39;T seq -&gt; &#39;U (requires member (+) and member Log and member Zero and member DivideByInt and member Exp and member (/))<br /><em>&lt;summary&gt;
+ Computes the geometric mean by applying a function to each element.
+ &lt;/summary&gt;<br />&lt;param name=&quot;f&quot;&gt;A function applied to transform each element of the sequence.&lt;/param&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The geometric mean of the transformed input sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;System.DivideByZeroException&quot;&gt;Thrown if the sequence is empty and type cannot divide by zero.&lt;/exception&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let m = Seq.meanGeometricBy (fun x -&amp;gt; x * 2.0) values // returns approximately 5.21034
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs23">val range1: Interval&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs24">val rangeBy: f: (&#39;a -&gt; &#39;a0) -&gt; items: seq&lt;&#39;a&gt; -&gt; Interval&lt;&#39;a&gt; (requires comparison and comparison)</div>
+<div class="fsdocs-tip" id="fs24">val rangeBy: f: (&#39;a -&gt; &#39;a0) -&gt; items: &#39;a seq -&gt; Interval&lt;&#39;a&gt; (requires comparison and comparison)<br /><em>&lt;summary&gt;
+ Computes the range of the input sequence by applying a function to each element.
+ &lt;/summary&gt;<br />&lt;param name=&quot;f&quot;&gt;A function applied to transform each element of the sequence.&lt;/param&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The range of the transformed input sequence as an &lt;see cref=&quot;Interval{T}&quot; /&gt;.&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1; 2; 3; 4; 5]
+ let r = Seq.rangeBy (fun x -&amp;gt; x * 2) values // returns Interval.Closed(1, 5)
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs25">val range2: Interval&lt;int&gt;</div>
-<div class="fsdocs-tip" id="fs26">val data: float[]</div>
+<div class="fsdocs-tip" id="fs26">val data: float array</div>
 <div class="fsdocs-tip" id="fs27">val varPopulation: float</div>
-<div class="fsdocs-tip" id="fs28">val varPopulation: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/))<br /><em>&lt;summary&gt;
-   Computes variance of the given values (denominator N)
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;population variance estimator (denominator N)&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs28">val varPopulation: items: &#39;T seq -&gt; &#39;U (requires member (-) and member Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/))<br /><em>&lt;summary&gt;
+ Computes the population variance estimator (denominator N).
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The population variance estimator (denominator N) of the input sequence.&lt;/returns&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let v = Seq.varPopulation values // returns 2.0
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs29">val stdPopulation: float</div>
-<div class="fsdocs-tip" id="fs30">val stDevPopulation: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/) and member Sqrt)<br /><em>&lt;summary&gt;
-   Computes the population standard deviation (denominator = N)
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;population standard deviation (denominator = N)&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs30">val stDevPopulation: items: &#39;T seq -&gt; &#39;U (requires member (-) and member Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/) and member Sqrt)<br /><em>&lt;summary&gt;
+ Computes the population standard deviation (denominator = N).
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;The population standard deviation (denominator = N) of the input sequence.&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let sd = Seq.stDevPopulation values // returns approximately 1.41421
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs31">val varSample: float</div>
-<div class="fsdocs-tip" id="fs32">val var: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/))<br /><em>&lt;summary&gt;
-   Computes the sample variance (Bessel&#39;s correction by N-1)
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;variance of a sample (Bessel&#39;s correction by N-1)&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs32">val var: items: &#39;T seq -&gt; &#39;U (requires member (-) and member Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/))<br /><em>&lt;summary&gt;
+ Computes the sample variance (Bessel&#39;s correction by N-1).
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The sample variance (Bessel&#39;s correction by N-1) of the input sequence.&lt;/returns&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let v = Seq.var values // returns 2.5
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs33">val stdSample: float</div>
-<div class="fsdocs-tip" id="fs34">val stDev: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/) and member Sqrt)<br /><em>&lt;summary&gt;
-   Computes the sample standard deviation
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;standard deviation of a sample (Bessel&#39;s correction by N-1)&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs34">val stDev: items: &#39;T seq -&gt; &#39;U (requires member (-) and member Zero and member DivideByInt and member (+) and member ( * ) and member (+) and member (/) and member Sqrt)<br /><em>&lt;summary&gt;
+ Computes the sample standard deviation.
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;The sample standard deviation (Bessel&#39;s correction by N-1) of the input sequence.&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let sd = Seq.stDev values // returns approximately 1.58114
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs35">val sample1: float list</div>
 <div class="fsdocs-tip" id="fs36">val sample2: float list</div>
 <div class="fsdocs-tip" id="fs37">val cvSample1: float</div>
-<div class="fsdocs-tip" id="fs38">val cv: items: seq&lt;&#39;T&gt; -&gt; &#39;U (requires member (-) and member get_Zero and member DivideByInt and member (+) and member ( * ) and member Sqrt and member (+) and member (/) and member (/))<br /><em>&lt;summary&gt;
-   Computes the Coefficient of Variation of a sample (Bessel&#39;s correction by N-1)
- &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;Coefficient of Variation of a sample (Bessel&#39;s correction by N-1)&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs38">val cv: items: &#39;T seq -&gt; &#39;U (requires member (-) and member Zero and member DivideByInt and member (+) and member ( * ) and member Sqrt and member (+) and member (/) and member (/))<br /><em>&lt;summary&gt;
+ Computes the Coefficient of Variation of a sample (Bessel&#39;s correction by N-1).
+ &lt;/summary&gt;<br />&lt;param name=&quot;items&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;remarks&gt;Returns NaN if data is empty or if any entry is NaN.&lt;/remarks&gt;<br />&lt;returns&gt;The Coefficient of Variation of a sample (Bessel&#39;s correction by N-1) of the input sequence.&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt;
+ let values = [1.0; 2.0; 3.0; 4.0; 5.0]
+ let cv = Seq.cv values // returns approximately 0.52705
+ &lt;/code&gt;&lt;/example&gt;</em></div>
 <div class="fsdocs-tip" id="fs39">val cvSample2: float</div>
 
     </div>
+</main>
+<aside id="fsdocs-page-menu">
+    <p id="on-this-page">On this page</p>
+    <ul>
+  <li class="level-1">
+    <a href="#Basics">
+      Basics
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Central-tendency">
+      Central tendency
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Mean">
+      Mean
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Truncated-mean">
+      Truncated mean
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Median">
+      Median
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Harmonic-mean">
+      Harmonic mean
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Geometric-mean">
+      Geometric mean
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Dispersion">
+      Dispersion
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Range">
+      Range
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Variance-and-Standard-Deviation">
+      Variance and Standard Deviation
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Coefficient-of-variation">
+      Coefficient of variation
+    </a>
+  </li>
+</ul>
+</aside>
+<dialog>
+    <input type="search" placeholder="Search docs" />
+    <div class="results">
+        <ul></ul>
+        <p class="empty">Type something to start searching.</p>
+    </div>
+</dialog>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-toggle.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
 
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
-    <!-- END SEARCH BOX: this adds support for the search box -->
 </body>
-
 </html>

@@ -1,184 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-root="https://fslab.org/FSharp.Stats/">
 <head>
-    <meta charset="utf-8">
-    <title>Normalization</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
-    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.18.1.min.js"></script>
-    <script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <!-- END SEARCH BOX: this adds support for the search box -->
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors" name="author">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="FSharp.Stats">
+    <meta property="og:title" content="Normalization" />
+    <meta property="og:url" content="https://fslab.org/FSharp.Stats/Normalization.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="https://fslab.org/FSharp.Stats/">
+    <meta name="twitter:title" content="Normalization">
     
-</head> 
+    <title>Normalization | FSharp.Stats</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/img/favicon.ico" rel="icon" sizes="32x32" type="image/png"/>
+    <script type="application/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-set-dark.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-theme.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+<title>{{fsdocs-page-title}}</title>
+<meta name="author" content="{{fsdocs-authors}}">
+<meta name="description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
 
-<body>
-    <div class="columns is-fullheight m-0">
-        <div id="fsdocs-menu" class="column is-2 is-paddingless">
-            <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-light">
-                    <a href="https://fslab.org/FSharp.Stats/">
-                        <figure class="image is-128x128 container">
-                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
-                        </figure>
-                    </a>
-                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
-                </div>
-                <div class="content">
-                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-                    <div id="header">
-                        <div class="searchbox" id="fsdocs-searchbox">
-                            <label for="search-by">
-                                <i class="fas fa-search"></i>
-                            </label>
-                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
-                            <span data-search-clear="">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- END SEARCH BOX: this adds support for the search box -->
-                    <ul class="navbar-nav">
-                        <li class="nav-header">Links</li>
-                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
-                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
-                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
-                        <li class="nav-header">
+<!-- Opengraph properties (https://ogp.me/) -->
+<meta property="og:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}" />
+<meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="FSharp.Stats" />
+<meta property="og:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta property="og:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<!-- Twitter cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="twitter:url" content="https://fslab.org/FSharp.Stats/">
+<meta name="twitter:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}">
+<meta name="twitter:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta name="twitter:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+<script src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
+<script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
+    
+</head>
+<body class="content">
+<header>
+    <div class="start">
+        <div id="menu-toggle">
+            <iconify-icon class="icon closed" height="22" icon="eva:menu-fill" width="22"></iconify-icon>
+            <iconify-icon class="icon open" height="22" icon="mi:close" width="22"></iconify-icon>
+            <input type="checkbox" name="mobile-menu" />
+            <ul class="menu">
+                <li class="nav-header">Links</li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+                </li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+                    Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+                    Repository</a></li>
+                <li class="nav-header active">
   Documentation
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
     Basic statistics
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
     Probability distributions
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
     Statistical testing
   </a>
 </li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Matrix_Vector.html">
-    Matrix and Vector
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/LinearAlgebra.html">
-    Linear Algebra
-  </a>
-</li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
     Correlation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
     Covariance
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
     Fitting
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
     Interpolation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
     Growth curve
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
     Cross validation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
     Fit quality
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
     Imputation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
     Clustering
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
     Comparison metrics
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
     Differentiation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
     Integration
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
     Signal processing
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item active">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
     Normalization
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
     Ranking
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
     Quantile
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
     Intervals
   </a>
 </li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
-    Machine Learning
-  </a>
-</li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
     Optimization
   </a>
 </li>
-                        <li class="nav-header">
+                <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
@@ -186,24 +183,156 @@
     All Namespaces
   </a>
 </li>
-                    </ul>
-                </div>
-            </aside>
+            </ul>
         </div>
-        <div class="column is-10 is-paddingless">
-            <div class="section pt-4">
-                <div class="container" id="fsdocs-content">
-                    
+        <a href="https://fslab.org/FSharp.Stats/">
+            <img alt="Header menu logo" src="https://fslab.org/FSharp.Stats/img/logo.png">
+            <strong>FSharp.Stats</strong>
+        </a>
+    </div>
+    <div class="end">
+        <a href="https://github.com/fslaborg/FSharp.Stats/" target="_blank">
+            <iconify-icon icon="uil:github" width="26" height="26"></iconify-icon>
+        </a>
+        <iconify-icon id="search-btn" icon="carbon:search" class="search" width="24" height="24"></iconify-icon>
+        <fsdocs-theme-toggle></fsdocs-theme-toggle>
+    </div>
+</header>
+<aside id="fsdocs-main-menu">
+    <ul class="menu">
+        <li class="nav-header">Links</li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+        </li>
+        <li class="nav-item"><a class="nav-link"
+                                href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+            Notes</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+            Repository</a></li>
+        <li class="nav-header active">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item active">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+    </ul>
+</aside>
+<main>
+    <div id="content">
+        
 <h1><a name="Normalization" class="anchor" href="#Normalization">Normalization</a></h1>
 <p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Normalization.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a>
 <a href="https://fslab.org/FSharp.Stats/Normalization.ipynb"><img src="https://fslab.org/FSharp.Stats/img/badge-notebook.svg" alt="Notebook" /></a></p>
 <p><em>Summary:</em> this tutorial demonstrates multiple ways of data normalization accross several samples</p>
-<h3><a name="Table-of-contents" class="anchor" href="#Table-of-contents">Table of contents</a></h3>
-<ul>
-<li><a href="#Introduction">Introduction</a></li>
-<li><a href="#Median-of-ratios">Median of Ratios</a></li>
-<li><a href="#Quantile-normalization">Quantile normalization</a></li>
-</ul>
 <h2><a name="Introduction" class="anchor" href="#Introduction">Introduction</a></h2>
 <p>When you want to compare e.g. intensity measurements of elements between samples, you often have to normalize the samples in order
 to be able to perform a valid comparison. Samples may vary in their average intensity just because of the technical nature of the measurement itself,
@@ -647,10 +776,10 @@ factor is achieved.</p>
 </table>
 
 <p>The normed intensities of the different elements now match a theoretical common intensity level.</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs11', 22)" onmouseover="showTip(event, 'fs11', 22)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 23)" onmouseover="showTip(event, 'fs12', 23)" class="id">Stats</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs12', 22)" onmouseover="showTip(event, 'fs12', 22)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 23)" onmouseover="showTip(event, 'fs13', 23)" class="id">Stats</span>
 
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 24)" onmouseover="showTip(event, 'fs13', 24)" class="id">rawData</span> <span class="o">=</span> 
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 24)" onmouseover="showTip(event, 'fs14', 24)" class="id">rawData</span> <span class="o">=</span> 
     <span class="pn">[|</span>
     <span class="pn">[|</span><span class="n">100.</span><span class="pn">;</span> <span class="n">130.</span><span class="pn">;</span> <span class="n">30.</span><span class="pn">|]</span>
     <span class="pn">[|</span> <span class="n">80.</span><span class="pn">;</span> <span class="n">200.</span><span class="pn">;</span> <span class="n">30.</span><span class="pn">|]</span>
@@ -659,79 +788,65 @@ factor is achieved.</p>
     <span class="pn">[|</span> <span class="n">50.</span><span class="pn">;</span>  <span class="n">45.</span><span class="pn">;</span> <span class="n">25.</span><span class="pn">|]</span>
     <span class="pn">[|</span> <span class="n">40.</span><span class="pn">;</span>  <span class="n">50.</span><span class="pn">;</span> <span class="n">15.</span><span class="pn">|]</span>
     <span class="pn">|]</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs14', 25)" onmouseover="showTip(event, 'fs14', 25)" class="fn">matrix</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs15', 25)" onmouseover="showTip(event, 'fs15', 25)" class="fn">matrix</span>
 
 <span class="c">// visualization of the raw data</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 26)" onmouseover="showTip(event, 'fs15', 26)" class="id">rawDataChart</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs13', 27)" onmouseover="showTip(event, 'fs13', 27)" class="id">rawData</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 28)" onmouseover="showTip(event, 'fs16', 28)" class="id">Transpose</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 29)" onmouseover="showTip(event, 'fs17', 29)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 30)" onmouseover="showTip(event, 'fs18', 30)" class="id">toJaggedArray</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs19', 31)" onmouseover="showTip(event, 'fs19', 31)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 32)" onmouseover="showTip(event, 'fs20', 32)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs21', 33)" onmouseover="showTip(event, 'fs21', 33)" class="fn">sampleID</span> <span onmouseout="hideTip(event, 'fs22', 34)" onmouseover="showTip(event, 'fs22', 34)" class="fn">sample</span> <span class="k">-&gt;</span> 
-        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 35)" onmouseover="showTip(event, 'fs23', 35)" class="fn">sampleIntensities</span> <span class="o">=</span> 
-            <span onmouseout="hideTip(event, 'fs22', 36)" onmouseover="showTip(event, 'fs22', 36)" class="fn">sample</span> 
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs19', 37)" onmouseover="showTip(event, 'fs19', 37)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 38)" onmouseover="showTip(event, 'fs20', 38)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs24', 39)" onmouseover="showTip(event, 'fs24', 39)" class="fn">gID</span> <span onmouseout="hideTip(event, 'fs25', 40)" onmouseover="showTip(event, 'fs25', 40)" class="fn">intensity</span> <span class="k">-&gt;</span>
-                <span onmouseout="hideTip(event, 'fs24', 41)" onmouseover="showTip(event, 'fs24', 41)" class="fn">gID</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs25', 42)" onmouseover="showTip(event, 'fs25', 42)" class="fn">intensity</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 26)" onmouseover="showTip(event, 'fs16', 26)" class="id">rawDataChart</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs14', 27)" onmouseover="showTip(event, 'fs14', 27)" class="id">rawData</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 28)" onmouseover="showTip(event, 'fs17', 28)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 29)" onmouseover="showTip(event, 'fs18', 29)" class="id">transpose</span>
+    <span class="o">|&gt;</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs19', 30)" onmouseover="showTip(event, 'fs19', 30)" class="fn">m</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs19', 31)" onmouseover="showTip(event, 'fs19', 31)" class="fn">m</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 32)" onmouseover="showTip(event, 'fs20', 32)" class="id">toJaggedArray</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 33)" onmouseover="showTip(event, 'fs21', 33)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 34)" onmouseover="showTip(event, 'fs22', 34)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs23', 35)" onmouseover="showTip(event, 'fs23', 35)" class="fn">sampleID</span> <span onmouseout="hideTip(event, 'fs24', 36)" onmouseover="showTip(event, 'fs24', 36)" class="fn">sample</span> <span class="k">-&gt;</span> 
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 37)" onmouseover="showTip(event, 'fs25', 37)" class="fn">sampleIntensities</span> <span class="o">=</span> 
+            <span onmouseout="hideTip(event, 'fs24', 38)" onmouseover="showTip(event, 'fs24', 38)" class="fn">sample</span> 
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 39)" onmouseover="showTip(event, 'fs21', 39)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 40)" onmouseover="showTip(event, 'fs22', 40)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs26', 41)" onmouseover="showTip(event, 'fs26', 41)" class="fn">gID</span> <span onmouseout="hideTip(event, 'fs27', 42)" onmouseover="showTip(event, 'fs27', 42)" class="fn">intensity</span> <span class="k">-&gt;</span>
+                <span onmouseout="hideTip(event, 'fs26', 43)" onmouseover="showTip(event, 'fs26', 43)" class="fn">gID</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs27', 44)" onmouseover="showTip(event, 'fs27', 44)" class="fn">intensity</span>
             <span class="pn">)</span>
-        <span onmouseout="hideTip(event, 'fs26', 43)" onmouseover="showTip(event, 'fs26', 43)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 44)" onmouseover="showTip(event, 'fs27', 44)" class="id">Column</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 45)" onmouseover="showTip(event, 'fs23', 45)" class="fn">sampleIntensities</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs28', 46)" onmouseover="showTip(event, 'fs28', 46)" class="fn">Name</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs29', 47)" onmouseover="showTip(event, 'fs29', 47)" class="fn">sprintf</span> <span class="s">&quot;raw sample</span><span class="pf">%i</span><span class="s">&quot;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs21', 48)" onmouseover="showTip(event, 'fs21', 48)" class="fn">sampleID</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span><span class="pn">)</span>
+        <span onmouseout="hideTip(event, 'fs28', 45)" onmouseover="showTip(event, 'fs28', 45)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs29', 46)" onmouseover="showTip(event, 'fs29', 46)" class="id">Column</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs25', 47)" onmouseover="showTip(event, 'fs25', 47)" class="fn">sampleIntensities</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs30', 48)" onmouseover="showTip(event, 'fs30', 48)" class="fn">Name</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 49)" onmouseover="showTip(event, 'fs31', 49)" class="fn">sprintf</span> <span class="s">&quot;raw sample</span><span class="pf">%i</span><span class="s">&quot;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 50)" onmouseover="showTip(event, 'fs23', 50)" class="fn">sampleID</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span><span class="pn">)</span>
     <span class="pn">)</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 49)" onmouseover="showTip(event, 'fs26', 49)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 50)" onmouseover="showTip(event, 'fs30', 50)" class="id">combine</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 51)" onmouseover="showTip(event, 'fs26', 51)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 52)" onmouseover="showTip(event, 'fs31', 52)" class="id">withTemplate</span> <span onmouseout="hideTip(event, 'fs32', 53)" onmouseover="showTip(event, 'fs32', 53)" class="m">ChartTemplates</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 54)" onmouseover="showTip(event, 'fs33', 54)" class="id">lightMirrored</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 55)" onmouseover="showTip(event, 'fs26', 55)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 56)" onmouseover="showTip(event, 'fs34', 56)" class="id">withXAxisStyle</span> <span class="s">&quot;gID&quot;</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 57)" onmouseover="showTip(event, 'fs26', 57)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 58)" onmouseover="showTip(event, 'fs35', 58)" class="id">withYAxisStyle</span> <span class="s">&quot;raw intensity&quot;</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 59)" onmouseover="showTip(event, 'fs26', 59)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 60)" onmouseover="showTip(event, 'fs36', 60)" class="id">withTitle</span> <span class="s">&quot;raw data&quot;</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 51)" onmouseover="showTip(event, 'fs28', 51)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 52)" onmouseover="showTip(event, 'fs32', 52)" class="id">combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 53)" onmouseover="showTip(event, 'fs28', 53)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 54)" onmouseover="showTip(event, 'fs33', 54)" class="id">withTemplate</span> <span onmouseout="hideTip(event, 'fs34', 55)" onmouseover="showTip(event, 'fs34', 55)" class="m">ChartTemplates</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 56)" onmouseover="showTip(event, 'fs35', 56)" class="id">lightMirrored</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 57)" onmouseover="showTip(event, 'fs28', 57)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 58)" onmouseover="showTip(event, 'fs36', 58)" class="id">withXAxisStyle</span> <span class="s">&quot;gID&quot;</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 59)" onmouseover="showTip(event, 'fs28', 59)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 60)" onmouseover="showTip(event, 'fs37', 60)" class="id">withYAxisStyle</span> <span class="s">&quot;raw intensity&quot;</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 61)" onmouseover="showTip(event, 'fs28', 61)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 62)" onmouseover="showTip(event, 'fs38', 62)" class="id">withTitle</span> <span class="s">&quot;raw data&quot;</span>
 </code></pre>
-<div><div id="9a7ae66d-ef90-4fc5-8c58-101905f54d0b"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_9a7ae66def904fc58c58101905f54d0b = function() {
-    var data = [{"type":"bar","name":"raw sample1","x":[0,1,2,3,4,5],"y":[100.0,80.0,0.0,40.0,50.0,40.0],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"raw sample2","x":[0,1,2,3,4,5],"y":[130.0,200.0,50.0,50.0,45.0,50.0],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"raw sample3","x":[0,1,2,3,4,5],"y":[30.0,30.0,0.0,20.0,25.0,15.0],"orientation":"v","marker":{"pattern":{}}}];
-    var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"}},"yaxis":{"title":{"text":"raw intensity"}},"title":{"text":"raw data"}};
-    var config = {"responsive":true};
-    Plotly.newPlot('9a7ae66d-ef90-4fc5-8c58-101905f54d0b', data, layout, config);
-};
-renderPlotly_9a7ae66def904fc58c58101905f54d0b();
-</script></div>
+<table class="pre"><tr><td><pre><code>No value returned by any evaluator</code></pre></td></tr></table>
 <p>In the above figure you can see, that the green sample is underrepresented, and the orange is overrepresented when compared to the blue one.
 No the MOR normalization is applied. If no transformation (+1) should be applied, you can use <code>Signal.Normalization.medianOfRatios</code>.</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">/// actual median of ratios normalization. 1 is added to each intensity to get rid of the empty intensities.</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 64)" onmouseover="showTip(event, 'fs39', 64)" class="id">mor</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs40', 65)" onmouseover="showTip(event, 'fs40', 65)" class="id">Signal</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 66)" onmouseover="showTip(event, 'fs41', 66)" class="m">Normalization</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 67)" onmouseover="showTip(event, 'fs42', 67)" class="id">medianOfRatiosBy</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs43', 68)" onmouseover="showTip(event, 'fs43', 68)" class="fn">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs43', 69)" onmouseover="showTip(event, 'fs43', 69)" class="fn">x</span> <span class="o">+</span> <span class="n">1.0</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs13', 70)" onmouseover="showTip(event, 'fs13', 70)" class="id">rawData</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs41', 66)" onmouseover="showTip(event, 'fs41', 66)" class="id">mor</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs42', 67)" onmouseover="showTip(event, 'fs42', 67)" class="id">Signal</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 68)" onmouseover="showTip(event, 'fs43', 68)" class="m">Normalization</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 69)" onmouseover="showTip(event, 'fs44', 69)" class="id">medianOfRatiosBy</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs45', 70)" onmouseover="showTip(event, 'fs45', 70)" class="fn">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs45', 71)" onmouseover="showTip(event, 'fs45', 71)" class="fn">x</span> <span class="o">+</span> <span class="n">1.0</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs14', 72)" onmouseover="showTip(event, 'fs14', 72)" class="id">rawData</span>
 
 <span class="c">/// Matrix of normalized data in the same order as the input matrix</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 71)" onmouseover="showTip(event, 'fs44', 71)" class="id">morNormedData</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs39', 72)" onmouseover="showTip(event, 'fs39', 72)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs45', 73)" onmouseover="showTip(event, 'fs45', 73)" class="id">NormedData</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs46', 73)" onmouseover="showTip(event, 'fs46', 73)" class="id">morNormedData</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs41', 74)" onmouseover="showTip(event, 'fs41', 74)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs47', 75)" onmouseover="showTip(event, 'fs47', 75)" class="id">NormedData</span>
 
 <span class="c">/// Correction factors to assess the strenght of the applied normalization (1 indicates no normalization)</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs46', 74)" onmouseover="showTip(event, 'fs46', 74)" class="id">corrFactors</span> <span class="o">=</span> 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs47', 75)" onmouseover="showTip(event, 'fs47', 75)" class="fn">cf1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs48', 76)" onmouseover="showTip(event, 'fs48', 76)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 77)" onmouseover="showTip(event, 'fs49', 77)" class="id">item</span> <span class="n">0</span> <span onmouseout="hideTip(event, 'fs39', 78)" onmouseover="showTip(event, 'fs39', 78)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 79)" onmouseover="showTip(event, 'fs50', 79)" class="id">CorrFactors</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs51', 80)" onmouseover="showTip(event, 'fs51', 80)" class="fn">cf2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs48', 81)" onmouseover="showTip(event, 'fs48', 81)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 82)" onmouseover="showTip(event, 'fs49', 82)" class="id">item</span> <span class="n">1</span> <span onmouseout="hideTip(event, 'fs39', 83)" onmouseover="showTip(event, 'fs39', 83)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 84)" onmouseover="showTip(event, 'fs50', 84)" class="id">CorrFactors</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs52', 85)" onmouseover="showTip(event, 'fs52', 85)" class="fn">cf3</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs48', 86)" onmouseover="showTip(event, 'fs48', 86)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 87)" onmouseover="showTip(event, 'fs49', 87)" class="id">item</span> <span class="n">2</span> <span onmouseout="hideTip(event, 'fs39', 88)" onmouseover="showTip(event, 'fs39', 88)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 89)" onmouseover="showTip(event, 'fs50', 89)" class="id">CorrFactors</span>
-    <span onmouseout="hideTip(event, 'fs29', 90)" onmouseover="showTip(event, 'fs29', 90)" class="fn">sprintf</span> <span class="s">&quot;Correctionfactor for sample1 is </span><span class="pf">%.3f</span><span class="s">\nCorrectionfactor for sample2 is </span><span class="pf">%.3f</span><span class="s">\nCorrectionfactor for sample3 is </span><span class="pf">%.3f</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs47', 91)" onmouseover="showTip(event, 'fs47', 91)" class="fn">cf1</span> <span onmouseout="hideTip(event, 'fs51', 92)" onmouseover="showTip(event, 'fs51', 92)" class="fn">cf2</span> <span onmouseout="hideTip(event, 'fs52', 93)" onmouseover="showTip(event, 'fs52', 93)" class="fn">cf3</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs48', 76)" onmouseover="showTip(event, 'fs48', 76)" class="id">corrFactors</span> <span class="o">=</span> 
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs49', 77)" onmouseover="showTip(event, 'fs49', 77)" class="fn">cf1</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs50', 78)" onmouseover="showTip(event, 'fs50', 78)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 79)" onmouseover="showTip(event, 'fs51', 79)" class="id">item</span> <span class="n">0</span> <span onmouseout="hideTip(event, 'fs41', 80)" onmouseover="showTip(event, 'fs41', 80)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 81)" onmouseover="showTip(event, 'fs52', 81)" class="id">CorrFactors</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 82)" onmouseover="showTip(event, 'fs53', 82)" class="fn">cf2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs50', 83)" onmouseover="showTip(event, 'fs50', 83)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 84)" onmouseover="showTip(event, 'fs51', 84)" class="id">item</span> <span class="n">1</span> <span onmouseout="hideTip(event, 'fs41', 85)" onmouseover="showTip(event, 'fs41', 85)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 86)" onmouseover="showTip(event, 'fs52', 86)" class="id">CorrFactors</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs54', 87)" onmouseover="showTip(event, 'fs54', 87)" class="fn">cf3</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs50', 88)" onmouseover="showTip(event, 'fs50', 88)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 89)" onmouseover="showTip(event, 'fs51', 89)" class="id">item</span> <span class="n">2</span> <span onmouseout="hideTip(event, 'fs41', 90)" onmouseover="showTip(event, 'fs41', 90)" class="id">mor</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 91)" onmouseover="showTip(event, 'fs52', 91)" class="id">CorrFactors</span>
+    <span onmouseout="hideTip(event, 'fs31', 92)" onmouseover="showTip(event, 'fs31', 92)" class="fn">sprintf</span> <span class="s">&quot;Correctionfactor for sample1 is </span><span class="pf">%.3f</span><span class="s">\nCorrectionfactor for sample2 is </span><span class="pf">%.3f</span><span class="s">\nCorrectionfactor for sample3 is </span><span class="pf">%.3f</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs49', 93)" onmouseover="showTip(event, 'fs49', 93)" class="fn">cf1</span> <span onmouseout="hideTip(event, 'fs53', 94)" onmouseover="showTip(event, 'fs53', 94)" class="fn">cf2</span> <span onmouseout="hideTip(event, 'fs54', 95)" onmouseover="showTip(event, 'fs54', 95)" class="fn">cf3</span>
 </code></pre>
-Correctionfactor for sample1 is 1.217
-Correctionfactor for sample2 is 1.673
-Correctionfactor for sample3 is 0.457
+<table class="pre"><tr><td><pre><code>No value returned by any evaluator</code></pre></td></tr></table>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// visualization of the normed data</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 95)" onmouseover="showTip(event, 'fs53', 95)" class="id">normedDataChart</span> <span class="o">=</span>
-    <span onmouseout="hideTip(event, 'fs44', 96)" onmouseover="showTip(event, 'fs44', 96)" class="id">morNormedData</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 97)" onmouseover="showTip(event, 'fs16', 97)" class="id">Transpose</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 98)" onmouseover="showTip(event, 'fs17', 98)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 99)" onmouseover="showTip(event, 'fs18', 99)" class="id">toJaggedArray</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs19', 100)" onmouseover="showTip(event, 'fs19', 100)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 101)" onmouseover="showTip(event, 'fs20', 101)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs21', 102)" onmouseover="showTip(event, 'fs21', 102)" class="fn">sampleID</span> <span onmouseout="hideTip(event, 'fs22', 103)" onmouseover="showTip(event, 'fs22', 103)" class="fn">sample</span> <span class="k">-&gt;</span> 
-        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 104)" onmouseover="showTip(event, 'fs23', 104)" class="fn">sampleIntensities</span> <span class="o">=</span> 
-            <span onmouseout="hideTip(event, 'fs22', 105)" onmouseover="showTip(event, 'fs22', 105)" class="fn">sample</span> 
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs19', 106)" onmouseover="showTip(event, 'fs19', 106)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 107)" onmouseover="showTip(event, 'fs20', 107)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs24', 108)" onmouseover="showTip(event, 'fs24', 108)" class="fn">gID</span> <span onmouseout="hideTip(event, 'fs25', 109)" onmouseover="showTip(event, 'fs25', 109)" class="fn">intensity</span> <span class="k">-&gt;</span>
-                <span onmouseout="hideTip(event, 'fs24', 110)" onmouseover="showTip(event, 'fs24', 110)" class="fn">gID</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs25', 111)" onmouseover="showTip(event, 'fs25', 111)" class="fn">intensity</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs55', 97)" onmouseover="showTip(event, 'fs55', 97)" class="id">normedDataChart</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs46', 98)" onmouseover="showTip(event, 'fs46', 98)" class="id">morNormedData</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 99)" onmouseover="showTip(event, 'fs17', 99)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 100)" onmouseover="showTip(event, 'fs18', 100)" class="id">transpose</span>
+    <span class="o">|&gt;</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs19', 101)" onmouseover="showTip(event, 'fs19', 101)" class="fn">m</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs19', 102)" onmouseover="showTip(event, 'fs19', 102)" class="fn">m</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 103)" onmouseover="showTip(event, 'fs20', 103)" class="id">toJaggedArray</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 104)" onmouseover="showTip(event, 'fs21', 104)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 105)" onmouseover="showTip(event, 'fs22', 105)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs23', 106)" onmouseover="showTip(event, 'fs23', 106)" class="fn">sampleID</span> <span onmouseout="hideTip(event, 'fs24', 107)" onmouseover="showTip(event, 'fs24', 107)" class="fn">sample</span> <span class="k">-&gt;</span> 
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 108)" onmouseover="showTip(event, 'fs25', 108)" class="fn">sampleIntensities</span> <span class="o">=</span> 
+            <span onmouseout="hideTip(event, 'fs24', 109)" onmouseover="showTip(event, 'fs24', 109)" class="fn">sample</span> 
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 110)" onmouseover="showTip(event, 'fs21', 110)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 111)" onmouseover="showTip(event, 'fs22', 111)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs26', 112)" onmouseover="showTip(event, 'fs26', 112)" class="fn">gID</span> <span onmouseout="hideTip(event, 'fs27', 113)" onmouseover="showTip(event, 'fs27', 113)" class="fn">intensity</span> <span class="k">-&gt;</span>
+                <span onmouseout="hideTip(event, 'fs26', 114)" onmouseover="showTip(event, 'fs26', 114)" class="fn">gID</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs27', 115)" onmouseover="showTip(event, 'fs27', 115)" class="fn">intensity</span>
             <span class="pn">)</span>
-        <span onmouseout="hideTip(event, 'fs26', 112)" onmouseover="showTip(event, 'fs26', 112)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 113)" onmouseover="showTip(event, 'fs27', 113)" class="id">Column</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 114)" onmouseover="showTip(event, 'fs23', 114)" class="fn">sampleIntensities</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs28', 115)" onmouseover="showTip(event, 'fs28', 115)" class="fn">Name</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs29', 116)" onmouseover="showTip(event, 'fs29', 116)" class="fn">sprintf</span> <span class="s">&quot;MOR normed sample</span><span class="pf">%i</span><span class="s">&quot;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs21', 117)" onmouseover="showTip(event, 'fs21', 117)" class="fn">sampleID</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span><span class="pn">)</span>
+        <span onmouseout="hideTip(event, 'fs28', 116)" onmouseover="showTip(event, 'fs28', 116)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs29', 117)" onmouseover="showTip(event, 'fs29', 117)" class="id">Column</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs25', 118)" onmouseover="showTip(event, 'fs25', 118)" class="fn">sampleIntensities</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs30', 119)" onmouseover="showTip(event, 'fs30', 119)" class="fn">Name</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 120)" onmouseover="showTip(event, 'fs31', 120)" class="fn">sprintf</span> <span class="s">&quot;MOR normed sample</span><span class="pf">%i</span><span class="s">&quot;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 121)" onmouseover="showTip(event, 'fs23', 121)" class="fn">sampleID</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span><span class="pn">)</span>
     <span class="pn">)</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 118)" onmouseover="showTip(event, 'fs26', 118)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 119)" onmouseover="showTip(event, 'fs30', 119)" class="id">combine</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 120)" onmouseover="showTip(event, 'fs26', 120)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 121)" onmouseover="showTip(event, 'fs31', 121)" class="id">withTemplate</span> <span onmouseout="hideTip(event, 'fs32', 122)" onmouseover="showTip(event, 'fs32', 122)" class="m">ChartTemplates</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 123)" onmouseover="showTip(event, 'fs33', 123)" class="id">lightMirrored</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 124)" onmouseover="showTip(event, 'fs26', 124)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 125)" onmouseover="showTip(event, 'fs34', 125)" class="id">withXAxisStyle</span> <span class="s">&quot;gID&quot;</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 126)" onmouseover="showTip(event, 'fs26', 126)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 127)" onmouseover="showTip(event, 'fs35', 127)" class="id">withYAxisStyle</span> <span class="s">&quot;MOR intensity&quot;</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 122)" onmouseover="showTip(event, 'fs28', 122)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 123)" onmouseover="showTip(event, 'fs32', 123)" class="id">combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 124)" onmouseover="showTip(event, 'fs28', 124)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 125)" onmouseover="showTip(event, 'fs33', 125)" class="id">withTemplate</span> <span onmouseout="hideTip(event, 'fs34', 126)" onmouseover="showTip(event, 'fs34', 126)" class="m">ChartTemplates</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 127)" onmouseover="showTip(event, 'fs35', 127)" class="id">lightMirrored</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 128)" onmouseover="showTip(event, 'fs28', 128)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 129)" onmouseover="showTip(event, 'fs36', 129)" class="id">withXAxisStyle</span> <span class="s">&quot;gID&quot;</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 130)" onmouseover="showTip(event, 'fs28', 130)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 131)" onmouseover="showTip(event, 'fs37', 131)" class="id">withYAxisStyle</span> <span class="s">&quot;MOR intensity&quot;</span>
 </code></pre>
-<div><div id="56d0eed7-1859-41fe-acb4-c7aa04685560"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_56d0eed7185941feacb4c7aa04685560 = function() {
-    var data = [{"type":"bar","name":"MOR normed sample1","x":[0,1,2,3,4,5],"y":[82.15073918013081,65.72059134410465,0.0,32.860295672052324,41.07536959006541,32.860295672052324],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"MOR normed sample2","x":[0,1,2,3,4,5],"y":[77.7073168717368,119.54971826421045,29.887429566052614,29.887429566052614,26.898686609447353,29.887429566052614],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"MOR normed sample3","x":[0,1,2,3,4,5],"y":[65.66130664839933,65.66130664839933,0.0,43.77420443226622,54.717755540332774,32.830653324199666],"orientation":"v","marker":{"pattern":{}}}];
-    var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"}},"yaxis":{"title":{"text":"MOR intensity"}}};
-    var config = {"responsive":true};
-    Plotly.newPlot('56d0eed7-1859-41fe-acb4-c7aa04685560', data, layout, config);
-};
-renderPlotly_56d0eed7185941feacb4c7aa04685560();
-</script></div>
+<table class="pre"><tr><td><pre><code>No value returned by any evaluator</code></pre></td></tr></table>
 <p>The normed data now shows high similarity of the individual element intensities across samples.</p>
 <h1><a name="Quantile-normalization" class="anchor" href="#Quantile-normalization">Quantile normalization</a></h1>
 <p>To compensate for the technical variance you also can perform a quantile normalization. It is a technique for making two or more
@@ -953,34 +1068,28 @@ You can either quantile normalize data according to a given reference distributi
 </tbody>
 </table>
 
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs54', 131)" onmouseover="showTip(event, 'fs54', 131)" class="id">quantileNorm</span> <span class="o">=</span> 
-    <span onmouseout="hideTip(event, 'fs40', 132)" onmouseover="showTip(event, 'fs40', 132)" class="id">Signal</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 133)" onmouseover="showTip(event, 'fs41', 133)" class="m">Normalization</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs55', 134)" onmouseover="showTip(event, 'fs55', 134)" class="id">quantile</span> <span onmouseout="hideTip(event, 'fs13', 135)" onmouseover="showTip(event, 'fs13', 135)" class="id">rawData</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs56', 135)" onmouseover="showTip(event, 'fs56', 135)" class="id">quantileNorm</span> <span class="o">=</span> 
+    <span onmouseout="hideTip(event, 'fs42', 136)" onmouseover="showTip(event, 'fs42', 136)" class="id">Signal</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 137)" onmouseover="showTip(event, 'fs43', 137)" class="m">Normalization</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs57', 138)" onmouseover="showTip(event, 'fs57', 138)" class="id">quantile</span> <span onmouseout="hideTip(event, 'fs14', 139)" onmouseover="showTip(event, 'fs14', 139)" class="id">rawData</span>
 
 <span class="c">// visualization of the normed data</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs56', 136)" onmouseover="showTip(event, 'fs56', 136)" class="id">normedDataQuantileChart</span> <span class="o">=</span>
-    <span onmouseout="hideTip(event, 'fs54', 137)" onmouseover="showTip(event, 'fs54', 137)" class="id">quantileNorm</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 138)" onmouseover="showTip(event, 'fs16', 138)" class="id">Transpose</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 139)" onmouseover="showTip(event, 'fs17', 139)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 140)" onmouseover="showTip(event, 'fs18', 140)" class="id">toJaggedArray</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs19', 141)" onmouseover="showTip(event, 'fs19', 141)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 142)" onmouseover="showTip(event, 'fs20', 142)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs21', 143)" onmouseover="showTip(event, 'fs21', 143)" class="fn">sampleID</span> <span onmouseout="hideTip(event, 'fs22', 144)" onmouseover="showTip(event, 'fs22', 144)" class="fn">sample</span> <span class="k">-&gt;</span> 
-        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 145)" onmouseover="showTip(event, 'fs23', 145)" class="fn">sampleIntensities</span> <span class="o">=</span> 
-            <span onmouseout="hideTip(event, 'fs22', 146)" onmouseover="showTip(event, 'fs22', 146)" class="fn">sample</span> 
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs19', 147)" onmouseover="showTip(event, 'fs19', 147)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 148)" onmouseover="showTip(event, 'fs20', 148)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs24', 149)" onmouseover="showTip(event, 'fs24', 149)" class="fn">gID</span> <span onmouseout="hideTip(event, 'fs25', 150)" onmouseover="showTip(event, 'fs25', 150)" class="fn">intensity</span> <span class="k">-&gt;</span>
-                <span onmouseout="hideTip(event, 'fs24', 151)" onmouseover="showTip(event, 'fs24', 151)" class="fn">gID</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs25', 152)" onmouseover="showTip(event, 'fs25', 152)" class="fn">intensity</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs58', 140)" onmouseover="showTip(event, 'fs58', 140)" class="id">normedDataQuantileChart</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs56', 141)" onmouseover="showTip(event, 'fs56', 141)" class="id">quantileNorm</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 142)" onmouseover="showTip(event, 'fs17', 142)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 143)" onmouseover="showTip(event, 'fs18', 143)" class="id">transpose</span>
+    <span class="o">|&gt;</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs19', 144)" onmouseover="showTip(event, 'fs19', 144)" class="fn">m</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs19', 145)" onmouseover="showTip(event, 'fs19', 145)" class="fn">m</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs20', 146)" onmouseover="showTip(event, 'fs20', 146)" class="id">toJaggedArray</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 147)" onmouseover="showTip(event, 'fs21', 147)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 148)" onmouseover="showTip(event, 'fs22', 148)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs23', 149)" onmouseover="showTip(event, 'fs23', 149)" class="fn">sampleID</span> <span onmouseout="hideTip(event, 'fs24', 150)" onmouseover="showTip(event, 'fs24', 150)" class="fn">sample</span> <span class="k">-&gt;</span> 
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 151)" onmouseover="showTip(event, 'fs25', 151)" class="fn">sampleIntensities</span> <span class="o">=</span> 
+            <span onmouseout="hideTip(event, 'fs24', 152)" onmouseover="showTip(event, 'fs24', 152)" class="fn">sample</span> 
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 153)" onmouseover="showTip(event, 'fs21', 153)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 154)" onmouseover="showTip(event, 'fs22', 154)" class="id">mapi</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs26', 155)" onmouseover="showTip(event, 'fs26', 155)" class="fn">gID</span> <span onmouseout="hideTip(event, 'fs27', 156)" onmouseover="showTip(event, 'fs27', 156)" class="fn">intensity</span> <span class="k">-&gt;</span>
+                <span onmouseout="hideTip(event, 'fs26', 157)" onmouseover="showTip(event, 'fs26', 157)" class="fn">gID</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs27', 158)" onmouseover="showTip(event, 'fs27', 158)" class="fn">intensity</span>
             <span class="pn">)</span>
-        <span onmouseout="hideTip(event, 'fs26', 153)" onmouseover="showTip(event, 'fs26', 153)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 154)" onmouseover="showTip(event, 'fs27', 154)" class="id">Column</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 155)" onmouseover="showTip(event, 'fs23', 155)" class="fn">sampleIntensities</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs28', 156)" onmouseover="showTip(event, 'fs28', 156)" class="fn">Name</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs29', 157)" onmouseover="showTip(event, 'fs29', 157)" class="fn">sprintf</span> <span class="s">&quot;quantile normed sample</span><span class="pf">%i</span><span class="s">&quot;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs21', 158)" onmouseover="showTip(event, 'fs21', 158)" class="fn">sampleID</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span><span class="pn">)</span>
+        <span onmouseout="hideTip(event, 'fs28', 159)" onmouseover="showTip(event, 'fs28', 159)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs29', 160)" onmouseover="showTip(event, 'fs29', 160)" class="id">Column</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs25', 161)" onmouseover="showTip(event, 'fs25', 161)" class="fn">sampleIntensities</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs30', 162)" onmouseover="showTip(event, 'fs30', 162)" class="fn">Name</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 163)" onmouseover="showTip(event, 'fs31', 163)" class="fn">sprintf</span> <span class="s">&quot;quantile normed sample</span><span class="pf">%i</span><span class="s">&quot;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs23', 164)" onmouseover="showTip(event, 'fs23', 164)" class="fn">sampleID</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span><span class="pn">)</span>
     <span class="pn">)</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 159)" onmouseover="showTip(event, 'fs26', 159)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 160)" onmouseover="showTip(event, 'fs30', 160)" class="id">combine</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 161)" onmouseover="showTip(event, 'fs26', 161)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs31', 162)" onmouseover="showTip(event, 'fs31', 162)" class="id">withTemplate</span> <span onmouseout="hideTip(event, 'fs32', 163)" onmouseover="showTip(event, 'fs32', 163)" class="m">ChartTemplates</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 164)" onmouseover="showTip(event, 'fs33', 164)" class="id">lightMirrored</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 165)" onmouseover="showTip(event, 'fs26', 165)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 166)" onmouseover="showTip(event, 'fs34', 166)" class="id">withXAxisStyle</span> <span class="s">&quot;gID&quot;</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs26', 167)" onmouseover="showTip(event, 'fs26', 167)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 168)" onmouseover="showTip(event, 'fs35', 168)" class="id">withYAxisStyle</span> <span class="s">&quot;qNorm intensity&quot;</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 165)" onmouseover="showTip(event, 'fs28', 165)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs32', 166)" onmouseover="showTip(event, 'fs32', 166)" class="id">combine</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 167)" onmouseover="showTip(event, 'fs28', 167)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs33', 168)" onmouseover="showTip(event, 'fs33', 168)" class="id">withTemplate</span> <span onmouseout="hideTip(event, 'fs34', 169)" onmouseover="showTip(event, 'fs34', 169)" class="m">ChartTemplates</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 170)" onmouseover="showTip(event, 'fs35', 170)" class="id">lightMirrored</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 171)" onmouseover="showTip(event, 'fs28', 171)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs36', 172)" onmouseover="showTip(event, 'fs36', 172)" class="id">withXAxisStyle</span> <span class="s">&quot;gID&quot;</span>
+    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 173)" onmouseover="showTip(event, 'fs28', 173)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 174)" onmouseover="showTip(event, 'fs37', 174)" class="id">withYAxisStyle</span> <span class="s">&quot;qNorm intensity&quot;</span>
 </code></pre>
-<div><div id="0bb7e2e4-5971-4ca2-b5f2-2e5b8e687a8a"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_0bb7e2e459714ca2b5f22e5b8e687a8a = function() {
-    var data = [{"type":"bar","name":"quantile normed sample1","x":[0,1,2,3,4,5],"y":[110.0,80.0,15.0,35.0,41.666666666666664,36.666666666666664],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"quantile normed sample2","x":[0,1,2,3,4,5],"y":[80.0,110.0,35.0,36.666666666666664,15.0,41.666666666666664],"orientation":"v","marker":{"pattern":{}}},{"type":"bar","name":"quantile normed sample3","x":[0,1,2,3,4,5],"y":[80.0,110.0,15.0,36.666666666666664,41.666666666666664,35.0],"orientation":"v","marker":{"pattern":{}}}];
-    var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"xaxis":{"title":{"text":"gID"}},"yaxis":{"title":{"text":"qNorm intensity"}}};
-    var config = {"responsive":true};
-    Plotly.newPlot('0bb7e2e4-5971-4ca2-b5f2-2e5b8e687a8a', data, layout, config);
-};
-renderPlotly_0bb7e2e459714ca2b5f22e5b8e687a8a();
-</script></div>
+<table class="pre"><tr><td><pre><code>No value returned by any evaluator</code></pre></td></tr></table>
 <p>As seen in the normalized column chart, the final samples all consists of the same values, just assigned to different row indices according to the rank within the sample.
 For data with low row count, this normalization is not appropriate because there is a severe disturbance of the intensity values. The more data is incorporated (more rows), the lower
 the single value influence will be.</p>
@@ -988,20 +1097,18 @@ the single value influence will be.</p>
 <p>You can assess the quality of your normalization by performing a PCA prior and after normalization and compare different normalization strategies. While the
 correction factors for MOR can be investigated, quantile normalization is a non-linear transformation since every value is normalized by its own rank-row mean.</p>
 
-                </div>
-            </div>
-        </div>
-        <div class="fsdocs-tip" id="fs1">namespace Plotly</div>
-<div class="fsdocs-tip" id="fs2">namespace Plotly.NET</div>
-<div class="fsdocs-tip" id="fs3">module Defaults
+        <div class="fsdocs-tip" id="fs1">namespace FsMath</div>
+<div class="fsdocs-tip" id="fs2">namespace Plotly</div>
+<div class="fsdocs-tip" id="fs3">namespace Plotly.NET</div>
+<div class="fsdocs-tip" id="fs4">module Defaults
 
 from Plotly.NET<br /><em>&lt;summary&gt;
  Contains mutable global default values.
 
  Changing these values will apply the default values to all consecutive Chart generations.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs4">val mutable DefaultDisplayOptions: DisplayOptions</div>
-<div class="fsdocs-tip" id="fs5">Multiple items<br />type DisplayOptions =
+<div class="fsdocs-tip" id="fs5">val mutable DefaultDisplayOptions: Plotly.NET.DisplayOptions</div>
+<div class="fsdocs-tip" id="fs6">Multiple items<br />type DisplayOptions =
   inherit DynamicObj
   new: unit -&gt; DisplayOptions
   static member addAdditionalHeadTags: additionalHeadTags: XmlNode list -&gt; (DisplayOptions -&gt; DisplayOptions)
@@ -1010,106 +1117,98 @@ from Plotly.NET<br /><em>&lt;summary&gt;
   static member getAdditionalHeadTags: displayOpts: DisplayOptions -&gt; XmlNode list
   static member getDescription: displayOpts: DisplayOptions -&gt; XmlNode list
   static member getPlotlyReference: displayOpts: DisplayOptions -&gt; PlotlyJSReference
-  static member init: ?AdditionalHeadTags: XmlNode list * ?Description: XmlNode list * ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions
+  static member init: [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AdditionalHeadTags: XmlNode list * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Description: XmlNode list * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions
   static member initCDNOnly: unit -&gt; DisplayOptions
-  ...<br /><br />--------------------<br />new: unit -&gt; DisplayOptions</div>
-<div class="fsdocs-tip" id="fs6">static member DisplayOptions.init: ?AdditionalHeadTags: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?Description: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions</div>
-<div class="fsdocs-tip" id="fs7">type PlotlyJSReference =
+  ...<br /><br />--------------------<br />new: unit -&gt; Plotly.NET.DisplayOptions</div>
+<div class="fsdocs-tip" id="fs7">static member Plotly.NET.DisplayOptions.init: [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AdditionalHeadTags: Giraffe.ViewEngine.HtmlElements.XmlNode list * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Description: Giraffe.ViewEngine.HtmlElements.XmlNode list * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?PlotlyJSReference: Plotly.NET.PlotlyJSReference -&gt; Plotly.NET.DisplayOptions</div>
+<div class="fsdocs-tip" id="fs8">type PlotlyJSReference =
   | CDN of string
   | Full
   | Require of string
   | NoReference<br /><em>&lt;summary&gt;
 Sets how plotly is referenced in the head of html docs.
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs8">union case PlotlyJSReference.NoReference: PlotlyJSReference</div>
-<div class="fsdocs-tip" id="fs9">module StyleParam
+<div class="fsdocs-tip" id="fs9">union case Plotly.NET.PlotlyJSReference.NoReference: Plotly.NET.PlotlyJSReference</div>
+<div class="fsdocs-tip" id="fs10">module StyleParam
 
 from Plotly.NET</div>
-<div class="fsdocs-tip" id="fs10">namespace Plotly.NET.LayoutObjects</div>
-<div class="fsdocs-tip" id="fs11">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="fsdocs-tip" id="fs12">namespace FSharp.Stats</div>
-<div class="fsdocs-tip" id="fs13">val rawData: Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs14">Multiple items<br />val matrix: ll: seq&lt;#seq&lt;float&gt;&gt; -&gt; Matrix&lt;float&gt;<br /><br />--------------------<br />type matrix = Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs15">val rawDataChart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs16">property Matrix.Transpose: Matrix&lt;float&gt; with get</div>
+<div class="fsdocs-tip" id="fs11">namespace Plotly.NET.LayoutObjects</div>
+<div class="fsdocs-tip" id="fs12">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs13">namespace FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs14">val rawData: Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs15">val matrix: ll: #(&#39;b seq) seq -&gt; Matrix&lt;&#39;b&gt; (requires &#39;b :&gt; System.Numerics.INumber&lt;&#39;b&gt; and default constructor and value type and comparison and &#39;b :&gt; System.ValueType)</div>
+<div class="fsdocs-tip" id="fs16">val rawDataChart: GenericChart.GenericChart</div>
 <div class="fsdocs-tip" id="fs17">Multiple items<br />module Matrix
 
-from FSharp.Stats<br /><br />--------------------<br />type Matrix&lt;&#39;T&gt; =
-  | DenseRepr of DenseMatrix&lt;&#39;T&gt;
-  | SparseRepr of SparseMatrix&lt;&#39;T&gt;
-  interface IMatrixFormattable
-  interface IFsiFormattable
-  interface IEnumerable
-  interface IEnumerable&lt;&#39;T&gt;
-  interface IStructuralEquatable
-  interface IStructuralComparable
-  interface IComparable
-  override Equals: yobj: obj -&gt; bool
-  member Format: rowStartCount: int * rowEndCount: int * columnStartCount: int * columnEndCount: int * showInfo: bool -&gt; string + 2 overloads
-  member FormatStrings: rowStartCount: int * rowEndCount: int * columnStartCount: int * columnEndCount: int -&gt; string[][]
-  ...</div>
-<div class="fsdocs-tip" id="fs18">val toJaggedArray: m: matrix -&gt; float[][]</div>
-<div class="fsdocs-tip" id="fs19">Multiple items<br />module Array
+from FsMath<br /><br />--------------------<br />type Matrix&lt;&#39;T (requires &#39;T :&gt; INumber&lt;&#39;T&gt; and default constructor and value type and comparison and &#39;T :&gt; ValueType)&gt; =
+  interface IEquatable&lt;Matrix&lt;&#39;T&gt;&gt;
+  new: rows: int * cols: int * data: Vector&lt;&#39;T&gt; -&gt; Matrix&lt;&#39;T&gt;
+  override Equals: obj: obj -&gt; bool
+  override GetHashCode: unit -&gt; int
+  member GetSlice: rowStart: int option * rowEnd: int option * colStart: int option * colEnd: int option -&gt; Matrix&lt;&#39;T&gt; + 1 overload
+  member SetCol: j: int * colData: &#39;T array -&gt; unit
+  member SetRow: i: int * rowData: &#39;T array -&gt; unit
+  override ToString: unit -&gt; string
+  member Transpose: unit -&gt; Matrix&lt;&#39;T&gt;
+  member toArray2D: unit -&gt; &#39;T array2d
+  ...<br /><em>&lt;summary&gt;
+ Matrix type to hold values of a matrix in a 1D Arrays (Flattened Representation)
+&lt;/summary&gt;</em><br /><br />--------------------<br />new: rows: int * cols: int * data: Vector&lt;&#39;T&gt; -&gt; Matrix&lt;&#39;T&gt;</div>
+<div class="fsdocs-tip" id="fs18">static member Matrix.transpose: m: Matrix&lt;&#39;T&gt; -&gt; Matrix&lt;&#39;T&gt;</div>
+<div class="fsdocs-tip" id="fs19">val m: Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs20">member Matrix.toJaggedArray: unit -&gt; &#39;T array array</div>
+<div class="fsdocs-tip" id="fs21">Multiple items<br />module Array
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
  Module to compute common statistical measure on array
 &lt;/summary&gt;</em><br /><br />--------------------<br />module Array
 
-from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with arrays.&lt;/summary&gt;<br />&lt;remarks&gt;
-  See also &lt;a href=&quot;https://docs.microsoft.com/dotnet/fsharp/language-reference/arrays&quot;&gt;F# Language Guide - Arrays&lt;/a&gt;.
- &lt;/remarks&gt;</em><br /><br />--------------------<br />type Array =
+from Microsoft.FSharp.Collections<br /><br />--------------------<br />type Array =
   new: unit -&gt; Array
   static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float array
-  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float[]<br /><br />--------------------<br />new: unit -&gt; Array</div>
-<div class="fsdocs-tip" id="fs20">val mapi: mapping: (int -&gt; &#39;T -&gt; &#39;U) -&gt; array: &#39;T[] -&gt; &#39;U[]<br /><em>&lt;summary&gt;Builds a new array whose elements are the results of applying the given function
- to each of the elements of the array. The integer index passed to the
- function indicates the index of element being transformed, starting at zero.&lt;/summary&gt;<br />&lt;param name=&quot;mapping&quot;&gt;The function to transform elements and their indices.&lt;/param&gt;<br />&lt;param name=&quot;array&quot;&gt;The input array.&lt;/param&gt;<br />&lt;returns&gt;The array of transformed elements.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input array is null.&lt;/exception&gt;<br />&lt;example id=&quot;mapi-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- let inputs = [| 10; 10; 10 |]
-
- inputs |&amp;gt; Array.mapi (fun i x -&amp;gt; i + x)
- &lt;/code&gt;
- Evaluates to &lt;c&gt;[| 10; 11; 12 |]&lt;/c&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs21">val sampleID: int</div>
-<div class="fsdocs-tip" id="fs22">val sample: float[]</div>
-<div class="fsdocs-tip" id="fs23">val sampleIntensities: (int * float)[]</div>
-<div class="fsdocs-tip" id="fs24">val gID: int</div>
-<div class="fsdocs-tip" id="fs25">val intensity: float</div>
-<div class="fsdocs-tip" id="fs26">type Chart =
-  static member AnnotatedHeatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * annotationText: seq&lt;#seq&lt;string&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;&#39;a3&gt; * ?MultiX: seq&lt;seq&lt;&#39;a3&gt;&gt; * ?XGap: int * ?Y: seq&lt;&#39;a4&gt; * ?MultiY: seq&lt;seq&lt;&#39;a4&gt;&gt; * ?YGap: int * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 1 overload
-  static member Area: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?FillColor: Color * ?FillPatternShape: PatternShape * ?FillPattern: Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
-  static member Bar: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;&#39;a1&gt; * ?MultiKeys: seq&lt;seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
-  static member BoxPlot: ?X: seq&lt;&#39;a0&gt; * ?MultiX: seq&lt;seq&lt;&#39;a0&gt;&gt; * ?Y: seq&lt;&#39;a1&gt; * ?MultiY: seq&lt;seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?FillColor: Color * ?MarkerColor: Color * ?Marker: Marker * ?Opacity: float * ?WhiskerWidth: float * ?BoxPoints: BoxPoints * ?BoxMean: BoxMean * ?Jitter: float * ?PointPos: float * ?Orientation: Orientation * ?OutlineColor: Color * ?OutlineWidth: float * ?Outline: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?Notched: bool * ?NotchWidth: float * ?QuartileMethod: QuartileMethod * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a0 :&gt; IConvertible and &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible) + 2 overloads
-  static member Bubble: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * sizes: seq&lt;int&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
-  static member Candlestick: ``open`` : seq&lt;#IConvertible&gt; * high: seq&lt;#IConvertible&gt; * low: seq&lt;#IConvertible&gt; * close: seq&lt;#IConvertible&gt; * ?X: seq&lt;&#39;a4&gt; * ?MultiX: seq&lt;seq&lt;&#39;a4&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?Line: Line * ?IncreasingColor: Color * ?Increasing: FinanceMarker * ?DecreasingColor: Color * ?Decreasing: FinanceMarker * ?WhiskerWidth: float * ?ShowXAxisRangeSlider: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 2 overloads
-  static member Column: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;&#39;a1&gt; * ?MultiKeys: seq&lt;seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
-  static member Contour: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;&#39;a2&gt; * ?MultiX: seq&lt;seq&lt;&#39;a2&gt;&gt; * ?Y: seq&lt;&#39;a3&gt; * ?MultiY: seq&lt;seq&lt;&#39;a3&gt;&gt; * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?Transpose: bool * ?ContourLineColor: Color * ?ContourLineDash: DrawingStyle * ?ContourLineSmoothing: float * ?ContourLine: Line * ?ContoursColoring: ContourColoring * ?ContoursOperation: ConstraintOperation * ?ContoursType: ContourType * ?ShowContourLabels: bool * ?ContourLabelFont: Font * ?Contours: Contours * ?FillColor: Color * ?NContours: int * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
-  static member Funnel: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Width: float * ?Offset: float * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?Orientation: Orientation * ?AlignmentGroup: string * ?OffsetGroup: string * ?MarkerColor: Color * ?MarkerOutline: Line * ?Marker: Marker * ?TextInfo: TextInfo * ?ConnectorLineColor: Color * ?ConnectorLineStyle: DrawingStyle * ?ConnectorFillColor: Color * ?ConnectorLine: Line * ?Connector: FunnelConnector * ?InsideTextFont: Font * ?OutsideTextFont: Font * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
-  static member Heatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?X: seq&lt;&#39;a2&gt; * ?MultiX: seq&lt;seq&lt;&#39;a2&gt;&gt; * ?Y: seq&lt;&#39;a3&gt; * ?MultiY: seq&lt;seq&lt;&#39;a3&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?XGap: int * ?YGap: int * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float array<br /><br />--------------------<br />new: unit -&gt; Array</div>
+<div class="fsdocs-tip" id="fs22">val mapi: mapping: (int -&gt; &#39;T -&gt; &#39;U) -&gt; array: &#39;T array -&gt; &#39;U array</div>
+<div class="fsdocs-tip" id="fs23">val sampleID: int</div>
+<div class="fsdocs-tip" id="fs24">val sample: float array</div>
+<div class="fsdocs-tip" id="fs25">val sampleIntensities: (int * float) array</div>
+<div class="fsdocs-tip" id="fs26">val gID: int</div>
+<div class="fsdocs-tip" id="fs27">val intensity: float</div>
+<div class="fsdocs-tip" id="fs28">type Chart =
+  static member AnnotatedHeatmap: zData: #(&#39;a1 seq) seq * annotationText: #(string seq) seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a3 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a3 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a4 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a5 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a5 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorBar: ColorBar * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ReverseScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ZSmooth: SmoothAlg * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Transpose: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?ReverseYAxis: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 1 overload
+  static member Area: x: #IConvertible seq * y: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowMarkers: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: MarkerSymbol * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: MarkerSymbol seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineDash: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: GroupNorm * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillPatternShape: PatternShape * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillPattern: Pattern * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Bar: values: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Keys: &#39;a1 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiKeys: &#39;a1 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPatternShape: PatternShape * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerPatternShape: PatternShape seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPattern: Pattern * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Base: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiWidth: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member BoxPlot: [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a0 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a0 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a1 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a1 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?WhiskerWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BoxPoints: BoxPoints * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BoxMean: BoxMean * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Jitter: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?PointPos: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OutlineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OutlineWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Outline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Notched: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?NotchWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?QuartileMethod: QuartileMethod * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a0 :&gt; IConvertible and &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible) + 2 overloads
+  static member Bubble: x: #IConvertible seq * y: #IConvertible seq * sizes: int seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: MarkerSymbol * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: MarkerSymbol seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineDash: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: GroupNorm * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Candlestick: ``open`` : #IConvertible seq * high: #IConvertible seq * low: #IConvertible seq * close: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a4 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a5 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a5 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?IncreasingColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Increasing: FinanceMarker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?DecreasingColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Decreasing: FinanceMarker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?WhiskerWidth: float * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?ShowXAxisRangeSlider: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 2 overloads
+  static member Column: values: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Keys: &#39;a1 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiKeys: &#39;a1 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPatternShape: PatternShape * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerPatternShape: PatternShape seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPattern: Pattern * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Base: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiWidth: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member Contour: zData: #(&#39;a1 seq) seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a2 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a3 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a3 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorBar: ColorBar * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ReverseScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Transpose: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLineDash: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLineSmoothing: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLine: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContoursColoring: ContourColoring * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContoursOperation: ConstraintOperation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContoursType: ContourType * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowContourLabels: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLabelFont: Font * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Contours: Contours * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?NContours: int * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
+  static member Funnel: x: #IConvertible seq * y: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Offset: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextInfo: TextInfo * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorLineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorLineStyle: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorFillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorLine: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Connector: FunnelConnector * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?InsideTextFont: Font * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OutsideTextFont: Font * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
+  static member Heatmap: zData: #(&#39;a1 seq) seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a2 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a3 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a3 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorBar: ColorBar * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ReverseScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ZSmooth: SmoothAlg * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Transpose: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?ReverseYAxis: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
   ...</div>
-<div class="fsdocs-tip" id="fs27">static member Chart.Column: keysValues: seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: TraceObjects.Pattern * ?Marker: TraceObjects.Marker * ?Base: #System.IConvertible * ?Width: &#39;e * ?MultiWidth: seq&lt;&#39;e&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible and &#39;e :&gt; System.IConvertible)<br />static member Chart.Column: values: seq&lt;#System.IConvertible&gt; * ?Keys: seq&lt;&#39;a1&gt; * ?MultiKeys: seq&lt;seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: TraceObjects.Pattern * ?Marker: TraceObjects.Marker * ?Base: #System.IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a1 :&gt; System.IConvertible and &#39;a2 :&gt; System.IConvertible and &#39;a4 :&gt; System.IConvertible)</div>
-<div class="fsdocs-tip" id="fs28">union case HoverInfo.Name: HoverInfo</div>
-<div class="fsdocs-tip" id="fs29">val sprintf: format: Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Print to a string using the given format.&lt;/summary&gt;<br />&lt;param name=&quot;format&quot;&gt;The formatter.&lt;/param&gt;<br />&lt;returns&gt;The formatted result.&lt;/returns&gt;<br />&lt;example&gt;See &lt;c&gt;Printf.sprintf&lt;/c&gt; (link: &lt;see cref=&quot;M:Microsoft.FSharp.Core.PrintfModule.PrintFormatToStringThen``1&quot; /&gt;) for examples.&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs30">static member Chart.combine: gCharts: seq&lt;GenericChart.GenericChart&gt; -&gt; GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs31">static member Chart.withTemplate: template: Template -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
-<div class="fsdocs-tip" id="fs32">module ChartTemplates
+<div class="fsdocs-tip" id="fs29">static member Chart.Column: keysValues: (#System.IConvertible * #System.IConvertible) seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;c * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;c seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPatternShape: PatternShape * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerPatternShape: PatternShape seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPattern: TraceObjects.Pattern * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: TraceObjects.Marker * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Base: #System.IConvertible * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: &#39;e * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiWidth: &#39;e seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible and &#39;e :&gt; System.IConvertible)<br />static member Chart.Column: values: #System.IConvertible seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Keys: &#39;a1 seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiKeys: &#39;a1 seq seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPatternShape: PatternShape * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerPatternShape: PatternShape seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPattern: TraceObjects.Pattern * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: TraceObjects.Marker * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Base: #System.IConvertible * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: &#39;a4 * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiWidth: &#39;a4 seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a1 :&gt; System.IConvertible and &#39;a2 :&gt; System.IConvertible and &#39;a4 :&gt; System.IConvertible)</div>
+<div class="fsdocs-tip" id="fs30">union case HoverInfo.Name: HoverInfo</div>
+<div class="fsdocs-tip" id="fs31">val sprintf: format: Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T</div>
+<div class="fsdocs-tip" id="fs32">static member Chart.combine: gCharts: GenericChart.GenericChart seq -&gt; GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs33">static member Chart.withTemplate: template: Template -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs34">module ChartTemplates
 
 from Plotly.NET</div>
-<div class="fsdocs-tip" id="fs33">val lightMirrored: Template</div>
-<div class="fsdocs-tip" id="fs34">static member Chart.withXAxisStyle: ?TitleText: string * ?TitleFont: Font * ?TitleStandoff: int * ?Title: Title * ?Color: Color * ?AxisType: AxisType * ?MinMax: (#System.IConvertible * #System.IConvertible) * ?Mirror: Mirror * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?ShowLine: bool * ?LineColor: Color * ?ShowGrid: bool * ?GridColor: Color * ?GridDash: DrawingStyle * ?ZeroLine: bool * ?ZeroLineColor: Color * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?Domain: (float * float) * ?Position: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#System.IConvertible&gt; * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?BackgroundColor: Color * ?ShowBackground: bool * ?Id: SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
-<div class="fsdocs-tip" id="fs35">static member Chart.withYAxisStyle: ?TitleText: string * ?TitleFont: Font * ?TitleStandoff: int * ?Title: Title * ?Color: Color * ?AxisType: AxisType * ?MinMax: (#System.IConvertible * #System.IConvertible) * ?Mirror: Mirror * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?ShowLine: bool * ?LineColor: Color * ?ShowGrid: bool * ?GridColor: Color * ?GridDash: DrawingStyle * ?ZeroLine: bool * ?ZeroLineColor: Color * ?Anchor: LinearAxisId * ?Side: Side * ?Overlaying: LinearAxisId * ?AutoShift: bool * ?Shift: int * ?Domain: (float * float) * ?Position: float * ?CategoryOrder: CategoryOrder * ?CategoryArray: seq&lt;#System.IConvertible&gt; * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?BackgroundColor: Color * ?ShowBackground: bool * ?Id: SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
-<div class="fsdocs-tip" id="fs36">static member Chart.withTitle: title: Title -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)<br />static member Chart.withTitle: title: string * ?TitleFont: Font -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
-<div class="fsdocs-tip" id="fs37">module GenericChart
+<div class="fsdocs-tip" id="fs35">val lightMirrored: Template</div>
+<div class="fsdocs-tip" id="fs36">static member Chart.withXAxisStyle: [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleText: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleFont: Font * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleStandoff: int * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Title: Title * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Color: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AxisType: AxisType * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MinMax: (#System.IConvertible * #System.IConvertible) * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Mirror: Mirror * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowSpikes: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?SpikeColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?SpikeThickness: int * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLine: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowGrid: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GridColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GridDash: DrawingStyle * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ZeroLine: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ZeroLineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Anchor: LinearAxisId * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Side: Side * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Overlaying: LinearAxisId * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Domain: (float * float) * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Position: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CategoryOrder: CategoryOrder * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CategoryArray: #System.IConvertible seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?RangeSlider: RangeSlider * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?RangeSelector: RangeSelector * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?BackgroundColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowBackground: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Id: SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs37">static member Chart.withYAxisStyle: [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleText: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleFont: Font * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleStandoff: int * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Title: Title * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Color: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AxisType: AxisType * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MinMax: (#System.IConvertible * #System.IConvertible) * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Mirror: Mirror * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowSpikes: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?SpikeColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?SpikeThickness: int * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLine: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowGrid: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GridColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GridDash: DrawingStyle * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ZeroLine: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ZeroLineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Anchor: LinearAxisId * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Side: Side * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Overlaying: LinearAxisId * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AutoShift: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Shift: int * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Domain: (float * float) * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Position: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CategoryOrder: CategoryOrder * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CategoryArray: #System.IConvertible seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?RangeSlider: RangeSlider * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?RangeSelector: RangeSelector * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?BackgroundColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowBackground: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Id: SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs38">static member Chart.withTitle: title: Title -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)<br />static member Chart.withTitle: title: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleFont: Font -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs39">module GenericChart
 
 from Plotly.NET<br /><em>&lt;summary&gt;
  Module to represent a GenericChart
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs38">val toChartHTML: gChart: GenericChart.GenericChart -&gt; string</div>
-<div class="fsdocs-tip" id="fs39">val mor: Signal.Normalization.MorResult<br /><em>&#160;actual median of ratios normalization. 1 is added to each intensity to get rid of the empty intensities.</em></div>
-<div class="fsdocs-tip" id="fs40">namespace FSharp.Stats.Signal</div>
-<div class="fsdocs-tip" id="fs41">module Normalization
+<div class="fsdocs-tip" id="fs40">val toChartHTML: gChart: GenericChart.GenericChart -&gt; string</div>
+<div class="fsdocs-tip" id="fs41">val mor: Signal.Normalization.MorResult<br /><em>&#160;actual median of ratios normalization. 1 is added to each intensity to get rid of the empty intensities.</em></div>
+<div class="fsdocs-tip" id="fs42">namespace FSharp.Stats.Signal</div>
+<div class="fsdocs-tip" id="fs43">module Normalization
 
 from FSharp.Stats.Signal</div>
-<div class="fsdocs-tip" id="fs42">val medianOfRatiosBy: f: (float -&gt; float) -&gt; data: Matrix&lt;float&gt; -&gt; Signal.Normalization.MorResult<br /><em>&lt;summary&gt;
+<div class="fsdocs-tip" id="fs44">val medianOfRatiosBy: f: (float -&gt; float) -&gt; data: Matrix&lt;float&gt; -&gt; Signal.Normalization.MorResult<br /><em>&lt;summary&gt;
    Median of ratios normalization As used by Deseq2, see: https://github.com/hbctraining/DGE_workshop/blob/master/lessons/02_DGE_count_normalization.md . 
    Rows are genes, columns are samples
  &lt;/summary&gt;<br />&lt;param name=&quot;f&quot;&gt;The transformation function is applied on all values of the matrix before calculating the normalization factors.&lt;/param&gt;<br />&lt;param name=&quot;data&quot;&gt;data matrix with columns as features (samples,time points) and rows as measured entities (genes,proteins).&lt;/param&gt;<br />&lt;returns&gt;Normalized data matrix with correction factors and normalization function.&lt;/returns&gt;<br />&lt;example&gt;&lt;code&gt; 
@@ -1117,38 +1216,28 @@ from FSharp.Stats.Signal</div>
    let myData = Matrix.init 500 5 (fun _ _ -&amp;gt; rnd.NextDouble())
    let normedData = Normalization.medianOfRatiosBy (fun x -&amp;gt; ln (x+1)) myData
  &lt;/code&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs43">val x: float</div>
-<div class="fsdocs-tip" id="fs44">val morNormedData: Matrix&lt;float&gt;<br /><em>&#160;Matrix of normalized data in the same order as the input matrix</em></div>
-<div class="fsdocs-tip" id="fs45">Signal.Normalization.MorResult.NormedData: Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs46">val corrFactors: string<br /><em>&#160;Correction factors to assess the strenght of the applied normalization (1 indicates no normalization)</em></div>
-<div class="fsdocs-tip" id="fs47">val cf1: float</div>
-<div class="fsdocs-tip" id="fs48">Multiple items<br />module Seq
+<div class="fsdocs-tip" id="fs45">val x: float</div>
+<div class="fsdocs-tip" id="fs46">val morNormedData: Matrix&lt;float&gt;<br /><em>&#160;Matrix of normalized data in the same order as the input matrix</em></div>
+<div class="fsdocs-tip" id="fs47">Signal.Normalization.MorResult.NormedData: Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs48">val corrFactors: string<br /><em>&#160;Correction factors to assess the strenght of the applied normalization (1 indicates no normalization)</em></div>
+<div class="fsdocs-tip" id="fs49">val cf1: float</div>
+<div class="fsdocs-tip" id="fs50">Multiple items<br />module Seq
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
- Module to compute common statistical measure
-&lt;/summary&gt;</em><br /><br />--------------------<br />module Seq
+ Module to compute common statistical measures.
+ &lt;/summary&gt;</em><br /><br />--------------------<br />module Seq
 
-from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.seq`1&quot; /&gt;.&lt;/summary&gt;</em><br /><br />--------------------<br />type Seq =
+from Microsoft.FSharp.Collections<br /><br />--------------------<br />type Seq =
   new: unit -&gt; Seq
-  static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; seq&lt;float&gt;
-  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; seq&lt;float&gt;<br /><br />--------------------<br />new: unit -&gt; Seq</div>
-<div class="fsdocs-tip" id="fs49">val item: index: int -&gt; source: seq&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Computes the element at the specified index in the collection.&lt;/summary&gt;<br />&lt;param name=&quot;index&quot;&gt;The index of the element to retrieve.&lt;/param&gt;<br />&lt;param name=&quot;source&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The element at the specified index of the sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input sequence is null.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.ArgumentException&quot;&gt;Thrown when the index is negative or the input sequence does not contain enough elements.&lt;/exception&gt;<br />&lt;example id=&quot;item-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- let inputs = [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;]
-
- inputs |&amp;gt; Seq.item 1
- &lt;/code&gt;
- Evaluates to &lt;c&gt;&quot;b&quot;&lt;/c&gt;&lt;/example&gt;<br />&lt;example id=&quot;item-2&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- let inputs = [&quot;a&quot;; &quot;b&quot;; &quot;c&quot;]
-
- inputs |&amp;gt; Seq.item 4
- &lt;/code&gt;
- Throws &lt;c&gt;ArgumentException&lt;/c&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs50">Signal.Normalization.MorResult.CorrFactors: seq&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs51">val cf2: float</div>
-<div class="fsdocs-tip" id="fs52">val cf3: float</div>
-<div class="fsdocs-tip" id="fs53">val normedDataChart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs54">val quantileNorm: Matrix&lt;float&gt;</div>
-<div class="fsdocs-tip" id="fs55">val quantile: data: Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br /><em>&lt;summary&gt;
+  static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float seq
+  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float seq<br /><br />--------------------<br />new: unit -&gt; Seq</div>
+<div class="fsdocs-tip" id="fs51">val item: index: int -&gt; source: &#39;T seq -&gt; &#39;T</div>
+<div class="fsdocs-tip" id="fs52">Signal.Normalization.MorResult.CorrFactors: float seq</div>
+<div class="fsdocs-tip" id="fs53">val cf2: float</div>
+<div class="fsdocs-tip" id="fs54">val cf3: float</div>
+<div class="fsdocs-tip" id="fs55">val normedDataChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs56">val quantileNorm: Matrix&lt;float&gt;</div>
+<div class="fsdocs-tip" id="fs57">val quantile: data: Matrix&lt;float&gt; -&gt; Matrix&lt;float&gt;<br /><em>&lt;summary&gt;
    Quantile normalization with equal number of elements (rows) for each sample (column). 
    Column mean and column standard deviation are qual after normalization.
    Rows are genes, columns are samples.
@@ -1157,17 +1246,51 @@ from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations fo
    let myData = Matrix.init 500 5 (fun _ _ -&amp;gt; rnd.NextDouble())
    let normedData = Normalization.quantile myData
  &lt;/code&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs56">val normedDataQuantileChart: GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs58">val normedDataQuantileChart: GenericChart.GenericChart</div>
 
     </div>
+</main>
+<aside id="fsdocs-page-menu">
+    <p id="on-this-page">On this page</p>
+    <ul>
+  <li class="level-1">
+    <a href="#Normalization">
+      Normalization
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Introduction">
+      Introduction
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Median-of-ratios">
+      Median of ratios
+    </a>
+  </li>
+  <li class="level-1">
+    <a href="#Quantile-normalization">
+      Quantile normalization
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Notes">
+      Notes
+    </a>
+  </li>
+</ul>
+</aside>
+<dialog>
+    <input type="search" placeholder="Search docs" />
+    <div class="results">
+        <ul></ul>
+        <p class="empty">Type something to start searching.</p>
+    </div>
+</dialog>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-toggle.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
 
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
-    <!-- END SEARCH BOX: this adds support for the search box -->
 </body>
-
 </html>

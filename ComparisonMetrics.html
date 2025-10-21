@@ -1,184 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-root="https://fslab.org/FSharp.Stats/">
 <head>
-    <meta charset="utf-8">
-    <title>Comparison metrics</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors">
-    <link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.18.1.min.js"></script>
-    <script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" />
-    <link type="text/css" rel="stylesheet" href="https://fslab.org/FSharp.Stats/content/fsdocs-custom.css" />
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <!-- END SEARCH BOX: this adds support for the search box -->
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Benedikt Venn, Timo Muehlhaus, Heinrich Lukas Weil, David Zimmer, Kevin Schneider, fslab open source contributors" name="author">
+    <!-- Opengraph properties (https://ogp.me/) -->
+    <meta property="og:site_name" content="FSharp.Stats">
+    <meta property="og:title" content="Comparison metrics" />
+    <meta property="og:url" content="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    <meta property="og:type" content="website" />
+    <!-- Twitter cards (https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="https://fslab.org/FSharp.Stats/">
+    <meta name="twitter:title" content="Comparison metrics">
     
-</head> 
+    <title>Comparison metrics | FSharp.Stats</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/img/favicon.ico" rel="icon" sizes="32x32" type="image/png"/>
+    <script type="application/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-set-dark.js"></script>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-default.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fslab.org/FSharp.Stats/content/fsdocs-theme.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+<title>{{fsdocs-page-title}}</title>
+<meta name="author" content="{{fsdocs-authors}}">
+<meta name="description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
 
-<body>
-    <div class="columns is-fullheight m-0">
-        <div id="fsdocs-menu" class="column is-2 is-paddingless">
-            <aside class="menu">
-                <div class="container is-paddingless is-marginless has-background-light">
-                    <a href="https://fslab.org/FSharp.Stats/">
-                        <figure class="image is-128x128 container">
-                            <img src="https://fslab.org/FSharp.Stats/img/logo.png">
-                        </figure>
-                    </a>
-                    <h2 class="title has-text-centered has-text-fsstatsgrey pb-4">FSharp.Stats</h2>
-                </div>
-                <div class="content">
-                    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-                    <div id="header">
-                        <div class="searchbox" id="fsdocs-searchbox">
-                            <label for="search-by">
-                                <i class="fas fa-search"></i>
-                            </label>
-                            <input data-search-input="" id="search-by" type="search" placeholder="Search..." class="input"/>
-                            <span data-search-clear="">
-                                <i class="fas fa-times"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- END SEARCH BOX: this adds support for the search box -->
-                    <ul class="navbar-nav">
-                        <li class="nav-header">Links</li>
-                        <li class="nav-item" id="fsdocs-license-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License (MIT)</a></li>
-                        <li class="nav-item" id="fsdocs-release-notes-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release Notes</a></li>
-                        <li class="nav-item" id="fsdocs-repository-link"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source Repository</a></li>
-                        <li class="nav-header">
+<!-- Opengraph properties (https://ogp.me/) -->
+<meta property="og:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}" />
+<meta property="og:url" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="FSharp.Stats" />
+<meta property="og:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta property="og:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<!-- Twitter cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="https://fslab.org/FSharp.Stats/{{fsdocs-source-basename}}.html">
+<meta property="twitter:url" content="https://fslab.org/FSharp.Stats/">
+<meta name="twitter:title" content="FSharp.Stats documentation for: {{fsdocs-page-title}}">
+<meta name="twitter:description" content="FSharp.Stats documentation for: {{fsdocs-page-title}}. FSharp.Stats is a multipurpose project for statistical testing, linear algebra, machine learning, fitting and signal processing.">
+<meta name="twitter:image" content="https://fslab.org/FSharp.Stats/img/logo_meta_tags.png">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://fslab.org/FSharp.Stats//img/favicon.ico">
+<script src="https://cdn.plot.ly/plotly-2.27.1.min.js"></script>
+<script>MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-svg.js"></script>
+    
+</head>
+<body class="content">
+<header>
+    <div class="start">
+        <div id="menu-toggle">
+            <iconify-icon class="icon closed" height="22" icon="eva:menu-fill" width="22"></iconify-icon>
+            <iconify-icon class="icon open" height="22" icon="mi:close" width="22"></iconify-icon>
+            <input type="checkbox" name="mobile-menu" />
+            <ul class="menu">
+                <li class="nav-header">Links</li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+                </li>
+                <li class="nav-item"><a class="nav-link"
+                                        href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+                    Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+                    Repository</a></li>
+                <li class="nav-header active">
   Documentation
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
     Basic statistics
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
     Probability distributions
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
     Statistical testing
   </a>
 </li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Matrix_Vector.html">
-    Matrix and Vector
-  </a>
-</li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/LinearAlgebra.html">
-    Linear Algebra
-  </a>
-</li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
     Correlation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
     Covariance
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
     Fitting
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
     Interpolation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
     Growth curve
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
     Cross validation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
     Fit quality
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
     Imputation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
     Clustering
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item active">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
     Comparison metrics
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
     Differentiation
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
     Integration
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
     Signal processing
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
     Normalization
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
     Ranking
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
     Quantile
   </a>
 </li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
     Intervals
   </a>
 </li>             
-<li class="nav-item">
-  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ML.html">
-    Machine Learning
-  </a>
-</li>             
-<li class="nav-item">
+<li class="nav-item ">
   <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
     Optimization
   </a>
 </li>
-                        <li class="nav-header">
+                <li class="nav-header">
   API Reference
 </li>             
 <li class="nav-item">
@@ -186,48 +183,155 @@
     All Namespaces
   </a>
 </li>
-                    </ul>
-                </div>
-            </aside>
+            </ul>
         </div>
-        <div class="column is-10 is-paddingless">
-            <div class="section pt-4">
-                <div class="container" id="fsdocs-content">
-                    
+        <a href="https://fslab.org/FSharp.Stats/">
+            <img alt="Header menu logo" src="https://fslab.org/FSharp.Stats/img/logo.png">
+            <strong>FSharp.Stats</strong>
+        </a>
+    </div>
+    <div class="end">
+        <a href="https://github.com/fslaborg/FSharp.Stats/" target="_blank">
+            <iconify-icon icon="uil:github" width="26" height="26"></iconify-icon>
+        </a>
+        <iconify-icon id="search-btn" icon="carbon:search" class="search" width="24" height="24"></iconify-icon>
+        <fsdocs-theme-toggle></fsdocs-theme-toggle>
+    </div>
+</header>
+<aside id="fsdocs-main-menu">
+    <ul class="menu">
+        <li class="nav-header">Links</li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE">License</a>
+        </li>
+        <li class="nav-item"><a class="nav-link"
+                                href="https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md">Release
+            Notes</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://github.com/fslaborg/FSharp.Stats/">Source
+            Repository</a></li>
+        <li class="nav-header active">
+  Documentation
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/BasicStats.html">
+    Basic statistics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Distributions.html">
+    Probability distributions
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Testing.html">
+    Statistical testing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Correlation.html">
+    Correlation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Covariance.html">
+    Covariance
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Fitting.html">
+    Fitting
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Interpolation.html">
+    Interpolation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GrowthCurve.html">
+    Growth curve
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/CrossValidation.html">
+    Cross validation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/GoodnessOfFit.html">
+    Fit quality
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Imputation.html">
+    Imputation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Clustering.html">
+    Clustering
+  </a>
+</li>             
+<li class="nav-item active">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/ComparisonMetrics.html">
+    Comparison metrics
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Differentiation.html">
+    Differentiation
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Integration.html">
+    Integration
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Signal.html">
+    Signal processing
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Normalization.html">
+    Normalization
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Rank.html">
+    Ranking
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Quantiles.html">
+    Quantile
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Intervals.html">
+    Intervals
+  </a>
+</li>             
+<li class="nav-item ">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/Optimization.html">
+    Optimization
+  </a>
+</li>
+        <li class="nav-header">
+  API Reference
+</li>             
+<li class="nav-item">
+  <a class="nav-link" href="https://fslab.org/FSharp.Stats/reference/index.html">
+    All Namespaces
+  </a>
+</li>
+    </ul>
+</aside>
+<main>
+    <div id="content">
+        
 <h1><a name="Evaluating-predictions-and-tests" class="anchor" href="#Evaluating-predictions-and-tests">Evaluating predictions and tests</a></h1>
 <p><a href="https://mybinder.org/v2/gh/fslaborg/FSharp.Stats/gh-pages?urlpath=/tree/home/jovyan/Integration.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a>
 <a href="https://fslab.org/FSharp.Stats/ComparisonMetrics.ipynb"><img src="https://fslab.org/FSharp.Stats/img/badge-notebook.svg" alt="Notebook" /></a></p>
-<h4><a name="Table-of-contents" class="anchor" href="#Table-of-contents">Table of contents</a></h4>
-<ul>
-<li>
-<a href="#Confusion-matrices">Confusion matrices</a>
-<ul>
-<li><a href="#Binary-confusion-matrix">Binary confusion matrix</a></li>
-<li><a href="#Multi-label-confusion-matrix">Multi-label confusion matrix</a></li>
-</ul>
-</li>
-<li>
-<a href="#Comparison-Metrics">Comparison-Metric</a>
-<ul>
-<li><a href="#ComparisonMetrics-for-binary-comparisons">ComparisonMetrics for binary comparisons</a></li>
-<li>
-<a href="#ComparisonMetrics-for-multi-label-comparisons">ComparisonMetrics for multi-label comparisons</a>
-<ul>
-<li><a href="#Macro-averaging-metrics">Macro-averaging metrics</a></li>
-<li><a href="#Micro-averaging-metrics">Micro-averaging metrics</a></li>
-</ul>
-</li>
-<li>
-<a href="#Creating-threshold-dependent-metric-maps">Creating threshold-dependent metric maps</a>
-<ul>
-<li><a href="#For-binary-predictions">For binary predictions</a></li>
-<li><a href="#For-multi-label-predictions">For multi-label predictions</a></li>
-<li><a href="#ROC-curve-example">ROC curve example</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
 <p>FSharp.Stats contains a collection for assessing both binary and multi-label comparisons, for example the results of a binary/multi-label classification or the results of a statistical test.</p>
 <p>Usually, using the functions provided by the <code>ComparisonMetrics</code> module should be enough, but for clarity this documentation also introduces the <code>BinaryConfusionMatrix</code> and <code>MultiLabelConfusionMatrix</code> types that are used to derive the <code>ComparisonMetrics.</code></p>
 <h2><a name="Confusion-matrices" class="anchor" href="#Confusion-matrices">Confusion matrices</a></h2>
@@ -246,7 +350,7 @@
 <tr class="header">
 <th></th>
 <th></th>
-<th><p>predicted</p></th>
+<th><p><strong>Predicted</strong></p></th>
 <th></th>
 </tr>
 </thead>
@@ -258,7 +362,7 @@
 <td><p>False</p></td>
 </tr>
 <tr class="even">
-<td><p>actual</p></td>
+<td><p><strong>Actual</strong></p></td>
 <td><p>True</p></td>
 <td><p>3</p></td>
 <td><p>1</p></td>
@@ -284,7 +388,7 @@
 <tr class="header">
 <th></th>
 <th></th>
-<th><p>Predicted</p></th>
+<th><p><strong>Predicted</strong></p></th>
 <th></th>
 </tr>
 </thead>
@@ -296,7 +400,7 @@
 <td><p>False</p></td>
 </tr>
 <tr class="even">
-<td><p>Actual</p></td>
+<td><p><strong>Actual</strong></p></td>
 <td><p>True</p></td>
 <td><p>TP</p></td>
 <td><p>FN</p></td>
@@ -318,9 +422,10 @@
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 14)" onmouseover="showTip(event, 'fs9', 14)" class="id">actual</span> <span class="o">=</span> <span class="pn">[</span><span class="n">1</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">0</span><span class="pn">;</span><span class="n">0</span><span class="pn">;</span><span class="n">0</span><span class="pn">]</span>
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 15)" onmouseover="showTip(event, 'fs10', 15)" class="id">predicted</span> <span class="o">=</span> <span class="pn">[</span><span class="n">1</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">0</span><span class="pn">;</span><span class="n">1</span><span class="pn">;</span><span class="n">0</span><span class="pn">;</span><span class="n">0</span><span class="pn">]</span>
 
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs11', 16)" onmouseover="showTip(event, 'fs11', 16)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 17)" onmouseover="showTip(event, 'fs12', 17)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 18)" onmouseover="showTip(event, 'fs13', 18)" class="id">Testing</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs11', 16)" onmouseover="showTip(event, 'fs11', 16)" class="id">FsMath</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs12', 17)" onmouseover="showTip(event, 'fs12', 17)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 18)" onmouseover="showTip(event, 'fs13', 18)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs14', 19)" onmouseover="showTip(event, 'fs14', 19)" class="id">Testing</span>
 
-<span onmouseout="hideTip(event, 'fs14', 19)" onmouseover="showTip(event, 'fs14', 19)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 20)" onmouseover="showTip(event, 'fs15', 20)" class="id">ofPredictions</span><span class="pn">(</span><span class="n">1</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs9', 21)" onmouseover="showTip(event, 'fs9', 21)" class="id">actual</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs10', 22)" onmouseover="showTip(event, 'fs10', 22)" class="id">predicted</span><span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs15', 20)" onmouseover="showTip(event, 'fs15', 20)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 21)" onmouseover="showTip(event, 'fs16', 21)" class="id">ofPredictions</span><span class="pn">(</span><span class="n">1</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs9', 22)" onmouseover="showTip(event, 'fs9', 22)" class="id">actual</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs10', 23)" onmouseover="showTip(event, 'fs10', 23)" class="id">predicted</span><span class="pn">)</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>{ TP = 3
   TN = 2
@@ -329,10 +434,10 @@
 <ul>
 <li>from boolean predictions and actual labels using <code>BinaryConfusionMatrix.fromPredictions</code></li>
 </ul>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 23)" onmouseover="showTip(event, 'fs16', 23)" class="id">actualBool</span> <span class="o">=</span> <span class="pn">[</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">]</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 24)" onmouseover="showTip(event, 'fs17', 24)" class="id">predictedBool</span> <span class="o">=</span> <span class="pn">[</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">]</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 24)" onmouseover="showTip(event, 'fs17', 24)" class="id">actualBool</span> <span class="o">=</span> <span class="pn">[</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">]</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 25)" onmouseover="showTip(event, 'fs18', 25)" class="id">predictedBool</span> <span class="o">=</span> <span class="pn">[</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">true</span><span class="pn">;</span><span class="k">false</span><span class="pn">;</span><span class="k">false</span><span class="pn">]</span>
 
-<span onmouseout="hideTip(event, 'fs14', 25)" onmouseover="showTip(event, 'fs14', 25)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 26)" onmouseover="showTip(event, 'fs15', 26)" class="id">ofPredictions</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs16', 27)" onmouseover="showTip(event, 'fs16', 27)" class="id">actualBool</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs17', 28)" onmouseover="showTip(event, 'fs17', 28)" class="id">predictedBool</span><span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs15', 26)" onmouseover="showTip(event, 'fs15', 26)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 27)" onmouseover="showTip(event, 'fs16', 27)" class="id">ofPredictions</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs17', 28)" onmouseover="showTip(event, 'fs17', 28)" class="id">actualBool</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs18', 29)" onmouseover="showTip(event, 'fs18', 29)" class="id">predictedBool</span><span class="pn">)</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>{ TP = 3
   TN = 2
@@ -341,7 +446,7 @@
 <ul>
 <li>directly from obtained TP/TN/FP/FN values using <code>BinaryConfusionMatrix.create</code></li>
 </ul>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs14', 29)" onmouseover="showTip(event, 'fs14', 29)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 30)" onmouseover="showTip(event, 'fs18', 30)" class="id">create</span><span class="pn">(</span><span class="fn">tp</span><span class="o">=</span><span class="n">3</span><span class="pn">,</span><span class="fn">tn</span><span class="o">=</span><span class="n">2</span><span class="pn">,</span><span class="fn">fp</span><span class="o">=</span><span class="n">1</span><span class="pn">,</span><span class="fn">fn</span><span class="o">=</span><span class="n">1</span><span class="pn">)</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs15', 30)" onmouseover="showTip(event, 'fs15', 30)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 31)" onmouseover="showTip(event, 'fs19', 31)" class="id">create</span><span class="pn">(</span><span class="fn">tp</span><span class="o">=</span><span class="n">3</span><span class="pn">,</span><span class="fn">tn</span><span class="o">=</span><span class="n">2</span><span class="pn">,</span><span class="fn">fp</span><span class="o">=</span><span class="n">1</span><span class="pn">,</span><span class="fn">fn</span><span class="o">=</span><span class="n">1</span><span class="pn">)</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>{ TP = 3
   TN = 2
@@ -360,7 +465,7 @@
 <tr class="header">
 <th></th>
 <th></th>
-<th><p>Predicted</p></th>
+<th><p><strong>Predicted</strong></p></th>
 <th></th>
 <th></th>
 </tr>
@@ -374,7 +479,7 @@
 <td><p>Label C</p></td>
 </tr>
 <tr class="even">
-<td><p>Actual</p></td>
+<td><p><strong>Actual</strong></p></td>
 <td><p>Label A</p></td>
 <td><p>3</p></td>
 <td><p>1</p></td>
@@ -401,10 +506,10 @@
 <ul>
 <li>from the labels and a confusion matrix (<code>Matrix&lt;int&gt;</code>, note that the index in the label array will be assigned for the column/row indices of the matrix, and that the matrix must be square and of the same dimensions as the label array)</li>
 </ul>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs11', 31)" onmouseover="showTip(event, 'fs11', 31)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 32)" onmouseover="showTip(event, 'fs12', 32)" class="id">Stats</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs12', 32)" onmouseover="showTip(event, 'fs12', 32)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 33)" onmouseover="showTip(event, 'fs13', 33)" class="id">Stats</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 33)" onmouseover="showTip(event, 'fs19', 33)" class="id">mlcm</span> <span class="o">=</span>
-    <span onmouseout="hideTip(event, 'fs20', 34)" onmouseover="showTip(event, 'fs20', 34)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 35)" onmouseover="showTip(event, 'fs21', 35)" class="id">create</span><span class="pn">(</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 34)" onmouseover="showTip(event, 'fs20', 34)" class="id">mlcm</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs21', 35)" onmouseover="showTip(event, 'fs21', 35)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 36)" onmouseover="showTip(event, 'fs22', 36)" class="id">create</span><span class="pn">(</span>
         <span class="fn">labels</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
         <span class="fn">confusion</span> <span class="o">=</span><span class="pn">(</span>
             <span class="pn">[</span>
@@ -412,15 +517,15 @@
                 <span class="pn">[</span><span class="n">1</span><span class="pn">;</span> <span class="n">2</span><span class="pn">;</span> <span class="n">0</span><span class="pn">]</span>
                 <span class="pn">[</span><span class="n">2</span><span class="pn">;</span> <span class="n">0</span><span class="pn">;</span> <span class="n">4</span><span class="pn">]</span>
             <span class="pn">]</span>
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs22', 36)" onmouseover="showTip(event, 'fs22', 36)" class="fn">array2D</span>
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs23', 37)" onmouseover="showTip(event, 'fs23', 37)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 38)" onmouseover="showTip(event, 'fs24', 38)" class="m">Generic</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs25', 39)" onmouseover="showTip(event, 'fs25', 39)" class="id">ofArray2D</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs23', 37)" onmouseover="showTip(event, 'fs23', 37)" class="fn">array2D</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs24', 38)" onmouseover="showTip(event, 'fs24', 38)" class="m">Matrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs25', 39)" onmouseover="showTip(event, 'fs25', 39)" class="id">ofArray2D</span>
         <span class="pn">)</span>
     <span class="pn">)</span>
 </code></pre>
 <ul>
 <li>from predictions and actual labels of any type using <code>MultiLabelConfusionMatrix.ofPredictions</code>, additionally passing the labels</li>
 </ul>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs20', 40)" onmouseover="showTip(event, 'fs20', 40)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 41)" onmouseover="showTip(event, 'fs26', 41)" class="id">ofPredictions</span><span class="pn">(</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs21', 40)" onmouseover="showTip(event, 'fs21', 40)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 41)" onmouseover="showTip(event, 'fs26', 41)" class="id">ofPredictions</span><span class="pn">(</span>
     <span class="fn">labels</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
     <span onmouseout="hideTip(event, 'fs9', 42)" onmouseover="showTip(event, 'fs9', 42)" class="fn">actual</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">|]</span><span class="pn">,</span>
     <span class="fn">predictions</span> <span class="o">=</span> <span class="pn">[|</span><span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;B&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;C&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">;</span> <span class="s">&quot;A&quot;</span><span class="pn">|]</span>
@@ -428,14 +533,13 @@
 </code></pre>
 <table class="pre"><tr><td><pre><code>{ Labels = [|"A"; "B"; "C"|]
   Confusion =
-   
-      0 1 2
-           
- 0 -&gt; 3 1 1
- 1 -&gt; 1 2 0
- 2 -&gt; 2 0 4
-
-Matrix of 3 rows x 3 columns}</code></pre></td></tr></table>
+   Matrix 3x3:
+┌ ──┼───┼── ┐
+│ 3 │ 1 │ 1 │
+│ 1 │ 2 │ 0 │
+│ 2 │ 0 │ 4 │
+└ ──┼───┼── ┘
+ }</code></pre></td></tr></table>
 <p>It is however not as easy to extract comparable metrics directly from this matrix.</p>
 <p>Therefore, multi-label classification are most often compared using <code>one/all-vs-rest</code> and <code>micro/macro averaging</code> of metrics.</p>
 <p>It is possible to derive binary <code>one-vs-rest</code> confusion matrices to evaluate prediction metrics of individual labels from a multi-label confusion matrix.</p>
@@ -446,7 +550,7 @@ Matrix of 3 rows x 3 columns}</code></pre></td></tr></table>
 <tr class="header">
 <th></th>
 <th></th>
-<th><p>Predicted</p></th>
+<th><p><strong>Predicted</strong></p></th>
 <th></th>
 </tr>
 </thead>
@@ -458,7 +562,7 @@ Matrix of 3 rows x 3 columns}</code></pre></td></tr></table>
 <td><p>is not A</p></td>
 </tr>
 <tr class="even">
-<td><p>Actual</p></td>
+<td><p><strong>Actual</strong></p></td>
 <td><p>is A</p></td>
 <td><p>3</p></td>
 <td><p>2</p></td>
@@ -473,16 +577,16 @@ Matrix of 3 rows x 3 columns}</code></pre></td></tr></table>
 </table>
 
 <p>Programmatically, this can be done via <code>MultiLabelConfusionMatrix.oneVsRest</code></p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs19', 43)" onmouseover="showTip(event, 'fs19', 43)" class="id">mlcm</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs20', 44)" onmouseover="showTip(event, 'fs20', 44)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 45)" onmouseover="showTip(event, 'fs27', 45)" class="id">oneVsRest</span> <span class="s">&quot;A&quot;</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs20', 43)" onmouseover="showTip(event, 'fs20', 43)" class="id">mlcm</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 44)" onmouseover="showTip(event, 'fs21', 44)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs27', 45)" onmouseover="showTip(event, 'fs27', 45)" class="id">oneVsRest</span> <span class="s">&quot;A&quot;</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>{ TP = 3
   TN = 6
   FP = 3
   FN = 2 }</code></pre></td></tr></table>
 <p>Binary confusion matrices for all labels can be obtained by <code>MultiLabelConfusionMatrix.allVsAll</code></p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs19', 46)" onmouseover="showTip(event, 'fs19', 46)" class="id">mlcm</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs20', 47)" onmouseover="showTip(event, 'fs20', 47)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 48)" onmouseover="showTip(event, 'fs28', 48)" class="id">allVsAll</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs20', 46)" onmouseover="showTip(event, 'fs20', 46)" class="id">mlcm</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 47)" onmouseover="showTip(event, 'fs21', 47)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 48)" onmouseover="showTip(event, 'fs28', 48)" class="id">allVsAll</span>
 <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs29', 49)" onmouseover="showTip(event, 'fs29', 49)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 50)" onmouseover="showTip(event, 'fs30', 50)" class="id">iter</span> <span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs31', 51)" onmouseover="showTip(event, 'fs31', 51)" class="fn">label</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs32', 52)" onmouseover="showTip(event, 'fs32', 52)" class="fn">cm</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs33', 53)" onmouseover="showTip(event, 'fs33', 53)" class="fn">printf</span> <span class="s">$&quot;{</span><span onmouseout="hideTip(event, 'fs31', 54)" onmouseover="showTip(event, 'fs31', 54)" class="fn">label</span><span class="s">}:\n{</span><span class="fn">cm</span><span class="s">}\n&quot;</span><span class="pn">)</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>A:
@@ -513,62 +617,62 @@ C:
 </thead>
 <tbody>
 <tr class="odd">
-<td><p>Sensitivity (TPR)</p></td>
+<td><p>Sensitivity (<strong>TPR</strong>)</p></td>
 <td><p><span class="math">\(TPR = \frac{TP}{TP+TN}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateSensitivity">ComparisonMetrics.calculateSensitivity            </a></p></td>
 </tr>
 <tr class="even">
-<td><p>Specificity (TNR)</p></td>
+<td><p>Specificity (<strong>TNR</strong>)</p></td>
 <td><p><span class="math">\(TNR = \frac{TN}{TN+TP}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateSpecificity">ComparisonMetrics.calculateSpecificity            </a></p></td>
 </tr>
 <tr class="odd">
-<td><p>Precision (PPV)</p></td>
+<td><p>Precision (<strong>PPV</strong>)</p></td>
 <td><p><span class="math">\(PPV = \frac{TP}{TP+FP}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrecision">ComparisonMetrics.calculatePrecision              </a></p></td>
 </tr>
 <tr class="even">
-<td><p>NegativePredictiveValue (NPV)</p></td>
+<td><p>NegativePredictiveValue (<strong>NPV</strong>)</p></td>
 <td><p><span class="math">\(NPV = \frac{TN}{TN+FN}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateNegativePredictiveValue">ComparisonMetrics.calculateNegativePredictiveValue</a></p></td>
 </tr>
 <tr class="odd">
-<td><p>Missrate (FNR)</p></td>
+<td><p>Missrate (<strong>FNR</strong>)</p></td>
 <td><p><span class="math">\(FNR = \frac{FN}{FN+TP}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateMissrate">ComparisonMetrics.calculateMissrate               </a></p></td>
 </tr>
 <tr class="even">
-<td><p>FallOut (FPR)</p></td>
+<td><p>FallOut (<strong>FPR</strong>)</p></td>
 <td><p><span class="math">\(FPR = \frac{FP}{FP+TN}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFallOut">ComparisonMetrics.calculateFallOut                </a></p></td>
 </tr>
 <tr class="odd">
-<td><p>FalseDiscoveryRate (FDR)</p></td>
+<td><p>FalseDiscoveryRate (<strong>FDR</strong>)</p></td>
 <td><p><span class="math">\(FDR = \frac{FP}{FP+TP}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFalseDiscoveryRate">ComparisonMetrics.calculateFalseDiscoveryRate     </a></p></td>
 </tr>
 <tr class="even">
-<td><p>FalseOmissionRate (FOR)</p></td>
+<td><p>FalseOmissionRate (<strong>FOR</strong>)</p></td>
 <td><p><span class="math">\(FOR = \frac{FN}{FN+TN}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFalseOmissionRate">ComparisonMetrics.calculateFalseOmissionRate      </a></p></td>
 </tr>
 <tr class="odd">
-<td><p>PositiveLikelihoodRatio (LR+)</p></td>
+<td><p>PositiveLikelihoodRatio (<strong>LR+</strong>)</p></td>
 <td><p><span class="math">\(LR+ = \frac{TPR}{FPR}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePositiveLikelihoodRatio">ComparisonMetrics.calculatePositiveLikelihoodRatio</a></p></td>
 </tr>
 <tr class="even">
-<td><p>NegativeLikelihoodRatio (LR-)</p></td>
+<td><p>NegativeLikelihoodRatio (<strong>LR-</strong>)</p></td>
 <td><p><span class="math">\(LR- = \frac{FNR}{TNR}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateNegativeLikelihoodRatio">ComparisonMetrics.calculateNegativeLikelihoodRatio</a></p></td>
 </tr>
 <tr class="odd">
-<td><p>PrevalenceThreshold (PT)</p></td>
+<td><p>PrevalenceThreshold (<strong>PT</strong>)</p></td>
 <td><p><span class="math">\(PT = \frac{\sqrt{FPR}}{\sqrt{TPR}+\sqrt{FPR}}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrevalenceThreshold">ComparisonMetrics.calculatePrevalenceThreshold    </a></p></td>
 </tr>
 <tr class="even">
-<td><p>ThreatScore (TS)</p></td>
+<td><p>ThreatScore (<strong>TS</strong>)</p></td>
 <td><p><span class="math">\(TS = \frac{TP}{TP+FN+FP}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateThreatScore">ComparisonMetrics.calculateThreatScore            </a></p></td>
 </tr>
@@ -578,12 +682,12 @@ C:
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePrevalence">ComparisonMetrics.calculatePrevalence             </a></p></td>
 </tr>
 <tr class="even">
-<td><p>Accuracy (ACC)</p></td>
+<td><p>Accuracy (<strong>ACC</strong>)</p></td>
 <td><p><span class="math">\(ACC = \frac{TP+TN}{TP+TN+FP+FN}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateAccuracy">ComparisonMetrics.calculateAccuracy               </a></p></td>
 </tr>
 <tr class="odd">
-<td><p>BalancedAccuracy (BA)</p></td>
+<td><p>BalancedAccuracy (<strong>BA</strong>)</p></td>
 <td><p><span class="math">\(BA = \frac{TPR+TNR}{2}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateBalancedAccuracy">ComparisonMetrics.calculateBalancedAccuracy       </a></p></td>
 </tr>
@@ -593,27 +697,27 @@ C:
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateF1">ComparisonMetrics.calculateF1                     </a></p></td>
 </tr>
 <tr class="odd">
-<td><p>PhiCoefficient (MCC)</p></td>
+<td><p>PhiCoefficient (<strong>MCC</strong>)</p></td>
 <td><p><span class="math">\(MCC = \frac{TP*TN-FP*FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculatePhiCoefficient">ComparisonMetrics.calculatePhiCoefficient         </a></p></td>
 </tr>
 <tr class="even">
-<td><p>FowlkesMallowsIndex (FM)</p></td>
+<td><p>FowlkesMallowsIndex (<strong>FM</strong>)</p></td>
 <td><p><span class="math">\(FM = \frac{}{}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateFowlkesMallowsIndex">ComparisonMetrics.calculateFowlkesMallowsIndex    </a></p></td>
 </tr>
 <tr class="odd">
-<td><p>Informedness (BM)</p></td>
+<td><p>Informedness (<strong>BM</strong>)</p></td>
 <td><p><span class="math">\(BM = \frac{}{}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateInformedness">ComparisonMetrics.calculateInformedness           </a></p></td>
 </tr>
 <tr class="even">
-<td><p>Markedness (MK)</p></td>
+<td><p>Markedness (<strong>MK</strong>)</p></td>
 <td><p><span class="math">\(MK = \frac{}{}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateMarkedness">ComparisonMetrics.calculateMarkedness             </a></p></td>
 </tr>
 <tr class="odd">
-<td><p>DiagnosticOddsRatio (DOR)</p></td>
+<td><p>DiagnosticOddsRatio (<strong>DOR</strong>)</p></td>
 <td><p><span class="math">\(DOR = \frac{}{}\)</span></p></td>
 <td><p><a href="/reference/fsharp-stats-testing-comparisonmetrics.html#calculateDiagnosticOddsRatio">ComparisonMetrics.calculateDiagnosticOddsRatio    </a></p></td>
 </tr>
@@ -630,7 +734,7 @@ C:
 <ul>
 <li>From a <code>BinaryConfusionMatrix</code> using <code>ComparisonMetrics.create</code></li>
 </ul>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs36', 57)" onmouseover="showTip(event, 'fs36', 57)" class="id">bcm</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs14', 58)" onmouseover="showTip(event, 'fs14', 58)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs15', 59)" onmouseover="showTip(event, 'fs15', 59)" class="id">ofPredictions</span><span class="pn">(</span><span class="n">1</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs9', 60)" onmouseover="showTip(event, 'fs9', 60)" class="id">actual</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs10', 61)" onmouseover="showTip(event, 'fs10', 61)" class="id">predicted</span><span class="pn">)</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs36', 57)" onmouseover="showTip(event, 'fs36', 57)" class="id">bcm</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs15', 58)" onmouseover="showTip(event, 'fs15', 58)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs16', 59)" onmouseover="showTip(event, 'fs16', 59)" class="id">ofPredictions</span><span class="pn">(</span><span class="n">1</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs9', 60)" onmouseover="showTip(event, 'fs9', 60)" class="id">actual</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs10', 61)" onmouseover="showTip(event, 'fs10', 61)" class="id">predicted</span><span class="pn">)</span>
 <span onmouseout="hideTip(event, 'fs34', 62)" onmouseover="showTip(event, 'fs34', 62)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 63)" onmouseover="showTip(event, 'fs35', 63)" class="id">create</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs36', 64)" onmouseover="showTip(event, 'fs36', 64)" class="id">bcm</span><span class="pn">)</span>
 </code></pre>
 <ul>
@@ -641,7 +745,7 @@ C:
 <ul>
 <li>from boolean predictions and actual labels using <code>BinaryConfusionMatrix.ofBinaryPredictions</code></li>
 </ul>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs34', 69)" onmouseover="showTip(event, 'fs34', 69)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 70)" onmouseover="showTip(event, 'fs37', 70)" class="id">ofBinaryPredictions</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs16', 71)" onmouseover="showTip(event, 'fs16', 71)" class="id">actualBool</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs17', 72)" onmouseover="showTip(event, 'fs17', 72)" class="id">predictedBool</span><span class="pn">)</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs34', 69)" onmouseover="showTip(event, 'fs34', 69)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 70)" onmouseover="showTip(event, 'fs37', 70)" class="id">ofBinaryPredictions</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs17', 71)" onmouseover="showTip(event, 'fs17', 71)" class="id">actualBool</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs18', 72)" onmouseover="showTip(event, 'fs18', 72)" class="id">predictedBool</span><span class="pn">)</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>{ P = 4.0
   N = 3.0
@@ -674,8 +778,8 @@ C:
 <h3><a name="ComparisonMetrics-for-multi-label-comparisons" class="anchor" href="#ComparisonMetrics-for-multi-label-comparisons">ComparisonMetrics for multi-label comparisons</a></h3>
 <p>see also: <a href="https://cran.r-project.org/web/packages/yardstick/vignettes/multiclass.html">https://cran.r-project.org/web/packages/yardstick/vignettes/multiclass.html</a></p>
 <p>To evaluate individual label prediction metrics, you can create comparison metrics for each individual label confusion matrix obtained by <code>MultiLabelConfusionMatrix.allVsAll</code>:</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs19', 73)" onmouseover="showTip(event, 'fs19', 73)" class="id">mlcm</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs20', 74)" onmouseover="showTip(event, 'fs20', 74)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 75)" onmouseover="showTip(event, 'fs28', 75)" class="id">allVsAll</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs20', 73)" onmouseover="showTip(event, 'fs20', 73)" class="id">mlcm</span>
+<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 74)" onmouseover="showTip(event, 'fs21', 74)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 75)" onmouseover="showTip(event, 'fs28', 75)" class="id">allVsAll</span>
 <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs29', 76)" onmouseover="showTip(event, 'fs29', 76)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 77)" onmouseover="showTip(event, 'fs38', 77)" class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs31', 78)" onmouseover="showTip(event, 'fs31', 78)" class="fn">label</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs32', 79)" onmouseover="showTip(event, 'fs32', 79)" class="fn">cm</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs31', 80)" onmouseover="showTip(event, 'fs31', 80)" class="fn">label</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs34', 81)" onmouseover="showTip(event, 'fs34', 81)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 82)" onmouseover="showTip(event, 'fs35', 82)" class="id">create</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs32', 83)" onmouseover="showTip(event, 'fs32', 83)" class="fn">cm</span><span class="pn">)</span><span class="pn">)</span>
 <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs29', 84)" onmouseover="showTip(event, 'fs29', 84)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs30', 85)" onmouseover="showTip(event, 'fs30', 85)" class="id">iter</span><span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs31', 86)" onmouseover="showTip(event, 'fs31', 86)" class="fn">label</span><span class="pn">,</span><span onmouseout="hideTip(event, 'fs39', 87)" onmouseover="showTip(event, 'fs39', 87)" class="fn">metrics</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs33', 88)" onmouseover="showTip(event, 'fs33', 88)" class="fn">printf</span> <span class="s">$&quot;Label {</span><span onmouseout="hideTip(event, 'fs31', 89)" onmouseover="showTip(event, 'fs31', 89)" class="fn">label</span><span class="s">}:\n\tSpecificity:</span><span class="pf">%.3f</span><span class="s">{</span><span class="fn">metrics</span><span class="pn">.</span><span class="id">Specificity</span><span class="s">}\n\tAccuracy:</span><span class="pf">%.3f</span><span class="s">{</span><span class="fn">metrics</span><span class="pn">.</span><span class="id">Accuracy</span><span class="s">}\n&quot;</span><span class="pn">)</span>
 </code></pre>
@@ -694,8 +798,8 @@ Label C:
 <p><span class="math">\[TPR_{macro} = \frac1k\sum_{i=1}^{k}TPR_i\]</span></p>
 <p>macro average metrics can be obtained either from multiple metrics, a multi-label confusion matrix, or a sequence of binary confusion matrices</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs34', 90)" onmouseover="showTip(event, 'fs34', 90)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 91)" onmouseover="showTip(event, 'fs40', 91)" class="id">macroAverage</span><span class="pn">(</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs34', 92)" onmouseover="showTip(event, 'fs34', 92)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 93)" onmouseover="showTip(event, 'fs35', 93)" class="id">create</span><span class="pn">(</span><span class="n">3</span><span class="pn">,</span><span class="n">6</span><span class="pn">,</span><span class="n">3</span><span class="pn">,</span><span class="n">2</span><span class="pn">)</span><span class="pn">;</span> <span onmouseout="hideTip(event, 'fs34', 94)" onmouseover="showTip(event, 'fs34', 94)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 95)" onmouseover="showTip(event, 'fs35', 95)" class="id">create</span><span class="pn">(</span><span class="n">2</span><span class="pn">,</span><span class="n">10</span><span class="pn">,</span><span class="n">1</span><span class="pn">,</span><span class="n">1</span><span class="pn">)</span><span class="pn">;</span> <span onmouseout="hideTip(event, 'fs34', 96)" onmouseover="showTip(event, 'fs34', 96)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs35', 97)" onmouseover="showTip(event, 'fs35', 97)" class="id">create</span><span class="pn">(</span><span class="n">4</span><span class="pn">,</span><span class="n">7</span><span class="pn">,</span><span class="n">1</span><span class="pn">,</span><span class="n">2</span><span class="pn">)</span><span class="pn">]</span> <span class="pn">)</span>
-<span onmouseout="hideTip(event, 'fs34', 98)" onmouseover="showTip(event, 'fs34', 98)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 99)" onmouseover="showTip(event, 'fs40', 99)" class="id">macroAverage</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs19', 100)" onmouseover="showTip(event, 'fs19', 100)" class="id">mlcm</span><span class="pn">)</span>
-<span onmouseout="hideTip(event, 'fs34', 101)" onmouseover="showTip(event, 'fs34', 101)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 102)" onmouseover="showTip(event, 'fs40', 102)" class="id">macroAverage</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs19', 103)" onmouseover="showTip(event, 'fs19', 103)" class="id">mlcm</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs20', 104)" onmouseover="showTip(event, 'fs20', 104)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 105)" onmouseover="showTip(event, 'fs28', 105)" class="id">allVsAll</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs29', 106)" onmouseover="showTip(event, 'fs29', 106)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 107)" onmouseover="showTip(event, 'fs38', 107)" class="id">map</span> <span onmouseout="hideTip(event, 'fs41', 108)" onmouseover="showTip(event, 'fs41', 108)" class="fn">snd</span><span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs34', 98)" onmouseover="showTip(event, 'fs34', 98)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 99)" onmouseover="showTip(event, 'fs40', 99)" class="id">macroAverage</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs20', 100)" onmouseover="showTip(event, 'fs20', 100)" class="id">mlcm</span><span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs34', 101)" onmouseover="showTip(event, 'fs34', 101)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs40', 102)" onmouseover="showTip(event, 'fs40', 102)" class="id">macroAverage</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs20', 103)" onmouseover="showTip(event, 'fs20', 103)" class="id">mlcm</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 104)" onmouseover="showTip(event, 'fs21', 104)" class="rt">MultiLabelConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs28', 105)" onmouseover="showTip(event, 'fs28', 105)" class="id">allVsAll</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs29', 106)" onmouseover="showTip(event, 'fs29', 106)" class="m">Array</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs38', 107)" onmouseover="showTip(event, 'fs38', 107)" class="id">map</span> <span onmouseout="hideTip(event, 'fs41', 108)" onmouseover="showTip(event, 'fs41', 108)" class="fn">snd</span><span class="pn">)</span>
 </code></pre>
 <p>or directly from predictions and actual labels of any type using <code>ComparisonMetrics.macroAverageOfMultiLabelPredictions</code>, additionally passing the labels</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs34', 109)" onmouseover="showTip(event, 'fs34', 109)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs42', 110)" onmouseover="showTip(event, 'fs42', 110)" class="id">macroAverageOfMultiLabelPredictions</span><span class="pn">(</span>
@@ -737,8 +841,8 @@ Label C:
 <p>So if you for example want to calculate the micro-average Sensitivity(TPR) <span class="math">\(TPR_{micro}\)</span> of a multi-label prediction, this is obtained by summing each individual <code>one-vs-rest</code> label prediction's <span class="math">\(TP\)</span> and <span class="math">\(TN\)</span> and obtaining <span class="math">\(TPR_{micro}\)</span> by</p>
 <p><span class="math">\[TPR_{micro} = \frac{TP_1 + TP_2 .. + TP_k}{(TP_1 + TP_2 .. + TP_k)+(TN_1 + TN_2 .. + TN_k)}\]</span></p>
 <p>micro average metrics can be obtained either from multiple binary confusion matrices or a multi-label confusion matrix</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs34', 112)" onmouseover="showTip(event, 'fs34', 112)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 113)" onmouseover="showTip(event, 'fs43', 113)" class="id">microAverage</span><span class="pn">(</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs14', 114)" onmouseover="showTip(event, 'fs14', 114)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 115)" onmouseover="showTip(event, 'fs18', 115)" class="id">create</span><span class="pn">(</span><span class="n">3</span><span class="pn">,</span><span class="n">6</span><span class="pn">,</span><span class="n">3</span><span class="pn">,</span><span class="n">2</span><span class="pn">)</span><span class="pn">;</span> <span onmouseout="hideTip(event, 'fs14', 116)" onmouseover="showTip(event, 'fs14', 116)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 117)" onmouseover="showTip(event, 'fs18', 117)" class="id">create</span><span class="pn">(</span><span class="n">2</span><span class="pn">,</span><span class="n">10</span><span class="pn">,</span><span class="n">1</span><span class="pn">,</span><span class="n">1</span><span class="pn">)</span><span class="pn">;</span> <span onmouseout="hideTip(event, 'fs14', 118)" onmouseover="showTip(event, 'fs14', 118)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs18', 119)" onmouseover="showTip(event, 'fs18', 119)" class="id">create</span><span class="pn">(</span><span class="n">4</span><span class="pn">,</span><span class="n">7</span><span class="pn">,</span><span class="n">1</span><span class="pn">,</span><span class="n">2</span><span class="pn">)</span><span class="pn">]</span> <span class="pn">)</span>
-<span onmouseout="hideTip(event, 'fs34', 120)" onmouseover="showTip(event, 'fs34', 120)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 121)" onmouseover="showTip(event, 'fs43', 121)" class="id">microAverage</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs19', 122)" onmouseover="showTip(event, 'fs19', 122)" class="id">mlcm</span><span class="pn">)</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs34', 112)" onmouseover="showTip(event, 'fs34', 112)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 113)" onmouseover="showTip(event, 'fs43', 113)" class="id">microAverage</span><span class="pn">(</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs15', 114)" onmouseover="showTip(event, 'fs15', 114)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 115)" onmouseover="showTip(event, 'fs19', 115)" class="id">create</span><span class="pn">(</span><span class="n">3</span><span class="pn">,</span><span class="n">6</span><span class="pn">,</span><span class="n">3</span><span class="pn">,</span><span class="n">2</span><span class="pn">)</span><span class="pn">;</span> <span onmouseout="hideTip(event, 'fs15', 116)" onmouseover="showTip(event, 'fs15', 116)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 117)" onmouseover="showTip(event, 'fs19', 117)" class="id">create</span><span class="pn">(</span><span class="n">2</span><span class="pn">,</span><span class="n">10</span><span class="pn">,</span><span class="n">1</span><span class="pn">,</span><span class="n">1</span><span class="pn">)</span><span class="pn">;</span> <span onmouseout="hideTip(event, 'fs15', 118)" onmouseover="showTip(event, 'fs15', 118)" class="rt">BinaryConfusionMatrix</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 119)" onmouseover="showTip(event, 'fs19', 119)" class="id">create</span><span class="pn">(</span><span class="n">4</span><span class="pn">,</span><span class="n">7</span><span class="pn">,</span><span class="n">1</span><span class="pn">,</span><span class="n">2</span><span class="pn">)</span><span class="pn">]</span> <span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs34', 120)" onmouseover="showTip(event, 'fs34', 120)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 121)" onmouseover="showTip(event, 'fs43', 121)" class="id">microAverage</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs20', 122)" onmouseover="showTip(event, 'fs20', 122)" class="id">mlcm</span><span class="pn">)</span>
 </code></pre>
 <p>or directly from predictions and actual labels of any type using <code>ComparisonMetrics.macroAverageOfMultiLabelPredictions</code>, additionally passing the labels</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs34', 123)" onmouseover="showTip(event, 'fs34', 123)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 124)" onmouseover="showTip(event, 'fs44', 124)" class="id">microAverageOfMultiLabelPredictions</span><span class="pn">(</span>
@@ -840,7 +944,7 @@ In other words, when given one randomly selected positive instance and one rando
 <h5><a name="Binary" class="anchor" href="#Binary">Binary</a></h5>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 137)" onmouseover="showTip(event, 'fs1', 137)" class="id">Plotly</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 138)" onmouseover="showTip(event, 'fs2', 138)" class="id">NET</span>
 <span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 139)" onmouseover="showTip(event, 'fs1', 139)" class="id">Plotly</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs2', 140)" onmouseover="showTip(event, 'fs2', 140)" class="id">NET</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs49', 141)" onmouseover="showTip(event, 'fs49', 141)" class="id">LayoutObjects</span>
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs11', 142)" onmouseover="showTip(event, 'fs11', 142)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 143)" onmouseover="showTip(event, 'fs12', 143)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 144)" onmouseover="showTip(event, 'fs50', 144)" class="id">Integration</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs12', 142)" onmouseover="showTip(event, 'fs12', 142)" class="id">FSharp</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 143)" onmouseover="showTip(event, 'fs13', 143)" class="id">Stats</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs50', 144)" onmouseover="showTip(event, 'fs50', 144)" class="id">Integration</span>
 
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs51', 145)" onmouseover="showTip(event, 'fs51', 145)" class="id">binaryROC</span> <span class="o">=</span> 
     <span onmouseout="hideTip(event, 'fs34', 146)" onmouseover="showTip(event, 'fs34', 146)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 147)" onmouseover="showTip(event, 'fs52', 147)" class="id">calculateROC</span><span class="pn">(</span>
@@ -863,7 +967,14 @@ In other words, when given one randomly selected positive instance and one rando
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs58', 192)" onmouseover="showTip(event, 'fs58', 192)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs84', 193)" onmouseover="showTip(event, 'fs84', 193)" class="id">withYAxisStyle</span><span class="pn">(</span><span class="s">&quot;FPR&quot;</span><span class="pn">,</span> <span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">1.</span><span class="pn">)</span><span class="pn">)</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs58', 194)" onmouseover="showTip(event, 'fs58', 194)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs85', 195)" onmouseover="showTip(event, 'fs85', 195)" class="id">withTitle</span> <span class="s">&quot;Binary receiver operating characteristic example&quot;</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>No value returned by any evaluator</code></pre></td></tr></table>
+<div><div id="2198d939-e7d4-4d34-8076-9d3f6b5d3ea9"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_2198d939e7d44d3480769d3f6b5d3ea9 = function() {
+    var data = [{"type":"scatter","name":"2 label ROC, AUC = 0.71","mode":"lines","x":[0.0,0.0,0.3333333333333333,0.3333333333333333,0.6666666666666666,0.6666666666666666,1.0],"y":[0.0,0.25,0.5,0.75,0.75,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"no skill","mode":"lines","x":[0.0,1.0],"y":[0.0,1.0],"marker":{},"line":{"color":"rgba(128, 128, 128, 1.0)","dash":"dash"}}];
+    var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"legend":{"x":0.5,"xanchor":"right","y":0.1,"yanchor":"bottom"},"xaxis":{"title":{"text":"TPR"},"range":[0.0,1.0]},"yaxis":{"title":{"text":"FPR"},"range":[0.0,1.0]},"title":{"text":"Binary receiver operating characteristic example"}};
+    var config = {"responsive":true};
+    Plotly.newPlot('2198d939-e7d4-4d34-8076-9d3f6b5d3ea9', data, layout, config);
+};
+renderPlotly_2198d939e7d44d3480769d3f6b5d3ea9();
+</script></div>
 <h5><a name="Multi-label" class="anchor" href="#Multi-label">Multi-label</a></h5>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs88', 199)" onmouseover="showTip(event, 'fs88', 199)" class="id">multiLabelROC</span> <span class="o">=</span> 
     <span onmouseout="hideTip(event, 'fs34', 200)" onmouseover="showTip(event, 'fs34', 200)" class="rt">ComparisonMetrics</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs89', 201)" onmouseover="showTip(event, 'fs89', 201)" class="id">calculateMultiLabelROC</span><span class="pn">(</span>
@@ -897,11 +1008,15 @@ In other words, when given one randomly selected positive instance and one rando
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs58', 260)" onmouseover="showTip(event, 'fs58', 260)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs84', 261)" onmouseover="showTip(event, 'fs84', 261)" class="id">withYAxisStyle</span><span class="pn">(</span><span class="s">&quot;FPR&quot;</span><span class="pn">,</span> <span class="fn">MinMax</span><span class="o">=</span><span class="pn">(</span><span class="n">0.</span><span class="pn">,</span><span class="n">1.</span><span class="pn">)</span><span class="pn">)</span>
     <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs58', 262)" onmouseover="showTip(event, 'fs58', 262)" class="rt">Chart</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs85', 263)" onmouseover="showTip(event, 'fs85', 263)" class="id">withTitle</span> <span class="s">&quot;Binary receiver operating characteristic example&quot;</span>
 </code></pre>
-<table class="pre"><tr><td><pre><code>No value returned by any evaluator</code></pre></td></tr></table>
+<div><div id="7ce61647-7274-4b03-928e-bfbda2d2ddd5"><!-- Plotly chart will be drawn inside this DIV --></div><script type="text/javascript">var renderPlotly_7ce6164772744b03928ebfbda2d2ddd5 = function() {
+    var data = [{"type":"scatter","name":"A ROC, AUC = 0.87","mode":"lines","x":[0.0,0.0,0.0,0.0,0.0,0.2222222222222222,0.3333333333333333,0.4444444444444444,0.5555555555555556,1.0,1.0],"y":[0.0,0.2,0.4,0.6,0.6,0.6,0.8,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"B ROC, AUC = 0.97","mode":"lines","x":[0.0,0.0,0.0,0.0,0.0,0.09090909090909091,0.09090909090909091,0.18181818181818182,0.18181818181818182,0.6363636363636364,1.0],"y":[0.0,0.0,0.3333333333333333,0.6666666666666666,0.6666666666666666,0.6666666666666666,1.0,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"C ROC, AUC = 0.96","mode":"lines","x":[0.0,0.0,0.0,0.0,0.125,0.125,0.125,0.125,0.375,1.0,1.0],"y":[0.0,0.16666666666666666,0.5,0.6666666666666666,0.6666666666666666,0.6666666666666666,0.8333333333333334,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"macro-average ROC, AUC = 0.94","mode":"lines","x":[0.0,0.0,0.0,0.0,0.041666666666666664,0.14604377104377106,0.18308080808080807,0.25042087542087543,0.37079124579124584,0.8787878787878788,1.0],"y":[0.0,0.12222222222222223,0.41111111111111115,0.6444444444444444,0.6444444444444444,0.6444444444444444,0.8777777777777778,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"micro-average ROC, AUC = 0.93","mode":"lines","x":[0.0,0.0,0.0,0.0,0.03571428571428571,0.14285714285714285,0.17857142857142858,0.25,0.35714285714285715,0.8571428571428571,1.0],"y":[0.0,0.14285714285714285,0.42857142857142855,0.6428571428571429,0.6428571428571429,0.6428571428571429,0.8571428571428571,1.0,1.0,1.0,1.0],"marker":{},"line":{"shape":"vh"}},{"type":"scatter","name":"no skill","mode":"lines","x":[0.0,1.0],"y":[0.0,1.0],"marker":{},"line":{"color":"rgba(128, 128, 128, 1.0)","dash":"dash"}}];
+    var layout = {"width":600,"height":600,"template":{"layout":{"paper_bgcolor":"white","plot_bgcolor":"white","xaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true},"yaxis":{"ticks":"inside","mirror":"all","showline":true,"zeroline":true}},"data":{}},"legend":{"x":0.5,"xanchor":"right","y":0.1,"yanchor":"bottom"},"xaxis":{"title":{"text":"TPR"},"range":[0.0,1.0]},"yaxis":{"title":{"text":"FPR"},"range":[0.0,1.0]},"title":{"text":"Binary receiver operating characteristic example"}};
+    var config = {"responsive":true};
+    Plotly.newPlot('7ce61647-7274-4b03-928e-bfbda2d2ddd5', data, layout, config);
+};
+renderPlotly_7ce6164772744b03928ebfbda2d2ddd5();
+</script></div>
 
-                </div>
-            </div>
-        </div>
         <div class="fsdocs-tip" id="fs1">namespace Plotly</div>
 <div class="fsdocs-tip" id="fs2">namespace Plotly.NET</div>
 <div class="fsdocs-tip" id="fs3">module Defaults
@@ -921,10 +1036,10 @@ from Plotly.NET<br /><em>&lt;summary&gt;
   static member getAdditionalHeadTags: displayOpts: DisplayOptions -&gt; XmlNode list
   static member getDescription: displayOpts: DisplayOptions -&gt; XmlNode list
   static member getPlotlyReference: displayOpts: DisplayOptions -&gt; PlotlyJSReference
-  static member init: ?AdditionalHeadTags: XmlNode list * ?Description: XmlNode list * ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions
+  static member init: [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AdditionalHeadTags: XmlNode list * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Description: XmlNode list * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions
   static member initCDNOnly: unit -&gt; DisplayOptions
   ...<br /><br />--------------------<br />new: unit -&gt; DisplayOptions</div>
-<div class="fsdocs-tip" id="fs6">static member DisplayOptions.init: ?AdditionalHeadTags: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?Description: Giraffe.ViewEngine.HtmlElements.XmlNode list * ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions</div>
+<div class="fsdocs-tip" id="fs6">static member DisplayOptions.init: [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AdditionalHeadTags: Giraffe.ViewEngine.HtmlElements.XmlNode list * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Description: Giraffe.ViewEngine.HtmlElements.XmlNode list * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?PlotlyJSReference: PlotlyJSReference -&gt; DisplayOptions</div>
 <div class="fsdocs-tip" id="fs7">type PlotlyJSReference =
   | CDN of string
   | Full
@@ -935,91 +1050,74 @@ Sets how plotly is referenced in the head of html docs.
 <div class="fsdocs-tip" id="fs8">union case PlotlyJSReference.NoReference: PlotlyJSReference</div>
 <div class="fsdocs-tip" id="fs9">val actual: int list</div>
 <div class="fsdocs-tip" id="fs10">val predicted: int list</div>
-<div class="fsdocs-tip" id="fs11">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
-<div class="fsdocs-tip" id="fs12">namespace FSharp.Stats</div>
-<div class="fsdocs-tip" id="fs13">namespace FSharp.Stats.Testing</div>
-<div class="fsdocs-tip" id="fs14">type BinaryConfusionMatrix =
+<div class="fsdocs-tip" id="fs11">namespace FsMath</div>
+<div class="fsdocs-tip" id="fs12">Multiple items<br />namespace FSharp<br /><br />--------------------<br />namespace Microsoft.FSharp</div>
+<div class="fsdocs-tip" id="fs13">namespace FSharp.Stats</div>
+<div class="fsdocs-tip" id="fs14">namespace FSharp.Stats.Testing</div>
+<div class="fsdocs-tip" id="fs15">type BinaryConfusionMatrix =
   {
     TP: int
     TN: int
     FP: int
     FN: int
   }
+  member Equals: BinaryConfusionMatrix * IEqualityComparer -&gt; bool
   static member create: tp: int * tn: int * fp: int * fn: int -&gt; BinaryConfusionMatrix
-  static member ofPredictions: positiveLabel: &#39;A * actual: seq&lt;&#39;A&gt; * predictions: seq&lt;&#39;A&gt; -&gt; BinaryConfusionMatrix (requires equality) + 1 overload
-  static member thresholdMap: actual: seq&lt;bool&gt; * predictions: seq&lt;float&gt; * thresholds: seq&lt;float&gt; -&gt; (float * BinaryConfusionMatrix)[] + 1 overload<br /><em>&lt;summary&gt;
+  static member ofPredictions: positiveLabel: &#39;A * actual: &#39;A seq * predictions: &#39;A seq -&gt; BinaryConfusionMatrix (requires equality) + 1 overload
+  static member thresholdMap: actual: bool seq * predictions: float seq * thresholds: float seq -&gt; (float * BinaryConfusionMatrix) array + 1 overload<br /><em>&lt;summary&gt;
  Confusion matrix for binary classification
 &lt;/summary&gt;</em></div>
-<div class="fsdocs-tip" id="fs15">static member BinaryConfusionMatrix.ofPredictions: actual: seq&lt;bool&gt; * predictions: seq&lt;bool&gt; -&gt; BinaryConfusionMatrix<br />static member BinaryConfusionMatrix.ofPredictions: positiveLabel: &#39;A * actual: seq&lt;&#39;A&gt; * predictions: seq&lt;&#39;A&gt; -&gt; BinaryConfusionMatrix (requires equality)</div>
-<div class="fsdocs-tip" id="fs16">val actualBool: bool list</div>
-<div class="fsdocs-tip" id="fs17">val predictedBool: bool list</div>
-<div class="fsdocs-tip" id="fs18">static member BinaryConfusionMatrix.create: tp: int * tn: int * fp: int * fn: int -&gt; BinaryConfusionMatrix</div>
-<div class="fsdocs-tip" id="fs19">val mlcm: MultiLabelConfusionMatrix</div>
-<div class="fsdocs-tip" id="fs20">type MultiLabelConfusionMatrix =
+<div class="fsdocs-tip" id="fs16">static member BinaryConfusionMatrix.ofPredictions: actual: bool seq * predictions: bool seq -&gt; BinaryConfusionMatrix<br />static member BinaryConfusionMatrix.ofPredictions: positiveLabel: &#39;A * actual: &#39;A seq * predictions: &#39;A seq -&gt; BinaryConfusionMatrix (requires equality)</div>
+<div class="fsdocs-tip" id="fs17">val actualBool: bool list</div>
+<div class="fsdocs-tip" id="fs18">val predictedBool: bool list</div>
+<div class="fsdocs-tip" id="fs19">static member BinaryConfusionMatrix.create: tp: int * tn: int * fp: int * fn: int -&gt; BinaryConfusionMatrix</div>
+<div class="fsdocs-tip" id="fs20">val mlcm: MultiLabelConfusionMatrix</div>
+<div class="fsdocs-tip" id="fs21">type MultiLabelConfusionMatrix =
   {
-    Labels: string[]
+    Labels: string array
     Confusion: Matrix&lt;int&gt;
   }
-  static member allVsAll: mlcm: MultiLabelConfusionMatrix -&gt; (string * BinaryConfusionMatrix)[]
-  static member create: labels: string[] * confusion: Matrix&lt;int&gt; -&gt; MultiLabelConfusionMatrix
-  static member ofPredictions: labels: &#39;a[] * actual: &#39;a[] * predictions: &#39;a[] -&gt; MultiLabelConfusionMatrix (requires &#39;a :&gt; IConvertible and equality)
+  member Equals: MultiLabelConfusionMatrix * IEqualityComparer -&gt; bool
+  static member allVsAll: mlcm: MultiLabelConfusionMatrix -&gt; (string * BinaryConfusionMatrix) array
+  static member create: labels: string array * confusion: Matrix&lt;int&gt; -&gt; MultiLabelConfusionMatrix
+  static member ofPredictions: labels: &#39;a array * actual: &#39;a array * predictions: &#39;a array -&gt; MultiLabelConfusionMatrix (requires &#39;a :&gt; IConvertible and equality)
   static member oneVsRest: label: string -&gt; mlcm: MultiLabelConfusionMatrix -&gt; BinaryConfusionMatrix</div>
-<div class="fsdocs-tip" id="fs21">static member MultiLabelConfusionMatrix.create: labels: string[] * confusion: Matrix&lt;int&gt; -&gt; MultiLabelConfusionMatrix</div>
-<div class="fsdocs-tip" id="fs22">val array2D: rows: seq&lt;#seq&lt;&#39;T&gt;&gt; -&gt; &#39;T[,]<br /><em>&lt;summary&gt;Builds a 2D array from a sequence of sequences of elements.&lt;/summary&gt;<br />&lt;example id=&quot;array2d-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- array2D [ [ 1.0; 2.0 ]; [ 3.0; 4.0 ] ]
- &lt;/code&gt;
- Evaluates to a 2x2 zero-based array with contents &lt;c&gt;[[1.0; 2.0]; [3.0; 4.0]]&lt;/c&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs23">Multiple items<br />module Matrix
+<div class="fsdocs-tip" id="fs22">static member MultiLabelConfusionMatrix.create: labels: string array * confusion: Matrix&lt;int&gt; -&gt; MultiLabelConfusionMatrix</div>
+<div class="fsdocs-tip" id="fs23">val array2D: rows: #(&#39;T seq) seq -&gt; &#39;T array2d</div>
+<div class="fsdocs-tip" id="fs24">Multiple items<br />module Matrix
 
-from FSharp.Stats<br /><br />--------------------<br />type Matrix&lt;&#39;T&gt; =
-  | DenseRepr of DenseMatrix&lt;&#39;T&gt;
-  | SparseRepr of SparseMatrix&lt;&#39;T&gt;
-  interface IMatrixFormattable
-  interface IFsiFormattable
-  interface IEnumerable
-  interface IEnumerable&lt;&#39;T&gt;
-  interface IStructuralEquatable
-  interface IStructuralComparable
-  interface IComparable
-  override Equals: yobj: obj -&gt; bool
-  member Format: rowStartCount: int * rowEndCount: int * columnStartCount: int * columnEndCount: int * showInfo: bool -&gt; string + 2 overloads
-  member FormatStrings: rowStartCount: int * rowEndCount: int * columnStartCount: int * columnEndCount: int -&gt; string[][]
-  ...</div>
-<div class="fsdocs-tip" id="fs24">module Generic
-
-from FSharp.Stats.MatrixModule</div>
-<div class="fsdocs-tip" id="fs25">val ofArray2D: array: &#39;T[,] -&gt; Matrix&lt;&#39;T&gt;</div>
-<div class="fsdocs-tip" id="fs26">static member MultiLabelConfusionMatrix.ofPredictions: labels: &#39;a[] * actual: &#39;a[] * predictions: &#39;a[] -&gt; MultiLabelConfusionMatrix (requires &#39;a :&gt; System.IConvertible and equality)</div>
+from FsMath<br /><br />--------------------<br />type Matrix&lt;&#39;T (requires &#39;T :&gt; INumber&lt;&#39;T&gt; and default constructor and value type and comparison and &#39;T :&gt; ValueType)&gt; =
+  interface IEquatable&lt;Matrix&lt;&#39;T&gt;&gt;
+  new: rows: int * cols: int * data: Vector&lt;&#39;T&gt; -&gt; Matrix&lt;&#39;T&gt;
+  override Equals: obj: obj -&gt; bool
+  override GetHashCode: unit -&gt; int
+  member GetSlice: rowStart: int option * rowEnd: int option * colStart: int option * colEnd: int option -&gt; Matrix&lt;&#39;T&gt; + 1 overload
+  member SetCol: j: int * colData: &#39;T array -&gt; unit
+  member SetRow: i: int * rowData: &#39;T array -&gt; unit
+  override ToString: unit -&gt; string
+  member Transpose: unit -&gt; Matrix&lt;&#39;T&gt;
+  member toArray2D: unit -&gt; &#39;T array2d
+  ...<br /><em>&lt;summary&gt;
+ Matrix type to hold values of a matrix in a 1D Arrays (Flattened Representation)
+&lt;/summary&gt;</em><br /><br />--------------------<br />new: rows: int * cols: int * data: Vector&lt;&#39;T&gt; -&gt; Matrix&lt;&#39;T&gt;</div>
+<div class="fsdocs-tip" id="fs25">static member Matrix.ofArray2D&lt;&#39;T (requires &#39;T :&gt; System.Numerics.INumber&lt;&#39;T&gt; and default constructor and value type and &#39;T :&gt; System.ValueType)&gt; : arr2D: &#39;T array2d -&gt; Matrix&lt;&#39;T&gt;</div>
+<div class="fsdocs-tip" id="fs26">static member MultiLabelConfusionMatrix.ofPredictions: labels: &#39;a array * actual: &#39;a array * predictions: &#39;a array -&gt; MultiLabelConfusionMatrix (requires &#39;a :&gt; System.IConvertible and equality)</div>
 <div class="fsdocs-tip" id="fs27">static member MultiLabelConfusionMatrix.oneVsRest: label: string -&gt; mlcm: MultiLabelConfusionMatrix -&gt; BinaryConfusionMatrix</div>
-<div class="fsdocs-tip" id="fs28">static member MultiLabelConfusionMatrix.allVsAll: mlcm: MultiLabelConfusionMatrix -&gt; (string * BinaryConfusionMatrix)[]</div>
+<div class="fsdocs-tip" id="fs28">static member MultiLabelConfusionMatrix.allVsAll: mlcm: MultiLabelConfusionMatrix -&gt; (string * BinaryConfusionMatrix) array</div>
 <div class="fsdocs-tip" id="fs29">Multiple items<br />module Array
 
 from FSharp.Stats<br /><em>&lt;summary&gt;
  Module to compute common statistical measure on array
 &lt;/summary&gt;</em><br /><br />--------------------<br />module Array
 
-from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with arrays.&lt;/summary&gt;<br />&lt;remarks&gt;
-  See also &lt;a href=&quot;https://docs.microsoft.com/dotnet/fsharp/language-reference/arrays&quot;&gt;F# Language Guide - Arrays&lt;/a&gt;.
- &lt;/remarks&gt;</em><br /><br />--------------------<br />type Array =
+from Microsoft.FSharp.Collections<br /><br />--------------------<br />type Array =
   new: unit -&gt; Array
   static member geomspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float array
-  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float[]<br /><br />--------------------<br />new: unit -&gt; Array</div>
-<div class="fsdocs-tip" id="fs30">val iter: action: (&#39;T -&gt; unit) -&gt; array: &#39;T[] -&gt; unit<br /><em>&lt;summary&gt;Applies the given function to each element of the array.&lt;/summary&gt;<br />&lt;param name=&quot;action&quot;&gt;The function to apply.&lt;/param&gt;<br />&lt;param name=&quot;array&quot;&gt;The input array.&lt;/param&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input array is null.&lt;/exception&gt;<br />&lt;example id=&quot;iter-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- let inputs = [| &quot;a&quot;; &quot;b&quot;; &quot;c&quot; |]
-
- inputs |&amp;gt; Array.iter (printfn &quot;%s&quot;)
- &lt;/code&gt;
- Evaluates to &lt;c&gt;unit&lt;/c&gt; and prints
- &lt;code&gt;
- a
- b
- c
- &lt;/code&gt;
- in the console.
- &lt;/example&gt;</em></div>
+  static member linspace: start: float * stop: float * num: int * ?IncludeEndpoint: bool -&gt; float array<br /><br />--------------------<br />new: unit -&gt; Array</div>
+<div class="fsdocs-tip" id="fs30">val iter: action: (&#39;T -&gt; unit) -&gt; array: &#39;T array -&gt; unit</div>
 <div class="fsdocs-tip" id="fs31">val label: string</div>
 <div class="fsdocs-tip" id="fs32">val cm: BinaryConfusionMatrix</div>
-<div class="fsdocs-tip" id="fs33">val printf: format: Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><em>&lt;summary&gt;Print to &lt;c&gt;stdout&lt;/c&gt; using the given format.&lt;/summary&gt;<br />&lt;param name=&quot;format&quot;&gt;The formatter.&lt;/param&gt;<br />&lt;returns&gt;The formatted result.&lt;/returns&gt;<br />&lt;example&gt;See &lt;c&gt;Printf.printf&lt;/c&gt; (link: &lt;see cref=&quot;M:Microsoft.FSharp.Core.PrintfModule.PrintFormat``1&quot; /&gt;) for examples.&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs33">val printf: format: Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T</div>
 <div class="fsdocs-tip" id="fs34">type ComparisonMetrics =
   {
     P: float
@@ -1034,7 +1132,8 @@ from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations fo
     Precision: float
     ...
   }
-  static member binaryThresholdMap: tm: (float * BinaryConfusionMatrix)[] -&gt; (float * ComparisonMetrics)[] + 2 overloads
+  member Equals: ComparisonMetrics * IEqualityComparer -&gt; bool
+  static member binaryThresholdMap: tm: (float * BinaryConfusionMatrix) array -&gt; (float * ComparisonMetrics) array + 2 overloads
   static member calculateAccuracy: tp: float -&gt; tn: float -&gt; samplesize: float -&gt; float
   static member calculateBalancedAccuracy: tp: float -&gt; p: float -&gt; tn: float -&gt; n: float -&gt; float
   static member calculateDiagnosticOddsRatio: tp: float -&gt; tn: float -&gt; fp: float -&gt; fn: float -&gt; p: float -&gt; n: float -&gt; float
@@ -1043,66 +1142,57 @@ from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations fo
   static member calculateFalseDiscoveryRate: fp: float -&gt; tp: float -&gt; float
   static member calculateFalseOmissionRate: fn: float -&gt; tn: float -&gt; float
   static member calculateFowlkesMallowsIndex: tp: float -&gt; fp: float -&gt; p: float -&gt; float
-  static member calculateInformedness: tp: float -&gt; p: float -&gt; tn: float -&gt; n: float -&gt; float
   ...<br /><em>&lt;summary&gt;
  Comparison metrics that can be derived from a binary confusion matrix
 &lt;/summary&gt;</em></div>
 <div class="fsdocs-tip" id="fs35">static member ComparisonMetrics.create: bcm: BinaryConfusionMatrix -&gt; ComparisonMetrics<br />static member ComparisonMetrics.create: tp: float * tn: float * fp: float * fn: float -&gt; ComparisonMetrics<br />static member ComparisonMetrics.create: p: float * n: float * samplesize: float * tp: float * tn: float * fp: float * fn: float * sensitivity: float * specificity: float * precision: float * negativepredictivevalue: float * missrate: float * fallout: float * falsediscoveryrate: float * falseomissionrate: float * positivelikelihoodratio: float * negativelikelihoodratio: float * prevalencethreshold: float * threatscore: float * prevalence: float * accuracy: float * balancedaccuracy: float * f1: float * phicoefficient: float * fowlkesmallowsindex: float * informedness: float * markedness: float * diagnosticoddsratio: float -&gt; ComparisonMetrics</div>
 <div class="fsdocs-tip" id="fs36">val bcm: BinaryConfusionMatrix</div>
-<div class="fsdocs-tip" id="fs37">static member ComparisonMetrics.ofBinaryPredictions: actual: seq&lt;bool&gt; * predictions: seq&lt;bool&gt; -&gt; ComparisonMetrics<br />static member ComparisonMetrics.ofBinaryPredictions: positiveLabel: &#39;A * actual: seq&lt;&#39;A&gt; * predictions: seq&lt;&#39;A&gt; -&gt; ComparisonMetrics (requires equality)</div>
-<div class="fsdocs-tip" id="fs38">val map: mapping: (&#39;T -&gt; &#39;U) -&gt; array: &#39;T[] -&gt; &#39;U[]<br /><em>&lt;summary&gt;Builds a new array whose elements are the results of applying the given function
- to each of the elements of the array.&lt;/summary&gt;<br />&lt;param name=&quot;mapping&quot;&gt;The function to transform elements of the array.&lt;/param&gt;<br />&lt;param name=&quot;array&quot;&gt;The input array.&lt;/param&gt;<br />&lt;returns&gt;The array of transformed elements.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input array is null.&lt;/exception&gt;<br />&lt;example id=&quot;map-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- let inputs = [| &quot;a&quot;; &quot;bbb&quot;; &quot;cc&quot; |]
-
- inputs |&amp;gt; Array.map (fun x -&amp;gt; x.Length)
- &lt;/code&gt;
- Evaluates to &lt;c&gt;[| 1; 3; 2 |]&lt;/c&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs37">static member ComparisonMetrics.ofBinaryPredictions: actual: bool seq * predictions: bool seq -&gt; ComparisonMetrics<br />static member ComparisonMetrics.ofBinaryPredictions: positiveLabel: &#39;A * actual: &#39;A seq * predictions: &#39;A seq -&gt; ComparisonMetrics (requires equality)</div>
+<div class="fsdocs-tip" id="fs38">val map: mapping: (&#39;T -&gt; &#39;U) -&gt; array: &#39;T array -&gt; &#39;U array</div>
 <div class="fsdocs-tip" id="fs39">val metrics: ComparisonMetrics</div>
-<div class="fsdocs-tip" id="fs40">static member ComparisonMetrics.macroAverage: bcms: BinaryConfusionMatrix[] -&gt; ComparisonMetrics<br />static member ComparisonMetrics.macroAverage: mlcm: MultiLabelConfusionMatrix -&gt; ComparisonMetrics<br />static member ComparisonMetrics.macroAverage: metrics: seq&lt;ComparisonMetrics&gt; -&gt; ComparisonMetrics</div>
-<div class="fsdocs-tip" id="fs41">val snd: tuple: (&#39;T1 * &#39;T2) -&gt; &#39;T2<br /><em>&lt;summary&gt;Return the second element of a tuple, &lt;c&gt;snd (a,b) = b&lt;/c&gt;.&lt;/summary&gt;<br />&lt;param name=&quot;tuple&quot;&gt;The input tuple.&lt;/param&gt;<br />&lt;returns&gt;The second value.&lt;/returns&gt;<br />&lt;example id=&quot;snd-example&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- snd (&quot;first&quot;, 2)  //  Evaluates to 2
- &lt;/code&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs42">static member ComparisonMetrics.macroAverageOfMultiLabelPredictions: labels: &#39;a[] * actual: &#39;a[] * predictions: &#39;a[] -&gt; ComparisonMetrics (requires &#39;a :&gt; System.IConvertible and equality)</div>
-<div class="fsdocs-tip" id="fs43">static member ComparisonMetrics.microAverage: mlcm: MultiLabelConfusionMatrix -&gt; ComparisonMetrics<br />static member ComparisonMetrics.microAverage: cms: seq&lt;BinaryConfusionMatrix&gt; -&gt; ComparisonMetrics</div>
-<div class="fsdocs-tip" id="fs44">static member ComparisonMetrics.microAverageOfMultiLabelPredictions: labels: &#39;a[] * actual: &#39;a[] * predictions: &#39;a[] -&gt; ComparisonMetrics (requires &#39;a :&gt; System.IConvertible and equality)</div>
-<div class="fsdocs-tip" id="fs45">static member ComparisonMetrics.binaryThresholdMap: tm: (float * BinaryConfusionMatrix)[] -&gt; (float * ComparisonMetrics)[]<br />static member ComparisonMetrics.binaryThresholdMap: actual: seq&lt;bool&gt; * predictions: seq&lt;float&gt; -&gt; (float * ComparisonMetrics)[]<br />static member ComparisonMetrics.binaryThresholdMap: actual: seq&lt;bool&gt; * predictions: seq&lt;float&gt; * thresholds: seq&lt;float&gt; -&gt; (float * ComparisonMetrics)[]</div>
+<div class="fsdocs-tip" id="fs40">static member ComparisonMetrics.macroAverage: bcms: BinaryConfusionMatrix array -&gt; ComparisonMetrics<br />static member ComparisonMetrics.macroAverage: mlcm: MultiLabelConfusionMatrix -&gt; ComparisonMetrics<br />static member ComparisonMetrics.macroAverage: metrics: ComparisonMetrics seq -&gt; ComparisonMetrics</div>
+<div class="fsdocs-tip" id="fs41">val snd: tuple: (&#39;T1 * &#39;T2) -&gt; &#39;T2</div>
+<div class="fsdocs-tip" id="fs42">static member ComparisonMetrics.macroAverageOfMultiLabelPredictions: labels: &#39;a array * actual: &#39;a array * predictions: &#39;a array -&gt; ComparisonMetrics (requires &#39;a :&gt; System.IConvertible and equality)</div>
+<div class="fsdocs-tip" id="fs43">static member ComparisonMetrics.microAverage: mlcm: MultiLabelConfusionMatrix -&gt; ComparisonMetrics<br />static member ComparisonMetrics.microAverage: cms: BinaryConfusionMatrix seq -&gt; ComparisonMetrics</div>
+<div class="fsdocs-tip" id="fs44">static member ComparisonMetrics.microAverageOfMultiLabelPredictions: labels: &#39;a array * actual: &#39;a array * predictions: &#39;a array -&gt; ComparisonMetrics (requires &#39;a :&gt; System.IConvertible and equality)</div>
+<div class="fsdocs-tip" id="fs45">static member ComparisonMetrics.binaryThresholdMap: tm: (float * BinaryConfusionMatrix) array -&gt; (float * ComparisonMetrics) array<br />static member ComparisonMetrics.binaryThresholdMap: actual: bool seq * predictions: float seq -&gt; (float * ComparisonMetrics) array<br />static member ComparisonMetrics.binaryThresholdMap: actual: bool seq * predictions: float seq * thresholds: float seq -&gt; (float * ComparisonMetrics) array</div>
 <div class="fsdocs-tip" id="fs46">val threshold: float</div>
 <div class="fsdocs-tip" id="fs47">val cm: ComparisonMetrics</div>
-<div class="fsdocs-tip" id="fs48">static member ComparisonMetrics.multiLabelThresholdMap: actual: &#39;a[] * predictions: (&#39;a * float[])[] -&gt; Map&lt;string,(float * ComparisonMetrics)[]&gt; (requires &#39;a :&gt; System.IConvertible and equality)</div>
+<div class="fsdocs-tip" id="fs48">static member ComparisonMetrics.multiLabelThresholdMap: actual: &#39;a array * predictions: (&#39;a * float array) array -&gt; Map&lt;string,(float * ComparisonMetrics) array&gt; (requires &#39;a :&gt; System.IConvertible and equality)</div>
 <div class="fsdocs-tip" id="fs49">namespace Plotly.NET.LayoutObjects</div>
 <div class="fsdocs-tip" id="fs50">namespace FSharp.Stats.Integration</div>
-<div class="fsdocs-tip" id="fs51">val binaryROC: (float * float)[]</div>
-<div class="fsdocs-tip" id="fs52">static member ComparisonMetrics.calculateROC: actual: seq&lt;bool&gt; * predictions: seq&lt;float&gt; -&gt; (float * float)[]<br />static member ComparisonMetrics.calculateROC: actual: seq&lt;bool&gt; * predictions: seq&lt;float&gt; * thresholds: seq&lt;float&gt; -&gt; (float * float)[]</div>
+<div class="fsdocs-tip" id="fs51">val binaryROC: (float * float) array</div>
+<div class="fsdocs-tip" id="fs52">static member ComparisonMetrics.calculateROC: actual: bool seq * predictions: float seq -&gt; (float * float) array<br />static member ComparisonMetrics.calculateROC: actual: bool seq * predictions: float seq * thresholds: float seq -&gt; (float * float) array</div>
 <div class="fsdocs-tip" id="fs53">val auc: float</div>
 <div class="fsdocs-tip" id="fs54">Multiple items<br />type NumericalIntegration =
   new: unit -&gt; NumericalIntegration
   static member definiteIntegral: method: NumericalIntegrationMethod * intervalStart: float * intervalEnd: float * partitions: int * ?Parallel: bool -&gt; ((float -&gt; float) -&gt; float) + 1 overload<br /><em>&lt;summary&gt;
  Definite integral approximation
 &lt;/summary&gt;</em><br /><br />--------------------<br />new: unit -&gt; NumericalIntegration</div>
-<div class="fsdocs-tip" id="fs55">static member NumericalIntegration.definiteIntegral: method: NumericalIntegrationMethod -&gt; ((float * float)[] -&gt; float)<br />static member NumericalIntegration.definiteIntegral: method: NumericalIntegrationMethod * intervalStart: float * intervalEnd: float * partitions: int * ?Parallel: bool -&gt; ((float -&gt; float) -&gt; float)</div>
+<div class="fsdocs-tip" id="fs55">static member NumericalIntegration.definiteIntegral: method: NumericalIntegrationMethod -&gt; ((float * float) array -&gt; float)<br />static member NumericalIntegration.definiteIntegral: method: NumericalIntegrationMethod * intervalStart: float * intervalEnd: float * partitions: int * ?Parallel: bool -&gt; ((float -&gt; float) -&gt; float)</div>
 <div class="fsdocs-tip" id="fs56">union case NumericalIntegrationMethod.Trapezoidal: NumericalIntegrationMethod<br /><em>&lt;summary&gt;
  Trapezoidal rule - approximation via partition intervals using trapezoids in the partition boundaries
 &lt;/summary&gt;</em></div>
 <div class="fsdocs-tip" id="fs57">val binaryROCChart: GenericChart.GenericChart</div>
 <div class="fsdocs-tip" id="fs58">type Chart =
-  static member AnnotatedHeatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * annotationText: seq&lt;#seq&lt;string&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;&#39;a3&gt; * ?MultiX: seq&lt;seq&lt;&#39;a3&gt;&gt; * ?XGap: int * ?Y: seq&lt;&#39;a4&gt; * ?MultiY: seq&lt;seq&lt;&#39;a4&gt;&gt; * ?YGap: int * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 1 overload
-  static member Area: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?FillColor: Color * ?FillPatternShape: PatternShape * ?FillPattern: Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
-  static member Bar: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;&#39;a1&gt; * ?MultiKeys: seq&lt;seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
-  static member BoxPlot: ?X: seq&lt;&#39;a0&gt; * ?MultiX: seq&lt;seq&lt;&#39;a0&gt;&gt; * ?Y: seq&lt;&#39;a1&gt; * ?MultiY: seq&lt;seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?FillColor: Color * ?MarkerColor: Color * ?Marker: Marker * ?Opacity: float * ?WhiskerWidth: float * ?BoxPoints: BoxPoints * ?BoxMean: BoxMean * ?Jitter: float * ?PointPos: float * ?Orientation: Orientation * ?OutlineColor: Color * ?OutlineWidth: float * ?Outline: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?Notched: bool * ?NotchWidth: float * ?QuartileMethod: QuartileMethod * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a0 :&gt; IConvertible and &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible) + 2 overloads
-  static member Bubble: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * sizes: seq&lt;int&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: MarkerSymbol * ?MultiMarkerSymbol: seq&lt;MarkerSymbol&gt; * ?Marker: Marker * ?LineColor: Color * ?LineColorScale: Colorscale * ?LineWidth: float * ?LineDash: DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: Orientation * ?GroupNorm: GroupNorm * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
-  static member Candlestick: ``open`` : seq&lt;#IConvertible&gt; * high: seq&lt;#IConvertible&gt; * low: seq&lt;#IConvertible&gt; * close: seq&lt;#IConvertible&gt; * ?X: seq&lt;&#39;a4&gt; * ?MultiX: seq&lt;seq&lt;&#39;a4&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Text: &#39;a5 * ?MultiText: seq&lt;&#39;a5&gt; * ?Line: Line * ?IncreasingColor: Color * ?Increasing: FinanceMarker * ?DecreasingColor: Color * ?Decreasing: FinanceMarker * ?WhiskerWidth: float * ?ShowXAxisRangeSlider: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 2 overloads
-  static member Column: values: seq&lt;#IConvertible&gt; * ?Keys: seq&lt;&#39;a1&gt; * ?MultiKeys: seq&lt;seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?MarkerColor: Color * ?MarkerColorScale: Colorscale * ?MarkerOutline: Line * ?MarkerPatternShape: PatternShape * ?MultiMarkerPatternShape: seq&lt;PatternShape&gt; * ?MarkerPattern: Pattern * ?Marker: Marker * ?Base: #IConvertible * ?Width: &#39;a4 * ?MultiWidth: seq&lt;&#39;a4&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
-  static member Contour: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?X: seq&lt;&#39;a2&gt; * ?MultiX: seq&lt;seq&lt;&#39;a2&gt;&gt; * ?Y: seq&lt;&#39;a3&gt; * ?MultiY: seq&lt;seq&lt;&#39;a3&gt;&gt; * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?Transpose: bool * ?ContourLineColor: Color * ?ContourLineDash: DrawingStyle * ?ContourLineSmoothing: float * ?ContourLine: Line * ?ContoursColoring: ContourColoring * ?ContoursOperation: ConstraintOperation * ?ContoursType: ContourType * ?ShowContourLabels: bool * ?ContourLabelFont: Font * ?Contours: Contours * ?FillColor: Color * ?NContours: int * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
-  static member Funnel: x: seq&lt;#IConvertible&gt; * y: seq&lt;#IConvertible&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?Width: float * ?Offset: float * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: TextPosition * ?MultiTextPosition: seq&lt;TextPosition&gt; * ?Orientation: Orientation * ?AlignmentGroup: string * ?OffsetGroup: string * ?MarkerColor: Color * ?MarkerOutline: Line * ?Marker: Marker * ?TextInfo: TextInfo * ?ConnectorLineColor: Color * ?ConnectorLineStyle: DrawingStyle * ?ConnectorFillColor: Color * ?ConnectorLine: Line * ?Connector: FunnelConnector * ?InsideTextFont: Font * ?OutsideTextFont: Font * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
-  static member Heatmap: zData: seq&lt;#seq&lt;&#39;a1&gt;&gt; * ?X: seq&lt;&#39;a2&gt; * ?MultiX: seq&lt;seq&lt;&#39;a2&gt;&gt; * ?Y: seq&lt;&#39;a3&gt; * ?MultiY: seq&lt;seq&lt;&#39;a3&gt;&gt; * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?XGap: int * ?YGap: int * ?Text: &#39;a4 * ?MultiText: seq&lt;&#39;a4&gt; * ?ColorBar: ColorBar * ?ColorScale: Colorscale * ?ShowScale: bool * ?ReverseScale: bool * ?ZSmooth: SmoothAlg * ?Transpose: bool * ?UseWebGL: bool * ?ReverseYAxis: bool * ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member AnnotatedHeatmap: zData: #(&#39;a1 seq) seq * annotationText: #(string seq) seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a3 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a3 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a4 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a5 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a5 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorBar: ColorBar * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ReverseScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ZSmooth: SmoothAlg * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Transpose: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?ReverseYAxis: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 1 overload
+  static member Area: x: #IConvertible seq * y: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowMarkers: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: MarkerSymbol * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: MarkerSymbol seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineDash: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: GroupNorm * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillPatternShape: PatternShape * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillPattern: Pattern * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Bar: values: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Keys: &#39;a1 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiKeys: &#39;a1 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPatternShape: PatternShape * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerPatternShape: PatternShape seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPattern: Pattern * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Base: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiWidth: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member BoxPlot: [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a0 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a0 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a1 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a1 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?WhiskerWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BoxPoints: BoxPoints * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BoxMean: BoxMean * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Jitter: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?PointPos: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OutlineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OutlineWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Outline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Notched: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?NotchWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?QuartileMethod: QuartileMethod * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a0 :&gt; IConvertible and &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible) + 2 overloads
+  static member Bubble: x: #IConvertible seq * y: #IConvertible seq * sizes: int seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: MarkerSymbol * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: MarkerSymbol seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?LineDash: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: GroupNorm * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible) + 1 overload
+  static member Candlestick: ``open`` : #IConvertible seq * high: #IConvertible seq * low: #IConvertible seq * close: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a4 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a5 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a5 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?IncreasingColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Increasing: FinanceMarker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?DecreasingColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Decreasing: FinanceMarker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?WhiskerWidth: float * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?ShowXAxisRangeSlider: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a4 :&gt; IConvertible and &#39;a5 :&gt; IConvertible) + 2 overloads
+  static member Column: values: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Keys: &#39;a1 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiKeys: &#39;a1 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPatternShape: PatternShape * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerPatternShape: PatternShape seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerPattern: Pattern * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Base: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiWidth: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
+  static member Contour: zData: #(&#39;a1 seq) seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a2 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a3 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a3 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorBar: ColorBar * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ReverseScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Transpose: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLineDash: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLineSmoothing: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLine: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContoursColoring: ContourColoring * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContoursOperation: ConstraintOperation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContoursType: ContourType * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowContourLabels: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ContourLabelFont: Font * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Contours: Contours * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?NContours: int * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible)
+  static member Funnel: x: #IConvertible seq * y: #IConvertible seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Offset: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: TextPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: TextPosition seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: Marker * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TextInfo: TextInfo * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorLineColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorLineStyle: DrawingStyle * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorFillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ConnectorLine: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Connector: FunnelConnector * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?InsideTextFont: Font * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?OutsideTextFont: Font * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a2 :&gt; IConvertible)
+  static member Heatmap: zData: #(&#39;a1 seq) seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: &#39;a2 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiX: &#39;a2 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: &#39;a3 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiY: &#39;a3 seq seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YGap: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a4 * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a4 seq * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorBar: ColorBar * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorScale: Colorscale * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ReverseScale: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ZSmooth: SmoothAlg * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Transpose: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;Optional; DefaultParameterValue ((false :&gt; obj))&gt;] ?ReverseYAxis: bool * [&lt;Optional; DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart (requires &#39;a1 :&gt; IConvertible and &#39;a2 :&gt; IConvertible and &#39;a3 :&gt; IConvertible and &#39;a4 :&gt; IConvertible) + 1 overload
   ...</div>
-<div class="fsdocs-tip" id="fs59">static member Chart.Line: xy: seq&lt;#System.IConvertible * #System.IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;c * ?MultiText: seq&lt;&#39;c&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?LineColor: Color * ?LineColorScale: StyleParam.Colorscale * ?LineWidth: float * ?LineDash: StyleParam.DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?Fill: StyleParam.Fill * ?FillColor: Color * ?FillPattern: TraceObjects.Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)<br />static member Chart.Line: x: seq&lt;#System.IConvertible&gt; * y: seq&lt;#System.IConvertible&gt; * ?ShowMarkers: bool * ?Name: string * ?ShowLegend: bool * ?Opacity: float * ?MultiOpacity: seq&lt;float&gt; * ?Text: &#39;a2 * ?MultiText: seq&lt;&#39;a2&gt; * ?TextPosition: StyleParam.TextPosition * ?MultiTextPosition: seq&lt;StyleParam.TextPosition&gt; * ?MarkerColor: Color * ?MarkerColorScale: StyleParam.Colorscale * ?MarkerOutline: Line * ?MarkerSymbol: StyleParam.MarkerSymbol * ?MultiMarkerSymbol: seq&lt;StyleParam.MarkerSymbol&gt; * ?Marker: TraceObjects.Marker * ?LineColor: Color * ?LineColorScale: StyleParam.Colorscale * ?LineWidth: float * ?LineDash: StyleParam.DrawingStyle * ?Line: Line * ?AlignmentGroup: string * ?OffsetGroup: string * ?StackGroup: string * ?Orientation: StyleParam.Orientation * ?GroupNorm: StyleParam.GroupNorm * ?Fill: StyleParam.Fill * ?FillColor: Color * ?FillPattern: TraceObjects.Pattern * ?UseWebGL: bool * ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible)</div>
-<div class="fsdocs-tip" id="fs60">static member Chart.withLineStyle: ?BackOff: StyleParam.BackOff * ?AutoColorScale: bool * ?CAuto: bool * ?CMax: float * ?CMid: float * ?CMin: float * ?Color: Color * ?ColorAxis: StyleParam.SubPlotId * ?Colorscale: StyleParam.Colorscale * ?ReverseScale: bool * ?ShowScale: bool * ?ColorBar: ColorBar * ?Dash: StyleParam.DrawingStyle * ?Shape: StyleParam.Shape * ?Simplify: bool * ?Smoothing: float * ?Width: float * ?MultiWidth: seq&lt;float&gt; * ?OutlierColor: Color * ?OutlierWidth: float -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs59">static member Chart.Line: xy: (#System.IConvertible * #System.IConvertible) seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowMarkers: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;c * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;c seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: StyleParam.TextPosition * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: StyleParam.TextPosition seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: StyleParam.Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: StyleParam.MarkerSymbol * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: StyleParam.MarkerSymbol seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: TraceObjects.Marker * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColorScale: StyleParam.Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineWidth: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineDash: StyleParam.DrawingStyle * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: StyleParam.Orientation * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: StyleParam.GroupNorm * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Fill: StyleParam.Fill * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?FillPattern: TraceObjects.Pattern * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;c :&gt; System.IConvertible)<br />static member Chart.Line: x: #System.IConvertible seq * y: #System.IConvertible seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowMarkers: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLegend: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiOpacity: float seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Text: &#39;a2 * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiText: &#39;a2 seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TextPosition: StyleParam.TextPosition * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiTextPosition: StyleParam.TextPosition seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerColorScale: StyleParam.Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerOutline: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MarkerSymbol: StyleParam.MarkerSymbol * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiMarkerSymbol: StyleParam.MarkerSymbol seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Marker: TraceObjects.Marker * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColorScale: StyleParam.Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineWidth: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineDash: StyleParam.DrawingStyle * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AlignmentGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?OffsetGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?StackGroup: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: StyleParam.Orientation * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupNorm: StyleParam.GroupNorm * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Fill: StyleParam.Fill * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?FillPattern: TraceObjects.Pattern * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((false :&gt; obj))&gt;] ?UseWebGL: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((true :&gt; obj))&gt;] ?UseDefaults: bool -&gt; GenericChart.GenericChart (requires &#39;a2 :&gt; System.IConvertible)</div>
+<div class="fsdocs-tip" id="fs60">static member Chart.withLineStyle: [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?BackOff: StyleParam.BackOff * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AutoColorScale: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CAuto: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CMax: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CMid: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CMin: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Color: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorAxis: StyleParam.SubPlotId * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Colorscale: StyleParam.Colorscale * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ReverseScale: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowScale: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ColorBar: ColorBar * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Dash: StyleParam.DrawingStyle * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Shape: StyleParam.Shape * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Simplify: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Smoothing: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Width: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MultiWidth: float seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?OutlierColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?OutlierWidth: float -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
 <div class="fsdocs-tip" id="fs61">Multiple items<br />type Shape =
   inherit DynamicObj
   new: unit -&gt; Shape
-  static member init: ?Editable: bool * ?FillColor: Color * ?FillRule: FillRule * ?Layer: Layer * ?Line: Line * ?Name: string * ?Opacity: float * ?Path: string * ?TemplateItemName: string * ?ShapeType: ShapeType * ?Visible: bool * ?X0: #IConvertible * ?X1: #IConvertible * ?XAnchor: LinearAxisId * ?Xref: string * ?XSizeMode: ShapeSizeMode * ?Y0: #IConvertible * ?Y1: #IConvertible * ?YAnchor: LinearAxisId * ?Yref: string * ?YSizeMode: ShapeSizeMode -&gt; Shape
-  static member style: ?Editable: bool * ?FillColor: Color * ?FillRule: FillRule * ?Layer: Layer * ?Line: Line * ?Name: string * ?Opacity: float * ?Path: string * ?TemplateItemName: string * ?ShapeType: ShapeType * ?Visible: bool * ?X0: #IConvertible * ?X1: #IConvertible * ?XAnchor: LinearAxisId * ?Xref: string * ?XSizeMode: ShapeSizeMode * ?Y0: #IConvertible * ?Y1: #IConvertible * ?YAnchor: LinearAxisId * ?Yref: string * ?YSizeMode: ShapeSizeMode -&gt; (Shape -&gt; Shape)<br /><em>&lt;summary&gt;
+  static member init: [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Editable: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillRule: FillRule * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Layer: Layer * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Path: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TemplateItemName: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShapeType: ShapeType * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Visible: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X0: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X1: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XAnchor: LinearAxisId * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Xref: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XSizeMode: ShapeSizeMode * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y0: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y1: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YAnchor: LinearAxisId * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Yref: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YSizeMode: ShapeSizeMode -&gt; Shape
+  static member style: [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Editable: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?FillRule: FillRule * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Layer: Layer * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Line: Line * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Name: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Opacity: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Path: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TemplateItemName: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ShapeType: ShapeType * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Visible: bool * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X0: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X1: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XAnchor: LinearAxisId * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Xref: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XSizeMode: ShapeSizeMode * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y0: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y1: #IConvertible * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YAnchor: LinearAxisId * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Yref: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YSizeMode: ShapeSizeMode -&gt; (Shape -&gt; Shape)<br /><em>&lt;summary&gt;
  Shapes are layers that can be drawn onto a chart layout.
 &lt;/summary&gt;</em><br /><br />--------------------<br />new: unit -&gt; Shape</div>
 <div class="fsdocs-tip" id="fs62">module StyleParam
@@ -1129,7 +1219,7 @@ from Plotly.NET</div>
   | DashDot
   | LongDash
   | LongDashDot
-  | User of seq&lt;int&gt;
+  | User of int seq
   member Convert: unit -&gt; obj
   override ToString: unit -&gt; string
   static member convert: (DrawingStyle -&gt; obj)
@@ -1142,8 +1232,8 @@ from Plotly.NET</div>
   override Equals: other: obj -&gt; bool
   override GetHashCode: unit -&gt; int
   static member fromARGB: a: int -&gt; r: int -&gt; g: int -&gt; b: int -&gt; Color
-  static member fromColorScaleValues: c: seq&lt;#IConvertible&gt; -&gt; Color
-  static member fromColors: c: seq&lt;Color&gt; -&gt; Color
+  static member fromColorScaleValues: c: #IConvertible seq -&gt; Color
+  static member fromColors: c: Color seq -&gt; Color
   static member fromHex: s: string -&gt; Color
   static member fromKeyword: c: ColorKeyword -&gt; Color
   static member fromRGB: r: int -&gt; g: int -&gt; b: int -&gt; Color
@@ -1153,7 +1243,7 @@ from Plotly.NET</div>
 &lt;/summary&gt;</em></div>
 <div class="fsdocs-tip" id="fs68">static member Color.fromKeyword: c: ColorKeyword -&gt; Color</div>
 <div class="fsdocs-tip" id="fs69">union case ColorKeyword.Grey: ColorKeyword</div>
-<div class="fsdocs-tip" id="fs70">static member Chart.combine: gCharts: seq&lt;GenericChart.GenericChart&gt; -&gt; GenericChart.GenericChart</div>
+<div class="fsdocs-tip" id="fs70">static member Chart.combine: gCharts: GenericChart.GenericChart seq -&gt; GenericChart.GenericChart</div>
 <div class="fsdocs-tip" id="fs71">static member Chart.withTemplate: template: Template -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
 <div class="fsdocs-tip" id="fs72">module ChartTemplates
 
@@ -1163,11 +1253,11 @@ from Plotly.NET</div>
 <div class="fsdocs-tip" id="fs75">Multiple items<br />type Legend =
   inherit DynamicObj
   new: unit -&gt; Legend
-  static member init: ?BGColor: Color * ?BorderColor: Color * ?BorderWidth: float * ?EntryWidth: float * ?EntryWidthMode: EntryWidthMode * ?Font: Font * ?GroupClick: TraceGroupClickOptions * ?GroupTitleFont: Font * ?ItemClick: TraceItemClickOptions * ?ItemDoubleClick: TraceItemClickOptions * ?ItemSizing: TraceItemSizing * ?ItemWidth: int * ?Orientation: Orientation * ?Title: Title * ?TraceGroupGap: float * ?TraceOrder: TraceOrder * ?UIRevision: string * ?VerticalAlign: VerticalAlign * ?X: float * ?XAnchor: XAnchorPosition * ?Y: float * ?YAnchor: YAnchorPosition -&gt; Legend
-  static member style: ?BGColor: Color * ?BorderColor: Color * ?BorderWidth: float * ?EntryWidth: float * ?EntryWidthMode: EntryWidthMode * ?Font: Font * ?GroupClick: TraceGroupClickOptions * ?GroupTitleFont: Font * ?ItemClick: TraceItemClickOptions * ?ItemDoubleClick: TraceItemClickOptions * ?ItemSizing: TraceItemSizing * ?ItemWidth: int * ?Orientation: Orientation * ?Title: Title * ?TraceGroupGap: float * ?TraceOrder: TraceOrder * ?UIRevision: string * ?VerticalAlign: VerticalAlign * ?X: float * ?XAnchor: XAnchorPosition * ?Y: float * ?YAnchor: YAnchorPosition -&gt; (Legend -&gt; Legend)<br /><em>&lt;summary&gt;
+  static member init: [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BGColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BorderColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BorderWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?EntryWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?EntryWidthMode: EntryWidthMode * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Font: Font * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupClick: TraceGroupClickOptions * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupTitleFont: Font * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemClick: TraceItemClickOptions * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemDoubleClick: TraceItemClickOptions * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemSizing: TraceItemSizing * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemWidth: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Title: Title * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TraceGroupGap: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TraceOrder: TraceOrder * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?UIRevision: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?VerticalAlign: VerticalAlign * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XAnchor: XAnchorPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YAnchor: YAnchorPosition -&gt; Legend
+  static member style: [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BGColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BorderColor: Color * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?BorderWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?EntryWidth: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?EntryWidthMode: EntryWidthMode * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Font: Font * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupClick: TraceGroupClickOptions * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupTitleFont: Font * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemClick: TraceItemClickOptions * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemDoubleClick: TraceItemClickOptions * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemSizing: TraceItemSizing * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemWidth: int * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: Orientation * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Title: Title * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TraceGroupGap: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?TraceOrder: TraceOrder * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?UIRevision: string * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?VerticalAlign: VerticalAlign * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?X: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?XAnchor: XAnchorPosition * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: float * [&lt;Optional; DefaultParameterValue ((null :&gt; obj))&gt;] ?YAnchor: YAnchorPosition -&gt; (Legend -&gt; Legend)<br /><em>&lt;summary&gt;
  Legend
 &lt;/summary&gt;</em><br /><br />--------------------<br />new: unit -&gt; Legend</div>
-<div class="fsdocs-tip" id="fs76">static member Legend.init: ?BGColor: Color * ?BorderColor: Color * ?BorderWidth: float * ?EntryWidth: float * ?EntryWidthMode: StyleParam.EntryWidthMode * ?Font: Font * ?GroupClick: StyleParam.TraceGroupClickOptions * ?GroupTitleFont: Font * ?ItemClick: StyleParam.TraceItemClickOptions * ?ItemDoubleClick: StyleParam.TraceItemClickOptions * ?ItemSizing: StyleParam.TraceItemSizing * ?ItemWidth: int * ?Orientation: StyleParam.Orientation * ?Title: Title * ?TraceGroupGap: float * ?TraceOrder: StyleParam.TraceOrder * ?UIRevision: string * ?VerticalAlign: StyleParam.VerticalAlign * ?X: float * ?XAnchor: StyleParam.XAnchorPosition * ?Y: float * ?YAnchor: StyleParam.YAnchorPosition -&gt; Legend</div>
+<div class="fsdocs-tip" id="fs76">static member Legend.init: [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?BGColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?BorderColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?BorderWidth: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?EntryWidth: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?EntryWidthMode: StyleParam.EntryWidthMode * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Font: Font * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupClick: StyleParam.TraceGroupClickOptions * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GroupTitleFont: Font * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemClick: StyleParam.TraceItemClickOptions * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemDoubleClick: StyleParam.TraceItemClickOptions * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemSizing: StyleParam.TraceItemSizing * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ItemWidth: int * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Orientation: StyleParam.Orientation * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Title: Title * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TraceGroupGap: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TraceOrder: StyleParam.TraceOrder * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?UIRevision: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?VerticalAlign: StyleParam.VerticalAlign * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?X: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?XAnchor: StyleParam.XAnchorPosition * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Y: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?YAnchor: StyleParam.YAnchorPosition -&gt; Legend</div>
 <div class="fsdocs-tip" id="fs77">type XAnchorPosition =
   | Auto
   | Left
@@ -1194,17 +1284,17 @@ from Plotly.NET</div>
 <div class="fsdocs-tip" id="fs82">argument Y: float option<br /><em>&lt;summary&gt;
  Returns a new Legend object with the given styles
  &lt;/summary&gt;<br />&lt;param name=&quot;BGColor&quot;&gt;Sets the legend background color. Defaults to `layout.paper_bgcolor`.&lt;/param&gt;<br />&lt;param name=&quot;BorderColor&quot;&gt;Sets the color of the border enclosing the legend.&lt;/param&gt;<br />&lt;param name=&quot;BorderWidth&quot;&gt;Sets the width (in px) of the border enclosing the legend.&lt;/param&gt;<br />&lt;param name=&quot;EntryWidth&quot;&gt;Sets the width (in px or fraction) of the legend. Use 0 to size the entry based on the text width, when `entrywidthmode` is set to &quot;pixels&quot;.&lt;/param&gt;<br />&lt;param name=&quot;EntryWidthMode&quot;&gt;Determines what entrywidth means.&lt;/param&gt;<br />&lt;param name=&quot;Font&quot;&gt;Sets the font used to text the legend items.&lt;/param&gt;<br />&lt;param name=&quot;GroupClick&quot;&gt;Determines the behavior on legend group item click. &quot;toggleitem&quot; toggles the visibility of the individual item clicked on the graph. &quot;togglegroup&quot; toggles the visibility of all items in the same legendgroup as the item clicked on the graph.&lt;/param&gt;<br />&lt;param name=&quot;GroupTitleFont&quot;&gt;Sets the font for group titles in legend. Defaults to `legend.font` with its size increased about 10%.&lt;/param&gt;<br />&lt;param name=&quot;ItemClick&quot;&gt;Determines the behavior on legend item click. &quot;toggle&quot; toggles the visibility of the item clicked on the graph. &quot;toggleothers&quot; makes the clicked item the sole visible item on the graph. &quot;false&quot; disables legend item click interactions.&lt;/param&gt;<br />&lt;param name=&quot;ItemDoubleClick&quot;&gt;Determines the behavior on legend item double-click. &quot;toggle&quot; toggles the visibility of the item clicked on the graph. &quot;toggleothers&quot; makes the clicked item the sole visible item on the graph. &quot;false&quot; disables legend item double-click interactions.&lt;/param&gt;<br />&lt;param name=&quot;ItemSizing&quot;&gt;Determines if the legend items symbols scale with their corresponding &quot;trace&quot; attributes or remain &quot;constant&quot; independent of the symbol size on the graph.&lt;/param&gt;<br />&lt;param name=&quot;ItemWidth&quot;&gt;Sets the width (in px) of the legend item symbols (the part other than the title.text).&lt;/param&gt;<br />&lt;param name=&quot;Orientation&quot;&gt;Sets the orientation of the legend.&lt;/param&gt;<br />&lt;param name=&quot;Title&quot;&gt;Sets the title of the legend.&lt;/param&gt;<br />&lt;param name=&quot;TraceGroupGap&quot;&gt;Sets the amount of vertical space (in px) between legend groups.&lt;/param&gt;<br />&lt;param name=&quot;TraceOrder&quot;&gt;Determines the order at which the legend items are displayed. If &quot;normal&quot;, the items are displayed top-to-bottom in the same order as the input data. If &quot;reversed&quot;, the items are displayed in the opposite order as &quot;normal&quot;. If &quot;grouped&quot;, the items are displayed in groups (when a trace `legendgroup` is provided). if &quot;grouped+reversed&quot;, the items are displayed in the opposite order as &quot;grouped&quot;.&lt;/param&gt;<br />&lt;param name=&quot;UIRevision&quot;&gt;Controls persistence of legend-driven changes in trace and pie label visibility. Defaults to `layout.uirevision`.&lt;/param&gt;<br />&lt;param name=&quot;VerticalAlign&quot;&gt;Sets the vertical alignment of the symbols with respect to their associated text.&lt;/param&gt;<br />&lt;param name=&quot;X&quot;&gt;Sets the x position (in normalized coordinates) of the legend. Defaults to &quot;1.02&quot; for vertical legends and defaults to &quot;0&quot; for horizontal legends.&lt;/param&gt;<br />&lt;param name=&quot;XAnchor&quot;&gt;Sets the legend&#39;s horizontal position anchor. This anchor binds the `x` position to the &quot;left&quot;, &quot;center&quot; or &quot;right&quot; of the legend. Value &quot;auto&quot; anchors legends to the right for `x` values greater than or equal to 2/3, anchors legends to the left for `x` values less than or equal to 1/3 and anchors legends with respect to their center otherwise.&lt;/param&gt;<br />&lt;param name=&quot;Y&quot;&gt;Sets the y position (in normalized coordinates) of the legend. Defaults to &quot;1&quot; for vertical legends, defaults to &quot;-0.1&quot; for horizontal legends on graphs w/o range sliders and defaults to &quot;1.1&quot; for horizontal legends on graph with one or multiple range sliders.&lt;/param&gt;<br />&lt;param name=&quot;YAnchor&quot;&gt;Sets the legend&#39;s vertical position anchor This anchor binds the `y` position to the &quot;top&quot;, &quot;middle&quot; or &quot;bottom&quot; of the legend. Value &quot;auto&quot; anchors legends at their bottom for `y` values less than or equal to 1/3, anchors legends to at their top for `y` values greater than or equal to 2/3 and anchors legends with respect to their middle otherwise.&lt;/param&gt;</em></div>
-<div class="fsdocs-tip" id="fs83">static member Chart.withXAxisStyle: ?TitleText: string * ?TitleFont: Font * ?TitleStandoff: int * ?Title: Title * ?Color: Color * ?AxisType: StyleParam.AxisType * ?MinMax: (#System.IConvertible * #System.IConvertible) * ?Mirror: StyleParam.Mirror * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?ShowLine: bool * ?LineColor: Color * ?ShowGrid: bool * ?GridColor: Color * ?GridDash: StyleParam.DrawingStyle * ?ZeroLine: bool * ?ZeroLineColor: Color * ?Anchor: StyleParam.LinearAxisId * ?Side: StyleParam.Side * ?Overlaying: StyleParam.LinearAxisId * ?Domain: (float * float) * ?Position: float * ?CategoryOrder: StyleParam.CategoryOrder * ?CategoryArray: seq&lt;#System.IConvertible&gt; * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?BackgroundColor: Color * ?ShowBackground: bool * ?Id: StyleParam.SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
-<div class="fsdocs-tip" id="fs84">static member Chart.withYAxisStyle: ?TitleText: string * ?TitleFont: Font * ?TitleStandoff: int * ?Title: Title * ?Color: Color * ?AxisType: StyleParam.AxisType * ?MinMax: (#System.IConvertible * #System.IConvertible) * ?Mirror: StyleParam.Mirror * ?ShowSpikes: bool * ?SpikeColor: Color * ?SpikeThickness: int * ?ShowLine: bool * ?LineColor: Color * ?ShowGrid: bool * ?GridColor: Color * ?GridDash: StyleParam.DrawingStyle * ?ZeroLine: bool * ?ZeroLineColor: Color * ?Anchor: StyleParam.LinearAxisId * ?Side: StyleParam.Side * ?Overlaying: StyleParam.LinearAxisId * ?AutoShift: bool * ?Shift: int * ?Domain: (float * float) * ?Position: float * ?CategoryOrder: StyleParam.CategoryOrder * ?CategoryArray: seq&lt;#System.IConvertible&gt; * ?RangeSlider: RangeSlider * ?RangeSelector: RangeSelector * ?BackgroundColor: Color * ?ShowBackground: bool * ?Id: StyleParam.SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
-<div class="fsdocs-tip" id="fs85">static member Chart.withTitle: title: Title -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)<br />static member Chart.withTitle: title: string * ?TitleFont: Font -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs83">static member Chart.withXAxisStyle: [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleText: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleFont: Font * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleStandoff: int * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Title: Title * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Color: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AxisType: StyleParam.AxisType * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MinMax: (#System.IConvertible * #System.IConvertible) * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Mirror: StyleParam.Mirror * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowSpikes: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?SpikeColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?SpikeThickness: int * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLine: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowGrid: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GridColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GridDash: StyleParam.DrawingStyle * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ZeroLine: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ZeroLineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Anchor: StyleParam.LinearAxisId * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Side: StyleParam.Side * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Overlaying: StyleParam.LinearAxisId * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Domain: (float * float) * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Position: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CategoryOrder: StyleParam.CategoryOrder * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CategoryArray: #System.IConvertible seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?RangeSlider: RangeSlider * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?RangeSelector: RangeSelector * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?BackgroundColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowBackground: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Id: StyleParam.SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs84">static member Chart.withYAxisStyle: [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleText: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleFont: Font * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleStandoff: int * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Title: Title * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Color: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AxisType: StyleParam.AxisType * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?MinMax: (#System.IConvertible * #System.IConvertible) * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Mirror: StyleParam.Mirror * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowSpikes: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?SpikeColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?SpikeThickness: int * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowLine: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?LineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowGrid: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GridColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?GridDash: StyleParam.DrawingStyle * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ZeroLine: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ZeroLineColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Anchor: StyleParam.LinearAxisId * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Side: StyleParam.Side * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Overlaying: StyleParam.LinearAxisId * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?AutoShift: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Shift: int * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Domain: (float * float) * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Position: float * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CategoryOrder: StyleParam.CategoryOrder * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?CategoryArray: #System.IConvertible seq * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?RangeSlider: RangeSlider * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?RangeSelector: RangeSelector * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?BackgroundColor: Color * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?ShowBackground: bool * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?Id: StyleParam.SubPlotId -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
+<div class="fsdocs-tip" id="fs85">static member Chart.withTitle: title: Title -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)<br />static member Chart.withTitle: title: string * [&lt;System.Runtime.InteropServices.Optional; System.Runtime.InteropServices.DefaultParameterValue ((null :&gt; obj))&gt;] ?TitleFont: Font -&gt; (GenericChart.GenericChart -&gt; GenericChart.GenericChart)</div>
 <div class="fsdocs-tip" id="fs86">module GenericChart
 
 from Plotly.NET<br /><em>&lt;summary&gt;
  Module to represent a GenericChart
 &lt;/summary&gt;</em></div>
 <div class="fsdocs-tip" id="fs87">val toChartHTML: gChart: GenericChart.GenericChart -&gt; string</div>
-<div class="fsdocs-tip" id="fs88">val multiLabelROC: Map&lt;string,(float * float)[]&gt;</div>
-<div class="fsdocs-tip" id="fs89">static member ComparisonMetrics.calculateMultiLabelROC: actual: &#39;a[] * predictions: (&#39;a * float[])[] -&gt; Map&lt;string,(float * float)[]&gt; (requires &#39;a :&gt; System.IConvertible and equality)</div>
+<div class="fsdocs-tip" id="fs88">val multiLabelROC: Map&lt;string,(float * float) array&gt;</div>
+<div class="fsdocs-tip" id="fs89">static member ComparisonMetrics.calculateMultiLabelROC: actual: &#39;a array * predictions: (&#39;a * float array) array -&gt; Map&lt;string,(float * float) array&gt; (requires &#39;a :&gt; System.IConvertible and equality)</div>
 <div class="fsdocs-tip" id="fs90">val aucMap: Map&lt;string,float&gt;</div>
 <div class="fsdocs-tip" id="fs91">Multiple items<br />module Map
 
@@ -1212,46 +1302,116 @@ from FSharp.Stats<br /><em>&lt;summary&gt;
  Module to strore specialised computations on maps
 &lt;/summary&gt;</em><br /><br />--------------------<br />module Map
 
-from Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.FSharpMap`2&quot; /&gt;.&lt;/summary&gt;</em><br /><br />--------------------<br />type Map&lt;&#39;Key,&#39;Value (requires comparison)&gt; =
+from Microsoft.FSharp.Collections<br /><br />--------------------<br />type Map&lt;&#39;Key,&#39;Value (requires comparison)&gt; =
   interface IReadOnlyDictionary&lt;&#39;Key,&#39;Value&gt;
   interface IReadOnlyCollection&lt;KeyValuePair&lt;&#39;Key,&#39;Value&gt;&gt;
   interface IEnumerable
+  interface IStructuralEquatable
   interface IComparable
   interface IEnumerable&lt;KeyValuePair&lt;&#39;Key,&#39;Value&gt;&gt;
   interface ICollection&lt;KeyValuePair&lt;&#39;Key,&#39;Value&gt;&gt;
   interface IDictionary&lt;&#39;Key,&#39;Value&gt;
-  new: elements: seq&lt;&#39;Key * &#39;Value&gt; -&gt; Map&lt;&#39;Key,&#39;Value&gt;
+  new: elements: (&#39;Key * &#39;Value) seq -&gt; Map&lt;&#39;Key,&#39;Value&gt;
   member Add: key: &#39;Key * value: &#39;Value -&gt; Map&lt;&#39;Key,&#39;Value&gt;
-  member Change: key: &#39;Key * f: (&#39;Value option -&gt; &#39;Value option) -&gt; Map&lt;&#39;Key,&#39;Value&gt;
-  ...<br /><em>&lt;summary&gt;Immutable maps based on binary trees, where keys are ordered by F# generic comparison. By default
- comparison is the F# structural comparison function or uses implementations of the IComparable interface on key values.&lt;/summary&gt;<br />&lt;remarks&gt;See the &lt;see cref=&quot;T:Microsoft.FSharp.Collections.MapModule&quot; /&gt; module for further operations on maps.
-
- All members of this class are thread-safe and may be used concurrently from multiple threads.&lt;/remarks&gt;</em><br /><br />--------------------<br />new: elements: seq&lt;&#39;Key * &#39;Value&gt; -&gt; Map&lt;&#39;Key,&#39;Value&gt;</div>
-<div class="fsdocs-tip" id="fs92">val map: mapping: (&#39;Key -&gt; &#39;T -&gt; &#39;U) -&gt; table: Map&lt;&#39;Key,&#39;T&gt; -&gt; Map&lt;&#39;Key,&#39;U&gt; (requires comparison)<br /><em>&lt;summary&gt;Builds a new collection whose elements are the results of applying the given function
- to each of the elements of the collection. The key passed to the
- function indicates the key of element being transformed.&lt;/summary&gt;<br />&lt;param name=&quot;mapping&quot;&gt;The function to transform the key/value pairs.&lt;/param&gt;<br />&lt;param name=&quot;table&quot;&gt;The input map.&lt;/param&gt;<br />&lt;returns&gt;The resulting map of keys and transformed values.&lt;/returns&gt;<br />&lt;example id=&quot;map-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- let sample = Map [ (1, &quot;a&quot;); (2, &quot;b&quot;) ]
- 
- sample |&amp;gt; Map.map (fun n s -&amp;gt; sprintf &quot;%i %s&quot; n s) // evaluates to map [(1, &quot;1 a&quot;); (2, &quot;2 b&quot;)]
- &lt;/code&gt;&lt;/example&gt;</em></div>
-<div class="fsdocs-tip" id="fs93">val roc: (float * float)[]</div>
+  ...<br /><br />--------------------<br />new: elements: (&#39;Key * &#39;Value) seq -&gt; Map&lt;&#39;Key,&#39;Value&gt;</div>
+<div class="fsdocs-tip" id="fs92">val map: mapping: (&#39;Key -&gt; &#39;T -&gt; &#39;U) -&gt; table: Map&lt;&#39;Key,&#39;T&gt; -&gt; Map&lt;&#39;Key,&#39;U&gt; (requires comparison)</div>
+<div class="fsdocs-tip" id="fs93">val roc: (float * float) array</div>
 <div class="fsdocs-tip" id="fs94">val multiLabelROCChart: GenericChart.GenericChart</div>
-<div class="fsdocs-tip" id="fs95">val toArray: table: Map&lt;&#39;Key,&#39;T&gt; -&gt; (&#39;Key * &#39;T)[] (requires comparison)<br /><em>&lt;summary&gt;Returns an array of all key-value pairs in the mapping.
- The array will be ordered by the keys of the map.&lt;/summary&gt;<br />&lt;param name=&quot;table&quot;&gt;The input map.&lt;/param&gt;<br />&lt;returns&gt;The array of key/value pairs.&lt;/returns&gt;<br />&lt;example id=&quot;toarray-1&quot;&gt;&lt;code lang=&quot;fsharp&quot;&gt;
- let input = Map [ (1, &quot;a&quot;); (2, &quot;b&quot;) ]
-
- input |&amp;gt; Map.toArray // evaluates to [|(1, &quot;a&quot;); (2, &quot;b&quot;)|]
- &lt;/code&gt;&lt;/example&gt;</em></div>
+<div class="fsdocs-tip" id="fs95">val toArray: table: Map&lt;&#39;Key,&#39;T&gt; -&gt; (&#39;Key * &#39;T) array (requires comparison)</div>
 
     </div>
+</main>
+<aside id="fsdocs-page-menu">
+    <p id="on-this-page">On this page</p>
+    <ul>
+  <li class="level-1">
+    <a href="#Evaluating-predictions-and-tests">
+      Evaluating predictions and tests
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Confusion-matrices">
+      Confusion matrices
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Binary-confusion-matrix">
+      Binary confusion matrix
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Multi-label-confusion-matrix">
+      Multi label confusion matrix
+    </a>
+  </li>
+  <li class="level-2">
+    <a href="#Comparison-Metrics">
+      Comparison Metrics
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#ComparisonMetrics-for-binary-comparisons">
+      ComparisonMetrics for binary comparisons
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#ComparisonMetrics-for-multi-label-comparisons">
+      ComparisonMetrics for multi-label comparisons
+    </a>
+  </li>
+  <li class="level-4">
+    <a href="#Macro-averaging-metrics">
+      Macro-averaging metrics
+    </a>
+  </li>
+  <li class="level-4">
+    <a href="#Micro-averaging-metrics">
+      Micro-averaging metrics
+    </a>
+  </li>
+  <li class="level-3">
+    <a href="#Creating-threshold-dependent-metric-maps">
+      Creating threshold-dependent metric maps
+    </a>
+  </li>
+  <li class="level-4">
+    <a href="#For-binary-predictions">
+      For binary predictions
+    </a>
+  </li>
+  <li class="level-4">
+    <a href="#For-multi-label-predictions">
+      For multi-label predictions
+    </a>
+  </li>
+  <li class="level-4">
+    <a href="#ROC-curve-example">
+      ROC curve example
+    </a>
+  </li>
+  <li class="level-5">
+    <a href="#Binary">
+      Binary
+    </a>
+  </li>
+  <li class="level-5">
+    <a href="#Multi-label">
+      Multi-label
+    </a>
+  </li>
+</ul>
+</aside>
+<dialog>
+    <input type="search" placeholder="Search docs" />
+    <div class="results">
+        <ul></ul>
+        <p class="empty">Type something to start searching.</p>
+    </div>
+</dialog>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-tips.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme-toggle.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-theme.js"></script>
+<script type="module" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
 
-    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
-    <script type="text/javascript">var fsdocs_search_baseurl = 'https://fslab.org/FSharp.Stats/'</script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
-    <script type="text/javascript" src="https://fslab.org/FSharp.Stats/content/fsdocs-search.js"></script>
-    <!-- END SEARCH BOX: this adds support for the search box -->
 </body>
-
 </html>
