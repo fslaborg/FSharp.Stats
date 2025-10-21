@@ -154,7 +154,7 @@ let mlcm =
                 [2; 0; 4]
             ]
             |> array2D
-            |> Matrix.Generic.ofArray2D
+            |> Matrix.ofArray2D
         )
     )
 (**
