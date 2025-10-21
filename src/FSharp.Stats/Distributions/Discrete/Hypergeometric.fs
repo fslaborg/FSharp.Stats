@@ -250,9 +250,8 @@ type Hypergeometric =
     static member ToString N K n  =
         sprintf "Hypergeometric(N = %i, K = %i, n = %i)" N K n 
     
-    /// <summary> Initializes a hypergeometric distribution.
-    /// 
-    /// <summary>
+    /// <summary> 
+    /// Initializes a hypergeometric distribution.
     /// The hypergeometric distribution is a discrete probability distribution
     /// that describes the probability of `k` successes (random draws for which the object
     /// drawn has a specified feature) in `n` draws, without replacement, from a finite

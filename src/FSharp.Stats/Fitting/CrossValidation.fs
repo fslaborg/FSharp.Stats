@@ -153,6 +153,7 @@ module CrossValidation =
     /// <summary>Computes a repeated shuffel-and-split cross validation<br />p: percentage of training set size from original size,<br />iterations: number of random subset creation,<br />xData: rowwise x-coordinate matrix,<br />yData: yData vector<br />fit: x and y data lead to function that maps a xData row vector to a y-coordinate,<br />error: defines the error of the fitted y-coordinate and the actual y-coordinate,<br />getStDev: function that calculates the standard deviation from a seq&lt;^T&gt;. (Seq.stDev)</summary>
     /// <remarks></remarks>
     /// <param name="p"></param>
+    /// <param name="iterations"></param>
     /// <param name="xData"></param>
     /// <param name="yData"></param>
     /// <param name="fit"></param>

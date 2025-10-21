@@ -10,15 +10,12 @@ module TestStatistics =
     open FSharp.Stats
 
     /// <summary>
-    ///   Creates a new T-Test for a given statistic
-    ///   with given degrees of freedom.
+    /// Represents the result of a T-Test with statistic, degrees of freedom,
+    /// and one-/two-tailed p-values.
     /// </summary>
-    /// 
-    /// <param name="Statistic">The test statistic.</param>
-    /// <param name="DegreesOfFreedom">The degrees of freedom for the numerator.</param>    
-    /// <param name="PValueLeft">One Tailed/Sided.</param>
-    /// <param name="PValueRight"> One Tailed/Sided.</param>   
-    /// <param name="PValue">Two Tailed/Sided.</param>   
+    /// <typeparam name="'T">
+    /// Numeric type used for the test statistics.
+    /// </typeparam>
     type TTestStatistics<'T when 'T :> Numerics.INumber<'T>
         and Numerics.IFloatingPoint<'T>
         and Numerics.IExponentialFunctions<'T>
@@ -27,10 +24,19 @@ module TestStatistics =
         and 'T: (static member op_Explicit: ^T -> float)
         and 'T : comparison >  = 
         {
+            /// The test statistic.
             Statistic            : 'T
+
+            /// The degrees of freedom for the numerator.
             DegreesOfFreedom     : 'T
+
+            /// One Tailed/Sided PValue.
             PValueLeft           : 'T
+
+            /// One Tailed/Sided PValue.
             PValueRight          : 'T
+
+            /// Two Tailed/Sided PValue.
             PValue               : 'T            
         }
 
@@ -61,10 +67,10 @@ module TestStatistics =
     ///   Creates a new F-Test for a given statistic
     ///   with given degrees of freedom.
     /// </summary>
-    /// 
-    /// <param name="statistic">The test statistic.</param>
-    /// <param name="d1">The degrees of freedom for the numerator.</param>
-    /// <param name="d2">The degrees of freedom for the denominator.</param>
+    // /// 
+    // /// <param name="statistic">The test statistic.</param>
+    // /// <param name="d1">The degrees of freedom for the numerator.</param>
+    // /// <param name="d2">The degrees of freedom for the denominator.</param>
     type FTestStatistics<'T when 'T :> Numerics.INumber<'T>
         and Numerics.IFloatingPoint<'T>
         and Numerics.IExponentialFunctions<'T>
@@ -73,9 +79,15 @@ module TestStatistics =
         and 'T: (static member op_Explicit: ^T -> float)
         and 'T : comparison > = 
         {
+            /// The test statistic.
             Statistic            : 'T
+
+            /// The degrees of freedom for the numerator.
             DegreesOfFreedom1    : 'T
+
+            /// The degrees of freedom for the denominator.
             DegreesOfFreedom2    : 'T
+
             PValue               : 'T 
             PValueTwoTailed      : 'T            
         }
@@ -107,12 +119,12 @@ module TestStatistics =
     ///   Computes the Chi-Square test statistics for a given statistic
     ///   with given degrees of freedom.
     /// </summary>
-    /// 
-    /// <param name="Statistic">The test statistic.</param>
-    /// <param name="DegreesOfFreedom">The degrees of freedom for the numerator.</param>    
-    /// <param name="PValueLeft">One Tailed/Sided.</param>
-    /// <param name="PValueRight"> One Tailed/Sided.</param>   
-    /// <param name="PValue">Two Tailed/Sided.</param>   
+    // /// 
+    // /// <param name="Statistic">The test statistic.</param>
+    // /// <param name="DegreesOfFreedom">The degrees of freedom for the numerator.</param>    
+    // /// <param name="PValueLeft">One Tailed/Sided.</param>
+    // /// <param name="PValueRight"> One Tailed/Sided.</param>   
+    // /// <param name="PValue">Two Tailed/Sided.</param>   
     type ChiSquareStatistics<'T when 'T :> Numerics.INumber<'T>
         and Numerics.IFloatingPoint<'T>
         and Numerics.IExponentialFunctions<'T>
@@ -121,7 +133,9 @@ module TestStatistics =
         and 'T: (static member op_Explicit: ^T -> float)
         and 'T : comparison > = 
         {
+            /// The test statistic.
             Statistic            : 'T
+            /// The degrees of freedom for the numerator.
             DegreesOfFreedom     : 'T
             /// one tailed/sided chiSquare pValue
             PValueLeft           : 'T
@@ -158,9 +172,9 @@ module TestStatistics =
     /// <summary>
     ///   Computes the Wilcoxon test statistics for a given statistic.
     /// </summary>
-    /// <param name="Statistic">The test statistic.</param>
-    /// <param name="PValue">One Tailed/Sided.</param>
-    /// <param name="PValueTwoTailed">Two Tailed/Sided.</param>   
+    // /// <param name="Statistic">The test statistic.</param>
+    // /// <param name="PValue">One Tailed/Sided.</param>
+    // /// <param name="PValueTwoTailed">Two Tailed/Sided.</param>   
     type WilcoxonTestStatistics<'T when 'T :> Numerics.INumber<'T>
         and Numerics.IFloatingPoint<'T>
         and Numerics.IExponentialFunctions<'T>
@@ -169,9 +183,13 @@ module TestStatistics =
         and 'T: (static member op_Explicit: ^T -> float)
         and 'T : comparison > = 
         {
+            /// The test statistic.
             Statistic            : 'T
+            /// One Tailed/Sided PValue.
             PValueLeft           : 'T
-            PValueRight          : 'T 
+            /// One Tailed/Sided PValue.
+            PValueRight          : 'T
+            /// Two Tailed/Sided PValue.
             PValueTwoTailed      : 'T 
         }    
     let inline createWilcoxon<'T when 'T :> Numerics.INumber<'T>
