@@ -6,6 +6,8 @@ open System
 open FSharp.Stats.SpecialFunctions
 open FSharp.Stats.Quantile
 open FSharp.Stats.Interpolation
+open FsMath
+
 
 module QQPlot =
 
@@ -70,16 +72,15 @@ module QQPlot =
     /// Computes the quantile quantile coordinates of a sample distributions against a normal distribution. 
     /// The sample can be z transformed. StandardMethod = Rankit
     // tested against R qqnorm
-    let internal fromSampleToGauss method zTransformSample (sample:seq<float>) =
+    let internal fromSampleToGauss method zTransformSample (sample:Vector<float>) =
 
         let sampleLength = Seq.length sample |> float
 
         let standardizedData = 
             if zTransformSample then 
-                Signal.Normalization.zScoreTransformPopulation (vector sample)
-                |> Vector.toArray
+                Signal.Normalization.zScoreTransformPopulation sample
             else
-                sample |> Seq.toArray
+                sample
 
         let getQuantile rank = 
             match method with
@@ -109,15 +110,15 @@ module QQPlot =
     /// <code>
     /// </code>
     /// </example>
-    let internal fromSampleToUniform method standardizeSample (sample:seq<float>)  =
+    let internal fromSampleToUniform method standardizeSample (sample:Vector<float>)  =
 
         let sampleLength = Seq.length sample |> float
 
         let standardizedSample = 
             if standardizeSample then 
-                let min = Seq.min sample
-                let max = Seq.max sample
-                sample |> Seq.map (fun x -> (x-min) / (max-min))
+                let min = Vector.min sample
+                let max = Vector.max sample
+                sample |> Array.map (fun x -> (x-min) / (max-min))
             else
                 sample
 
@@ -175,7 +176,7 @@ type QQPlot() =
         let standardize = defaultArg ZTransform false
         let method = defaultArg Method QQPlot.QuantileMethod.Rankit
 
-        fun (sample: seq<float>) -> 
+        fun (sample: Vector<float>) -> 
             QQPlot.fromSampleToGauss method standardize sample
 
     /// Computes the quantile quantile coordinates of a sample distributions against a normal distribution. 
@@ -185,7 +186,7 @@ type QQPlot() =
         let standardize = defaultArg Standardize false
         let method = defaultArg Method QQPlot.QuantileMethod.Rankit
 
-        fun (sample: seq<float>) -> 
+        fun (sample: Vector<float>) -> 
             QQPlot.fromSampleToUniform method standardize sample
                         
     /// Computes the quantile quantile coordinates of a sample distributions against a specified inverseCDF function. You can derive an inverse CDF of any statistical distribution. 

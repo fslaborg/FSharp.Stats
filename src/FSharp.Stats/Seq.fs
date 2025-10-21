@@ -7,8 +7,6 @@ namespace FSharp.Stats
 [<RequireQualifiedAccess>]
 module Seq = 
 
-    module OpsS = SpecializedGenericImpl
-
     /// <summary>
     /// Computes the range of the input sequence.
     /// </summary>
@@ -814,8 +812,8 @@ module Seq =
     /// </code>
     /// </example>
     let inline covPopulation (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
-        let v1 = seq1 |> OpsS.seqV
-        let v2 = seq2 |> OpsS.seqV
+        let v1 = seq1 |>Array.ofSeq
+        let v2 = seq2 |>Array.ofSeq
         if v1.Length <> v2.Length then failwith "Inputs need to have the same length."
         let zero = LanguagePrimitives.GenericZero<'U>
         let div = LanguagePrimitives.DivideByInt<'U>
@@ -880,8 +878,8 @@ module Seq =
     /// </code>
     /// </example>
     let inline cov (seq1:seq<'T>) (seq2:seq<'T>) : 'U =
-        let v1 = seq1 |> OpsS.seqV
-        let v2 = seq2 |> OpsS.seqV
+        let v1 = seq1 |>Array.ofSeq
+        let v2 = seq2 |>Array.ofSeq
         if v1.Length <> v2.Length then failwith "Inputs need to have the same length."
         let zero = LanguagePrimitives.GenericZero<'U>
         let div = LanguagePrimitives.DivideByInt<'U>
@@ -1174,7 +1172,8 @@ module Seq =
 //    
     /// <summary>
     /// Returns SummaryStats of the input sequence with N, mean, sum-of-squares, minimum and maximum.
-    /// </summary>
+    /// </summary> 
+    /// <remarks>Welford’s online algorithm</remarks>
     /// <param name="items">The input sequence.</param>
     /// <returns>The SummaryStats of the input sequence.</returns>
     /// <example>
@@ -1183,35 +1182,14 @@ module Seq =
     /// let stats = Seq.stats values
     /// // returns SummaryStats with:
     /// //   N = 5
-    /// //   Mean = 3.5
+    /// //   Mean = 3.0
     /// //   SumOfSquares = 5.0
     /// //   Minimum = 1.0
     /// //   Maximum = 5.0
     /// </code>
     /// </example>
     let inline stats (items:seq<'T>) =
-        use e = items.GetEnumerator()
-        let zero = LanguagePrimitives.GenericZero< 'T > 
-        let one = LanguagePrimitives.GenericOne< 'T >        
-        
-        let rec loop n (minimum) (maximum) m1 m2 =
-            match e.MoveNext() with
-            | true  -> 
-                let current = e.Current
-                let delta = current - m1               
-                let deltaN = (delta / n)
-                //let delta_n2 = deltaN * deltaN
-                let m1' = m1 + deltaN            
-                let m2' = m2 + delta * deltaN * (n-one)
-                loop (n + one) (min current minimum) (max current maximum) m1' m2'
-            | false -> SummaryStats.createSummaryStats n m1 m2 minimum maximum
-
-        //Init by first value        
-        match e.MoveNext() with
-        | true -> loop one e.Current e.Current zero zero 
-        | false ->
-            let uNan = zero / zero 
-            SummaryStats.createSummaryStats zero uNan uNan uNan uNan
+        SummaryStats.ofSeq items
 
     /// <summary>
     /// Calculates the sample means with a given number of replicates present in the sequence.

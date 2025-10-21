@@ -3,6 +3,7 @@
 module FSIPrinters =
     open System    
     open System.Linq
+    open FsMath
 
     let matrix (mat: Matrix<_>) =
         //TODO: Difficult to read because of all exceptions. Simplified version!
@@ -34,7 +35,7 @@ module FSIPrinters =
 
         //print row with row index and vertical separator
         let printRow index = 
-            let currentRow = mat.Row index
+            let currentRow = Matrix.getRow index mat
             let toString (rv) = 
                 rv 
                 |> Seq.map (fun x ->    

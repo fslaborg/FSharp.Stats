@@ -4,11 +4,11 @@ namespace FSharp.Stats.Fitting
 module Spline =
 
     open FSharp.Stats
-    open FSharp.Stats.Algebra
+    open FsMath
+    open FsMath.Algebra
 
     /// <summary>Some preprocessing of the input data</summary>
     /// <remarks></remarks>
-    /// <param name="preprocess"></param>
     /// <param name="data"></param>
     /// <returns></returns>
     /// <example>
@@ -31,6 +31,7 @@ module Spline =
     /// <summary>Creates a smoothing spline through some data. Takes as spline points the x-values given by basispts.<br />The resulting function takes lambda (regularization parameter) and a x_Value as input. </summary>
     /// <remarks></remarks>
     /// <param name="data"></param>
+    /// <param name="basispts"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
@@ -41,7 +42,6 @@ module Spline =
         // Some preprocessing
         let basistmp = preprocessBasis basispts
         let xdata,ydata = data |> preprocess |> Array.unzip
-        let ydata = vector ydata
         let n = Array.length xdata
         let n' = Array.length basistmp
         let xm = basistmp.[n'-2]
@@ -60,7 +60,7 @@ module Spline =
  
         // Construct the matrices we need
         let Bt = Matrix.init n' n (fun c r -> basis.[c] xdata.[r])
-        let BtB = Bt * Bt.Transpose
+        let BtB = Bt * (Bt.Transpose())
         let penaltyFunc r c =
             let xi = xdata.[-2+min r c]
             let xj = xdata.[-2+max r c]
@@ -74,8 +74,8 @@ module Spline =
         let n' = float n'
         fun (lambda: float) ->
             do checkSmoothingParameter lambda
-            let beta = FSharp.Stats.Algebra.LinearAlgebra.LeastSquares (BtB + n'*lambda*Omega) (Bt * ydata)
-            let helper = Array.zip basis (beta.ToArray())
+            let beta = LinearAlgebra.leastSquares (BtB + n'*lambda*Omega) (Bt * ydata)
+            let helper = Array.zip basis beta
             /// Our actualy smoothing spline
             fun x -> helper |> Array.sumBy  (fun (f,w) -> w * f x)
        

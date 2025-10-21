@@ -59,7 +59,7 @@ module Ops =
 
     /// <summary>Returs true if x is infinity (generics)</summary>
     /// <remarks></remarks>
-    /// <param name="isInf"></param>
+    /// <param name="num"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
@@ -71,7 +71,7 @@ module Ops =
 
     /// <summary>Returs true if x is positive infinity (generics)</summary>
     /// <remarks></remarks>
-    /// <param name="isPosInf"></param>
+    /// <param name="num"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
@@ -83,7 +83,7 @@ module Ops =
     
     /// <summary>Returs true if x is positive infinity (generics)</summary>
     /// <remarks></remarks>
-    /// <param name="isNegInf"></param>
+    /// <param name="num"></param>
     /// <returns></returns>
     /// <example>
     /// <code>

@@ -34,6 +34,8 @@ module Imputation =
     /// <summary>Imputation by random sampling from the input vector</summary>
     /// <remarks></remarks>
     /// <param name="rnd"></param>
+    /// <param name="fdata"></param>
+    /// <param name="index"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
@@ -71,6 +73,9 @@ module Imputation =
     /// <summary>Imputation by k-nearest neighbour</summary>
     /// <remarks></remarks>
     /// <param name="k"></param>
+    /// <param name="data"></param>
+    /// <param name="arr"></param>
+    /// <param name="index"></param>
     /// <returns></returns>
     /// <example>
     /// <code>

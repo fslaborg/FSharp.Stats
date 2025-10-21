@@ -3,6 +3,7 @@
 
 open Expecto
 open System
+open FsMath
 open FSharp.Stats
 open FSharp.Stats.Optimization
 
@@ -13,21 +14,21 @@ open FSharp.Stats.Optimization
 let NelderMeadTests =   
     testList "Optimization.NelderMead" [
         
-        let poly (xs: vector) =
+        let poly (xs: Vector<float>) =
             System.Math.Pow(xs[0], 2)        
  
         // Rosenbrock's valley or Rosenbrock's banana function
-        let rosenbrock (xs: vector) =
+        let rosenbrock (xs: Vector<float>) =
             let x, y = xs.[0], xs.[1]
             pown (1.0 - x) 2 + 100.0 * pown (y - pown x 2) 2
 
         // Fletcher and Powell's helic valley
-        let fphv (x : vector) =
+        let fphv (x : Vector<float>) =
             100. * (x[2] - 10. * (atan2 x[1] x[0]) / (2. * Ops.pi))**2. + 
                 (sqrt(x[0]**2. + x[1]**2.) - 1.)**2. + x[2]**2.
 
         // Powell's Singular Function (PSF)
-        let psf (x : vector) =
+        let psf (x : Vector<float>) =
           (x[0] + 10. * x[1])**2. + 5. * (x[2] - x[3])**2. + 
             (x[1] - 2. * x[2])**4. + 10.*(x[0] - x[3])**4.
                

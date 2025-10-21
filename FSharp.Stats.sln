@@ -55,15 +55,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{23F9FB2E-6
 		docs\Integration.fsx = docs\Integration.fsx
 		docs\Interpolation.fsx = docs\Interpolation.fsx
 		docs\Intervals.fsx = docs\Intervals.fsx
-		docs\LinearAlgebra.fsx = docs\LinearAlgebra.fsx
-		docs\Matrix_Vector.fsx = docs\Matrix_Vector.fsx
+		docs\Normalization.fsx = docs\Normalization.fsx
+		docs\NuGet.config = docs\NuGet.config
 		docs\Optimization.fsx = docs\Optimization.fsx
 		docs\Quantiles.fsx = docs\Quantiles.fsx
-		docs\NuGet.config = docs\NuGet.config
 		docs\Rank.fsx = docs\Rank.fsx
 		docs\Signal.fsx = docs\Signal.fsx
-		docs\Normalization.fsx = docs\Normalization.fsx
-		docs\ML.fsx = docs\ML.fsx
 		docs\Testing.fsx = docs\Testing.fsx
 		docs\_template.html = docs\_template.html
 		docs\_template.ipynb = docs\_template.ipynb
@@ -75,6 +72,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{50E3
 	EndProjectSection
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Stats.Interactive", "src\FSharp.Stats.Interactive\FSharp.Stats.Interactive.fsproj", "{D7BCF5C0-9E2B-4170-9390-607B0B65A8CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Stats.Benchmarks", "benchmarks\FSharp.Stats.Benchmarks\FSharp.Stats.Benchmarks.fsproj", "{E3942700-8589-770A-6224-F6D2DDF977E8}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Stats.LegacyBenchmarks", "benchmarks\FSharp.Stats.LegacyBenchmarks\FSharp.Stats.LegacyBenchmarks.fsproj", "{D84267B7-0C5A-4679-A63C-D94315A458CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,6 +101,14 @@ Global
 		{D7BCF5C0-9E2B-4170-9390-607B0B65A8CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7BCF5C0-9E2B-4170-9390-607B0B65A8CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7BCF5C0-9E2B-4170-9390-607B0B65A8CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3942700-8589-770A-6224-F6D2DDF977E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3942700-8589-770A-6224-F6D2DDF977E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3942700-8589-770A-6224-F6D2DDF977E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3942700-8589-770A-6224-F6D2DDF977E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D84267B7-0C5A-4679-A63C-D94315A458CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D84267B7-0C5A-4679-A63C-D94315A458CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D84267B7-0C5A-4679-A63C-D94315A458CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D84267B7-0C5A-4679-A63C-D94315A458CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +117,8 @@ Global
 		{DA7E2263-283A-497F-B122-B2E1A5AC2C8C} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
 		{8830D84C-C999-4816-9742-AC54A3CC1E13} = {7C6D08E7-3EAC-4335-8F4B-252C193C27C9}
 		{50E3E339-AA4D-4FD2-8791-DEBD2EBF0504} = {23F9FB2E-6804-4AF9-B6D5-5CBD00E14A02}
+		{E3942700-8589-770A-6224-F6D2DDF977E8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D84267B7-0C5A-4679-A63C-D94315A458CB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97270415-1E71-487B-BDF5-FBE2D8EFFD09}

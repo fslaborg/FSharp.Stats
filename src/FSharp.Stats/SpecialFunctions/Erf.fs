@@ -18,7 +18,6 @@ module Errorfunction =
 
     /// <summary>Computes the error function. Note that this implementation has only been verified to have a relative error of around 1e-5.</summary>
     /// <remarks></remarks>
-    /// <param name="Erf"></param>
     /// <param name="x"></param>
     /// <returns></returns>
     /// <example>
@@ -41,7 +40,6 @@ module Errorfunction =
 
     /// <summary>Computes the complement of the error function. Note that this implementation has only been verified to have a relative error of around 1e-4.</summary>
     /// <remarks></remarks>
-    /// <param name="Erfc"></param>
     /// <param name="x"></param>
     /// <returns></returns>
     /// <example>

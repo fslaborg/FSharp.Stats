@@ -10,11 +10,15 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#r "../src/FSharp.Stats/bin/Release/netstandard2.0/FSharp.Stats.dll"
-#r "nuget: Newtonsoft.JSON, 13.0.1"
-#r "nuget: DynamicObj, 2.0.0"
-#r "nuget: Giraffe.ViewEngine, 1.4.0"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#r "nuget: FsMath, 0.0.2"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
+#r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
+open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
     Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
@@ -37,17 +41,6 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 
 
 _Summary:_ this tutorial will walk through several ways of fitting data with FSharp.Stats.
-
-### Table of contents
- - [Linear Regression](#Linear-Regression)
-    - [Summary](#Summary)
-    - [Simple Linear Regression](#Simple-Linear-Regression)
-        - [Univariable](#Univariable)
-        - [Multivariable](#Multivariable)
- - [Polynomial Regression](#Polynomial-Regression)
- - [Nonlinear Regression](#Nonlinear-Regression)
- - [LevenbergMarquardtConstrained](#LevenbergMarquardtConstrained)
- - [Smoothing spline](#Smoothing-spline)
 
 ## Linear Regression
 
@@ -210,12 +203,13 @@ let xVectorMulti =
     [5.; 4. ;18. ]
     [6.; 3. ;22. ]
     ]
-    |> Matrix.ofJaggedSeq
+    |> matrix
 
 let yVectorMulti = 
     let transformX (x:Matrix<float>) =
         x
-        |> Matrix.mapiRows (fun _ v -> 100. + (v.[0] * 2.5) + (v.[1] * 4.) + (v.[2] * 0.5))
+        |> Matrix.getRows
+        |> Array.map (fun v -> 100. + (v.[0] * 2.5) + (v.[1] * 4.) + (v.[2] * 0.5))
     xVectorMulti
     |> transformX
     |> vector
@@ -256,7 +250,7 @@ let predictionFunctionPol x =
 let orderP = 3
 
 //define the weighting vector
-let weights = yDataP |> Vector.map (fun y -> 1. / y)
+let weights = yDataP |> Array.map (fun y -> 1. / y)
 let coefficientsPolW = 
     OLS.Polynomial.fitWithWeighting orderP weights xDataP yDataP 
 let predictionFunctionPolW x = 

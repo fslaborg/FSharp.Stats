@@ -11,9 +11,15 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#r "nuget: FsMath, 0.0.2"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
+open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
     Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
@@ -32,15 +38,6 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates how to perform several types of cross validation with FSharp.Stats.
-
-### Table of contents
-
- - [Leave-one-out cross validation (LOOCV)](#Leave-one-out-cross-validation-LOOCV)
-    - [Procedure](#Procedure)
-    - [Polynomial loocv](#Polynomial-loocv)
-    - [Smoothing spline loocv](#Smoothing-spline-loocv)
- - [k fold cross validation](#k-fold-cross-validation)
- - [Shuffle and split cross validation](#Shuffle-and-split-cross-validation)
 
 ## Leave-one-out cross validation (LOOCV)
 
@@ -69,8 +66,8 @@ let xV = vector [1. .. 10.]
 let yV = vector [1.;20.;51.;40.;37.;6.;-10.;-5.;0.;10.]
 
 // the fitting function fits a polynomial of order 'order' to the training data set (xTrain and yTrain) and applies it to xTest
-let getFitFuncPolynomial xTrain yTrain (xTest:RowVector<float>) order = 
-    let xDat             = xTrain |> Matrix.toVector
+let getFitFuncPolynomial (xTrain:Matrix<float>) yTrain (xTest:Vector<float>) order = 
+    let xDat             = xTrain.Data // |> Matrix.toVector
     let coeffs           = Polynomial.fit order xDat yTrain
     let predictFunction  = Polynomial.predict  coeffs (xTest.[0])
     predictFunction
@@ -116,8 +113,8 @@ let error (f1:float) f2 = pown (f1 - f2) 2
 /// Leave-one-out cross validation. Returns the mean squared error of each leave-out at the 
 /// specific polynomial order. Minimize for model selection.
 let loocvPolynomial (xData:Vector<float>) (yData:Vector<float>) order =
-    let xDataMat = Matrix.ofVector xData
-    let getFitFuncPol xTrain yTrain (xTest:RowVector<float>) = 
+    let xDataMat = Matrix.ofCols [|xData|]
+    let getFitFuncPol xTrain yTrain (xTest:Vector<float>) = 
         getFitFuncPolynomial xTrain yTrain xTest order
     let meanSquaredError = CrossValidation.loocv xDataMat yData getFitFuncPol error
     
@@ -161,11 +158,11 @@ let's first create some smoothing splines to cross validate:
 *)
 
 // the fitting function fits a smoothing spline with smoothing factor lambda to the training data set (xTrain and yTrain) and applies it to xTest
-let getFitFuncSpline xDat yDat (xDatTrain: RowVector<float>) lambda =
-    let xDatVec = xDat |> Matrix.toVector
+let getFitFuncSpline (xDat:Matrix<float>) (yDat:Vector<float>) (xDatTrain: Vector<float>) lambda =
+    let xDatVec = xDat.Data // |> Matrix.toVector
     let zippedData = Seq.zip xDatVec yDat |> Array.ofSeq
     let xValTest = xDatTrain.[0]
-    Spline.smoothingSpline zippedData (xDat |> Array.ofSeq) lambda xValTest
+    Spline.smoothingSpline zippedData (xDat.Data) lambda xValTest
 
     /// in loocv the border points are chosen so that the support range of the training data set does not cover the test point.
     /// if splines are used, that are not defined outside the border points use the following:
@@ -213,8 +210,8 @@ let errorSpl (f1:float) f2 =
 /// Leave-one-out cross validation. Returns the mean squared error of each leave-out at the 
 /// specific regularization parameter (lambda). Minimize the (MSE) for model selection.
 let loocvSmoothingSpline (xData:Vector<float>) (yData:Vector<float>) lambda =
-    let xDataMat = Matrix.ofVector xData
-    let getFitFuncSpl xDat yDat (xDatTrain: RowVector<float>) =
+    let xDataMat = Matrix.ofCols [|xData|]
+    let getFitFuncSpl xDat yDat (xDatTrain: Vector<float>) =
         getFitFuncSpline xDat yDat xDatTrain lambda
     
     CrossValidation.loocv xDataMat yData getFitFuncSpl errorSpl
@@ -263,9 +260,9 @@ The output contains the average error together with the standardDeviation comput
 
 //repeated k fold cross validation for polynomials
 let repeatedKFoldPolynomial k (xData: Vector<float>) (yData: Vector<float>) order =
-    let xDataMat = xData |> Matrix.Generic.ofVector
+    let xDataMat = [|xData|] |> Matrix.ofCols
     
-    let getFitFuncPol xTrain yTrain (xTest:RowVector<float>) = 
+    let getFitFuncPol xTrain yTrain (xTest:Vector<float>) = 
         getFitFuncPolynomial xTrain yTrain xTest order
         
     CrossValidation.repeatedKFold k 10 xDataMat yData getFitFuncPol error Seq.stDev
@@ -275,9 +272,9 @@ let kfPolynomial order = repeatedKFoldPolynomial 5 xV yV order
 
 //repeated k fold cross validation for smoothing splines
 let repeatedKFoldSpline k (xData: Vector<float>) (yData: Vector<float>) lambda =
-    let xDataMat = xData |> Matrix.ofVector
+    let xDataMat = [|xData|] |> Matrix.ofCols
     
-    let getFitFuncSpl xDat yDat (xDatTrain: RowVector<float>) =
+    let getFitFuncSpl xDat yDat (xDatTrain: Vector<float>) =
         getFitFuncSpline xDat yDat xDatTrain lambda
 
     CrossValidation.repeatedKFold k 10 xDataMat yData getFitFuncSpl errorSpl Seq.stDev
@@ -355,23 +352,23 @@ The output contains the average error together with the standardDeviation comput
 *)
 
 let shuffleAndSplitPolynomial p iterations (xData: Vector<float>) (yData: Vector<float>) order =
-   let xDataMat = xData |> Matrix.ofVector
+   let xDataMat = [|xData|] |> Matrix.ofCols
    
-   let getFitFuncPol xTrain yTrain (xTest:RowVector<float>) = 
+   let getFitFuncPol xTrain yTrain (xTest:Vector<float>) = 
        getFitFuncPolynomial xTrain yTrain xTest order
    
-   CrossValidation.shuffelAndSplit p iterations xDataMat yData getFitFuncPol error Seq.stDev
+   CrossValidation.shuffleAndSplit p iterations xDataMat yData getFitFuncPol error Seq.stDev
 
 //creates an output for 5 iterations where random 20 % of the data set are taken as testing data set
 let sasPolynomial order = shuffleAndSplitPolynomial 0.2 5 xV yV order
 
 let shuffleAndSplitSpline p iterations (xData: Vector<float>) (yData: Vector<float>) lambda =
-    let xDataMat = xData |> Matrix.ofVector
+    let xDataMat = [|xData|] |> Matrix.ofCols
    
-    let getFitFuncSpl xDat yDat (xDatTrain: RowVector<float>) =
+    let getFitFuncSpl xDat yDat (xDatTrain: Vector<float>) =
         getFitFuncSpline xDat yDat xDatTrain lambda
    
-    CrossValidation.shuffelAndSplit p iterations xDataMat yData getFitFuncSpl errorSpl Seq.stDev
+    CrossValidation.shuffleAndSplit p iterations xDataMat yData getFitFuncSpl errorSpl Seq.stDev
 
 //creates an output for 5 iterations where random 20 % of the data set are taken as testing data set
 let sasSpline lambda = shuffleAndSplitSpline 0.2 5 xV yV lambda

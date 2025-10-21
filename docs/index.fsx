@@ -1,9 +1,15 @@
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#r "nuget: FsMath, 0.0.2"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
+open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
     Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
@@ -104,9 +110,6 @@ let vecB = vector [19.;11.;35.]
 
 // create a matrix 
 let matA = matrix [[3.;4.;0.];[1.;2.;2.];[5.;0.;5.]]
-
-// solve the linear system of equations
-let vecX = FSharp.Stats.Algebra.LinearAlgebra.SolveLinearSystem matA vecB
 
 (*** include-value:vecX ***)
 

@@ -10,9 +10,15 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#r "nuget: FsMath, 0.0.2"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
+open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
     Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
@@ -40,11 +46,6 @@ open Plotly.NET.LayoutObjects
 [![Notebook]({{root}}img/badge-notebook.svg)]({{root}}{{fsdocs-source-basename}}.ipynb)
 
 _Summary:_ this tutorial demonstrates multiple ways of data normalization accross several samples
-
-### Table of contents
- - [Introduction](#Introduction)
- - [Median of Ratios](#Median-of-ratios)
- - [Quantile normalization](#Quantile-normalization)
 
 ## Introduction
 
@@ -161,8 +162,9 @@ let rawData =
 
 // visualization of the raw data
 let rawDataChart = 
-    rawData.Transpose
-    |> Matrix.toJaggedArray
+    rawData
+    |> Matrix.transpose
+    |> (fun m -> m.toJaggedArray())
     |> Array.mapi (fun sampleID sample -> 
         let sampleIntensities = 
             sample 
@@ -219,8 +221,9 @@ corrFactors
 
 // visualization of the normed data
 let normedDataChart =
-    morNormedData.Transpose
-    |> Matrix.toJaggedArray
+    morNormedData
+    |> Matrix.transpose
+    |> (fun m -> m.toJaggedArray())
     |> Array.mapi (fun sampleID sample -> 
         let sampleIntensities = 
             sample 
@@ -313,8 +316,9 @@ let quantileNorm =
 
 // visualization of the normed data
 let normedDataQuantileChart =
-    quantileNorm.Transpose
-    |> Matrix.toJaggedArray
+    quantileNorm
+    |> Matrix.transpose
+    |> (fun m -> m.toJaggedArray())
     |> Array.mapi (fun sampleID sample -> 
         let sampleIntensities = 
             sample 

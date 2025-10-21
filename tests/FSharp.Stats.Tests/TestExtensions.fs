@@ -1,12 +1,18 @@
 ﻿module TestExtensions
 
     open Expecto
+    open FsMath
     open FSharp.Stats
     open FSharp.Stats.Testing
     open System
     open System.IO
     open System.Text
     open System.Reflection
+
+    module Accuracy = 
+        /// <summary>veryLow accuracy: absolute = 1e-4, relative = 1e-1</summary>
+        let veryLow      = { absolute = 1e-4; relative = 1e-1 }
+
 
     type TestExtensions() =
         static member sequenceEqual(digits: int) =
@@ -32,6 +38,13 @@
                     actual 
                     expected
 
+        static member floatMatrixClose accuracy (A: Matrix<float>) (B: Matrix<float>) message =
+            Expect.equal A.NumCols B.NumCols "Column count mismatch"
+            Expect.equal A.NumRows B.NumRows "Row count mismatch"
+            for i = 0 to A.NumRows - 1 do
+                for j = 0 to A.NumCols - 1 do
+                    Expect.floatClose accuracy A.[i, j] B.[i, j] $"{message} at ({i},{j})"
+
     let assembly = Assembly.GetExecutingAssembly()
     let resnames = assembly.GetManifestResourceNames();
     let readEmbeddedRessource (name:string) = 
@@ -53,7 +66,6 @@
             | [|a;b|] -> a, float b
             | _ -> failwith "invalid csv format"
          )
-
  
     let comparisonMetricsEqualRounded (digits : int) (actual: ComparisonMetrics) (expected: ComparisonMetrics) message =
         let actual = 

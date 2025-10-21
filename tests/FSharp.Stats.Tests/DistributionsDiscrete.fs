@@ -4,7 +4,7 @@ open Expecto
 open System
 open FSharp.Stats
 open FSharp.Stats.Distributions
-
+open TestExtensions
 
 // Defining an accuracy appropriate for testing random sampling and inference
 let fittingAccuracy : Accuracy = {absolute= 0.1 ;relative= 0.1}
@@ -379,19 +379,139 @@ let binomialTests =
     ] 
 
 
+[<Tests>]
+let categoricalTests =
+    testList "Categorical distribution tests" [
+
+        test "CheckParam should fail on invalid probabilities" {
+            let invalid1 = [| -0.1; 0.6; 0.5 |]
+            let invalid2 = [| 0.2; 0.3; 0.4 |]  // sum ≠ 1.0
+            Expect.throws (fun () -> Discrete.Categorical.CheckParam invalid1) "Negative probability should throw"
+            Expect.throws (fun () -> Discrete.Categorical.CheckParam invalid2) "Probabilities that do not sum to 1.0 should throw"
+        }
+
+        test "PMF returns correct probability" {
+            let p = [| 0.2; 0.3; 0.5 |]
+            let d = Discrete.Categorical.Init p
+            Expect.floatClose Accuracy.high (d.PMF 0) 0.2 "PMF for category 0"
+            Expect.floatClose Accuracy.high (d.PMF 1) 0.3 "PMF for category 1"
+            Expect.floatClose Accuracy.high (d.PMF 2) 0.5 "PMF for category 2"
+            Expect.equal (d.PMF 3) 0.0 "PMF for out-of-range index"
+        }
+
+        test "CDF returns correct cumulative probability" {
+            let p = [| 0.1; 0.2; 0.3; 0.4 |]
+            let d = Discrete.Categorical.Init p
+            Expect.floatClose Accuracy.high (d.CDF -1.0) 0.0 "CDF below 0"
+            Expect.floatClose Accuracy.high (d.CDF 0.0) 0.1 "CDF at 0"
+            Expect.floatClose Accuracy.high (d.CDF 1.0) 0.3 "CDF at 1"
+            Expect.floatClose Accuracy.high (d.CDF 2.0) 0.6 "CDF at 2"
+            Expect.floatClose Accuracy.high (d.CDF 3.0) 1.0 "CDF at 3"
+            Expect.floatClose Accuracy.high (d.CDF 4.0) 1.0 "CDF above max index"
+        }
+
+        test "Sampling produces plausible frequencies" {
+            let p = [| 0.1; 0.3; 0.6 |]
+            let d = Discrete.Categorical.Init p
+            let samples = Array.init 10000 (fun _ -> d.Sample())
+            let freqs = samples |> Array.countBy id |> Map.ofArray
+            let getFreq k = Map.tryFind k freqs |> Option.defaultValue 0 |> float
+            let total = float samples.Length
+            Expect.floatClose fittingAccuracy (getFreq 0 / total) 0.1 "Sample frequency for 0"
+            Expect.floatClose fittingAccuracy (getFreq 1 / total) 0.3 "Sample frequency for 1"
+            Expect.floatClose fittingAccuracy (getFreq 2 / total) 0.6 "Sample frequency for 2"
+        }
+
+        test "Mean and variance are correctly computed" {
+            let p = [| 0.0; 0.5; 0.5 |]
+            let d =Discrete.Categorical.Init p
+            Expect.floatClose Accuracy.high d.Mean 1.5 "Mean should be 1.5"
+            Expect.floatClose Accuracy.high d.Variance 0.25 "Variance should be 0.25"
+        }
+
+        test "Fit returns estimated probabilities from observations" {
+            let observations = [| 0; 1; 1; 2; 2; 2 |]
+            let est = Discrete.Categorical.Fit 3 observations
+            Expect.floatClose Accuracy.high est[0] (1.0/6.0) "P(0)"
+            Expect.floatClose Accuracy.high est[1] (2.0/6.0) "P(1)"
+            Expect.floatClose Accuracy.high est[2] (3.0/6.0) "P(2)"
+        }
+
+        test "Estimate returns a distribution with valid PMFs" {
+            let observations = [| 0; 0; 1; 2; 2; 2 |]
+            let d = Discrete.Categorical.Estimate 3 observations
+            Expect.floatClose Accuracy.high (d.PMF 0) (2.0/6.0) "PMF for category 0"
+            Expect.floatClose Accuracy.high (d.PMF 1) (1.0/6.0) "PMF for category 1"
+            Expect.floatClose Accuracy.high (d.PMF 2) (3.0/6.0) "PMF for category 2"
+        }
+
+    ]
+
+
+[<Tests>]
+let labelledCategoricalTests =
+    testList "LabelledCategorical tests" [
+
+        test "PMF returns correct probability for labels" {
+            let labels = [| "A"; "B"; "C" |]
+            let probs = [| 0.2; 0.3; 0.5 |]
+            let d = Discrete.LabelledCategorical(labels, probs)
+            Expect.floatClose Accuracy.high (d.PMF "A") 0.2 "PMF A"
+            Expect.floatClose Accuracy.high (d.PMF "B") 0.3 "PMF B"
+            Expect.floatClose Accuracy.high (d.PMF "C") 0.5 "PMF C"
+        }
+
+        test "CDF computes cumulative probabilities" {
+            let labels = [| "A"; "B"; "C" |]
+            let probs = [| 0.1; 0.2; 0.7 |]
+            let d = Discrete.LabelledCategorical(labels, probs)
+            Expect.floatClose Accuracy.high (d.CDF "A") 0.1 "CDF A"
+            Expect.floatClose Accuracy.high (d.CDF "B") 0.3 "CDF B"
+            Expect.floatClose Accuracy.high (d.CDF "C") 1.0 "CDF C"
+        }
+
+        test "Sampling returns expected label frequencies" {
+            let labels = [| "Yes"; "No" |]
+            let probs = [| 0.7; 0.3 |]
+            let d = Discrete.LabelledCategorical(labels, probs)
+            let samples = Array.init 10000 (fun _ -> d.Sample())
+            let freq = samples |> Array.countBy id |> Map.ofArray
+            let yesFreq = Map.tryFind "Yes" freq |> Option.defaultValue 0 |> float
+            Expect.floatClose fittingAccuracy (yesFreq / 10000.0) 0.7 "Sampling approx 70%"
+        }
+
+        test "Fit estimates correct probabilities from observations" {
+            let observations = [| "X"; "X"; "Y"; "Z"; "Z"; "Z" |]
+            let d = Discrete.LabelledCategorical.Fit observations
+            Expect.floatClose Accuracy.high (d.PMF "X") (2.0/6.0) "P(X)"
+            Expect.floatClose Accuracy.high (d.PMF "Y") (1.0/6.0) "P(Y)"
+            Expect.floatClose Accuracy.high (d.PMF "Z") (3.0/6.0) "P(Z)"
+        }
+
+        test "Estimate constructs distribution from labels and counts" {
+            let labels = [| "Red"; "Green"; "Blue" |]
+            let counts = [| 3; 1; 6 |]
+            let d = Discrete.LabelledCategorical.Estimate labels counts
+            Expect.floatClose Accuracy.high (d.PMF "Red") 0.3 "P(Red)"
+            Expect.floatClose Accuracy.high (d.PMF "Green") 0.1 "P(Green)"
+            Expect.floatClose Accuracy.high (d.PMF "Blue") 0.6 "P(Blue)"
+        }
+
+    ]
+
 
 [<Tests>]
 let multinomialTests =
     // TestCases from R stats: dmultinom(prob, x)
-    let prob1 = vector [0.2;0.4;0.4;0.]
-    let x1 = Vector.Generic.ofList [2;4;2;0]
+    let prob1 = [|0.2;0.4;0.4;0.|]
+    let x1 =     [|2;4;2;0|]
 
-    let prob2 = vector [0.02;0.04;0.02;0.;0.01;0.1;0.81]
-    let x2 = Vector.Generic.ofList [2;4;2;0;1;10;100]
+    let prob2 = [|0.02;0.04;0.02;0.;0.01;0.1;0.81|]
+    let x2 =  [|2;4;2;0;1;10;100|]
     testList "Distributions.Discrete.Multinominal" [
         testCase "Mean" <| fun () ->
             let testCase = Discrete.Multinomial.Mean prob1 100
-            let means    = vector [20.;40.;40.;0.]
+            let means    =  [|20.;40.;40.;0.|]
             TestExtensions.TestExtensions.sequenceEqual Accuracy.veryHigh
                 testCase
                 means
@@ -399,7 +519,7 @@ let multinomialTests =
 
         testCase "Variance" <| fun () ->
             let testCase    = Discrete.Multinomial.Variance prob2 119
-            let variances   = vector [2.3324;4.5696;2.3324;0;1.1781;10.71;18.3141]
+            let variances   = [|2.3324;4.5696;2.3324;0;1.1781;10.71;18.3141|]
             TestExtensions.TestExtensions.sequenceEqual Accuracy.veryHigh
                 testCase
                 variances
@@ -420,8 +540,8 @@ let multinomialTests =
                 testCase
                 pmf
                 "Multinominal.PMF is incorrect"
-            let prob1 = vector [0.1;0.4;0.5]
-            let x = Vector.Generic.ofList [0;0;0]
+            let prob1 =  [|0.1;0.4;0.5|]
+            let x =  [|0;0;0|]
             let testCase3 = Discrete.Multinomial.PMF prob1 x
             Expect.floatClose
                 Accuracy.veryHigh
@@ -429,7 +549,7 @@ let multinomialTests =
                 1.
                 "Multinominal.PMF is incorrect"
 
-            let testCase4    = Discrete.Multinomial.PMF (vector [|0.5; 0.5|]) (Vector.Generic.ofArray [|5; 5|])
+            let testCase4    = Discrete.Multinomial.PMF [|0.5; 0.5|]  [|5; 5|]
             let r_value4     = 0.2460937500001213
             Expect.floatClose
                 Accuracy.high
@@ -438,7 +558,7 @@ let multinomialTests =
                 "Multinomial.PMF (vector [|0.5; 0.5|]) (Vector.Generic.ofArray [|5; 5|]) should result in Binomial.PMF 0.5 10 5"
 
         
-            let testCase5    = Discrete.Multinomial.PMF (vector [|0.123; 0.877|]) (Vector.Generic.ofArray [|20; 180|])
+            let testCase5    = Discrete.Multinomial.PMF [|0.123; 0.877|] [|20; 180|]
             Expect.floatClose
                 Accuracy.high
                 testCase5
@@ -448,28 +568,43 @@ let multinomialTests =
 
                 
         testCase "Checks.pSum1" <| fun () ->
-            let prob2 = vector [0.1;0.3;0.5]
-            let x = Vector.Generic.ofList [1;2;3]
+            let prob2 = [|0.1;0.3;0.5|]
+            let x = [|1;2;3|]
             let testCase() = Discrete.Multinomial.PMF prob2 x
             Expect.throws (fun _ -> testCase() |> ignore) "p does not sum up to 1 but no error is thrown"
             
         testCase "Checks.UnequalInputLength" <| fun () ->
-            let prob3 = vector [0.1;0.4;0.5;0]
-            let x = Vector.Generic.ofList [1;2;3]
+            let prob3 = [|0.1;0.4;0.5;0|]
+            let x = [|1;2;3|]
             let testCase() = Discrete.Multinomial.PMF prob3 x
             Expect.throws (fun _ -> testCase() |> ignore) "input vectors are of unequal length"
             
         testCase "Checks.WrongProb" <| fun () ->
-            let prob4 = vector [1.;-0.5;0.5]
-            let x = Vector.Generic.ofList [1;2;3]
+            let prob4 = [|1.;-0.5;0.5|]
+            let x =[|1;2;3|]
             let testCase() = Discrete.Multinomial.PMF prob4 x
             Expect.throws (fun _ -> testCase() |> ignore) "probabilities are negative"
 
         testCase "Checks.SuccessAtProb0" <| fun () ->
-            let prob5 = vector [0.5;0;0.5]
-            let x = Vector.Generic.ofList [1;2;3]
+            let prob5 = [|0.5;0;0.5|]
+            let x = [|1;2;3|]
             let testCase() = Discrete.Multinomial.PMF prob5 x
             Expect.throws (fun _ -> testCase() |> ignore) "probabilities of 0 is associated to success event"
+    
+        test "Sample proportions should be close to the expected probabilities" {
+            let probabilities = [| 0.2; 0.3; 0.5 |]
+            let n = 1000000    // Larger n to reduce sampling variance
+            let sample = Discrete.Multinomial.Sample probabilities n
+            probabilities
+            |> Array.iteri (fun i p ->
+                let observedProportion = float sample.[i] / float n
+                Expect.floatClose
+                  Accuracy.veryLow  // or a custom `floatClose` config
+                  observedProportion
+                  p
+                  $"Observed proportion ({observedProportion}) should be close to expected probability ({p})"
+            )    
+        }
     ] 
 
 [<Tests>]

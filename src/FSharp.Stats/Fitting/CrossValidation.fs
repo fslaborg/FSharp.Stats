@@ -1,5 +1,7 @@
 ﻿namespace FSharp.Stats.Fitting
 
+open FsMath
+
 
 (*
 
@@ -17,18 +19,20 @@ module CrossValidation =
         /// <summary>Computes sum of squared residuals (SSR)</summary>
         /// <remarks></remarks>
         /// <param name="y"></param>
+        /// <param name="p"></param>
         /// <returns></returns>
         /// <example>
         /// <code>
         /// </code>
         /// </example>
         let ssr (y:Vector<float>) (p:Vector<float>)=
-            let residuals = y-p 
-            residuals.Transpose * residuals
+            let residuals = y .- p 
+            Vector.dot residuals residuals
 
         /// <summary>Computes root mean square error (RMSE)</summary>
         /// <remarks></remarks>
         /// <param name="y"></param>
+        /// <param name="p"></param>
         /// <returns></returns>
         /// <example>
         /// <code>
@@ -45,54 +49,24 @@ module CrossValidation =
 
     let createCrossValidationResult error errorStDev = {Error=error;ErrorStDev=errorStDev}
 
-    /// Computes a k fold cross-validation (in parallel)
-    [<Obsolete("Use CrossValidation.kFold instead")>]
-    let inline kFoldParallel< ^T when ^T : (static member ( + ) : ^T * ^T -> ^T) 
-            and  ^T : (static member DivideByInt : ^T*int -> ^T) 
-            and  ^T : (static member Zero : ^T)>
-        
-            k iterations degreeOfParallelism (xData:Matrix< ^T >) (yData:Vector< ^T >)
-                (fit: Matrix< ^T > -> Vector< ^T > -> Matrix< ^T > -> Vector< ^T >)
-                    (error: Vector< ^T > -> Vector< ^T >-> ^T) 
-                
-                    =
-    
-        let chunkSize = int (ceil (float yData.Length / float k))
-        let chunks =
-            Seq.init iterations (fun _ ->
-                Array.init chunkSize (fun i -> FSharp.Stats.Random.rndgen.NextInt(i) )
-             )
-    
-        chunks
-        |> PSeq.map (fun chunk ->
-            let xTest,xTrain =
-                xData
-                |> Matrix.splitRows chunk
-            let yTest,yTrain =
-                yData
-                |> Vector.splitVector chunk
-    
-            let preds = fit xTrain yTrain xTest
-            let error = error preds yTest
-            error
-        )
-        |> PSeq.withDegreeOfParallelism degreeOfParallelism
-        |> Seq.average
 
     /// <summary>Computes a repeated k fold cross-validation,<br />k: training set size (and number of iterations),<br />iterations: number of random subset creation,<br />xData: rowwise x-coordinate matrix,<br />yData: yData vector<br />fit: x and y data lead to function that maps a xData row vector to a y-coordinate,<br />error: defines the error of the fitted y-coordinate and the actual y-coordinate,<br />getStDev: function that calculates the standard deviation from a seq&lt;^T&gt;. (Seq.stDev)</summary>
     /// <remarks></remarks>
-    /// <param name="repeatedKFold"></param>
+    /// <param name="k"></param>
+    /// <param name="iterations"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <param name="fit"></param>
+    /// <param name="error"></param>
+    /// <param name="getStDev"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
     /// </code>
     /// </example>
-    let inline repeatedKFold< ^T when ^T : (static member ( + ) : ^T * ^T -> ^T) 
-                    and  ^T : (static member DivideByInt : ^T*int -> ^T) 
-                    and  ^T : (static member Zero : ^T)> 
-    
+    let inline repeatedKFold
             k (iterations: int) (xData:Matrix< ^T >) (yData:Vector< ^T >)
-                (fit: Matrix< ^T > -> Vector< ^T > -> RowVector< ^T > -> ^T)
+                (fit: Matrix< ^T > -> Vector< ^T > -> Vector< ^T > -> ^T)
                 (error: ^T -> ^T -> ^T) 
                 (getStDev: seq< ^T > -> ^T) =
         let chunkSize = int (ceil (float yData.Length / float k))
@@ -113,12 +87,13 @@ module CrossValidation =
                     yData
                     |> Vector.splitVector indices
                 xTest
-                |> Matrix.Generic.mapiRows (fun i xSingle -> 
+                |> Matrix.getRows
+                |> Array.mapi (fun i xSingle -> 
                     let preds = fit xTrain yTrain xSingle
-                    let error = error preds yTest.[i]
+                    let error = error preds yTest[i]
                     error
                     )
-                |> Seq.average
+                |> Vector.mean
                 )    
             |> Seq.average
             )
@@ -139,23 +114,24 @@ module CrossValidation =
     /// </code>
     /// </example>
     let inline kFold k (xData:Matrix< ^T >) (yData:Vector< ^T >)
-        (fit: Matrix< ^T > -> Vector< ^T > -> RowVector< ^T > -> ^T)
+        (fit: Matrix< ^T > -> Vector< ^T > -> Vector< ^T > -> ^T)
         (error: ^T -> ^T -> ^T) =
         repeatedKFold k 1 xData yData fit error (fun s -> Seq.head s)
         |> fun r -> r.Error
 
     /// <summary>Computes a leave one out cross-validation<br />xData: rowwise x-coordinate matrix,<br />yData: yData vector<br />fit: x and y data lead to function that maps an xData row vector to a y-coordinate,<br />error: defines the error of the fitted y-coordinate and the actual y-coordinate</summary>
     /// <remarks></remarks>
-    /// <param name="loocv"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <param name="fitFunc"></param>
+    /// <param name="error"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
     /// </code>
     /// </example>
-    let inline loocv< ^T when ^T : (static member ( + ) : ^T * ^T -> ^T) 
-            and  ^T : (static member DivideByInt : ^T*int -> ^T) 
-            and  ^T : (static member Zero : ^T)> 
-            (xData:Matrix< ^T >) (yData:Vector< ^T >) (fitFunc:Matrix< ^T > -> Vector< ^T > -> (RowVector< ^T > -> ^T)) 
+    let inline loocv
+            (xData:Matrix< ^T >) (yData:Vector< ^T >) (fitFunc:Matrix< ^T > -> Vector< ^T > -> (Vector< ^T > -> ^T)) 
             (error: ^T -> ^T -> ^T) =
         
         let n = xData.NumRows
@@ -164,10 +140,10 @@ module CrossValidation =
         |> List.map (fun i ->
             let (xTest,xTrain) = 
                 Matrix.splitRows [|i|] xData
-                |> fun (y,x) -> Matrix.Generic.toRowVector y,x
+                |> fun (y,x) -> Matrix.getRow 0 y,x
             let (yTest,yTrain) = 
                 Vector.splitVector [|i|] yData
-                |> fun (y,x) -> y.[0],x            
+                |> fun (y,x) -> y[0],x            
             let fit = fitFunc xTrain yTrain
             let yFit = fit xTest
             error yFit yTest
@@ -176,17 +152,21 @@ module CrossValidation =
 
     /// <summary>Computes a repeated shuffel-and-split cross validation<br />p: percentage of training set size from original size,<br />iterations: number of random subset creation,<br />xData: rowwise x-coordinate matrix,<br />yData: yData vector<br />fit: x and y data lead to function that maps a xData row vector to a y-coordinate,<br />error: defines the error of the fitted y-coordinate and the actual y-coordinate,<br />getStDev: function that calculates the standard deviation from a seq&lt;^T&gt;. (Seq.stDev)</summary>
     /// <remarks></remarks>
-    /// <param name="shuffelAndSplit"></param>
+    /// <param name="p"></param>
+    /// <param name="iterations"></param>
+    /// <param name="xData"></param>
+    /// <param name="yData"></param>
+    /// <param name="fit"></param>
+    /// <param name="error"></param>
+    /// <param name="getStDev"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
     /// </code>
     /// </example>
-    let inline shuffelAndSplit< ^T when ^T : (static member ( + ) : ^T * ^T -> ^T) 
-                    and  ^T : (static member DivideByInt : ^T*int -> ^T) 
-                    and  ^T : (static member Zero : ^T)>
+    let inline shuffleAndSplit 
             p (iterations: int) (xData:Matrix< ^T >) (yData:Vector< ^T >)
-                (fit: Matrix< ^T > -> Vector< ^T > -> RowVector< ^T > -> ^T)
+                (fit: Matrix< ^T > -> Vector< ^T > -> Vector< ^T > -> ^T)
                 (error: ^T -> ^T -> ^T) 
                 (getStDev: seq< ^T > -> ^T) =
         let n = xData.NumRows
@@ -205,9 +185,10 @@ module CrossValidation =
                 yData
                 |> Vector.splitVector chunkIndices
             xTest
-            |> Matrix.Generic.mapiRows (fun i xSingle -> 
+            |> Matrix.getRows
+            |> Array.mapi(fun i xSingle -> 
                 let preds = fit xTrain yTrain xSingle
-                let error = error preds yTest.[i]
+                let error = error preds yTest[i]
                 error
                 )    
             |> Seq.average

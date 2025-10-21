@@ -327,8 +327,8 @@ module Empirical =
     /// <summary>Merges two maps into a single map. If a key exists in both maps, the value is determined by f with the first value being from mapA and the second originating from mapB.</summary>
     /// <param name="equalBandwidthOrNominal">Is the binwidth equal for both distributions? For nominal data set to true.</param>
     /// <param name="f">Function to transform values if key is present in both histograms. `histA-value &#8594; histB-value &#8594; newValue`</param>
-    /// <param name="mapA">Empirical distribution A</param>
-    /// <param name="mapB">Empirical distribution B</param>
+    /// <param name="histA">Empirical distribution A</param>
+    /// <param name="histB">Empirical distribution B</param>
     /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
     /// <remarks>This function is not commutative! (mergeBy f a b) is not equal to (mergeBy f b a)</remarks> 
     /// <returns>New frequency map that results from merged maps mapA and mapB. Values from keys that are present in both maps are handled by f</returns> 

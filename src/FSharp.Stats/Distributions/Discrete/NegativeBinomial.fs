@@ -154,10 +154,13 @@ type NegativeBinomial_trials =
         sprintf "NegativeBinomial_trials(r = %i, p = %f)" r p
 
     /// <summary> Initializes a negative binomial distribution.
-    /// <summary>The negative binomial distribution is a discrete probability distribution<br />that models the number of trials needed x to get the rth success in repeated <br />independent Bernoulli trials with probability p.<br /></summary><br /><param name="r">The number of success states</param><br /><param name="p">The probability of each independent bernoulli trial</param><br /><param name="x">The number of trials until the rth success</param></summary>
+    /// The negative binomial distribution is a discrete probability distribution
+    /// that models the number of trials needed x to get the rth success in repeated 
+    /// independent Bernoulli trials with probability p.
+    /// </summary>
+    /// <param name="r">The number of success states</param>
+    /// <param name="p">The probability of each independent bernoulli trial</param>
     /// <remarks></remarks>
-    /// <param name="r"></param>
-    /// <param name="p"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
@@ -371,11 +374,10 @@ type NegativeBinomial_failures =
     static member ToString r p = 
         sprintf "NegativeBinomial_failures(r = %i, p = %f)" r p
 
-    /// <summary> Initializes a negative binomial distribution.
-    /// <summary>The negative binomial distribution is a discrete probability distribution<br />that models the number of failures needed k to get the rth success in repeated <br />independent Bernoulli trials with probability p.<br /></summary><br /><param name="r">The number of success states</param><br /><param name="p">The probability of each independent bernoulli trial</param><br /><param name="k">The number of failures before the rth success</param></summary>
+    /// <summary> Initializes a negative binomial distribution.<br /> The negative binomial distribution is a discrete probability distribution<br />that models the number of failures needed k to get the rth success in repeated <br />independent Bernoulli trials with probability p.<br /></summary>
     /// <remarks></remarks>
-    /// <param name="r"></param>
-    /// <param name="p"></param>
+    /// <param name="r">The number of success states</param>
+    /// <param name="p">The probability of each independent bernoulli trial</param>
     /// <returns></returns>
     /// <example>
     /// <code>

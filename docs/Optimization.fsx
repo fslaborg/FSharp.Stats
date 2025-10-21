@@ -10,9 +10,15 @@ categoryindex: 0
 (*** hide ***)
 
 (*** condition: prepare ***)
-#I "../src/FSharp.Stats/bin/Release/netstandard2.0/"
+#r "nuget: FSharpAux.Core, 2.0.0"
+#r "nuget: FSharpAux, 2.0.0"
+#r "nuget: FSharpAux.IO, 2.0.0"
+#r "nuget: OptimizedPriorityQueue, 5.1.0"
+#r "nuget: FsMath, 0.0.2"
+#I "../src/FSharp.Stats/bin/Release/.net8.0/"
 #r "FSharp.Stats.dll"
 #r "nuget: Plotly.NET, 4.0.0"
+open FsMath
 
 Plotly.NET.Defaults.DefaultDisplayOptions <-
     Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
@@ -37,12 +43,7 @@ open Plotly.NET
 
 _Summary:_ This tutorial teaches how to use optimization methods within FSharp.Stats
 
-### Table of contents
-
- - [Nelder-Mead](#Nelder-Mead)
-
 ## Nelder-Mead
-
 
 The Nelder-Mead method (also downhill simplex method) can be used to find the minimum or maximum of an objective function.
 Please check out Mathias' blog post about the [nelder mead algorithm](https://brandewinder.com/2022/03/31/breaking-down-Nelder-Mead/).
@@ -64,7 +65,7 @@ open Plotly.NET
 open Plotly.NET.TraceObjects
 
 
-let myFunction (xs: vector) = 
+let myFunction (xs: Vector<float>) = 
     let x = xs.[0]
     x**2. + 0.32*x + 0.13
 
@@ -120,7 +121,7 @@ Lets define the function, and a starting coordinate for the optimization task.
 
 
 // Rosenbrock's valley or Rosenbrock's banana function
-let rosenbrock (xs: vector) =
+let rosenbrock (xs: Vector<float>) =
     let x, y = xs.[0], xs.[1]
     pown (1.0 - x) 2 + 100.0 * pown (y - pown x 2) 2
 
@@ -231,7 +232,7 @@ The Auckley function has many valleys, with one center and global minimum at $(0
 
 
 // Auckley function
-let auckley (xs: vector) =
+let auckley (xs: Vector<float>) =
     let x, y = xs.[0], xs.[1]
     -20.*exp(-0.2*sqrt(0.5*(x**2. + y**2))) - 
     exp(0.5*(cos(2. * Math.PI * x) + cos(2. * Math.PI * y))) + 
@@ -298,7 +299,7 @@ The Nelder-Mead method is able to identiy a local minimum, but misses the global
 
 
 // Beale function function
-let beale (xs: vector) =
+let beale (xs: Vector<float>) =
     let x, y = xs.[0], xs.[1]
     (1.5 - x + x*y)**2. + 
     (2.25 - x + x*y**2)**2. + 

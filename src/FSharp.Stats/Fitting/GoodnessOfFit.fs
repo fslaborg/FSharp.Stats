@@ -8,6 +8,9 @@ we estimate the relationship of one variable with another by expressing one in t
 module GoodnessOfFit =    
     open FSharp.Stats
     open System
+    open FsMath
+    
+
     /// Three sum of squares 
     type SumOfSquares = {
         /// Regression sum of squares (SSR: explained); Sum((yFit-yMean)**2.)
@@ -359,38 +362,55 @@ module GoodnessOfFit =
             
             [<Obsolete("Use Fitting.CrossValidation instead")>]
             module CrossValidation =
-                
-                /// <summary>calculates LeaveOneOutCrossValidation</summary>
-                /// <remarks></remarks>
-                /// <param name="xData"></param>
-                /// <param name="yData"></param>
-                /// <param name="order"></param>
-                /// <returns></returns>
-                /// <example>
-                /// <code>
-                /// </code>
-                /// </example>
-                let loocv (xData:Vector<float>) (yData:Vector<float>) order =
-                    [0..xData.Length-1]
-                    |> List.map (fun x ->
-                                    let xTmp = 
-                                        xData
-                                        |> Seq.toList
-                                        |> fun xDat -> xDat.[..x-1]@xDat.[x+1..]
-                                        |> vector
-                                    let yTmp = 
-                                        yData
-                                        |> Seq.toList
-                                        |> fun yDat -> yDat.[..x-1]@yDat.[x+1..]
-                                        |> vector
-                                    let coefTmp = LinearRegression.OLS.Polynomial.fit order xTmp yTmp
-                                    let error = 
-                                        let yFit = LinearRegression.OLS.Polynomial.predict coefTmp (float xData.[x])
-                                        pown (yFit - yData.[x]) 2 
-                                    error
-                                )
-                    |> List.sum
-                    |> fun x -> x/(float xData.Length)
+
+                /// <summary>
+                /// Computes the leave-one-out cross-validation (LOOCV) error for a polynomial
+                /// fit of given <paramref name="order"/> on the dataset (xData, yData).
+                /// </summary>
+                /// <param name="xData">The vector of x-values (length n).</param>
+                /// <param name="yData">The vector of y-values (length n), corresponding to xData.</param>
+                /// <param name="order">Polynomial order. For example, order=2 => quadratic.</param>
+                /// <returns>The mean squared error of leave-one-out predictions.</returns>
+                let loocv (xData: Vector<float>) (yData: Vector<float>) (order: int) : float =
+                    let n = xData.Length
+                    if n <> yData.Length then
+                        invalidArg (nameof yData) "xData and yData must have the same length."
+
+                    let xArr = xData
+                    let yArr = yData
+
+                    // Sum of squared errors across leave-one-out folds
+                    let sse =
+                        [0..n-1]
+                        |> List.sumBy (fun i ->
+                            // Create new arrays xLOO, yLOO that skip index i
+                            let xLOO = Array.zeroCreate<float> (n - 1)
+                            let yLOO = Array.zeroCreate<float> (n - 1)
+
+                            // Copy all elements up to i
+                            Array.blit xArr 0 xLOO 0 i
+                            Array.blit yArr 0 yLOO 0 i
+
+                            // Copy elements after i
+                            if i < n - 1 then
+                                Array.blit xArr (i + 1) xLOO i (n - 1 - i)
+                                Array.blit yArr (i + 1) yLOO i (n - 1 - i)
+
+                            // Fit polynomial of the given 'order' to the (n-1) data
+                            let coef = 
+                                LinearRegression.OLS.Polynomial.fit 
+                                    order 
+                                    (xLOO)
+                                    (yLOO)
+
+                            // Predict for the left-out xArr.[i], compare to actual yArr.[i]
+                            let yPred = LinearRegression.OLS.Polynomial.predict coef xArr.[i]
+                            let residual = yPred - yArr.[i]
+                            residual * residual  // squared error
+                        )
+
+                    // Return mean (average) of all squared errors
+                    sse / float n
 
                 ///k-fold cross validation
                 ///Calculates the average SSE of given data, the order used to fit the polynomial and the subset you want to leave out (k).
@@ -445,7 +465,7 @@ module GoodnessOfFit =
                                 |> Array.unzip
                             let dataLeftOut = x
                             let fit = 
-                                Fitting.LinearRegression.OLS.Polynomial.fit order (vector subX) (vector subY)
+                                Fitting.LinearRegression.OLS.Polynomial.fit order (subX) (subY)
                                 |> fun coeffs -> Fitting.LinearRegression.OLS.Polynomial.predict coeffs
                             dataLeftOut
                             |> Array.map (fun (xLO,yLO) -> pown (fit xLO - yLO) 2)

@@ -207,6 +207,7 @@ module KNN =
         /// Predict (or classify) the given point.
         /// </summary>
         /// <param name="x">the point to be classified.</param>
+        /// <param name="overwriteK"></param>
         /// <example> 
         /// <code>
         /// // .. construct and fit the knnClassifier before ..
@@ -221,6 +222,7 @@ module KNN =
         /// Predict (or classify) the given collection of points.
         /// </summary>
         /// <param name="points">the array of points to be classified.</param>
+        /// <param name="overwriteK"></param>
         /// <example> 
         /// <code>
         /// // .. construct and fit the knnClassifier before ..

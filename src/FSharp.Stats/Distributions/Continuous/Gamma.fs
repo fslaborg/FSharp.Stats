@@ -189,19 +189,97 @@ type Gamma =
         else 
             SpecialFunctions.Gamma.lowerIncompleteRegularized alpha (x / beta)
             
-    /// <summary>Computes the inverse cumulative distribution function (quantile function).</summary>
-    /// <remarks></remarks>
-    /// <param name="alpha"></param>
-    /// <param name="beta"></param>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    static member InvCDF alpha beta x =
+    /// <summary>Inverse CDF (quantile function) for the Gamma(α, β) distribution.</summary>
+    /// <remarks>
+    /// Uses tail-recursive Newton-Raphson refinement
+    /// </remarks>
+    /// <param name="alpha">Shape parameter α (must be &gt; 0).</param>
+    /// <param name="beta">Rate parameter β (must be &gt; 0).</param>
+    /// <param name="p">Cumulative probability in [0, 1].</param>
+    /// <returns>The quantile value x such that P(X ≤ x) = p.</returns>
+    static member InvCDF(alpha: float) (beta: float) (p: float) : float =
         Gamma.CheckParam alpha beta
-        failwithf "not implemented yet"
+
+        if p < 0.0 || p > 1.0 then failwith "p must be in [0, 1]"
+        if p = 0. then 0.
+        elif p = 1. then Double.PositiveInfinity
+        else
+            // Initial approximation using Wilson–Hilferty for alpha > 1
+            let initialGuess =
+                if alpha > 1.0 then
+                    let z = Normal.InvCDF 0. 1. p
+                    let a = 1.0 / (9.0 * alpha)
+                    let t = 1.0 - a + z * sqrt a
+                    beta * alpha * t * t * t
+                else
+                    let g = SpecialFunctions.Gamma.gamma alpha
+                    beta * (g * p) ** (1.0 / alpha)
+
+            // Recursive Newton-Raphson refinement
+            let rec refine x iter =
+                if iter >= 20 then x
+                else
+                    let fx = SpecialFunctions.Gamma.lowerIncompleteRegularized alpha (x / beta) - p
+                    let dfx = Gamma.PDF alpha beta x
+
+                    if dfx = 0.0 then x
+                    else
+                        let dx = fx / dfx
+                        let x' = x - dx
+                        if abs dx < 1e-10 then x'
+                        else refine x' (iter + 1)
+
+            refine initialGuess 0
+
+
+    //static member InvCDF
+    //    (alpha: float) (beta: float) (p: float) : float =
+
+    //    Gamma.CheckParam alpha beta
+
+    //    // Trivial cases
+    //    if p = 0. then 0.
+    //    elif p = 1. then
+    //        inf
+    //        //'T.CreateTruncating(1e10) // simulate ∞
+
+    //    else
+    //        let tolerance = 1e-10//'T.CreateTruncating(1e-10)
+    //        let maxIter = 100
+    //        let mutable low  = 0. // 'T.Zero
+    //        let mutable high = 1. //'T.One
+
+    //        // Increase high bound until CDF(high) > p
+    //        while SpecialFunctions.Gamma.lowerIncompleteRegularized alpha (high / beta) < p do
+    //            high <- high * 2. //'T.CreateTruncating(2.0)
+
+    //        // Bisection loop
+    //        let mutable iter = 0
+    //        let mutable result = 0. //'T.Zero
+
+    //        while iter < maxIter do
+    //            let mid = (low + high) / 2. //'T.CreateTruncating(2.0)
+    //            let cdfMid = 
+    //                SpecialFunctions.Gamma.lowerIncompleteRegularized alpha (mid / beta)
+
+    //            if abs (cdfMid - p) < tolerance then
+    //                result <- mid
+    //                iter <- maxIter
+    //            elif cdfMid < p then
+    //                low <- mid
+    //            else
+    //                high <- mid
+
+    //            iter <- iter + 1
+
+    //        result
+
+
+
+
+
+
+
 
     /// Fits the underlying distribution to a given set of observations.
     static member Fit(observations:float[],?maxIter,?tolerance) =

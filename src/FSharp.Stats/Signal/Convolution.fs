@@ -1,7 +1,7 @@
 namespace FSharp.Stats.Signal
 
 open FSharp.Stats
-
+open FsMath
 
 
 module Convolution =
@@ -15,7 +15,7 @@ module Convolution =
     /// <code>
     /// </code>
     /// </example>
-    let convolve (v1:vector) (v2:vector) = 
+    let convolve (v1:Vector<'T>) (v2:Vector<'T>) = 
         let k = (v1.Length+v2.Length-1)
         let tmp = Vector.zeroCreate k
         for i = 0 to v1.Length-1 do

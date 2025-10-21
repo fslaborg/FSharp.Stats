@@ -1,6 +1,8 @@
 namespace FSharp.Stats.Distributions
 
 open FSharp.Stats
+open FsMath
+
 
 module Parameters = 
 
@@ -37,8 +39,8 @@ module Parameters =
         StandardDeviation : float}
     
     type MultivariateNormal = {
-        Mean              : vector
-        StandardDeviation : matrix}
+        Mean              : Vector<float>
+        StandardDeviation : Matrix<float>}
 
     type Exponential = {
         Lambda : float}
@@ -92,6 +94,7 @@ type DistributionParameters =
     // Discrete distributions
     | Bernoulli of Parameters.Bernoulli
     | Binomial of Parameters.Binomial
+    | Categorical of float[]
     | NegativeBinomial of Parameters.NegativeBinomial
     | Hypergeometric of Parameters.Hypergeometric
     | Poisson of Parameters.Poisson

@@ -1,5 +1,7 @@
 namespace FSharp.Stats.Testing
 
+open FsMath
+
 
 module RMT =
     // implementation from:
@@ -34,7 +36,7 @@ module RMT =
     let computeChiSquared (bwQuantile : float)  (m:Matrix<float>) =
                 
         let unfoldedEgv = 
-            FSharp.Stats.Algebra.LinearAlgebra.EigenSpectrumWhenSymmetric m
+            Algebra.LinearAlgebra.symmetricEigenspectrum m
             |> fun (eigenvectors,eigenvalues) -> 
                 let spUnfold =
                     eigenvalues 

@@ -4,7 +4,6 @@ module Rank =
 
     /// <summary>Comparer that sorts nan at the end of a collection</summary>
     /// <remarks></remarks>
-    /// <param name="compNaNLast"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
@@ -25,7 +24,6 @@ module Rank =
 
     /// <summary>Comparer that sorts nan at the start of a collection</summary>
     /// <remarks></remarks>
-    /// <param name="compNaNFirst"></param>
     /// <returns></returns>
     /// <example>
     /// <code>
@@ -36,7 +34,6 @@ module Rank =
         
     /// <summary>Ranks each entry of the given unsorted data array. Use 'breakTies function to break ties</summary>
     /// <remarks></remarks>
-    /// <param name="rank"></param>
     /// <param name="breakTies"></param>
     /// <param name="convert"></param>
     /// <param name="comparer"></param>

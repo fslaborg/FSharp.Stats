@@ -18,9 +18,9 @@ type StudentT =
     
     // Student's T-distribution helper functions.
     static member CheckParam mu tau dof = 
-        if System.Double.IsNaN(mu) || tau < 0.0 || System.Double.IsNaN(dof)  || dof < 0. then 
+        if isNan(mu) || tau < 0.0 || isNan(dof)  || dof < 0. then 
             failwith "Student's T-distribution should be parametrized by mu, tau and dof > 0.0."
-
+            
     /// <summary>Computes the mode.</summary>
     /// <remarks></remarks>
     /// <param name="mu"></param>

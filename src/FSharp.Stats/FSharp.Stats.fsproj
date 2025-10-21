@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>.net8.0</TargetFramework>
     <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
@@ -28,35 +28,28 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\**" />
+    <Compile Include="Permutation.fs" />
     <None Include="..\..\docs\img\logo.png" Pack="true" PackagePath="" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Common.fs" />
     <Compile Include="Ops.fs" />
     <Compile Include="Random.fs" />
-    <Compile Include="ServiceLocator.fs" />
     <Compile Include="Interval.fs" />
-    <Compile Include="Permutation.fs" />
-    <Compile Include="BigRational.fs" />
-    <Compile Include="INumeric.fs" />
-    <Compile Include="GlobalAssociations.fs" />
-    <Compile Include="AlgTypes.fs" />
-    <Compile Include="RunningStats.fs" />
+    <Compile Include="SummaryStats.fs" />
     <Compile Include="Seq.fs" />
     <Compile Include="Array.fs" />
     <Compile Include="List.fs" />
+    <Compile Include="Vector.fs" />
     <Compile Include="Map.fs" />
     <Compile Include="JaggedCollection.fs" />
-    <Compile Include="Vector.fs" />
-    <Compile Include="RowVector.fs" />
-    <Compile Include="Matrix.fs" />
-    <Compile Include="MatrixTopLevelOperators.fs" />
     <Compile Include="Rank.fs" />
     <Compile Include="Correlation.fs" />
     <Compile Include="DistanceMetrics.fs" />
     <Compile Include="Quantile.fs" />
     <Compile Include="Precision.fs" />
     <Compile Include="Geometry.fs" />
+    <Compile Include="Table.fs" />
     <!-- SpecialFunctions -->
     <Compile Include="SpecialFunctions\Gamma.fs" />
     <Compile Include="SpecialFunctions\Factorial.fs" />
@@ -65,15 +58,6 @@
     <Compile Include="SpecialFunctions\Logistic.fs" />
     <Compile Include="SpecialFunctions\Binomial.fs" />
     <!-- Algebra -->
-    <Compile Include="Algebra\EVD.fs" />
-    <Compile Include="Algebra\SVD.fs" />
-    <Compile Include="Algebra\NativeArray.fs" />
-    <Compile Include="Algebra\NativeArrayExtensions.fs" />
-    <Compile Include="Algebra\NativeUtilities.fs" />
-    <Compile Include="Algebra\ILinearAlgebra.fs" />
-    <Compile Include="Algebra\LinearAlgebraServiceManaged.fs" />
-    <Compile Include="Algebra\LinearAlgebraServiceMKL.fs" />
-    <Compile Include="Algebra\LinearAlgebra.fs" />
     <!-- RootFinding -->
     <Compile Include="RootFinding\Brent.fs" />
     <!-- Integration -->
@@ -115,6 +99,9 @@
     <Compile Include="Distributions\Continuous\ChiSquared.fs" />
     <Compile Include="Distributions\Discrete\Bernoulli.fs" />
     <Compile Include="Distributions\Discrete\Binomial.fs" />
+    <Compile Include="Distributions\Discrete\Categorical.fs" />
+    <Compile Include="Distributions\Discrete\Geometric.fs" />
+    <Compile Include="Distributions\Discrete\LabelledCategorical.fs" />
     <Compile Include="Distributions\Discrete\Multinomial.fs" />
     <Compile Include="Distributions\Discrete\NegativeBinomial.fs" />
     <Compile Include="Distributions\Discrete\Hypergeometric.fs" />
@@ -127,6 +114,7 @@
     <!-- Testing -->
     <Compile Include="Testing\Tables.fs" />
     <Compile Include="Testing\TestStatistics.fs" />
+    <Compile Include="Testing\ContingencyTable.fs" />
     <Compile Include="Testing\ConfusionMatrix.fs" />
     <Compile Include="Testing\ComparisonMetrics.fs" />
     <Compile Include="Testing\Anova.fs" />
@@ -152,15 +140,12 @@
     <Compile Include="Fitting\LogisticRegression.fs" />
     <Compile Include="Fitting\QuantileNormalization.fs" />
     <Compile Include="Fitting\Spline.fs" />
-    <Compile Include="Fitting\GeneralisedLinearModel.fs" />
     <!-- ML -->
-    <Compile Include="ML\SurprisalAnalysis.fs" />
     <Compile Include="ML\SimilarityMetrics.fs" />
     <Compile Include="ML\Imputation.fs" />
     <Compile Include="ML\Impute.fs" />
     <Compile Include="ML\DistanceMetrics.fs" />
     <!-- ML / Unsupervised -->
-    <Compile Include="ML\Unsupervised\PrincipalComponentAnalysis.fs" />
     <Compile Include="ML\Unsupervised\IterativeClustering.fs" />
     <Compile Include="ML\Unsupervised\HierarchicalClustering.fs" />
     <Compile Include="ML\Unsupervised\DbScan.fs" />
@@ -176,9 +161,18 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="..\..\lib\libblas.dll" />
+    <Content Remove="..\..\lib\libgcc_s_seh-1.dll" />
+    <Content Remove="..\..\lib\libgfortran-4.dll" />
+    <Content Remove="..\..\lib\liblapack.dll" />
+    <Content Remove="..\..\lib\libquadmath-0.dll" />
+    <Content Remove="..\..\lib\libwinpthread-1.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="FSharpAux.Core" Version="2.0.0" />
     <PackageReference Include="FSharpAux" Version="2.0.0" />
     <PackageReference Include="FSharpAux.IO" Version="2.0.0" />
+    <PackageReference Include="FsMath" Version="0.0.2" />
     <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>

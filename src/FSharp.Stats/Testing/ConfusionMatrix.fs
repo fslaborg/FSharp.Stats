@@ -1,5 +1,7 @@
 ﻿namespace FSharp.Stats.Testing
 open FSharp.Stats
+open FsMath
+
 
 /// Confusion matrix for binary classification
 type BinaryConfusionMatrix = {
@@ -114,7 +116,7 @@ type MultiLabelConfusionMatrix = {
         let zipped = Array.zip actual predictions
 
         let confusion =
-            Matrix.Generic.init labels.Length labels.Length (fun m n ->
+            Matrix.init labels.Length labels.Length (fun m n ->
                 let labelM = labels[m]
                 let labelN = labels[n]
                 zipped
@@ -131,7 +133,7 @@ type MultiLabelConfusionMatrix = {
         let labelIndex = Array.findIndex (fun x -> x = label) mlcm.Labels
 
         mlcm.Confusion 
-        |> Matrix.Generic.foldi (
+        |> Matrix.foldi (
             fun rI cI cm elem -> 
                 match (rI, cI) with
                 | (rI, cI) when rI = labelIndex && cI = labelIndex -> {cm with TP = cm.TP + elem}

@@ -1,4 +1,7 @@
 namespace FSharp.Stats
+
+open FsMath
+
 /// Contains correlation functions for different data types 
 module Correlation =
 
@@ -295,19 +298,19 @@ module Correlation =
             /// <summary>
             /// Tau A - Make no adjustments for ties
             /// </summary>
-            /// <param name="x">The first array of observations.</param>
-            /// <param name="y">The second array of observations.</param>
+            /// <param name="_x">The first array of observations.</param>
+            /// <param name="_y">The second array of observations.</param>
             /// <param name="pq">Number of concordant minues the number of discordant pairs.</param>
             /// <param name="n0">n(n-1)/2 or (n choose 2), where n is the number of observations.</param>
-            /// <param name="n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
-            /// <param name="n2">sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</param>
+            /// <param name="_n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
+            /// <param name="_n2">sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</param>
             /// <returns>The Kendall tau A statistic.</returns>
             let tauA _x _y pq n0 _n1 _n2  = pq / float n0
             /// <summary>
             /// Tau B - Adjust for ties. tau_b = pq / sqrt((n0 - n1)(n0 - n2))
             /// </summary>
-            /// <param name="x">The first array of observations.</param>
-            /// <param name="y">The second array of observations.</param>
+            /// <param name="_x">The first array of observations.</param>
+            /// <param name="_y">The second array of observations.</param>
             /// <param name="pq">Number of concordant minues the number of discordant pairs.</param>
             /// <param name="n0">n(n-1)/2 or (n choose 2), where n is the number of observations.</param>
             /// <param name="n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
@@ -322,9 +325,9 @@ module Correlation =
             /// <param name="x">The first array of observations.</param>
             /// <param name="y">The second array of observations.</param>
             /// <param name="pq">Number of concordant minues the number of discordant pairs.</param>
-            /// <param name="n0">n(n-1)/2 or (n choose 2), where n is the number of observations.</param>
-            /// <param name="n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
-            /// <param name="n2">sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</param>
+            /// <param name="_n0">n(n-1)/2 or (n choose 2), where n is the number of observations.</param>
+            /// <param name="_n1">sum_i(t_i(t_i-1)/2) where t_is is t_i he number of pairs of observations with the same x value.</param>
+            /// <param name="_n2">sum_i(u_i(u_i-1)/2) where u_is is u_i he number of pairs of observations with the same y value.</param>
             /// <returns>The Kendall tau C statistic.</returns>
             let tauC (x : _[]) y pq _n0 _n1 _n2 = 
                 let n = x.Length
@@ -665,7 +668,7 @@ module Correlation =
         /// <code>
         /// </code>
         /// </example>
-        let correlationOf (corrF: vector -> vector -> float) lag (v1:vector) (v2:vector) = 
+        let correlationOf (corrF: Vector<float> -> Vector<float> -> float) lag (v1:Vector<float>) (v2:Vector<float>) = 
             if v1.Length <> v2.Length then failwithf "Vectors need to have the same length."
             if lag >= v1.Length then failwithf "lag must be smaller than input length"
             let v1' = v1.[0..(v1.Length-1 - lag)]
@@ -694,7 +697,7 @@ module Correlation =
         /// </code>
         /// </example>
         let autoCovariance lag seq = 
-            correlationOf Vector.cov lag seq seq
+            correlationOf Array.cov lag seq seq
 
         /// <summary>computes the normalized (using pearson correlation) cross-correlation of signals v1 and v2 at a given lag.</summary>
         /// <remarks></remarks>
@@ -731,9 +734,9 @@ module Correlation =
         /// <code>
         /// </code>
         /// </example>
-        let bicor (vec1:vector) (vec2:vector) = 
+        let bicor (vec1:Vector<float>) (vec2:Vector<float>) = 
             
-            let xs,ys  = vec1.Values, vec2.Values
+            let xs,ys  = vec1, vec2
 
             let xMed = xs |> Array.median
             let xMad = xs |> Array.medianAbsoluteDev
@@ -764,12 +767,10 @@ module Correlation =
         /// <code>
         /// </code>
         /// </example>
-        let rv2 (x: matrix) (y: matrix) =
-            let xxt = x*x.Transpose 
-            let yyt = y*y.Transpose 
-            xxt |> Matrix.inplace_mapi (fun r c x -> if r = c then 0. else x)
-            yyt |> Matrix.inplace_mapi (fun r c x -> if r = c then 0. else x)
-            let num = (xxt*yyt).Diagonal |> Vector.sum
+        let rv2 (x: Matrix<float>) (y: Matrix<float>) =
+            let xxt = x*x.Transpose() |> Matrix.mapi (fun r c x -> if r = c then 0. else x) // change back to inplace
+            let yyt = y*y.Transpose() |> Matrix.mapi (fun r c x -> if r = c then 0. else x)
+            let num = (xxt*yyt) |> Matrix.getDiagonal |> Vector.sum
             let deno1 = xxt |> Matrix.map (fun x -> x**2.) |> Matrix.sum |> sqrt 
             let deno2 = yyt |> Matrix.map (fun x -> x**2.) |> Matrix.sum |> sqrt 
             num / (deno1 * deno2)
@@ -783,15 +784,15 @@ module Correlation =
         /// <code>
         /// </code>
         /// </example>
-        let rowWiseCorrelationMatrix (corrFunction : seq<float> -> seq<float> -> float) (m : matrix) =
-            let vectors = Matrix.toJaggedArray m
+        let rowWiseCorrelationMatrix (corrFunction : seq<float> -> seq<float> -> float) (m : Matrix<float>) =
+            let vectors = m.toJaggedArray()
             let result : float [] [] = [|for i=0 to vectors.Length-1 do yield (Array.init vectors.Length (fun innerIndex -> if i=innerIndex then 1. else 0.))|]
             for i=0 to vectors.Length-1 do
                 for j=i+1 to vectors.Length-1 do
                     let corr = corrFunction vectors.[i] vectors.[j]
                     result.[i].[j] <- corr
                     result.[j].[i] <- corr
-            result |> matrix
+            result |> Matrix.ofRows
 
         /// <summary>computes a matrix that contains the metric given by the corrFunction parameter applied columnwise for every column against every other column of the input matrix</summary>
         /// <remarks></remarks>
@@ -803,8 +804,7 @@ module Correlation =
         /// </code>
         /// </example>
         let columnWiseCorrelationMatrix (corrFunction : seq<float> -> seq<float> -> float) (m : Matrix<float>) =
-            m
-            |> Matrix.transpose
+            m.Transpose()
             |> (rowWiseCorrelationMatrix corrFunction)
 
         /// <summary>computes the rowwise pearson correlation matrix for the input matrix</summary>
@@ -839,9 +839,9 @@ module Correlation =
         /// <code>
         /// </code>
         /// </example>
-        let rowWiseBicor (m : matrix) =
+        let rowWiseBicor (m : Matrix<float>) =
 
-            let vectors = Matrix.toJaggedArray m
+            let vectors = m.toJaggedArray()
             let result : float [] [] = [|for i=0 to vectors.Length-1 do yield (Array.init vectors.Length (fun innerIndex -> if i=innerIndex then 1. else 0.))|]
 
             let meds : float [] = Array.zeroCreate vectors.Length
@@ -869,7 +869,7 @@ module Correlation =
                             xs xWeights vectors.[j] weightss.[j]
                     result.[i].[j] <- corr
                     result.[j].[i] <- corr
-            result |> matrix
+            result |> Matrix.ofRows 
 
         /// <summary>Computes the columnwise biweighted midcorrelation matrix for the input matrix </summary>
         /// <remarks></remarks>
@@ -879,9 +879,8 @@ module Correlation =
         /// <code>
         /// </code>
         /// </example>
-        let columnWiseBicor (m : matrix) =
-            m
-            |> Matrix.transpose
+        let columnWiseBicor (m : Matrix<float>) =
+            m.Transpose()
             |> rowWiseBicor
 
         ///// Computes rowise pearson correlation

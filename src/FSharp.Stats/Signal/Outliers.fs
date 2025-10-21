@@ -3,7 +3,7 @@
 
 module Outliers =
     open FSharp.Stats
-    open Matrix
+    open FsMath
 
     /// <summary>Tukey's fences based on interquartile range. c defines the magnitude of interquartile range that is added/subtracted to Q3 and Q1 respectively.<br />Commonly c is 1.5 for outliers and 3 for points 'far out' (Tukey 1977).</summary>
     /// <remarks></remarks>
@@ -91,46 +91,46 @@ module Outliers =
         let s = Seq.stDev(ls)
         Interval.CreateClosed<float> ((minZ * s + m),(maxZ * s + m))
 
-    ///Returns Mahalanobi's distance for an individual observation in a matrix.
-    ///dataSource - Sample or Population.
-    /// <summary>orientation - RowWise or ColWise.</summary>
-    /// <remarks></remarks>
-    /// <param name="dataMatrix"></param>
-    /// <param name="dataSource"></param>
-    /// <param name="orientation"></param>
-    /// <param name="observation"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let mahalanobisDistanceOfEntry (dataMatrix:matrix) (dataSource:DataSource) (orientation:Orientation) (observation:seq<float>) :float =
-        let sub (a:seq<float>) b = Seq.map2 (fun xa xb -> xb - xa) a b
-        let invertedCovarianceMatrix = Algebra.LinearAlgebra.Inverse (covarianceMatrixOf dataSource orientation.Inverse dataMatrix)
-        let meanVector = Matrix.meanAsSeq orientation.Inverse dataMatrix
-        let subObsMean = Matrix.ofJaggedColSeq([sub observation meanVector])
-        let multObsCov = Matrix.mul (subObsMean.Transpose) invertedCovarianceMatrix
-        let distance = Matrix.toScalar(Matrix.mul multObsCov subObsMean)
-        sqrt distance    
+    /////Returns Mahalanobi's distance for an individual observation in a matrix.
+    /////dataSource - Sample or Population.
+    ///// <summary>orientation - RowWise or ColWise.</summary>
+    ///// <remarks></remarks>
+    ///// <param name="dataMatrix"></param>
+    ///// <param name="dataSource"></param>
+    ///// <param name="orientation"></param>
+    ///// <param name="observation"></param>
+    ///// <returns></returns>
+    ///// <example>
+    ///// <code>
+    ///// </code>
+    ///// </example>
+    //let mahalanobisDistanceOfEntry (dataMatrix:Matrix<float>) (dataSource:DataSource) (orientation:Orientation) (observation:seq<float>) :float =
+    //    let sub (a:seq<float>) b = Seq.map2 (fun xa xb -> xb - xa) a b
+    //    let invertedCovarianceMatrix = Algebra.LinearAlgebra.Inverse (covarianceMatrixOf dataSource orientation.Inverse dataMatrix)
+    //    let meanVector = Matrix.meanAsSeq orientation.Inverse dataMatrix
+    //    let subObsMean = Matrix.ofJaggedColSeq([sub observation meanVector])
+    //    let multObsCov = Matrix.mul (subObsMean.Transpose) invertedCovarianceMatrix
+    //    let distance = Matrix.toScalar(Matrix.mul multObsCov subObsMean)
+    //    sqrt distance    
 
-    ///Returns Mahalanobi's distance for for every observation in a matrix.
-    ///dataSource - Sample or Population.
-    /// <summary>orientation - RowWise or ColWise. (RowWise orientation means that each row is a Vector) </summary>
-    /// <remarks></remarks>
-    /// <param name="dataSource"></param>
-    /// <param name="orientation"></param>
-    /// <param name="dataMatrix"></param>
-    /// <returns></returns>
-    /// <example>
-    /// <code>
-    /// </code>
-    /// </example>
-    let mahalanobisDistances (dataSource:DataSource) (orientation:Orientation) (dataMatrix:matrix) =
-        let getObsList = 
-            match orientation with 
-                |ColWise -> 
-                    dataMatrix.Transpose
-                    |> Matrix.toJaggedArray
-                |RowWise -> 
-                    dataMatrix |> Matrix.toJaggedArray
-        getObsList |> Array.map (mahalanobisDistanceOfEntry dataMatrix dataSource orientation)
+    /////Returns Mahalanobi's distance for for every observation in a matrix.
+    /////dataSource - Sample or Population.
+    ///// <summary>orientation - RowWise or ColWise. (RowWise orientation means that each row is a Vector) </summary>
+    ///// <remarks></remarks>
+    ///// <param name="dataSource"></param>
+    ///// <param name="orientation"></param>
+    ///// <param name="dataMatrix"></param>
+    ///// <returns></returns>
+    ///// <example>
+    ///// <code>
+    ///// </code>
+    ///// </example>
+    //let mahalanobisDistances (dataSource:DataSource) (orientation:Orientation) (dataMatrix:Matrix<float>) =
+    //    let getObsList = 
+    //        match orientation with 
+    //            |ColWise -> 
+    //                dataMatrix.Transpose
+    //                |> Matrix.toJaggedArray
+    //            |RowWise -> 
+    //                dataMatrix |> Matrix.toJaggedArray
+    //    getObsList |> Array.map (mahalanobisDistanceOfEntry dataMatrix dataSource orientation)

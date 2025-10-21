@@ -141,8 +141,8 @@ module Frequency =
     /// <summary>Merges two histograms into a single histogram. If a key exists in both maps, the value is determined by f with the first value being from mapA and the second originating from mapB.</summary>
     /// <param name="equalBandwidthOrNominal">Is the binwidth equal for both frequencies? For nominal data set to true.</param>
     /// <param name="f">Function to transform values if key is present in both histograms. `mapA-value &#8594; mapB-value &#8594; newValue`</param>
-    /// <param name="mapA">Frequency map A</param>
-    /// <param name="mapB">Frequency map B</param>
+    /// <param name="histA">Frequency map A</param>
+    /// <param name="histB">Frequency map B</param>
     /// <remarks>When applied to continuous data the bandwidths must be equal!</remarks> 
     /// <remarks>This function is not commutative! (mergeBy f a b) is not equal to (mergeBy f b a)</remarks> 
     /// <returns>New frequency map that results from merged maps mapA and mapB. Values from keys that are present in both maps are handled by f</returns> 
