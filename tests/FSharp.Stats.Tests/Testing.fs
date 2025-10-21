@@ -1326,3 +1326,122 @@ let SAMTests =
              Expect.isTrue (SAMResult.areSame result1 result1NonStringId (=)) "the ID type being other than string shouldn't affect the results"
             
      ]
+
+
+[<Tests>]
+let anovaTests = 
+    // tested against R and Python.statsmodels
+    let a0 = [|9.105820655954515; 9.03375793269564;  8.915088867146936|]
+    let b0 = [|9.218533797307847; 9.374165278011928; 9.09902059371791|]
+    let a1 = [|9.054802062519045; 8.980015323427445; 9.066383039929153|]
+    let b1 = [|8.819119236212753; 8.96115712165076;  9.042933513927682|]
+    let a2 = [|8.80043362511518;  8.938413526335156; 8.886644395458491|]
+    let b2 = [|8.614386401606065; 8.53829813235829;  8.611071068887409|]
+
+    let oneWaySetup = [|a0;a1;a2|]
+    let twoWaySetup = [|[|a0;b0|];[|a1;b1|];[|a2;b2|]|]
+    
+    let oneWayAnova         = Testing.Anova.oneWayAnova oneWaySetup
+    let twoWayANOVAFixed    = twoWaySetup|>Anova.twoWayANOVA Anova.TwoWayAnovaModel.Fixed 
+    let twoWayANOVAMixed    = twoWaySetup|>Anova.twoWayANOVA Anova.TwoWayAnovaModel.Mixed 
+    let twoWayANOVARandom   = twoWaySetup|>Anova.twoWayANOVA Anova.TwoWayAnovaModel.Random 
+
+    testList "Testing.Anova" [
+        testCase "onewayAnova" <| fun () -> 
+            Expect.equal                                oneWayAnova.Factor.DegreesOfFreedom                     2                       "Factor.DegreesOfFreedom deviates from expected value"       
+            Expect.floatClose Accuracy.low              (Math.Round (oneWayAnova.Factor.MeanSquares,8))         0.022925                "Factor.MeanSquares deviates from expected value"
+            Expect.floatClose Accuracy.low              (Math.Round (oneWayAnova.Factor.Significance,8))        0.072                   "Factor.Significance deviates from expected value"
+            Expect.equal                                oneWayAnova.Factor.Source                               Anova.BetweenGroups     "Factor.Source deviates from expected value" 
+            Expect.floatClose Accuracy.low              (Math.Round (oneWayAnova.Factor.Statistic,8))           4.211                   "Factor.Statistic deviates from expected value"  
+            Expect.floatClose Accuracy.low              (Math.Round (oneWayAnova.Factor.SumOfSquares,8))        0.04585                 "Factor.SumOfSquares deviates from expected value"
+            Expect.equal                                oneWayAnova.Error.DegreesOfFreedom                      6                       "Error.DegreesOfFreedom deviates from expected value"      
+            Expect.floatClose Accuracy.low              (Math.Round (oneWayAnova.Error.MeanSquares,8))          0.005444                "Error.MeanSquares deviates from expected value" 
+            Expect.equal                                oneWayAnova.Error.Source                                Anova.WithinGroups      "Error.Source deviates from expected value"  
+            Expect.floatClose Accuracy.low              (Math.Round (oneWayAnova.Error.SumOfSquares,8))         0.03266                 "Error.SumOfSquares deviates from expected value"
+            Expect.equal                                oneWayAnova.Total.DegreesOfFreedom                      8                       "Total.DegreesOfFreedom deviates from expected value"      
+            Expect.floatClose Accuracy.low              (Math.Round (oneWayAnova.Total.MeanSquares,8))          0.009814                "Total.MeanSquares deviates from expected value" 
+            Expect.floatClose Accuracy.low              (Math.Round (oneWayAnova.Total.SumOfSquares,8))         0.07851                 "Total.SumOfSquares deviates from expected value"
+            // Expect.floatClose Accuracy.high 0.    oneWayAnova.Error.Significance        "Error.Significance deviates from expected value"
+            // Expect.floatClose Accuracy.high 0.    oneWayAnova.Error.Statistic           "Error.Statistic deviates from expected value"
+            // Expect.floatClose Accuracy.high 0.    oneWayAnova.Total.Significance        "Total.Significance deviates from expected value"
+            // Expect.floatClose Accuracy.high 0.   oneWayAnova.Total.Source              "Total.Source deviates from expected value"  
+            // Expect.floatClose Accuracy.high 0.    oneWayAnova.Total.Statistic           "Total.Statistic deviates from expected value"
+
+        testCase "twoWayANOVAFixed" <| fun () -> 
+            Expect.equal                        twoWayANOVAFixed.FactorFst.DegreesOfFreedom                     2                       "FactorFst.DegreesOfFreed deviated from expected value"                                   
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.FactorFst.MeanSquares,8))         0.2386                  "FactorFst.MeanSquares deviated from expected value"                                  
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.FactorFst.Significance,8))        0.00002717              "FactorFst.Significance deviated from expected value"                                 
+            Expect.equal                        twoWayANOVAFixed.FactorFst.Source                               Anova.Residual          "FactorFst.Source deviated from expected value"                       
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.FactorFst.Statistic,8))           28.6043                 "FactorFst.Statistic deviated from expected value"                            
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.FactorFst.SumOfSquares,8))        0.4771                  "FactorFst.SumOfSquares deviated from expected value"                                 
+            Expect.equal                        twoWayANOVAFixed.FactorSnd.DegreesOfFreedom                     1                       "FactorSnd.DegreesOfFreed deviated from expected value"                                   
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.FactorSnd.MeanSquares,8))         0.01404                 "FactorSnd.MeanSquares deviated from expected value"                                  
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.FactorSnd.Significance,8))        0.21898                 "FactorSnd.Significance deviated from expected value"                                 
+            Expect.equal                        twoWayANOVAFixed.FactorSnd.Source                               Anova.Residual          "FactorSnd.Source deviated from expected value"                       
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.FactorSnd.Statistic,8))           1.6831                  "FactorSnd.Statistic deviated from expected value"                            
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.FactorSnd.SumOfSquares,8))        0.01404                 "FactorSnd.SumOfSquares deviated from expected value"                                 
+            Expect.equal                        twoWayANOVAFixed.Interaction.DegreesOfFreedom                   2                       "Interaction.DegreesOfFre deviated from expected value"                                   
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.Interaction.MeanSquares,8))       0.09512                 "Interaction.MeanSquares deviated from expected value"                                    
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.Interaction.Significance,8))      0.001678                "Interaction.Significance deviated from expected value"                                   
+            Expect.equal                        twoWayANOVAFixed.Interaction.Source                             Anova.BetweenGroups     "Interaction.Source deviated from expected value"                             
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.Interaction.Statistic,8))         11.4052                 "Interaction.Statistic deviated from expected value"                                  
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.Interaction.SumOfSquares,8))      0.1902                  "Interaction.SumOfSquares deviated from expected value"                                   
+            Expect.equal                        twoWayANOVAFixed.Error.DegreesOfFreedom                         12                      "Error.DegreesOfFreedom deviated from expected value"                                 
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.Error.MeanSquares,8))             0.00834                 "Error.MeanSquares deviated from expected value"                              
+            Expect.equal                        twoWayANOVAFixed.Total.DegreesOfFreedom                         17                      "Total.DegreesOfFreedom deviated from expected value"               
+            // Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.Total.SumOfSquares,8))            0.7815                  "Total.SumOfSquares deviated from expected value"               
+            // Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAFixed.Total.MeanSquares,8))             0.04597                 "Total.MeanSquares deviated from expected value"               
+
+        testCase "twoWayANOVAMixed" <| fun () -> 
+            Expect.equal                        twoWayANOVAMixed.FactorFst.DegreesOfFreedom                    2                       "FactorFst.DegreesOfFreed deviated from expected value"  
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.FactorFst.MeanSquares,8))        0.2386                  "FactorFst.MeanSquares deviated from expected value"     
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.FactorFst.Significance,8))       0.00002717              "FactorFst.Significance deviated from expected value"    
+            Expect.equal                        twoWayANOVAMixed.FactorFst.Source                              Anova.Residual          "FactorFst.Source deviated from expected value"          
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.FactorFst.Statistic,8))          28.6043                 "FactorFst.Statistic deviated from expected value"       
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.FactorFst.SumOfSquares,8))       0.4771                  "FactorFst.SumOfSquares deviated from expected value"    
+            Expect.equal                        twoWayANOVAMixed.FactorSnd.DegreesOfFreedom                     1                       "FactorSnd.DegreesOfFreed deviated from expected value"  
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.FactorSnd.MeanSquares,8))        0.01404                 "FactorSnd.MeanSquares deviated from expected value"     
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.FactorSnd.Significance,8))       0.7379                  "FactorSnd.Significance deviated from expected value"    
+            Expect.equal                        twoWayANOVAMixed.FactorSnd.Source                              Anova.Residual          "FactorSnd.Source deviated from expected value"          
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.FactorSnd.Statistic,8))          0.1476                  "FactorSnd.Statistic deviated from expected value"       
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.FactorSnd.SumOfSquares,8))       0.01404                 "FactorSnd.SumOfSquares deviated from expected value"    
+            Expect.equal                        twoWayANOVAMixed.Interaction.DegreesOfFreedom                  2                       "Interaction.DegreesOfFre deviated from expected value"  
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.Interaction.MeanSquares,8))      0.09512                 "Interaction.MeanSquares deviated from expected value"   
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.Interaction.Significance,8))     0.001678                "Interaction.Significance deviated from expected value"  
+            Expect.equal                        twoWayANOVAMixed.Interaction.Source                            Anova.BetweenGroups     "Interaction.Source deviated from expected value"        
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.Interaction.Statistic,8))        11.4052                 "Interaction.Statistic deviated from expected value"     
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.Interaction.SumOfSquares,8))     0.1902                  "Interaction.SumOfSquares deviated from expected value"  
+            Expect.equal                        twoWayANOVAMixed.Error.DegreesOfFreedom                        12                      "Error.DegreesOfFreedom deviated from expected value"    
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.Error.MeanSquares,8))            0.00834                 "Error.MeanSquares deviated from expected value"         
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.Error.SumOfSquares,8))           0.1001                  "Error.MeanSquares deviated from expected value"         
+            Expect.equal                        twoWayANOVAMixed.Total.DegreesOfFreedom                        17                      "Total.DegreesOfFreedom deviated from expected value"               
+            // Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.Total.SumOfSquares,8))           0.7815                  "Total.SumOfSquares deviated from expected value"               
+            // Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVAMixed.Total.MeanSquares,8))            0.04597                 "Total.MeanSquares deviated from expected value"               
+
+        testCase "twoWayANOVARandom" <| fun () -> 
+            Expect.equal                        twoWayANOVARandom.FactorFst.DegreesOfFreedom                    2                      "FactorFst.DegreesOfFreed deviated from expected value"  
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.FactorFst.MeanSquares,8))        0.2386                 "FactorFst.MeanSquares deviated from expected value"     
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.FactorFst.Significance,8))       0.2851                 "FactorFst.Significance deviated from expected value"    
+            Expect.equal                        twoWayANOVARandom.FactorFst.Source                              Anova.Residual         "FactorFst.Source deviated from expected value"          
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.FactorFst.Statistic,8))          2.508                  "FactorFst.Statistic deviated from expected value"       
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.FactorFst.SumOfSquares,8))       0.4771                 "FactorFst.SumOfSquares deviated from expected value"    
+            Expect.equal                        twoWayANOVARandom.FactorSnd.DegreesOfFreedom                    1                      "FactorSnd.DegreesOfFreed deviated from expected value"  
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.FactorSnd.MeanSquares,8))        0.01404                "FactorSnd.MeanSquares deviated from expected value"     
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.FactorSnd.Significance,8))       0.7379                 "FactorSnd.Significance deviated from expected value"    
+            Expect.equal                        twoWayANOVARandom.FactorSnd.Source                              Anova.Residual         "FactorSnd.Source deviated from expected value"          
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.FactorSnd.Statistic,8))          0.1476                 "FactorSnd.Statistic deviated from expected value"       
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.FactorSnd.SumOfSquares,8))       0.01404                "FactorSnd.SumOfSquares deviated from expected value"    
+            Expect.equal                        twoWayANOVARandom.Interaction.DegreesOfFreedom                  2                      "Interaction.DegreesOfFre deviated from expected value"  
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.Interaction.MeanSquares,8))      0.09512                "Interaction.MeanSquares deviated from expected value"   
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.Interaction.Significance,8))     0.001678               "Interaction.Significance deviated from expected value"  
+            Expect.equal                        twoWayANOVARandom.Interaction.Source                            Anova.BetweenGroups    "Interaction.Source deviated from expected value"        
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.Interaction.Statistic,8))        11.4052                "Interaction.Statistic deviated from expected value"     
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.Interaction.SumOfSquares,8))     0.1902                 "Interaction.SumOfSquares deviated from expected value"  
+            Expect.equal                        twoWayANOVARandom.Error.DegreesOfFreedom                        12                     "Error.DegreesOfFreedom deviated from expected value"    
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.Error.MeanSquares,8))            0.00834                "Error.MeanSquares deviated from expected value"         
+            Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.Error.SumOfSquares,8))           0.1001                 "Error.SumOfSquares deviated from expected value"         
+            Expect.equal                        twoWayANOVARandom.Total.DegreesOfFreedom                        17                     "Total.DegreesOfFreedom deviated from expected value"               
+            // Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.Total.SumOfSquares,8))           0.7815                 "Total.SumOfSquares deviated from expected value"               
+            // Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.Total.MeanSquares,8))            0.04597                "Total.MeanSquares deviated from expected value"               
+            
+        ]
