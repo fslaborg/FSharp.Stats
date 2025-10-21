@@ -1,3 +1,32 @@
+### 1.0.0 (Released TBD)
+
+This version marks the journey to our first stable release and introduces significant architectural changes, which obviously are backward incompatible.
+
+* Decoupled vector and matrix representations from *FSharp.Stats*.
+* Integrated `FsMath` as the new lightweight, array-centric math backend.
+* Updated internal references in *FSharp.Stats* to use `FsMath` primitives for zero-friction integration.
+* Improved performance in core operations by leveraging `FsMath`’s optimized routines.
+
+**Description**
+This PR introduces a separation of concerns between statistical algorithms and low-level numerical primitives.
+Vector and matrix types have been moved to the new `FsMath` library under FsLab.org, which is optimized for performance and designed for seamless interoperability.
+This change keeps *FSharp.Stats* focused on statistical functionality while making it easier to maintain and integrate into other F# workflows that rely on common libraries.
+
+**Migration note**
+If your project uses `Vector` or `Matrix` types from *FSharp.Stats*, you will now need to reference `FsMath` and update your `open` statements accordingly:
+
+```fsharp
+open FsMath
+```
+
+All existing APIs are preserved with minimal changes, so most code will require slight modifications from `vector` to `Vector<float>` explicitly, along with namespace adjustments.
+Previously, arrays needed to be explicitly converted to vectors - now, `Array` and `Vector` can be used synonymously, removing the need for manual conversions in most cases.
+
+Other Changes:
+
+- [Fix incorrect F-test denominator assignments in TwoWayAnovaModel](https://github.com/fslaborg/FSharp.Stats/pull/350)
+- [Update test statistics to support generic type 'T data](https://github.com/fslaborg/FSharp.Stats/pull/348)
+
 ### 0.6.0 (Released 2025-1-7)
 * Additions:
     * latest commit #529c2c01
