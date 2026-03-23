@@ -140,33 +140,41 @@ module Correlation =
         /// </code>
         /// </example>
         let inline pearsonWeighted (seq1:seq<'T>) (seq2:seq<'T>) (weights:seq<'T>) : float =
-            // TODO: solve in a prettier coding fashion
-            if Seq.length seq1 <> Seq.length seq2 || Seq.length seq2 <> Seq.length weights then failwithf "input arguments are not the same length"
-            let zero = LanguagePrimitives.GenericZero< 'T > 
-            let one = LanguagePrimitives.GenericOne<'T> 
-            let weightedMean xVal wVal = 
-                let a = Seq.fold2 (fun acc xi wi -> acc + (xi * wi)) zero xVal wVal |> float
-                let b = Seq.sum wVal|> float
-                a / b
-            let weightedCoVariance xVal yVal wVal = 
-                let weightedMeanXW = weightedMean xVal wVal
-                let weightedMeanYW = weightedMean yVal wVal
-                let a = 
-                    Seq.map3 (fun xi yi wi -> 
-                        (float wi) * ((float xi) - weightedMeanXW) * ((float yi) - weightedMeanYW)
-                            ) xVal yVal wVal
-                    |> Seq.sum
-                let b = 
-                    Seq.sum wVal 
-                    |> float
-                a / b
-            let weightedCorrelation xVal yVal wVal =
-                let a = weightedCoVariance xVal yVal wVal
-                let b = 
-                    (weightedCoVariance xVal xVal wVal) * (weightedCoVariance yVal yVal wVal)
-                    |> sqrt
-                a / b          
-            weightedCorrelation seq1 seq2 weights
+            // Convert to arrays once (3 passes), then compute in 2 passes instead of the
+            // previous ~12 passes (3 Seq.length + 3x weightedCoVariance x 3 sub-passes each).
+            let xs = Array.ofSeq seq1
+            let ys = Array.ofSeq seq2
+            let ws = Array.ofSeq weights
+            let n = xs.Length
+            if n <> ys.Length || n <> ws.Length then
+                failwithf "input arguments are not the same length"
+            if n = 0 then nan
+            else
+                // Pass 1: compute weighted means
+                let mutable wSum  = 0.0
+                let mutable wxSum = 0.0
+                let mutable wySum = 0.0
+                for i = 0 to n - 1 do
+                    let w = float ws.[i]
+                    wSum  <- wSum  + w
+                    wxSum <- wxSum + w * float xs.[i]
+                    wySum <- wySum + w * float ys.[i]
+                let xMean = wxSum / wSum
+                let yMean = wySum / wSum
+                // Pass 2: compute weighted covariance and variances from the means
+                let mutable covSum  = 0.0
+                let mutable varXSum = 0.0
+                let mutable varYSum = 0.0
+                for i = 0 to n - 1 do
+                    let w  = float ws.[i]
+                    let dx = float xs.[i] - xMean
+                    let dy = float ys.[i] - yMean
+                    covSum  <- covSum  + w * dx * dy
+                    varXSum <- varXSum + w * dx * dx
+                    varYSum <- varYSum + w * dy * dy
+                // The wSum denominator cancels in the ratio, so the result is:
+                // cov(x,y) / sqrt(var(x) * var(y))
+                covSum / sqrt (varXSum * varYSum)
 
         /// <summary>
         /// Calculates the weighted pearson correlation of two samples. 
