@@ -164,6 +164,11 @@ let wilcoxonTestTests =
     let wilcoxon2 = WilcoxonTest.createWilcoxonTest before after false
     let wilcoxon3 = WilcoxonTest.createWilcoxonTestFromDifferences differences true 
     let wilcoxon4 = WilcoxonTest.createWilcoxonTestFromDifferences differences false
+    // ties of size 3 (exposes the rank-multiplication bug): differences [1,1,1,2,-3]
+    // expected values computed with SciPy: wilcoxon([1,1,1,2,-3], mode='approx', correction=False/True)
+    let tieDiffs3 = seq{1.;1.;1.;2.;-3.}
+    let wilcoxon5 = WilcoxonTest.createWilcoxonTestFromDifferences tieDiffs3 false
+    let wilcoxon6 = WilcoxonTest.createWilcoxonTestFromDifferences tieDiffs3 true
 
     testList "Testing.WilcoxonTest" [
         testCase "wilcoxonWithCorrection" <| fun () -> 
@@ -177,7 +182,13 @@ let wilcoxonTestTests =
         testCase "wilcoxonOneSidedWithCorrection" <| fun () -> 
             Expect.floatClose Accuracy.low wilcoxon1.PValueLeft 0.019102 "pValue should be equal"
         testCase "wilcoxonOneSidedWithoutCorrection" <| fun () -> 
-            Expect.floatClose Accuracy.low wilcoxon2.PValueRight 0.9823 "pValue should be equal"    
+            Expect.floatClose Accuracy.low wilcoxon2.PValueRight 0.9823 "pValue should be equal"
+        testCase "wilcoxonTieSize3WithoutCorrection" <| fun () ->
+            // SciPy: wilcoxon([1,1,1,2,-3], mode='approx', correction=False) => pvalue ≈ 0.492207
+            Expect.floatClose Accuracy.low wilcoxon5.PValueTwoTailed 0.4922 "pValue should match SciPy with ties of size 3"
+        testCase "wilcoxonTieSize3WithCorrection" <| fun () ->
+            // SciPy: wilcoxon([1,1,1,2,-3], mode='approx', correction=True) => pvalue ≈ 0.582702
+            Expect.floatClose Accuracy.low wilcoxon6.PValueTwoTailed 0.5827 "pValue should match SciPy with ties of size 3 and correction"
             
         ]
 
