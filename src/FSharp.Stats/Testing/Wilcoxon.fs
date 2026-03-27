@@ -44,10 +44,8 @@ module WilcoxonTest =
             |> Array.filter (fun (i,j)-> j>1)
             |> Array.map (fun (i,j) -> float i,float j)
 
-        let tieCorrection (i,j) = 
-            if j = 2.0 then 
-                (j**3. - j) / 48.
-            else i * ((j**3. - j) / 48.)
+        let tieCorrection (_,j) = 
+            (j**3. - j) / 48.
                 
         let tieStatistic =
             ties 
