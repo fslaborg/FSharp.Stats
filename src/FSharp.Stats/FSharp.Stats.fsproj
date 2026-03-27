@@ -23,6 +23,7 @@
     <PackageTags>F# FSharp dotnet data-science linear-algebra machine-learning fitting signal-processing statistical-testing</PackageTags>
     <RepositoryUrl>https://github.com/fslaborg/FSharp.Stats</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <RepositoryBranch>developer</RepositoryBranch>
     <FsDocsLicenseLink>https://github.com/fslaborg/FSharp.Stats/blob/developer/LICENSE</FsDocsLicenseLink>
     <FsDocsReleaseNotesLink>https://github.com/fslaborg/FSharp.Stats/blob/developer/RELEASE_NOTES.md</FsDocsReleaseNotesLink>
   </PropertyGroup>
