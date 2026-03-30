@@ -53,8 +53,31 @@ type ChiSquareTest =
         
         TestStatistics.createChiSquare chi2 (float degreesOfFreedom)
 
+    /// <summary>
+    ///   Pearson χ² test of independence for an r×c contingency table.
+    /// </summary>
+    /// <remarks>
+    ///   For each cell (i,j) the expected count is E = rowTotal(i) × colTotal(j) / N.
+    ///   The test statistic is χ² = Σ (O − E)² / E and has (r−1)(c−1) degrees of freedom.
+    ///   Cells with expected count zero are skipped (they contribute 0 to χ²).
+    /// </remarks>
     static member pearsonChiSquared (table:ContingencyTable<_,_>) =
-        42.
+        let numRows = table.NumRows
+        let numCols = table.NumCols
+        let N = float (Contingency.total table)
+        if N = 0.0 then invalidArg "table" "ContingencyTable is empty (grand total is zero)"
+        let rowTotals = table.RowKeys |> Array.map (fun r -> float (Contingency.rowTotal r table))
+        let colTotals = table.ColKeys |> Array.map (fun c -> float (Contingency.columnTotal c table))
+        let chi2 =
+            [| for i in 0..numRows-1 do
+                   for j in 0..numCols-1 do
+                       let O = float (Contingency.getCount table.RowKeys.[i] table.ColKeys.[j] table)
+                       let E = rowTotals.[i] * colTotals.[j] / N
+                       if E > 0.0 then
+                           yield (O - E) * (O - E) / E |]
+            |> Array.sum
+        let df = (numRows - 1) * (numCols - 1)
+        TestStatistics.createChiSquare chi2 (float df)
 
     static member pearsonChiSquared (table:Contingency2x2<_,_>) =
         let apply o e =
