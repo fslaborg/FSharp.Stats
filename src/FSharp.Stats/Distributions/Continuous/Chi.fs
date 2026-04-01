@@ -127,9 +127,11 @@ type Chi =
     /// <code>
     /// </code>
     /// </example>
-    static member InvCDF dof x =
+    static member InvCDF dof p =
         Chi.CheckParam dof
-        failwithf "InvCDF not implemented yet"
+        if p < 0. || p > 1. then failwithf "p must be in [0, 1] but was %f" p
+        // Chi(k) = sqrt(ChiSquared(k)) = sqrt(Gamma(k/2, scale=2))
+        sqrt (Gamma.InvCDF (dof / 2.) 2. p)
     
     /// <summary>Returns the support of the exponential distribution: [0, Positive Infinity).</summary>
     /// <remarks></remarks>

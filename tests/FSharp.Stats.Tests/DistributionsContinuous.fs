@@ -618,6 +618,35 @@ let chiSquaredTests =
                 Expect.floatClose Accuracy.veryHigh (testCase.PDF -1.) 0. "Should be equal"
                 Expect.isTrue (Ops.isNan <| testCase.PDF nan) "Should be equal"
         ]
+
+        // Reference values from R: qchisq(p, df)
+        testList "ChiSquared.InvCDF tests" [
+            testCase "ChiSquared InvCDF p=0" <| fun () ->
+                Expect.equal (Continuous.ChiSquared.InvCDF 5. 0.) 0. "InvCDF at p=0 should be 0"
+
+            testCase "ChiSquared InvCDF p=1" <| fun () ->
+                Expect.isTrue (Double.IsPositiveInfinity (Continuous.ChiSquared.InvCDF 5. 1.)) "InvCDF at p=1 should be +∞"
+
+            testCase "ChiSquared InvCDF dof=1 p=0.95" <| fun () ->
+                // R: qchisq(0.95, 1) = 3.841459
+                let x = Continuous.ChiSquared.InvCDF 1. 0.95
+                Expect.floatClose Accuracy.medium x 3.841459 "ChiSquared InvCDF(1, 0.95) ≈ 3.84"
+
+            testCase "ChiSquared InvCDF dof=10 p=0.95" <| fun () ->
+                // R: qchisq(0.95, 10) = 18.30704
+                let x = Continuous.ChiSquared.InvCDF 10. 0.95
+                Expect.floatClose Accuracy.medium x 18.30704 "ChiSquared InvCDF(10, 0.95) ≈ 18.31"
+
+            testCase "ChiSquared InvCDF round-trip dof=5 p=0.5" <| fun () ->
+                let x  = Continuous.ChiSquared.InvCDF 5. 0.5
+                let p2 = Continuous.ChiSquared.CDF 5. x
+                Expect.floatClose Accuracy.high p2 0.5 "CDF(InvCDF(0.5)) should round-trip"
+
+            testCase "ChiSquared InvCDF round-trip dof=20 p=0.01" <| fun () ->
+                let x  = Continuous.ChiSquared.InvCDF 20. 0.01
+                let p2 = Continuous.ChiSquared.CDF 20. x
+                Expect.floatClose Accuracy.high p2 0.01 "CDF(InvCDF(0.01)) should round-trip"
+        ]
     ]
 
 //Test ommitted due to long runtime of CodeCov
@@ -689,6 +718,28 @@ let chiTests =
         testCase "CDF.testCase_4" <| fun () ->
             let testCase = Continuous.Chi.CDF 80. 8.
             Expect.floatClose Accuracy.medium testCase 0.09560282 "Should be equal"         
+
+        // Reference values from R: qchisq(p, df)^0.5  (since Chi(k) = sqrt(ChiSquared(k)))
+        testCase "Chi InvCDF p=0" <| fun () ->
+            Expect.equal (Continuous.Chi.InvCDF 3. 0.) 0. "InvCDF at p=0 should be 0"
+
+        testCase "Chi InvCDF p=1" <| fun () ->
+            Expect.isTrue (Double.IsPositiveInfinity (Continuous.Chi.InvCDF 3. 1.)) "InvCDF at p=1 should be +∞"
+
+        testCase "Chi InvCDF round-trip dof=1 p=0.95" <| fun () ->
+            // R: sqrt(qchisq(0.95, 1)) = 1.959964
+            let x = Continuous.Chi.InvCDF 1. 0.95
+            Expect.floatClose Accuracy.medium x 1.959964 "Chi InvCDF(1, 0.95) ≈ 1.96"
+
+        testCase "Chi InvCDF round-trip dof=5 p=0.5" <| fun () ->
+            let x  = Continuous.Chi.InvCDF 5. 0.5
+            let p2 = Continuous.Chi.CDF 5. x
+            Expect.floatClose Accuracy.high p2 0.5 "CDF(InvCDF(p)) should round-trip"
+
+        testCase "Chi InvCDF round-trip dof=10 p=0.99" <| fun () ->
+            let x  = Continuous.Chi.InvCDF 10. 0.99
+            let p2 = Continuous.Chi.CDF 10. x
+            Expect.floatClose Accuracy.high p2 0.99 "CDF(InvCDF(0.99)) should round-trip"
     ]
 
 let multivariateNormalTests =
@@ -1158,6 +1209,7 @@ let FDistributionTests =
     
 
 
+[<Tests>]
 let exponentialTests =
     // references is R V. 2022.02.3 Build 492
     // PDF is used with expPDF <- dexp(3,0.59)
@@ -1229,4 +1281,54 @@ let exponentialTests =
              Expect.isTrue (nan.Equals (Distributions.Continuous.Exponential.Variance nan)) "Variance can't be calculated with lambda = nan "
              //Expect.floatClose Accuracy.low (Distributions.Continuous.Exponential.StandardDeviation infinity) 0. "StDev should be 0 when lambda = infinity"
 
+        // Reference values from R: qexp(p, rate=lambda)
+        testCase "Exponential InvCDF p=0" <| fun () ->
+            Expect.equal (Distributions.Continuous.Exponential.InvCDF 1. 0.) 0. "InvCDF at p=0 should be 0"
+
+        testCase "Exponential InvCDF p=1" <| fun () ->
+            Expect.isTrue (Double.IsPositiveInfinity (Distributions.Continuous.Exponential.InvCDF 1. 1.)) "InvCDF at p=1 should be +∞"
+
+        testCase "Exponential InvCDF round-trip p=0.5 lambda=1" <| fun () ->
+            // R: qexp(0.5, 1) = 0.6931472
+            let x = Distributions.Continuous.Exponential.InvCDF 1. 0.5
+            Expect.floatClose Accuracy.high x 0.6931472 "InvCDF(0.5) should be ln(2)"
+
+        testCase "Exponential InvCDF round-trip p=0.95 lambda=2" <| fun () ->
+            // R: qexp(0.95, 2) = 1.497866
+            let x = Distributions.Continuous.Exponential.InvCDF 2. 0.95
+            let p2 = Distributions.Continuous.Exponential.CDF 2. x
+            Expect.floatClose Accuracy.high p2 0.95 "CDF(InvCDF(p)) should round-trip"
+
+        testCase "Exponential InvCDF throws on out-of-range p" <| fun () ->
+            Expect.throws (fun () -> Distributions.Continuous.Exponential.InvCDF 1. -0.1 |> ignore) "p=-0.1 should throw"
+            Expect.throws (fun () -> Distributions.Continuous.Exponential.InvCDF 1.  1.1 |> ignore) "p=1.1 should throw"
+
             ]
+
+[<Tests>]
+let uniformTests =
+    // Reference values from R: qunif(p, min, max)
+    testList "Distributions.Continuous.Uniform.InvCDF" [
+        testCase "Uniform InvCDF p=0" <| fun () ->
+            Expect.equal (Continuous.Uniform.InvCDF 0. 1. 0.) 0. "InvCDF at p=0 should be min"
+
+        testCase "Uniform InvCDF p=1" <| fun () ->
+            Expect.equal (Continuous.Uniform.InvCDF 0. 1. 1.) 1. "InvCDF at p=1 should be max"
+
+        testCase "Uniform InvCDF p=0.5 standard" <| fun () ->
+            // R: qunif(0.5, 0, 1) = 0.5
+            Expect.floatClose Accuracy.veryHigh (Continuous.Uniform.InvCDF 0. 1. 0.5) 0.5 "InvCDF(0.5) should be 0.5"
+
+        testCase "Uniform InvCDF p=0.25 shifted" <| fun () ->
+            // R: qunif(0.25, 2, 6) = 3.0
+            Expect.floatClose Accuracy.veryHigh (Continuous.Uniform.InvCDF 2. 6. 0.25) 3.0 "InvCDF(0.25, 2, 6) should be 3"
+
+        testCase "Uniform InvCDF round-trip" <| fun () ->
+            let x  = Continuous.Uniform.InvCDF -5. 10. 0.7
+            let p2 = Continuous.Uniform.CDF -5. 10. x
+            Expect.floatClose Accuracy.veryHigh p2 0.7 "CDF(InvCDF(0.7)) should round-trip"
+
+        testCase "Uniform InvCDF throws on out-of-range p" <| fun () ->
+            Expect.throws (fun () -> Continuous.Uniform.InvCDF 0. 1. -0.1 |> ignore) "p=-0.1 should throw"
+            Expect.throws (fun () -> Continuous.Uniform.InvCDF 0. 1.  1.1 |> ignore) "p=1.1 should throw"
+    ]
