@@ -1220,7 +1220,7 @@ let exponentialTests =
                 match (Continuous.Exponential.Init 4.4).Parameters with
                 | Exponential x -> x.Lambda
                 | _ -> nan
-            Expect.equal param (4.3) "Distribution parameters are incorrect."
+            Expect.equal param (4.4) "Distribution parameters are incorrect."
 
         let createExpDistCDF  lambda x = FSharp.Stats.Distributions.Continuous.Exponential.CDF lambda x    
         let createExpDistPDF  lambda x = Distributions.Continuous.Exponential.PDF lambda x
