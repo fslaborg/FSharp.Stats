@@ -296,6 +296,60 @@ let BetaDistributionTests =
                 "alpha" 
             Expect.floatClose fittingAccuracy beta beta' 
                 "beta"
+
+        testList "Beta.InvCDF tests" [
+
+            test "Beta.InvCDF uniform: InvCDF(p) = p" {
+                // Beta(1,1) = Uniform[0,1]: exact closed form
+                Expect.floatClose Accuracy.high (Beta.InvCDF 1. 1. 0.3)  0.3  "Uniform InvCDF"
+                Expect.floatClose Accuracy.high (Beta.InvCDF 1. 1. 0.7)  0.7  "Uniform InvCDF"
+            }
+
+            test "Beta.InvCDF beta=1: InvCDF(p) = p^(1/alpha)" {
+                // Beta(2,1): exact x = sqrt(p)
+                let x = Beta.InvCDF 2. 1. 0.64
+                Expect.floatClose Accuracy.high x 0.8 "InvCDF(2,1,0.64) = 0.8"
+            }
+
+            test "Beta.InvCDF alpha=1: InvCDF(p) = 1-(1-p)^(1/beta)" {
+                // Beta(1,2): exact x = 1 - sqrt(1-p)
+                let x = Beta.InvCDF 1. 2. 0.75
+                Expect.floatClose Accuracy.high x 0.5 "InvCDF(1,2,0.75) = 0.5"
+            }
+
+            test "Beta.InvCDF boundary p=0 gives 0" {
+                Expect.equal (Beta.InvCDF 2. 3. 0.) 0. "p=0 → 0"
+            }
+
+            test "Beta.InvCDF boundary p=1 gives 1" {
+                Expect.equal (Beta.InvCDF 2. 3. 1.) 1. "p=1 → 1"
+            }
+
+            test "Beta.InvCDF round-trip (2,3) p=0.5" {
+                // R: qbeta(0.5, 2, 3) ≈ 0.38572
+                let x  = Beta.InvCDF 2. 3. 0.5
+                let p2 = Beta.CDF    2. 3. x
+                Expect.floatClose Accuracy.high p2 0.5 "CDF(InvCDF(0.5)) ≈ 0.5"
+            }
+
+            test "Beta.InvCDF round-trip (2,3) p=0.95" {
+                let x  = Beta.InvCDF 2. 3. 0.95
+                let p2 = Beta.CDF    2. 3. x
+                Expect.floatClose Accuracy.high p2 0.95 "CDF(InvCDF(0.95)) ≈ 0.95"
+            }
+
+            test "Beta.InvCDF round-trip (0.5,0.5) p=0.5" {
+                // Arcsin distribution is symmetric: median = 0.5
+                let x = Beta.InvCDF 0.5 0.5 0.5
+                Expect.floatClose Accuracy.high x 0.5 "Arcsin median = 0.5"
+            }
+
+            test "Beta.InvCDF round-trip (5,2) p=0.1" {
+                let x  = Beta.InvCDF 5. 2. 0.1
+                let p2 = Beta.CDF    5. 2. x
+                Expect.floatClose Accuracy.high p2 0.1 "CDF(InvCDF(0.1)) ≈ 0.1"
+            }
+        ]
     ]
 
 
@@ -1156,6 +1210,97 @@ let FDistributionTests =
 
     ]
     
+
+
+[<Tests>]
+let FInvCDFTests =
+    // R: qf(p, dof1, dof2)
+    testList "Distributions.Continuous.F.InvCDF" [
+
+        test "F.InvCDF boundary p=0 gives 0" {
+            Expect.equal (F.InvCDF 3. 4. 0.) 0. "p=0 → 0"
+        }
+
+        test "F.InvCDF boundary p=1 gives +∞" {
+            Expect.isTrue (Double.IsPositiveInfinity (F.InvCDF 3. 4. 1.)) "p=1 → +∞"
+        }
+
+        test "F.InvCDF (3,4) p=0.95 matches R" {
+            // R: qf(0.95, 3, 4) = 6.591382
+            let x = F.InvCDF 3. 4. 0.95
+            Expect.floatClose Accuracy.medium x 6.591382 "F(3,4) 95th percentile"
+        }
+
+        test "F.InvCDF (1,1) p=0.95 matches R" {
+            // R: qf(0.95, 1, 1) = 161.4469
+            let x = F.InvCDF 1. 1. 0.95
+            Expect.floatClose Accuracy.medium x 161.4469 "F(1,1) 95th percentile"
+        }
+
+        test "F.InvCDF round-trip (5,10) p=0.3" {
+            let x  = F.InvCDF 5. 10. 0.3
+            let p2 = F.CDF    5. 10. x
+            Expect.floatClose Accuracy.high p2 0.3 "CDF(InvCDF(0.3)) ≈ 0.3"
+        }
+
+        test "F.InvCDF round-trip (2,20) p=0.9" {
+            let x  = F.InvCDF 2. 20. 0.9
+            let p2 = F.CDF    2. 20. x
+            Expect.floatClose Accuracy.high p2 0.9 "CDF(InvCDF(0.9)) ≈ 0.9"
+        }
+    ]
+
+
+[<Tests>]
+let StudentTInvCDFTests =
+    // R: qt(p, df)  (standard: mu=0, tau=1)
+    testList "Distributions.Continuous.StudentT.InvCDF" [
+
+        test "StudentT.InvCDF boundary p=0 gives -∞" {
+            Expect.isTrue (Double.IsNegativeInfinity (StudentT.InvCDF 0. 1. 10. 0.)) "p=0 → -∞"
+        }
+
+        test "StudentT.InvCDF boundary p=1 gives +∞" {
+            Expect.isTrue (Double.IsPositiveInfinity (StudentT.InvCDF 0. 1. 10. 1.)) "p=1 → +∞"
+        }
+
+        test "StudentT.InvCDF median is mu" {
+            // By symmetry, InvCDF(mu, tau, dof, 0.5) = mu
+            Expect.floatClose Accuracy.high (StudentT.InvCDF 0.  1. 5. 0.5) 0.  "median = mu=0"
+            Expect.floatClose Accuracy.high (StudentT.InvCDF 3.  1. 5. 0.5) 3.  "median = mu=3"
+            Expect.floatClose Accuracy.high (StudentT.InvCDF -2. 1. 5. 0.5) -2. "median = mu=-2"
+        }
+
+        test "StudentT.InvCDF symmetry: InvCDF(p) = -InvCDF(1-p) for mu=0" {
+            let q1 = StudentT.InvCDF 0. 1. 10. 0.025
+            let q2 = StudentT.InvCDF 0. 1. 10. 0.975
+            Expect.floatClose Accuracy.high q1 (-q2) "symmetry around 0"
+        }
+
+        test "StudentT.InvCDF (mu=0,tau=1,dof=10) p=0.975 matches R" {
+            // R: qt(0.975, 10) = 2.228139
+            let x = StudentT.InvCDF 0. 1. 10. 0.975
+            Expect.floatClose Accuracy.medium x 2.228139 "t(10) 97.5th percentile"
+        }
+
+        test "StudentT.InvCDF (mu=0,tau=1,dof=10) p=0.025 matches R" {
+            // R: qt(0.025, 10) = -2.228139
+            let x = StudentT.InvCDF 0. 1. 10. 0.025
+            Expect.floatClose Accuracy.medium x (-2.228139) "t(10) 2.5th percentile"
+        }
+
+        test "StudentT.InvCDF round-trip (mu=5,tau=2,dof=3) p=0.9" {
+            let x  = StudentT.InvCDF 5. 2. 3. 0.9
+            let p2 = StudentT.CDF    5. 2. 3. x
+            Expect.floatClose Accuracy.high p2 0.9 "CDF(InvCDF(0.9)) ≈ 0.9"
+        }
+
+        test "StudentT.InvCDF round-trip (mu=0,tau=1,dof=1) p=0.75 (Cauchy)" {
+            let x  = StudentT.InvCDF 0. 1. 1. 0.75
+            let p2 = StudentT.CDF    0. 1. 1. x
+            Expect.floatClose Accuracy.high p2 0.75 "Cauchy CDF(InvCDF(0.75)) ≈ 0.75"
+        }
+    ]
 
 
 let exponentialTests =

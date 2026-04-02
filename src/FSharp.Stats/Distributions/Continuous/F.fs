@@ -165,14 +165,17 @@ type F =
     /// <code>
     /// </code>
     /// </example>
-    static member InvCDF dof1 dof2 x =
+    static member InvCDF dof1 dof2 (p: float) =
         F.CheckParam dof1 dof2
-        if (x <= 0.0 || x > 1.0) then
-            invalidArg "P" "Input must be between zero and one"
+        if p < 0. || p > 1. then invalidArg "p" "p must be in [0, 1]"
+        if p = 0. then 0.
+        elif p = 1. then Double.PositiveInfinity
         else
-            //let u = dof2 / (dof2 + dof1 * x)
-            //Beta.lowerIncomplete (dof2 * 0.5) (dof1 * 0.5) u
-            failwithf "InvCDF not implemented yet"
+            // F(d1,d2).CDF(x) = I_u(d1/2, d2/2)  where u = d1*x/(d2 + d1*x)
+            // Inverting: u = Beta.InvCDF(d1/2, d2/2, p), then x = d2*u / (d1*(1−u))
+            let u = Beta.InvCDF (dof1 / 2.) (dof2 / 2.) p
+            if u >= 1. then Double.PositiveInfinity
+            else dof2 * u / (dof1 * (1. - u))
 
     
     /// <summary>Returns the support of the exponential distribution: if dof1 = 1 then (0., Positive Infinity) else [0., Positive Infinity).</summary>
