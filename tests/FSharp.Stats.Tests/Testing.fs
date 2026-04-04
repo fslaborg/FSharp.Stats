@@ -384,12 +384,49 @@ let chiSquaredTests =
         let df = expected.Length - 1
         ChiSquareTest.compute df expected observed
         
+    // computeWithYates:
+    // R: obs <- c(45, 55); chisq.test(obs, p=c(0.5,0.5), correct=TRUE)
+    // Chi-squared = 0.81, p-value = 0.3681
+    let testCaseYates1 =
+        let expected = [50.0; 50.0]
+        let observed = [45.0; 55.0]
+        ChiSquareTest.computeWithYates 1 expected observed
+
+    // R: obs <- c(10, 20); chisq.test(obs, p=c(0.5,0.5), correct=TRUE)
+    // Chi-squared = 2.7, p-value = 0.1003
+    let testCaseYates2 =
+        let expected = [15.0; 15.0]
+        let observed = [10.0; 20.0]
+        ChiSquareTest.computeWithYates 1 expected observed
+
+    // computeWithWilliams:
+    // Williams q = 1 + (k^2-1)/(6*n*k); k=4, n=556 => q ≈ 1.001124
+    // chi2_williams = 0.4700 / 1.001124 ≈ 0.4695
+    let testCaseWilliams1 =
+        let expected = [312.75;104.25;104.25;34.75]
+        let observed = [315.;101.;108.;32.]
+        let df = expected.Length - 1
+        ChiSquareTest.computeWithWilliams df expected observed
+
+    // k=3, n=45 => q ≈ 1.009877; raw chi2 ≈ 3.3333 => williams ≈ 3.3007
+    let testCaseWilliams2 =
+        let expected = [15.0; 15.0; 15.0]
+        let observed = [10.0; 20.0; 15.0]
+        let df = expected.Length - 1
+        ChiSquareTest.computeWithWilliams df expected observed
+
     testList "Testing.ChiSquaredTest" [
         testCase "compute" <| fun () -> 
             Expect.isTrue (0.9254 = Math.Round(testCase1.PValueRight,4)) "pValue should be equal."
             Expect.isTrue (0.4700 = Math.Round(testCase1.Statistic,4)) "statistic should be equal."
             Expect.isTrue (0.000638 = Math.Round(testCase2.PValueRight,6)) "pValue should be equal."
             Expect.isTrue (19.461 = Math.Round(testCase2.Statistic,3)) "statistic should be equal."
+        testCase "computeWithYates" <| fun () ->
+            Expect.floatClose Accuracy.medium testCaseYates1.Statistic 0.81 "Yates statistic should be 0.81"
+            Expect.floatClose Accuracy.medium testCaseYates2.Statistic 2.7  "Yates statistic should be 2.7"
+        testCase "computeWithWilliams" <| fun () ->
+            Expect.floatClose Accuracy.medium testCaseWilliams1.Statistic 0.469496 "Williams statistic should be ~0.4695"
+            Expect.floatClose Accuracy.medium testCaseWilliams2.Statistic 3.300733 "Williams statistic should be ~3.3007"
             
     ]
 
