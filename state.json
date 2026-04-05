@@ -1,1 +1,31 @@
-{"run":"2026-04-03","run_id":"23945548931","comments":["302","262","354","284","311","344","177","130","191"],"pr_nudges":[],"labeled":[],"cursor":364,"branches":["fix-issue-344-pearsonchisquared-contingency-table","improve-pearsonweighted-single-pass","improve-distribution-invcdf-uniform-exp-chi-20260401","fix-issue-262-invcdf-beta-f-studentt","ci-update-checkout-codecov-20260403"],"notes":"PR#360 open(pearsonWeighted perf). PR#362 open(ChiSquareTest.pearsonChiSquared fix). PR#363 open(InvCDF Uniform/Exponential/Chi + fix ChiSquared scale bug). PR#365 open(InvCDF Beta/F/StudentT). New CI PR open(checkout@v4 + codecov@v5). Monthly summary #364 (April). Pending: PR#360,#362,#363,#365 and new CI PR review. Comments on #284,#311,#344,#302,#177,#262,#354,#130,#191. Remaining InvCDF: MultivariateNormal, StudentizedRange. Docs bug #354: investigated. #130 FSIPrinter bug: investigated, commented with root cause hypothesis."}
+{
+  "last_run": "2026-04-05T11:59:42Z",
+  "run_id": "24001032102",
+  "comments_made": {
+    "87":  "2026-04-04 - Noted pearsonChiSquaredWithYates for 2x2 tables; linked PR #367",
+    "130": "2026-04-03 - Investigated FSIPrinter bug, shared root cause hypothesis and workarounds",
+    "177": "prior run - Nudged @omaus on WIP Kolmogorov-Smirnov PR",
+    "191": "2026-04-03 - Linked issue #366 with CI fix instructions",
+    "205": "2026-04-05 - Confirmed polynomial degree=1 workaround; provided weighted LS formula",
+    "262": "2026-04-02 - Linked InvCDF PR and summarised remaining work",
+    "284": "prior run - Clarified Rootfinding.Brent vs Optimization.Brent",
+    "302": "2026-04-01 - Explained chi2 API variants and linked PR #362",
+    "311": "prior run - Suggested pragmatic first steps for NaN safety documentation",
+    "344": "prior run - Explained correct API for chi-square test of independence via ContingencyTable",
+    "354": "2026-04-02 - Investigated docs bug; noted Plotly.NET API issues and suggested debugging step"
+  },
+  "prs_created": [
+    {"number": 368, "branch": "repo-assist/fix-chisquared-invcdf-scale-20260405", "issue": 262, "status": "open", "description": "Fix ChiSquared.InvCDF scale bug (beta 1/2→2); add 7 InvCDF tests"},
+    {"number": 367, "branch": "repo-assist/improve-chisquare-yates-20260404-bdb4fafc37812de0", "issue": 87, "status": "open", "description": "computeWithYates + computeWithWilliams for goodness-of-fit chi-square"},
+    {"number": 365, "branch": "repo-assist/fix-issue-262-invcdf-beta-f-studentt-60883adc61955ac8", "issue": 262, "status": "open", "description": "InvCDF for Beta, F, StudentT"},
+    {"number": 363, "branch": "repo-assist/improve-distribution-invcdf-uniform-exp-chi-20260401-e450f9fb970af463", "issue": 262, "status": "open", "description": "InvCDF for Uniform, Exponential, Chi; fix ChiSquared.InvCDF scale bug"},
+    {"number": 362, "branch": "repo-assist/fix-issue-344-pearsonchisquared-contingency-table-40b05dec5a126bcf", "issue": 302, "status": "open", "description": "Fix ChiSquareTest.pearsonChiSquared stub for ContingencyTable"},
+    {"number": 360, "branch": "repo-assist/improve-pearsonweighted-single-pass-a2cb39a81bff2886", "issue": null, "status": "open", "description": "Perf: replace multi-pass Seq.pearsonWeighted with 2-pass single-allocation impl"}
+  ],
+  "issue_cursor": {
+    "last_processed": 205,
+    "notes": "Reviewed issues up to ~#205 in detail. Issues commented: #87,#130,#177,#191,#205,#262,#284,#302,#311,#344,#354. Next run: continue from #213 onward."
+  },
+  "monthly_activity_issue": 364,
+  "notes": "6 open Repo Assist PRs need review. Issue #366 is an issue (not PR) with manual CI fix instructions - workflow push was rejected for protected files. Next: comment on #213 (Wilcoxon Distribution), #317 (QR Gram-Schmidt), #318 (weighted KNN). Could implement weighted simple linear regression (#205) as a PR. Remaining InvCDF: MultivariateNormal, StudentizedRange."
+}
