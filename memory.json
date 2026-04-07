@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-04T12:00:00Z",
-  "run_id": "23978416205",
+  "last_run": "2026-04-07T12:43:16Z",
+  "run_id": "24081856982",
   "comments_made": {
     "87":  "2026-04-04 - Noted pearsonChiSquaredWithYates for 2x2 tables; linked new PR for goodness-of-fit corrections",
     "130": "2026-04-03 - Investigated FSIPrinter bug, shared root cause hypothesis and workarounds",
@@ -14,17 +14,20 @@
     "354": "2026-04-02 - Investigated docs bug; noted Plotly.NET API issues and suggested debugging step"
   },
   "prs_created": [
-    {"number": "TBD-chisquare-yates", "branch": "repo-assist/improve-chisquare-yates-20260404", "issue": 87, "status": "open", "description": "computeWithYates + computeWithWilliams for goodness-of-fit chi-square"},
-    {"number": 366, "branch": "repo-assist/ci-update-checkout-codecov-20260403-73102d1942b2e119", "issue": 191, "status": "open", "description": "CI: actions/checkout@v4 + codecov@v5"},
-    {"number": 365, "branch": "repo-assist/fix-invcdf-beta-f-studentt-20260402", "issue": 262, "status": "open", "description": "InvCDF for Beta, F, StudentT"},
-    {"number": 363, "branch": "repo-assist/fix-invcdf-uniform-exponential-chi-20260401", "issue": 262, "status": "open", "description": "InvCDF for Uniform, Exponential, Chi; fix ChiSquared.InvCDF scale bug"},
-    {"number": 362, "branch": "repo-assist/fix-pearsonchisquared-contingency-20260401", "issue": 302, "status": "open", "description": "Fix ChiSquareTest.pearsonChiSquared stub for ContingencyTable"},
-    {"number": 360, "branch": "repo-assist/perf-pearsonweighted-seq-20260401", "issue": null, "status": "open", "description": "Perf: replace multi-pass Seq.pearsonWeighted with 2-pass single-allocation impl"}
+    {"number": "TBD-deps-20260407", "branch": "repo-assist/eng-update-deps-20260407", "issue": null, "status": "open", "description": "chore: bump FSharpAux.* 2.0.0→2.1.0 and SourceLink.GitHub 1.0.0→10.0.201"},
+    {"number": "TBD-qr-gramschmidt", "branch": "repo-assist/improve-qr-gramschmidt-20260406-6a12a295a9553be1", "issue": 317, "status": "open", "description": "feat: expose QR decomposition with GramSchmidt and Householder choices"},
+    {"number": "TBD-weighted-slr", "branch": "repo-assist/improve-weighted-slr-20260406-4b1ca01b9d045c66", "issue": 205, "status": "open", "description": "feat: implement OLS.Linear.Univariable.fitWithWeighting"},
+    {"number": 368, "branch": "repo-assist/fix-chisquared-invcdf-scale-20260405-a7262064cae", "issue": null, "status": "open", "description": "Fix ChiSquared.InvCDF scale parameter bug; add InvCDF tests"},
+    {"number": 367, "branch": "repo-assist/improve-chisquare-yates-20260404-bdb4fafc37812de", "issue": 87, "status": "open", "description": "feat: add computeWithYates and computeWithWilliams to ChiSquareTest"},
+    {"number": 365, "branch": "repo-assist/fix-issue-262-invcdf-beta-f-studentt-60883adc619", "issue": 262, "status": "open", "description": "Implement InvCDF for Beta, F, StudentT distributions"},
+    {"number": 363, "branch": "repo-assist/improve-distribution-invcdf-uniform-exp-chi-2026", "issue": 262, "status": "open", "description": "Implement InvCDF for Uniform, Exponential, Chi; fix ChiSquared scale bug"},
+    {"number": 362, "branch": "repo-assist/fix-issue-344-pearsonchisquared-contingency-tabl", "issue": 302, "status": "open", "description": "Fix ChiSquareTest.pearsonChiSquared stub for ContingencyTable"},
+    {"number": 360, "branch": "repo-assist/improve-pearsonweighted-single-pass-a2cb39a81bff", "issue": null, "status": "open", "description": "Perf: replace multi-pass Seq.pearsonWeighted with 2-pass single-allocation impl"}
   ],
   "issue_cursor": {
     "last_processed": 344,
     "notes": "Issues up to ~#344 have been reviewed. Continue from #354 onward next run."
   },
   "monthly_activity_issue": 364,
-  "notes": "6 open Repo Assist PRs need review. Issues #87, #130, #177, #191, #262, #284, #302, #311, #344, #354 have been commented on. Next: investigate more issues from #354 onward, or work on #113 (NaN in matrix ops) or #317 (QR decomposition)."
+  "notes": "9 open Repo Assist PRs need review. CI: Linux still uses actions/checkout@v2 vs Windows v4 (protected file - issue #366 documents manual fix). Next: investigate issues #113 (NaN in matrix ops), #317 (QR decomp), #318 (weighted KNN), #213 (Wilcoxon distribution)."
 }
