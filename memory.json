@@ -1,12 +1,14 @@
 {
-  "last_run": "2026-04-11T12:00:43Z",
-  "run_id": "24281995625",
+  "last_run": "2026-04-12T12:03:37Z",
+  "run_id": "24306274731",
   "comments_made": {
     "87":  "2026-04-04 - Noted pearsonChiSquaredWithYates for 2x2 tables; linked new PR for goodness-of-fit corrections",
     "130": "2026-04-03 - Investigated FSIPrinter bug, shared root cause hypothesis and workarounds",
     "177": "prior run - Nudged @omaus on WIP Kolmogorov-Smirnov PR",
-    "191": "2026-04-03 - Linked CI PR fixing Codecov upload",
+    "178": "2026-04-12 - Linked new Šidák PR #aw_pr178",
+    "191": "2026-04-03 - Linked issue #366 with CI fix instructions",
     "205": "2026-04-06 - Opened weighted SLR PR; commented on implementation",
+    "213": "2026-04-12 - Explained Wilcoxon rank-sum distribution and path forward (PR #182 as starting point)",
     "262": "2026-04-02 - Linked InvCDF PR and summarised remaining work",
     "284": "prior run - Clarified Rootfinding.Brent vs Optimization.Brent",
     "302": "2026-04-01 - Explained chi2 API variants and linked PR #362",
@@ -18,7 +20,7 @@
     "354": "2026-04-02 - Investigated docs bug; noted Plotly.NET API issues and suggested debugging step"
   },
   "prs_created": [
-    {"branch": "repo-assist/improve-wilcoxon-exact-20260411", "issue": 213, "status": "pending-push", "description": "feat: exact Wilcoxon signed-rank test (createWilcoxonTestExact, wilcoxonExactCDF) - committed locally, needs push. SAFE OUTPUT TOOLS UNAVAILABLE."},
+    {"branch": "repo-assist/improve-dunn-sidak-20260412-ff9a8aac", "temporary_id": "aw_pr178", "issue": 178, "status": "pending-ci", "description": "feat: add dunnSidakFWER and holmSidakFWER to MultipleTesting; 4 new tests; 1197/1197 pass"},
     {"number": 372, "branch": "repo-assist/fix-issue-318-weighted-knn-impute-20260409-b76cdca75c5f3ed4", "issue": 318, "status": "open", "description": "feat: add kNearestWeightedImpute for distance-weighted KNN imputation"},
     {"number": 371, "branch": "repo-assist/eng-update-deps-20260407-04402c74fed06f3b", "issue": null, "status": "open", "description": "chore: bump FSharpAux.* 2.0.0->2.1.0 and SourceLink.GitHub 1.0.0->10.0.201"},
     {"number": 370, "branch": "repo-assist/improve-qr-gramschmidt-20260406-6a12a295a9553be1", "issue": 317, "status": "open", "description": "feat: expose QR decomposition with GramSchmidt and Householder choices"},
@@ -32,9 +34,9 @@
   ],
   "issue_cursor": {
     "last_processed": 213,
-    "notes": "Issues up to #213 reviewed. Pending comments: #213 (link Wilcoxon PR), #178 (note stale PR #179). Continue from #261 next run."
+    "notes": "Commented on #178 and #213 this run. Next: continue from #261 onwards (most open issues in 220-350 range appear closed). Also look at older uncommented issues: #113, #117, #125, #128, #145, #158, #168, #174, #176, #180, #193, #198."
   },
   "monthly_activity_issue": 364,
   "maintainer_notes": "bvenn (2026-04-07): reduce frequency of runs as they cannot do daily review. PRs look promising, some could be merged right away.",
-  "notes": "Run 24281995625 (2026-04-11): Tasks 3+2. Task 3: implemented exact Wilcoxon signed-rank test in Wilcoxon.fs - added wilcoxonExactCDF, createWilcoxonTestExact, createWilcoxonTestExactFromData; 9 new tests all passing. Committed to branch repo-assist/improve-wilcoxon-exact-20260411 but safe-output tools UNAVAILABLE again (same issue as run 24243091118 which created issue #373). NEXT RUN PRIORITY: (1) Re-implement the Wilcoxon exact test PR from scratch (the code is: DP on {1..n} rank subsets, O(n^2) time, exact for n<=50 no ties, fallback asymptotic otherwise; see src/FSharp.Stats/Testing/Wilcoxon.fs and tests) and push PR; (2) Comment on #213 and #178; (3) Update monthly activity issue #364. Issue #178 has related stale PR #179 (Dunn-Sidak, 2022, open, mergeable). Issue cursor: continue from #261 (CUSUM)."
+  "notes": "Run 24306274731 (2026-04-12): Tasks 2+3. Task 3: implemented dunnSidakFWER and holmSidakFWER in MultipleTesting.fs; 4 new tests all passing (1197 total). PR pending CI. Task 2: commented on #178 and #213. Next run: (1) Mann-Whitney U test with exact distribution for #213/#117 - implement UTest.fs with DP rank-sum distribution for exact p-values; (2) Continue issue comments from older uncovered issues; (3) Monitor CI on #aw_pr178."
 }
