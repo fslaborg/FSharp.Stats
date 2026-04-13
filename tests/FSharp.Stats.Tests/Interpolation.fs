@@ -142,6 +142,58 @@ let BezierInterpolationTests =
 
 
 
+[<Tests>]
+let integrationTests =
+    testList "Interpolation.integrate" [
+
+        testCase "LinearSpline.integrate linear function" <| fun () ->
+            // y = 2x at {0,2,4} => integral [0,4] = [x^2]_0^4 = 16
+            let coefs = LinearSpline.interpolate [|0.;2.;4.|] [|0.;4.;8.|]
+            Expect.floatClose Accuracy.high (LinearSpline.integrate coefs 0. 4.) 16.0
+                "integral of y=2x from 0 to 4 should be 16"
+            // [1,3]: segments [0,2] and [2,4], so partial cross-segment
+            // ∫[1,3] 2x dx = [x^2]_1^3 = 9 - 1 = 8
+            Expect.floatClose Accuracy.high (LinearSpline.integrate coefs 1. 3.) 8.0
+                "integral of y=2x from 1 to 3 should be 8"
+
+        testCase "LinearSpline.integrate returns zero for equal bounds" <| fun () ->
+            let coefs = LinearSpline.interpolate [|0.;1.;2.|] [|1.;2.;3.|]
+            Expect.floatClose Accuracy.high (LinearSpline.integrate coefs 1. 1.) 0.0
+                "integral with equal bounds should be 0"
+
+        testCase "Step.integrate constant segments" <| fun () ->
+            // y = 2 on [0,1), y = 3 on [1,2), y = 4 on [2,3)
+            let coefs = Step.interpolate [|0.;1.;2.;3.|] [|2.;3.;4.;5.|]
+            // ∫[0,3] = 2*1 + 3*1 + 4*1 = 9
+            Expect.floatClose Accuracy.high (Step.integrate coefs 0. 3.) 9.0
+                "integral of step function from 0 to 3 should be 9"
+            // ∫[0.5,2.5] = 2*0.5 + 3*1 + 4*0.5 = 1 + 3 + 2 = 6
+            Expect.floatClose Accuracy.high (Step.integrate coefs 0.5 2.5) 6.0
+                "partial integral of step function from 0.5 to 2.5 should be 6"
+
+        testCase "CubicSpline.integrate quadratic function" <| fun () ->
+            // Quadratic boundary condition reproduces y=x^2 exactly
+            let t = vector [| 1.; 2.; 3.; 4. |]
+            let u = vector [| 1.; 4.; 9.; 16. |]  // y = x^2
+            let coefs = CubicSpline.interpolate CubicSpline.Quadratic t u
+            // ∫[1,4] x^2 dx = [x^3/3]_1^4 = 64/3 - 1/3 = 21
+            Expect.floatClose Accuracy.high (CubicSpline.integrate coefs 1. 4.) 21.0
+                "integral of y=x^2 from 1 to 4 should be 21"
+            // ∫[1,2] x^2 dx = 8/3 - 1/3 = 7/3
+            Expect.floatClose Accuracy.high (CubicSpline.integrate coefs 1. 2.) (7. / 3.)
+                "integral of y=x^2 from 1 to 2 should be 7/3"
+
+        testCase "CubicSpline.integrate returns zero for equal bounds" <| fun () ->
+            let t = vector [| 0.; 1.; 2. |]
+            let u = vector [| 0.; 1.; 4. |]
+            let coefs = CubicSpline.interpolate CubicSpline.Natural t u
+            Expect.floatClose Accuracy.high (CubicSpline.integrate coefs 1. 1.) 0.0
+                "integral with equal bounds should be 0"
+    ]
+
+
+
+
 
 
 
