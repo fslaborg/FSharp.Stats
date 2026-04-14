@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-13T00:00:00Z",
-  "run_id": "24344037673",
+  "last_run": "2026-04-14T12:44:49Z",
+  "run_id": "24399552577",
   "comments_made": {
     "87":  "2026-04-04 - Noted pearsonChiSquaredWithYates for 2x2 tables; linked new PR for goodness-of-fit corrections",
     "130": "2026-04-03 - Investigated FSIPrinter bug, shared root cause hypothesis and workarounds",
@@ -37,9 +37,9 @@
   ],
   "issue_cursor": {
     "last_processed": 291,
-    "notes": "Commented on #215 and #291 this run. Next: continue from #292 onwards. Older uncovered issues: #113, #117, #125, #128, #145, #158, #168, #174, #176, #180, #193, #198."
+    "notes": "Run 24399552577 (2026-04-14): GitHub MCP server unavailable (WASM trap). Could not read any issues or PRs. No actions taken. Next run: retry Tasks 2+3; continue from #292 onwards. Older uncovered issues: #113, #117, #125, #128, #145, #158, #168, #174, #176, #180, #193, #198."
   },
   "monthly_activity_issue": 364,
   "maintainer_notes": "bvenn (2026-04-07): reduce frequency of runs as they cannot do daily review. PRs look promising, some could be merged right away.",
-  "notes": "Run 24344037673 (2026-04-13): Tasks 3+2. Task 3: added LinearSpline.integrate, Step.integrate, CubicSpline.integrate; 5 new tests all passing (1198 total). PR pending CI. Task 2: commented on #215 (suggest close - gamma edge cases implemented) and #291 (linked new PR, summarised checklist). Issue #263 has design discussion by bvenn - merge functions were implemented with hybrid B+C approach, issue still open discussing bandwidth equality. Next run: (1) Mann-Whitney U test for #213/#117; (2) Continue older uncovered issues; (3) Check CI on new integration PR."
+  "notes": "Run 24399552577 (2026-04-14): Tasks 2+3 selected. GitHub MCP server crashed with WASM unreachable error - could not read any issues, PRs, or comments. No code changes or comments made this run. Next run: (1) Retry Tasks 2+3; (2) Mann-Whitney U test for #213/#117; (3) Continue older uncovered issues #113, #117, #125, etc; (4) Check CI on interpolation integration PR."
 }
