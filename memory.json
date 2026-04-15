@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-14T12:44:49Z",
-  "run_id": "24399552577",
+  "last_run": "2026-04-15T12:44:47Z",
+  "run_id": "24455128499",
   "comments_made": {
     "87":  "2026-04-04 - Noted pearsonChiSquaredWithYates for 2x2 tables; linked new PR for goodness-of-fit corrections",
     "130": "2026-04-03 - Investigated FSIPrinter bug, shared root cause hypothesis and workarounds",
@@ -22,6 +22,7 @@
     "354": "2026-04-02 - Investigated docs bug; noted Plotly.NET API issues and suggested debugging step"
   },
   "prs_created": [
+    {"branch": "repo-assist/improve-mannwhitney-20260415", "issue": null, "status": "open", "description": "feat: add Mann-Whitney U test (Wilcoxon rank-sum) for two independent samples; 8 new tests; 1201/1201 pass"},
     {"branch": "repo-assist/improve-interpolation-integrate-20260413", "issue": 291, "status": "open", "description": "feat: add integrate to LinearSpline, Step, CubicSpline; 5 new tests; 1198/1198 pass"},
     {"branch": "repo-assist/improve-dunn-sidak-20260412-ff9a8aac", "temporary_id": "aw_pr178", "issue": 178, "status": "open", "description": "feat: add dunnSidakFWER and holmSidakFWER to MultipleTesting; 4 new tests; 1197/1197 pass"},
     {"number": 372, "branch": "repo-assist/fix-issue-318-weighted-knn-impute-20260409-b76cdca75c5f3ed4", "issue": 318, "status": "open", "description": "feat: add kNearestWeightedImpute for distance-weighted KNN imputation"},
@@ -37,9 +38,9 @@
   ],
   "issue_cursor": {
     "last_processed": 291,
-    "notes": "Run 24399552577 (2026-04-14): GitHub MCP server unavailable (WASM trap). Could not read any issues or PRs. No actions taken. Next run: retry Tasks 2+3; continue from #292 onwards. Older uncovered issues: #113, #117, #125, #128, #145, #158, #168, #174, #176, #180, #193, #198."
+    "notes": "Run 24455128499 (2026-04-15): GitHub MCP crashed again (WASM unreachable). Could not read issues for Task 2. Task 5 completed: implemented Mann-Whitney U test. Next run: retry Task 2; continue from #292; older uncovered: #113, #117, #125, #128, #145, #158, #168, #174, #176, #180, #193, #198."
   },
   "monthly_activity_issue": 364,
   "maintainer_notes": "bvenn (2026-04-07): reduce frequency of runs as they cannot do daily review. PRs look promising, some could be merged right away.",
-  "notes": "Run 24399552577 (2026-04-14): Tasks 2+3 selected. GitHub MCP server crashed with WASM unreachable error - could not read any issues, PRs, or comments. No code changes or comments made this run. Next run: (1) Retry Tasks 2+3; (2) Mann-Whitney U test for #213/#117; (3) Continue older uncovered issues #113, #117, #125, etc; (4) Check CI on interpolation integration PR."
+  "notes": "Run 24455128499 (2026-04-15): GitHub MCP WASM crash again - no issue reads possible. Task 5: created Mann-Whitney U test PR. Task 2: skipped (no GH access). Next run: retry Task 2 from #292+; check if new PRs (Mann-Whitney, interpolation-integrate, Sidak) have numbers."
 }
