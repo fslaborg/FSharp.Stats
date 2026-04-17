@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-16T12:49:04Z",
-  "run_id": "24511041702",
+  "last_run": "2026-04-17T12:43:00Z",
+  "run_id": "24565596160",
   "comments_made": {
     "87":  "2026-04-04 - Noted pearsonChiSquaredWithYates for 2x2 tables; linked new PR for goodness-of-fit corrections",
     "117": "2026-04-16 - Clarified Mann-Whitney U vs Wilcoxon signed-rank distinction; suggested signed-rank implementation path",
@@ -12,8 +12,10 @@
     "205": "2026-04-06 - Opened weighted SLR PR; commented on implementation",
     "213": "2026-04-12 - Explained Wilcoxon rank-sum distribution and path forward (PR #376 as starting point)",
     "215": "2026-04-13 - Noted gamma edge-case handling implemented; suggested closing",
+    "260": "2026-04-17 - Identified root cause of NelderMead stop bug (CheckFunctionEpsilon in IsCriteria); provided workaround",
     "262": "2026-04-02 - Linked InvCDF PR and summarised remaining work",
     "284": "prior run - Clarified Rootfinding.Brent vs Optimization.Brent",
+    "285": "2026-04-17 - Proposed migration plan for regularizeValues to Seq/Array modules",
     "291": "2026-04-13 - Linked new interpolation integration PR; summarised checklist (step+cubic+linear done, hermite+regression remaining)",
     "302": "2026-04-01 - Explained chi2 API variants and linked PR #362",
     "311": "prior run - Suggested pragmatic first steps for NaN safety documentation",
@@ -39,10 +41,10 @@
     {"number": 360, "branch": "repo-assist/improve-pearsonweighted-single-pass-a2cb39a81bff2886", "issue": null, "status": "open", "description": "Perf: replace multi-pass Seq.pearsonWeighted with 2-pass single-allocation impl"}
   ],
   "issue_cursor": {
-    "last_processed": 309,
-    "notes": "Run 24511041702 (2026-04-16): GitHub MCP WASM crash again. Task 6: all 13 PRs pass CI. Task 2: commented on #180 and #117. Next: issues still uncovered: #263 (Frequency merge design), #222 (Distribution Support), #285 (regularize), #257 (distributions roadmap), #260 (Nelder-Mead docs)."
+    "last_processed": 285,
+    "notes": "Run 24565596160 (2026-04-17): Task 6: all 13 PRs pass CI. Task 2: commented on #285 (regularizeValues migration) and #260 (NelderMead stop bug). Next: issues still uncovered: #222 (Distribution Support unification), #257 (distributions roadmap), #263 (Frequency merge - already has comments from maintainer, low priority)."
   },
   "monthly_activity_issue": 364,
   "maintainer_notes": "bvenn (2026-04-07): reduce frequency of runs as they cannot do daily review. PRs look promising, some could be merged right away.",
-  "notes": "Run 24511041702 (2026-04-16): MCP WASM crash after first few queries. Task 6: verified all 13 PRs pass CI. Task 2: commented on #180 (linked Yates PR #367) and #117 (Mann-Whitney vs signed-rank). Task 11: updated monthly activity issue #364. Next run: implement Wilcoxon signed-rank test (#117); comment on #263, #222, #285."
+  "notes": "Run 24565596160 (2026-04-17): Task 6: all 13 PRs pass CI. Task 2: commented on #285 (regularizeValues migration to Seq/Array modules) and #260 (NelderMead CheckFunctionEpsilon bug - found root cause in OptimizationStop.IsCriteria line ~285). NelderMead bug: CheckFunctionEpsilon stops optimization when fnew < 1e-8, including negative values. Fix: remove those two calls from IsCriteria. Task 11: updated monthly activity issue #364. Next: #222 (unify Support syntax), #257 (distributions roadmap status update), implement Wilcoxon signed-rank test for #117."
 }
