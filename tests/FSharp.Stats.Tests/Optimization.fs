@@ -86,19 +86,39 @@ let NelderMeadTests =
 
             let optim = NelderMead.minimize nmc x0 psf 
           
-            test "Psf: solution value" {
-                let expected = 5.675294665e-09
-                let actual   = optim.Solution
-                Expect.floatClose Accuracy.low actual expected "psf: solution did not match"
+            test "Psf: solution value near zero" {
+                // PSF minimum is at (0,0,0,0) with value 0; verify convergence
+                Expect.floatClose { absolute = 1e-12; relative = 1e-6 } optim.Solution 0.0 "psf: solution should converge near 0"
             }
-            //
-            testCase "v: solution vector" <| fun () ->
-                let expected = [|-0.0005532762725; 5.500401575e-05; -0.002250883404;-0.002282958824|]
-                
-                Expect.floatClose Accuracy.low optim.SolutionVector[0] expected[0] "psf: x1 did not match"
-                Expect.floatClose Accuracy.low optim.SolutionVector[1] expected[1] "psf: x2 did not match"
-                Expect.floatClose Accuracy.low optim.SolutionVector[2] expected[2] "psf: x3 did not match"
-                Expect.floatClose Accuracy.low optim.SolutionVector[3] expected[3] "psf: x4 did not match"
+
+            testCase "v: solution vector near zero" <| fun () ->
+                // PSF minimum is at (0,0,0,0); verify all components converge close to 0
+                let acc = { absolute = 1e-4; relative = 1e-3 }
+                Expect.floatClose acc optim.SolutionVector[0] 0. "psf: x1 should be near 0"
+                Expect.floatClose acc optim.SolutionVector[1] 0. "psf: x2 should be near 0"
+                Expect.floatClose acc optim.SolutionVector[2] 0. "psf: x3 should be near 0"
+                Expect.floatClose acc optim.SolutionVector[3] 0. "psf: x4 should be near 0"
+        ]
+
+        testList "Test negative-minimum quadratic (issue #260)" [
+            // f(x) = x^2 - 0.32x - 0.13 has minimum at x=0.16, f(0.16) ≈ -0.1556
+            // Before the fix, CheckFunctionEpsilon caused early termination for negative f values
+            let myFunction (xs: Vector<float>) =
+                let x = xs.[0]
+                x**2. - 0.32*x - 0.13
+
+            let x0 = vector [| -0.3 |]
+            let nmc = NelderMead.NmConfig.defaultInit()
+            let optim = NelderMead.minimize nmc x0 myFunction
+
+            test "negative-minimum: solution x value" {
+                Expect.floatClose Accuracy.medium optim.SolutionVector[0] 0.16 "quadratic: x* should be near 0.16"
+            }
+
+            test "negative-minimum: solution function value" {
+                let expected = -0.1556  // 0.16^2 - 0.32*0.16 - 0.13
+                Expect.floatClose Accuracy.medium optim.Solution expected "quadratic: f(x*) should be near -0.1556"
+            }
         ]
         
     ]
