@@ -190,3 +190,44 @@ let empiricalTests =
                 "Empirical.merge leads to a wrong distribution merge" 
     ]
 
+[<Tests>]
+let frequencyTests =
+    testList "Distributions.Frequency" [
+
+        testCase "isSubset float keys - A is subset of B" <| fun () ->
+            let histA = Frequency.create 0.1 [0.1; 0.2; 0.3]
+            let histB = Frequency.create 0.1 [0.1; 0.2; 0.3; 0.4; 0.5]
+            Expect.isTrue (Frequency.isSubset histA histB)
+                "histA should be a subset of histB"
+
+        testCase "isSubset float keys - A is not subset of B" <| fun () ->
+            let histA = Frequency.create 0.1 [0.1; 0.1; 0.2]
+            let histB = Frequency.create 0.1 [0.1; 0.2]
+            Expect.isFalse (Frequency.isSubset histA histB)
+                "histA with count 2 for 0.1 should not be a subset of histB with count 1 for 0.1"
+
+        testCase "isSubset string keys - A is subset of B" <| fun () ->
+            let histA = Frequency.createGeneric ["a"; "b"; "a"]
+            let histB = Frequency.createGeneric ["a"; "a"; "a"; "b"; "b"; "c"]
+            Expect.isTrue (Frequency.isSubset histA histB)
+                "histA (a:2, b:1) should be a subset of histB (a:3, b:2, c:1)"
+
+        testCase "isSubset string keys - A is not subset of B" <| fun () ->
+            let histA = Frequency.createGeneric ["a"; "a"; "a"]
+            let histB = Frequency.createGeneric ["a"; "a"; "b"]
+            Expect.isFalse (Frequency.isSubset histA histB)
+                "histA (a:3) should not be a subset of histB (a:2, b:1)"
+
+        testCase "isSubset int keys - A is subset of B" <| fun () ->
+            let histA = Frequency.createGeneric [1; 2; 1]
+            let histB = Frequency.createGeneric [1; 1; 1; 2; 2; 3]
+            Expect.isTrue (Frequency.isSubset histA histB)
+                "histA (1:2, 2:1) should be a subset of histB (1:3, 2:2, 3:1)"
+
+        testCase "isSubset empty histA is always subset" <| fun () ->
+            let histA : Map<string,int> = Map.empty
+            let histB = Frequency.createGeneric ["a"; "b"]
+            Expect.isTrue (Frequency.isSubset histA histB)
+                "empty histA should be a subset of any histB"
+    ]
+
