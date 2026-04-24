@@ -1,6 +1,6 @@
 {
-  "last_run": "2026-04-19T12:04:00Z",
-  "run_id": "24628621328",
+  "last_run": "2026-04-24T12:42:49Z",
+  "run_id": "24890025813",
   "comments_made": {
     "87":  "2026-04-04 - Noted pearsonChiSquaredWithYates for 2x2 tables; linked new PR for goodness-of-fit corrections",
     "117": "2026-04-16 - Clarified Mann-Whitney U vs Wilcoxon signed-rank distinction; suggested signed-rank implementation path",
@@ -9,9 +9,11 @@
     "178": "2026-04-12 - Linked new Šidák PR #374",
     "180": "2026-04-16 - Linked PR #367 (Yates correction for 2x2 chi-squared tables)",
     "191": "2026-04-03 - Linked issue #366 with CI fix instructions",
+    "198": "2026-04-24 - Linked new PR for explicit-thresholds overloads; noted doc-formula item separate",
     "205": "2026-04-06 - Opened weighted SLR PR; commented on implementation",
     "213": "2026-04-12 - Explained Wilcoxon rank-sum distribution and path forward (PR #376 as starting point)",
     "215": "2026-04-13 - Noted gamma edge-case handling implemented; suggested closing",
+    "222": "2026-04-24 - Outlined Interval<'a> migration path for unifying Distribution.Support syntax",
     "257": "2026-04-18 - Summarised open PRs addressing roadmap gaps; noted remaining distributions",
     "260": "2026-04-17 - Identified root cause of NelderMead stop bug (CheckFunctionEpsilon in IsCriteria); provided workaround",
     "262": "2026-04-02 - Linked InvCDF PR and summarised remaining work",
@@ -28,7 +30,8 @@
     "354": "2026-04-02 - Investigated docs bug; noted Plotly.NET API issues and suggested debugging step"
   },
   "prs_created": [
-    {"branch": "repo-assist/fix-frequency-issubset-generic-20260419", "number": null, "issue": null, "status": "open", "description": "fix: make Frequency.isSubset truly generic; remove hardcoded float key type; 6 new tests; 1205/1205 pass"},
+    {"branch": "repo-assist/improve-issue-198-multilabel-thresholds-20260424", "number": null, "issue": 198, "status": "open", "description": "feat: explicit-thresholds overloads for multiLabelThresholdMap/calculateMultiLabelROC; 5 new tests; 1199/1199 pass"},
+    {"branch": "repo-assist/fix-frequency-issubset-generic-20260419", "number": 378, "issue": null, "status": "open", "description": "fix: make Frequency.isSubset truly generic; remove hardcoded float key type; 6 new tests; 1205/1205 pass"},
     {"branch": "repo-assist/eng-ci-action-updates-20260419", "number": null, "issue": 366, "status": "open", "description": "ci: update actions/checkout v2->v4 (Linux) and codecov-action v2->v5; closes #366 and #191"},
     {"branch": "repo-assist/fix-issue-260-neldermead-funcepsilon-20260418", "number": 377, "issue": 260, "status": "open", "description": "fix: remove CheckFunctionEpsilon from NelderMead IsCriteria; fixes premature stop for negative-minimum functions; 1195/1195 pass"},
     {"branch": "repo-assist/improve-mannwhitney-20260415", "number": 376, "issue": null, "status": "open", "description": "feat: add Mann-Whitney U test (Wilcoxon rank-sum) for two independent samples; 8 new tests; 1201/1201 pass"},
@@ -46,10 +49,10 @@
     {"number": 360, "branch": "repo-assist/improve-pearsonweighted-single-pass-a2cb39a81bff2886", "issue": null, "status": "open", "description": "Perf: replace multi-pass Seq.pearsonWeighted with 2-pass single-allocation impl"}
   ],
   "issue_cursor": {
-    "last_processed": 285,
-    "notes": "Run 24628621328 (2026-04-19): Commented on #263 suggesting closure. Next unvisited: #198 (ComparisonMetrics QoL), #222 (Distribution Support unification), #309 (surface fitting)."
+    "last_processed": 309,
+    "notes": "Run 24890025813 (2026-04-24): Commented on #198 (linked PR) and #222 (Distribution.Support migration path). Skipped #309 (already well-discussed by maintainers, user moved to Matlab). Next unvisited issues: #261 (CUSUM test), #281 (XML doc), #293 (Wilcoxon Distribution), #295 (KS Distribution), #297 (Savitzky Golay docs), #298 (tSNE), #299 (random forest), #311 already commented."
   },
   "monthly_activity_issue": 364,
   "maintainer_notes": "bvenn (2026-04-07): reduce frequency of runs as they cannot do daily review. PRs look promising, some could be merged right away.",
-  "notes": "Run 24628621328 (2026-04-19): Task 3: Fixed Frequency.isSubset generic type bug (hardcoded float->generic 'a); 6 new tests added; all 1205 pass. Task 4: Fixed CI workflow - checkout@v2->v4 for Linux job, codecov-action@v2->v5. Two new PRs created. Also commented on #263 suggesting it can be closed (merge ops already implemented). Next: continue issue scanning from #198."
+  "notes": "Run 24890025813 (2026-04-24): Task 2: Commented on #198 (explicit-thresholds PR) and #222 (Distribution.Support unification path). Task 3: Created PR for multiLabelThresholdMap/calculateMultiLabelROC explicit-thresholds overloads (closes #198 partial); 5 new tests added; all 1199 pass. PR numbers for runs 20260419: #378 (Frequency.isSubset) confirmed. CI PR (eng-ci-action-updates-20260419) number still unknown - check next run."
 }
