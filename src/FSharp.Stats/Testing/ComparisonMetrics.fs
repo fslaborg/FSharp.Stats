@@ -368,29 +368,28 @@ type ComparisonMetrics = {
 
     static member multiLabelThresholdMap(
         actual: #IConvertible [],
-        predictions: (#IConvertible * float []) []
-    ) = 
-        
-        // we have to use a global threshold collection for all binary threshold maps, otherwise we do not necessarily have values for macro/micro averaging for each label.
-        let allDistinctThresholds = 
+        predictions: (#IConvertible * float []) [],
+        thresholds: float []
+    ) =
+        // Use global max as prefix so micro/macro averages use a consistent threshold label.
+        let globalMax =
             predictions
             |> Array.map snd
             |> Array.concat
-            |> Array.distinct
-            |> Array.sortDescending
+            |> Array.max
 
-        let prefixedThresholds = [|allDistinctThresholds[0] + 1.; yield! allDistinctThresholds|]
+        let prefixedThresholds = [|globalMax + 1.; yield! thresholds|]
 
         let labelMetrics =
-            predictions 
+            predictions
             |> Array.map (fun (label, preds) ->
                 let labelTruth = actual |> Array.map (fun x -> x = label)
-                label, BinaryConfusionMatrix.thresholdMap(labelTruth,preds,allDistinctThresholds)
+                label, BinaryConfusionMatrix.thresholdMap(labelTruth, preds, thresholds)
             )
 
         let transposedBCMs =
             labelMetrics
-            |> Array.map (fun (x,y) -> y)
+            |> Array.map snd
             |> JaggedArray.transpose
             |> JaggedArray.map snd
 
@@ -405,11 +404,26 @@ type ComparisonMetrics = {
             |> Array.zip prefixedThresholds
 
         [|
-            yield! labelMetrics |> Array.map (fun (label, thrs) -> string label, thrs |> Array.map (fun (thr,bcm) -> thr, ComparisonMetrics.create bcm))
+            yield! labelMetrics |> Array.map (fun (label, thrs) -> string label, thrs |> Array.map (fun (thr, bcm) -> thr, ComparisonMetrics.create bcm))
             "micro-average", microAverages
             "macro-average", macroAverages
         |]
         |> Map.ofArray
+
+    static member multiLabelThresholdMap(
+        actual: #IConvertible [],
+        predictions: (#IConvertible * float []) []
+    ) = 
+        
+        // we have to use a global threshold collection for all binary threshold maps, otherwise we do not necessarily have values for macro/micro averaging for each label.
+        let allDistinctThresholds = 
+            predictions
+            |> Array.map snd
+            |> Array.concat
+            |> Array.distinct
+            |> Array.sortDescending
+
+        ComparisonMetrics.multiLabelThresholdMap(actual, predictions, allDistinctThresholds)
 
     static member calculateROC(
         actual: seq<bool>,
@@ -441,12 +455,22 @@ type ComparisonMetrics = {
 
     static member calculateMultiLabelROC(
         actual: #IConvertible [],
+        predictions: (#IConvertible * float []) [],
+        thresholds: float []
+    ) =
+        ComparisonMetrics.multiLabelThresholdMap(
+            actual,
+            predictions,
+            thresholds
+        )
+        |> Map.map (fun _k v -> v |> Array.map (fun (_,cm) -> cm.FallOut, cm.Sensitivity))
+
+    static member calculateMultiLabelROC(
+        actual: #IConvertible [],
         predictions: (#IConvertible * float []) []
     ) =
         ComparisonMetrics.multiLabelThresholdMap(
             actual,
             predictions
         )
-        |> Map.map (fun k v  -> v |> Array.map (fun (_,cm) -> cm.FallOut, cm.Sensitivity)
-
-        )
+        |> Map.map (fun _k v -> v |> Array.map (fun (_,cm) -> cm.FallOut, cm.Sensitivity))

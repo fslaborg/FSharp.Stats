@@ -1170,6 +1170,41 @@ let comparisonMetricsTests =
             testCase "C: threshold 0-1" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][9])) (snd (expectedMetricsMap["C"][9])) "Incorrect metrics for threshold 0.1")
             testCase "C: threshold 0-0" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][10])) (snd (expectedMetricsMap["C"][10])) "Incorrect metrics for threshold 0.0")
         ]
+        testList "multi-label threshold map with explicit thresholds" [
+            // Use a coarse threshold list [0.9; 0.5; 0.1] — a subset of all distinct thresholds.
+            // Expected values are taken from the full-threshold test above (same data).
+            let explicitThresholds = [|0.9; 0.5; 0.1|]
+            let actualExplicit =
+                ComparisonMetrics.multiLabelThresholdMap(
+                    actual = [|"A"; "A"; "A"; "A"; "A"; "B"; "B"; "B"; "C"; "C"; "C"; "C"; "C"; "C"|],
+                    predictions = [|
+                        "A", [|0.8; 0.7; 0.9; 0.4; 0.3; 0.1; 0.2; 0.5; 0.1; 0.1; 0.1; 0.3; 0.5; 0.4|]
+                        "B", [|0.0; 0.1; 0.0; 0.5; 0.1; 0.8; 0.7; 0.4; 0.0; 0.1; 0.1; 0.0; 0.1; 0.3|]
+                        "C", [|0.2; 0.2; 0.1; 0.1; 0.6; 0.1; 0.1; 0.1; 0.9; 0.8; 0.8; 0.7; 0.4; 0.3|]
+                    |],
+                    thresholds = explicitThresholds
+                )
+            // With 3 explicit thresholds the result should have 4 entries per label (prefix + 3)
+            testCase "explicit thresholds: result length" (fun _ ->
+                Expect.equal actualExplicit["A"].Length 4 "Expected 4 threshold entries for label A with 3 explicit thresholds"
+            )
+            // Values at threshold 0.9 should match the full-threshold result at that threshold
+            testCase "A: explicit threshold 0-9" (fun _ ->
+                TestExtensions.comparisonMetricsEqualRounded 3 (snd (actualExplicit["A"][1])) (BinaryConfusionMatrix.create(1,9,0,4) |> ComparisonMetrics.create) "Incorrect A metrics at threshold 0.9"
+            )
+            testCase "B: explicit threshold 0-5" (fun _ ->
+                TestExtensions.comparisonMetricsEqualRounded 3 (snd (actualExplicit["B"][2])) (BinaryConfusionMatrix.create(2,10,1,1) |> ComparisonMetrics.create) "Incorrect B metrics at threshold 0.5"
+            )
+            testCase "C: explicit threshold 0-1" (fun _ ->
+                TestExtensions.comparisonMetricsEqualRounded 3 (snd (actualExplicit["C"][3])) (BinaryConfusionMatrix.create(6,0,8,0) |> ComparisonMetrics.create) "Incorrect C metrics at threshold 0.1"
+            )
+            testCase "micro-average present" (fun _ ->
+                Expect.isTrue (actualExplicit.ContainsKey("micro-average")) "micro-average key should be present"
+            )
+            testCase "macro-average present" (fun _ ->
+                Expect.isTrue (actualExplicit.ContainsKey("macro-average")) "macro-average key should be present"
+            )
+        ]
     ]
     
     
