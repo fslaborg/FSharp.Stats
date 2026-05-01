@@ -1,34 +1,39 @@
 {
-  "last_run": "2026-04-06T12:36:53Z",
-  "run_id": "24032003252",
+  "last_run": "2026-05-01T12:40:47Z",
+  "run_id": "25214559182",
   "comments_made": {
-    "87":  "2026-04-04 - Noted pearsonChiSquaredWithYates for 2x2 tables; linked PR #367",
-    "130": "2026-04-03 - Investigated FSIPrinter bug, shared root cause hypothesis and workarounds",
-    "177": "prior run - Nudged @omaus on WIP Kolmogorov-Smirnov PR",
-    "191": "2026-04-03 - Linked issue #366 with CI fix instructions",
-    "205": "2026-04-06 - Opened weighted SLR PR; commented on implementation",
-    "262": "2026-04-02 - Linked InvCDF PR and summarised remaining work",
-    "284": "prior run - Clarified Rootfinding.Brent vs Optimization.Brent",
-    "302": "2026-04-01 - Explained chi2 API variants and linked PR #362",
-    "311": "prior run - Suggested pragmatic first steps for NaN safety documentation",
-    "317": "2026-04-06 - Opened QR Gram-Schmidt PR; commented on API design",
-    "344": "prior run - Explained correct API for chi-square test of independence via ContingencyTable",
-    "354": "2026-04-02 - Investigated docs bug; noted Plotly.NET API issues and suggested debugging step"
+    "87": "2026-04-04", "117": "2026-04-16", "130": "2026-04-03",
+    "177": "prior", "178": "2026-04-12", "180": "2026-04-16",
+    "191": "2026-04-03", "198": "2026-04-24", "205": "2026-04-06",
+    "213": "2026-04-12", "215": "2026-04-13", "222": "2026-04-24",
+    "257": "2026-04-18", "260": "2026-04-17", "261": "2026-05-01",
+    "262": "2026-04-02", "263": "2026-04-19", "284": "prior",
+    "285": "2026-04-17", "291": "2026-04-13", "302": "2026-04-01",
+    "311": "prior", "317": "2026-04-06", "318": "2026-04-09",
+    "343": "2026-04-08", "344": "prior", "354": "2026-04-02"
   },
-  "prs_created": [
-    {"number": "TBD-qr-gramschmidt", "branch": "repo-assist/improve-qr-gramschmidt-20260406", "issue": 317, "status": "open", "description": "feat: expose QR decomposition with GramSchmidt and Householder method choice"},
-    {"number": "TBD-weighted-slr", "branch": "repo-assist/improve-weighted-slr-20260406", "issue": 205, "status": "open", "description": "feat: Univariable.fitWithWeighting for weighted simple linear regression"},
-    {"number": 368, "branch": "repo-assist/fix-chisquared-invcdf-scale-20260405", "issue": 262, "status": "open", "description": "Fix ChiSquared.InvCDF scale bug; add 7 InvCDF tests"},
-    {"number": 367, "branch": "repo-assist/improve-chisquare-yates-20260404-bdb4fafc37812de0", "issue": 87, "status": "open", "description": "computeWithYates + computeWithWilliams for goodness-of-fit chi-square"},
-    {"number": 365, "branch": "repo-assist/fix-issue-262-invcdf-beta-f-studentt-60883adc61955ac8", "issue": 262, "status": "open", "description": "InvCDF for Beta, F, StudentT"},
-    {"number": 363, "branch": "repo-assist/improve-distribution-invcdf-uniform-exp-chi-20260401-e450f9fb970af463", "issue": 262, "status": "open", "description": "InvCDF for Uniform, Exponential, Chi; fix ChiSquared.InvCDF scale bug"},
-    {"number": 362, "branch": "repo-assist/fix-issue-344-pearsonchisquared-contingency-table-40b05dec5a126bcf", "issue": 302, "status": "open", "description": "Fix ChiSquareTest.pearsonChiSquared stub for ContingencyTable"},
-    {"number": 360, "branch": "repo-assist/improve-pearsonweighted-single-pass-a2cb39a81bff2886", "issue": null, "status": "open", "description": "Perf: replace multi-pass Seq.pearsonWeighted with 2-pass single-allocation impl"}
+  "open_prs": [
+    {"n": null, "b": "eng-ci-action-updates-20260501", "desc": "ci: checkout@v4 Linux + codecov@v5", "issues": "366,191"},
+    {"n": 380, "desc": "feat: multiLabelThreshold explicit thresholds", "issues": "198"},
+    {"n": 378, "desc": "fix: Frequency.isSubset generic"},
+    {"n": 377, "desc": "fix: NelderMead CheckFunctionEpsilon", "issues": "260"},
+    {"n": 376, "desc": "feat: Mann-Whitney U test"},
+    {"n": 375, "desc": "feat: interpolation integrate", "issues": "291"},
+    {"n": 374, "desc": "feat: dunnSidakFWER holmSidakFWER", "issues": "178"},
+    {"n": 372, "desc": "feat: kNearestWeightedImpute", "issues": "318"},
+    {"n": 371, "desc": "chore: FSharpAux 2.1.0 SourceLink bump"},
+    {"n": 370, "desc": "feat: QR GramSchmidt/Householder", "issues": "317"},
+    {"n": 369, "desc": "feat: fitWithWeighting", "issues": "205"},
+    {"n": 368, "desc": "fix: ChiSquared.InvCDF scale"},
+    {"n": 367, "desc": "feat: computeWithYates/Williams", "issues": "87"},
+    {"n": 365, "desc": "feat: InvCDF Beta/F/StudentT", "issues": "262"},
+    {"n": 363, "desc": "feat: InvCDF Uniform/Exp/Chi", "issues": "262"},
+    {"n": 362, "desc": "fix: pearsonChiSquared ContingencyTable", "issues": "302"},
+    {"n": 360, "desc": "perf: pearsonWeighted single-pass"}
   ],
-  "issue_cursor": {
-    "last_processed": 317,
-    "notes": "Reviewed and commented on issues up to #317. Next run: continue from #318 onward (weighted KNN, etc)."
-  },
-  "monthly_activity_issue": 364,
-  "notes": "8 open Repo Assist PRs need review. This run: implemented weighted SLR (#205 closed), QR Gram-Schmidt (#317 closed). Next: issues #318 (weighted KNN), #213 (Wilcoxon distribution), #113 (NaN in matrix ops)."
+  "issue_cursor": 261,
+  "issue_cursor_next": "#281 (XML doc), #293 (Wilcoxon Dist), #295 (KS Dist), #297-299",
+  "monthly_activity_issue": "May 2026 - created this run; search [Repo Assist] Monthly Activity 2026-05",
+  "maintainer_notes": "bvenn 2026-04-07: reduce run frequency, PRs look promising some could merge",
+  "notes": "Run 25214559182 (2026-05-01): Commented #261 CUSUM. CI PR (checkout@v4+codecov@v5) created. April #364 closed, May monthly issue created. CI PR# unknown - confirm next run."
 }
