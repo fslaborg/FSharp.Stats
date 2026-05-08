@@ -1,12 +1,12 @@
 {
-  "last_run": "2026-04-24T12:42:49Z",
-  "run_id": "24890025813",
+  "last_run": "2026-05-08T20:18:00Z",
+  "run_id": "25576636740",
   "comments_made": {
-    "87":  "2026-04-04 - Noted pearsonChiSquaredWithYates for 2x2 tables; linked new PR for goodness-of-fit corrections",
+    "87": "2026-04-04 - Noted pearsonChiSquaredWithYates for 2x2 tables; linked new PR for goodness-of-fit corrections",
     "117": "2026-04-16 - Clarified Mann-Whitney U vs Wilcoxon signed-rank distinction; suggested signed-rank implementation path",
     "130": "2026-04-03 - Investigated FSIPrinter bug, shared root cause hypothesis and workarounds",
     "177": "prior run - Nudged @omaus on WIP Kolmogorov-Smirnov PR",
-    "178": "2026-04-12 - Linked new Šidák PR #374",
+    "178": "2026-04-12 - Linked new \u0160id\u00e1k PR #374",
     "180": "2026-04-16 - Linked PR #367 (Yates correction for 2x2 chi-squared tables)",
     "191": "2026-04-03 - Linked issue #366 with CI fix instructions",
     "198": "2026-04-24 - Linked new PR for explicit-thresholds overloads; noted doc-formula item separate",
@@ -30,29 +30,145 @@
     "354": "2026-04-02 - Investigated docs bug; noted Plotly.NET API issues and suggested debugging step"
   },
   "prs_created": [
-    {"branch": "repo-assist/improve-issue-198-multilabel-thresholds-20260424", "number": null, "issue": 198, "status": "open", "description": "feat: explicit-thresholds overloads for multiLabelThresholdMap/calculateMultiLabelROC; 5 new tests; 1199/1199 pass"},
-    {"branch": "repo-assist/fix-frequency-issubset-generic-20260419", "number": 378, "issue": null, "status": "open", "description": "fix: make Frequency.isSubset truly generic; remove hardcoded float key type; 6 new tests; 1205/1205 pass"},
-    {"branch": "repo-assist/eng-ci-action-updates-20260419", "number": null, "issue": 366, "status": "open", "description": "ci: update actions/checkout v2->v4 (Linux) and codecov-action v2->v5; closes #366 and #191"},
-    {"branch": "repo-assist/fix-issue-260-neldermead-funcepsilon-20260418", "number": 377, "issue": 260, "status": "open", "description": "fix: remove CheckFunctionEpsilon from NelderMead IsCriteria; fixes premature stop for negative-minimum functions; 1195/1195 pass"},
-    {"branch": "repo-assist/improve-mannwhitney-20260415", "number": 376, "issue": null, "status": "open", "description": "feat: add Mann-Whitney U test (Wilcoxon rank-sum) for two independent samples; 8 new tests; 1201/1201 pass"},
-    {"branch": "repo-assist/improve-interpolation-integrate-20260413", "number": 375, "issue": 291, "status": "open", "description": "feat: add integrate to LinearSpline, Step, CubicSpline; 5 new tests; 1198/1198 pass"},
-    {"branch": "repo-assist/improve-dunn-sidak-20260412-ff9a8aac", "number": 374, "issue": 178, "status": "open", "description": "feat: add dunnSidakFWER and holmSidakFWER to MultipleTesting; 4 new tests; 1197/1197 pass"},
-    {"number": 372, "branch": "repo-assist/fix-issue-318-weighted-knn-impute-20260409-b76cdca75c5f3ed4", "issue": 318, "status": "open", "description": "feat: add kNearestWeightedImpute for distance-weighted KNN imputation"},
-    {"number": 371, "branch": "repo-assist/eng-update-deps-20260407-04402c74fed06f3b", "issue": null, "status": "open", "description": "chore: bump FSharpAux.* 2.0.0->2.1.0 and SourceLink.GitHub 1.0.0->10.0.201"},
-    {"number": 370, "branch": "repo-assist/improve-qr-gramschmidt-20260406-6a12a295a9553be1", "issue": 317, "status": "open", "description": "feat: expose QR decomposition with GramSchmidt and Householder choices"},
-    {"number": 369, "branch": "repo-assist/improve-weighted-slr-20260406-4b1ca01b9d045c66", "issue": 205, "status": "open", "description": "feat: implement OLS.Linear.Univariable.fitWithWeighting"},
-    {"number": 368, "branch": "repo-assist/fix-chisquared-invcdf-scale-20260405-a7262064caeeec6f", "issue": null, "status": "open", "description": "Fix ChiSquared.InvCDF scale parameter bug; add InvCDF tests"},
-    {"number": 367, "branch": "repo-assist/improve-chisquare-yates-20260404-bdb4fafc37812de0", "issue": 87, "status": "open", "description": "feat: add computeWithYates and computeWithWilliams to ChiSquareTest"},
-    {"number": 365, "branch": "repo-assist/fix-issue-262-invcdf-beta-f-studentt-60883adc61955ac8", "issue": 262, "status": "open", "description": "Implement InvCDF for Beta, F, StudentT distributions"},
-    {"number": 363, "branch": "repo-assist/improve-distribution-invcdf-uniform-exp-chi-20260401-e450f9fb970af463", "issue": 262, "status": "open", "description": "Implement InvCDF for Uniform, Exponential, Chi; fix ChiSquared scale bug"},
-    {"number": 362, "branch": "repo-assist/fix-issue-344-pearsonchisquared-contingency-table-40b05dec5a126bcf", "issue": 302, "status": "open", "description": "Fix ChiSquareTest.pearsonChiSquared stub for ContingencyTable"},
-    {"number": 360, "branch": "repo-assist/improve-pearsonweighted-single-pass-a2cb39a81bff2886", "issue": null, "status": "open", "description": "Perf: replace multi-pass Seq.pearsonWeighted with 2-pass single-allocation impl"}
+    {
+      "branch": "repo-assist/improve-issue-198-multilabel-thresholds-20260424",
+      "number": null,
+      "issue": 198,
+      "status": "open",
+      "description": "feat: explicit-thresholds overloads for multiLabelThresholdMap/calculateMultiLabelROC; 5 new tests; 1199/1199 pass"
+    },
+    {
+      "branch": "repo-assist/fix-frequency-issubset-generic-20260419",
+      "number": 378,
+      "issue": null,
+      "status": "open",
+      "description": "fix: make Frequency.isSubset truly generic; remove hardcoded float key type; 6 new tests; 1205/1205 pass"
+    },
+    {
+      "branch": "repo-assist/eng-ci-action-updates-20260419",
+      "number": null,
+      "issue": 366,
+      "status": "open",
+      "description": "ci: update actions/checkout v2->v4 (Linux) and codecov-action v2->v5; closes #366 and #191"
+    },
+    {
+      "branch": "repo-assist/fix-issue-260-neldermead-funcepsilon-20260418",
+      "number": 377,
+      "issue": 260,
+      "status": "open",
+      "description": "fix: remove CheckFunctionEpsilon from NelderMead IsCriteria; fixes premature stop for negative-minimum functions; 1195/1195 pass"
+    },
+    {
+      "branch": "repo-assist/improve-mannwhitney-20260415",
+      "number": 376,
+      "issue": null,
+      "status": "open",
+      "description": "feat: add Mann-Whitney U test (Wilcoxon rank-sum) for two independent samples; 8 new tests; 1201/1201 pass"
+    },
+    {
+      "branch": "repo-assist/improve-interpolation-integrate-20260413",
+      "number": 375,
+      "issue": 291,
+      "status": "open",
+      "description": "feat: add integrate to LinearSpline, Step, CubicSpline; 5 new tests; 1198/1198 pass"
+    },
+    {
+      "branch": "repo-assist/improve-dunn-sidak-20260412-ff9a8aac",
+      "number": 374,
+      "issue": 178,
+      "status": "open",
+      "description": "feat: add dunnSidakFWER and holmSidakFWER to MultipleTesting; 4 new tests; 1197/1197 pass"
+    },
+    {
+      "number": 372,
+      "branch": "repo-assist/fix-issue-318-weighted-knn-impute-20260409-b76cdca75c5f3ed4",
+      "issue": 318,
+      "status": "open",
+      "description": "feat: add kNearestWeightedImpute for distance-weighted KNN imputation"
+    },
+    {
+      "number": 371,
+      "branch": "repo-assist/eng-update-deps-20260407-04402c74fed06f3b",
+      "issue": null,
+      "status": "open",
+      "description": "chore: bump FSharpAux.* 2.0.0->2.1.0 and SourceLink.GitHub 1.0.0->10.0.201"
+    },
+    {
+      "number": 370,
+      "branch": "repo-assist/improve-qr-gramschmidt-20260406-6a12a295a9553be1",
+      "issue": 317,
+      "status": "open",
+      "description": "feat: expose QR decomposition with GramSchmidt and Householder choices"
+    },
+    {
+      "number": 369,
+      "branch": "repo-assist/improve-weighted-slr-20260406-4b1ca01b9d045c66",
+      "issue": 205,
+      "status": "open",
+      "description": "feat: implement OLS.Linear.Univariable.fitWithWeighting"
+    },
+    {
+      "number": 368,
+      "branch": "repo-assist/fix-chisquared-invcdf-scale-20260405-a7262064caeeec6f",
+      "issue": null,
+      "status": "open",
+      "description": "Fix ChiSquared.InvCDF scale parameter bug; add InvCDF tests"
+    },
+    {
+      "number": 367,
+      "branch": "repo-assist/improve-chisquare-yates-20260404-bdb4fafc37812de0",
+      "issue": 87,
+      "status": "open",
+      "description": "feat: add computeWithYates and computeWithWilliams to ChiSquareTest"
+    },
+    {
+      "number": 365,
+      "branch": "repo-assist/fix-issue-262-invcdf-beta-f-studentt-60883adc61955ac8",
+      "issue": 262,
+      "status": "open",
+      "description": "Implement InvCDF for Beta, F, StudentT distributions"
+    },
+    {
+      "number": 363,
+      "branch": "repo-assist/improve-distribution-invcdf-uniform-exp-chi-20260401-e450f9fb970af463",
+      "issue": 262,
+      "status": "open",
+      "description": "Implement InvCDF for Uniform, Exponential, Chi; fix ChiSquared scale bug"
+    },
+    {
+      "number": 362,
+      "branch": "repo-assist/fix-issue-344-pearsonchisquared-contingency-table-40b05dec5a126bcf",
+      "issue": 302,
+      "status": "open",
+      "description": "Fix ChiSquareTest.pearsonChiSquared stub for ContingencyTable"
+    },
+    {
+      "number": 360,
+      "branch": "repo-assist/improve-pearsonweighted-single-pass-a2cb39a81bff2886",
+      "issue": null,
+      "status": "open",
+      "description": "Perf: replace multi-pass Seq.pearsonWeighted with 2-pass single-allocation impl"
+    },
+    {
+      "branch": "repo-assist/perf-cov-welford-20260508",
+      "number": null,
+      "issue": null,
+      "status": "open",
+      "description": "perf: covOfPairs/covPopulationOfPairs \u2014 single array allocation instead of 5; 1193/1193 pass"
+    },
+    {
+      "branch": "repo-assist/fix-meanTruncatedBy",
+      "number": null,
+      "issue": null,
+      "status": "open",
+      "description": "fix: meanTruncatedBy trimmed only low end; changed to trim both ends (n-2*k); 3 new tests; all 1193 pass"
+    }
   ],
   "issue_cursor": {
     "last_processed": 309,
-    "notes": "Run 24890025813 (2026-04-24): Commented on #198 (linked PR) and #222 (Distribution.Support migration path). Skipped #309 (already well-discussed by maintainers, user moved to Matlab). Next unvisited issues: #261 (CUSUM test), #281 (XML doc), #293 (Wilcoxon Distribution), #295 (KS Distribution), #297 (Savitzky Golay docs), #298 (tSNE), #299 (random forest), #311 already commented."
+    "notes": "Run 25576636740 (2026-05-08): Task 8 - perf fix for covOfPairs/covPopulationOfPairs (5 allocs\u21921). Task 3 - found & fixed bug in meanTruncatedBy (trimmed one end instead of both). Next unvisited: #261, #281, #293, #295, #297, #298, #299."
   },
-  "monthly_activity_issue": 364,
+  "monthly_activity_issue": 382,
   "maintainer_notes": "bvenn (2026-04-07): reduce frequency of runs as they cannot do daily review. PRs look promising, some could be merged right away.",
   "notes": "Run 24890025813 (2026-04-24): Task 2: Commented on #198 (explicit-thresholds PR) and #222 (Distribution.Support unification path). Task 3: Created PR for multiLabelThresholdMap/calculateMultiLabelROC explicit-thresholds overloads (closes #198 partial); 5 new tests added; all 1199 pass. PR numbers for runs 20260419: #378 (Frequency.isSubset) confirmed. CI PR (eng-ci-action-updates-20260419) number still unknown - check next run."
 }
