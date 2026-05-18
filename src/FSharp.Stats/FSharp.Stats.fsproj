@@ -170,12 +170,12 @@
     <Content Remove="..\..\lib\libwinpthread-1.dll" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharpAux.Core" Version="2.0.0" />
-    <PackageReference Include="FSharpAux" Version="2.0.0" />
-    <PackageReference Include="FSharpAux.IO" Version="2.0.0" />
+    <PackageReference Include="FSharpAux.Core" Version="2.1.0" />
+    <PackageReference Include="FSharpAux" Version="2.1.0" />
+    <PackageReference Include="FSharpAux.IO" Version="2.1.0" />
     <PackageReference Include="FsMath" Version="0.0.2" />
     <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.201" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <None Include="../../README.md" Pack="true" PackagePath="\" />
