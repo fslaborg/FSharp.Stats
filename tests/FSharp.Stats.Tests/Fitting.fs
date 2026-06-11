@@ -55,6 +55,72 @@ let leastSquaresCholeskyTests =
         )
     ]
 open FSharp.Stats.Fitting.Spline
+
+[<Tests>]
+let weightedSimpleLinearRegressionTests =
+    // Known exact case: y = 2 + 3x, equal weights → coefficients must be exact
+    let xData  = vector [|1.; 2.; 3.; 4.; 5.|]
+    let yExact = vector [|5.; 8.; 11.; 14.; 17.|] // 2 + 3x
+
+    testList "Weighted Simple Linear Regression" [
+
+        testCase "Equal unit weights reproduce unweighted fit" (fun () ->
+            let weights = vector [|1.; 1.; 1.; 1.; 1.|]
+            let wCoef = LinearRegression.OLS.Linear.Univariable.fitWithWeighting weights xData yExact
+            let uCoef = LinearRegression.OLS.Linear.Univariable.fit xData yExact
+            Expect.floatClose Accuracy.high wCoef.Constant uCoef.Constant "Intercept should match unweighted"
+            Expect.floatClose Accuracy.high wCoef.Linear  uCoef.Linear  "Slope should match unweighted"
+        )
+
+        testCase "Exact line – intercept 2, slope 3" (fun () ->
+            let weights = vector [|1.; 1.; 1.; 1.; 1.|]
+            let coef = LinearRegression.OLS.Linear.Univariable.fitWithWeighting weights xData yExact
+            Expect.floatClose Accuracy.high coef.Constant 2. "Intercept should be 2"
+            Expect.floatClose Accuracy.high coef.Linear  3. "Slope should be 3"
+        )
+
+        testCase "Down-weighting an outlier pulls fit toward true line" (fun () ->
+            // y = 2 + 3x except the last point is a large outlier
+            let yOutlier = vector [|5.; 8.; 11.; 14.; 100.|]
+            let weightsFlat     = vector [|1.; 1.; 1.; 1.; 1.|]
+            let weightsDownLast = vector [|1.; 1.; 1.; 1.; 0.001|]
+            let coefFlat = LinearRegression.OLS.Linear.Univariable.fitWithWeighting weightsFlat     xData yOutlier
+            let coefDown = LinearRegression.OLS.Linear.Univariable.fitWithWeighting weightsDownLast xData yOutlier
+            // The down-weighted fit should be closer to slope=3, intercept=2
+            let errorFlat = abs (coefFlat.Linear - 3.) + abs (coefFlat.Constant - 2.)
+            let errorDown = abs (coefDown.Linear - 3.) + abs (coefDown.Constant - 2.)
+            Expect.isTrue (errorDown < errorFlat) "Down-weighting outlier should give fit closer to true line"
+        )
+
+        testCase "Doubling all weights does not change coefficients" (fun () ->
+            let yData  = vector [|4.; 7.; 9.; 10.; 11.|]
+            let w1     = vector [|1.; 1.; 1.; 1.; 1.|]
+            let w2     = vector [|2.; 2.; 2.; 2.; 2.|]
+            let coef1  = LinearRegression.OLS.Linear.Univariable.fitWithWeighting w1 xData yData
+            let coef2  = LinearRegression.OLS.Linear.Univariable.fitWithWeighting w2 xData yData
+            Expect.floatClose Accuracy.high coef1.Constant coef2.Constant "Intercept invariant to weight scaling"
+            Expect.floatClose Accuracy.high coef1.Linear  coef2.Linear  "Slope invariant to weight scaling"
+        )
+
+        testCase "Agrees with Polynomial.fitWithWeighting order 1" (fun () ->
+            let yData   = vector [|4.; 7.; 9.; 10.; 11.|]
+            let weights = vector [|2.; 1.; 0.5; 1.; 1.|]
+            let coefUni  = LinearRegression.OLS.Linear.Univariable.fitWithWeighting weights xData yData
+            let coefPoly = LinearRegression.OLS.Polynomial.fitWithWeighting 1 weights xData yData
+            Expect.floatClose Accuracy.high coefUni.Constant coefPoly.Constant "Intercept agrees with poly order-1"
+            Expect.floatClose Accuracy.high coefUni.Linear  coefPoly.Linear  "Slope agrees with poly order-1"
+        )
+
+        testCase "LinearRegressor.fit dispatches to weighted path" (fun () ->
+            let yData   = vector [|4.; 7.; 9.; 10.; 11.|]
+            let weights = vector [|2.; 1.; 0.5; 1.; 1.|]
+            let coefDirect  = LinearRegression.OLS.Linear.Univariable.fitWithWeighting weights xData yData
+            let coefDispatch = LinearRegression.fit(xData, yData, FittingMethod = Method.SimpleLinear, Weighting = weights)
+            Expect.floatClose Accuracy.high coefDirect.Constant coefDispatch.Constant "Intercept matches dispatch"
+            Expect.floatClose Accuracy.high coefDirect.Linear  coefDispatch.Linear  "Slope matches dispatch"
+        )
+    ]
+
 [<Tests>]
 let splineTests = 
     testList "Fitting.Spline" [

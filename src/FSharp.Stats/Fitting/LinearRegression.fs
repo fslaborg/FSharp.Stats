@@ -289,6 +289,51 @@ module LinearRegression =
                     (fitConstrained xData yData (xC,yC)).Coefficients
 
                 /// <summary>
+                ///   Calculates the intercept and slope for a weighted straight line fitting the data.
+                ///   Weighted least squares minimizes Σ w_i * (y_i - (a + b*x_i))².
+                /// </summary>
+                /// <param name="weighting">vector of non-negative weights, one per observation</param>
+                /// <param name="xData">vector of x values</param>
+                /// <param name="yData">vector of y values</param>
+                /// <returns>Coefficients of [intercept; slope]</returns>
+                /// <example>
+                /// <code>
+                ///   let xData = vector [|1.;2.;3.;4.;5.;6.|]
+                ///   let yData = vector [|4.;7.;9.;10.;11.;15.|]
+                ///   // down-weight the last observation
+                ///   let weights = vector [|1.;1.;1.;1.;1.;0.1|]
+                ///   let coefficients =
+                ///       Univariable.fitWithWeighting weights xData yData
+                /// </code>
+                /// </example>
+                let fitWithWeighting (weighting: Vector<float>) (xData: Vector<float>) (yData: Vector<float>) =
+                    if xData.Length <> yData.Length || xData.Length <> weighting.Length then
+                        raise (System.ArgumentException("Vectors x, y and weighting must have the same length!"))
+                    // Closed-form WLS normal equations for y = a + b*x:
+                    //   [Σw    Σwx ] [a]   [Σwy ]
+                    //   [Σwx   Σwx²] [b] = [Σwxy]
+                    let mutable sw   = 0.
+                    let mutable swx  = 0.
+                    let mutable swy  = 0.
+                    let mutable swxx = 0.
+                    let mutable swxy = 0.
+                    for i = 0 to xData.Length - 1 do
+                        let wi = weighting.[i]
+                        let xi = xData.[i]
+                        let yi = yData.[i]
+                        sw   <- sw   + wi
+                        swx  <- swx  + wi * xi
+                        swy  <- swy  + wi * yi
+                        swxx <- swxx + wi * xi * xi
+                        swxy <- swxy + wi * xi * yi
+                    let denom = sw * swxx - swx * swx
+                    if abs denom < System.Double.Epsilon then
+                        raise (System.ArgumentException("Degenerate weighting: all weight is concentrated at a single x value."))
+                    let slope     = (sw * swxy - swx * swy) / denom
+                    let intercept = (swy - slope * swx) / sw
+                    Coefficients([|intercept; slope|])
+
+                /// <summary>
                 ///   Takes intercept and slope of simple linear regression to predict the corresponding y value.
                 /// </summary>
                 /// <param name="coef">vector of [intercept;slope] (e.g. determined by Univariable.coefficient)</param>
@@ -954,7 +999,11 @@ type LinearRegression() =
                     LinearRegression.OLS.Linear.RTO.fit xData yData
                 | Constraint.RegressionThroughXY coordinate -> 
                     LinearRegression.OLS.Linear.Univariable.fitConstrained xData yData coordinate
-            | _ -> failwithf "Weighted simple linear regression is not yet implemented! Use polynomial weighted regression with degree 1 instead."
+            | Some w ->
+                match _constraint with
+                | Constraint.Unconstrained ->
+                    LinearRegression.OLS.Linear.Univariable.fitWithWeighting w xData yData
+                | _ -> failwithf "Constrained weighted simple linear regression is not yet implemented!"
 
         | Method.Polynomial o -> 
             match _constraint with 
