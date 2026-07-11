@@ -575,8 +575,10 @@ module Interpolation =
         /// <param name="xVal2">Upper bound of integration.</param>
         /// <returns>Definite integral (signed area under the curve) from xVal1 to xVal2.</returns>
         /// <remarks>xVal1 and xVal2 should lie within the range of the input x values; values outside the range are extrapolated using the nearest segment.</remarks>
-        let integrate (lsc: LinearSplineCoef) xVal1 xVal2 =
-            if xVal1 = xVal2 then 0.
+        let rec integrate (lsc: LinearSplineCoef) xVal1 xVal2 =
+            if xVal1 > xVal2 then
+                - integrate lsc xVal2 xVal1
+            elif xVal1 = xVal2 then 0.
             else
                 // Integral of segment k from x1 to x2:
                 //   C0[k]*(x2-x1) + C1[k]*((x2-xk)^2 - (x1-xk)^2)/2
@@ -777,8 +779,10 @@ module Interpolation =
         /// <param name="xVal2">Upper bound of integration.</param>
         /// <returns>Definite integral (signed area under the step function) from xVal1 to xVal2.</returns>
         /// <remarks>xVal1 and xVal2 should lie within the range of the input x values.</remarks>
-        let integrate (lsc: StepCoef) xVal1 xVal2 =
-            if xVal1 = xVal2 then 0.
+        let rec integrate (lsc: StepCoef) xVal1 xVal2 =
+            if xVal1 > xVal2 then
+                - integrate lsc xVal2 xVal1
+            elif xVal1 = xVal2 then 0.
             else
                 let n = lsc.XValues.Length
                 // Find interval index k such that XValues[k] <= x < XValues[k+1], clamped to [0, n-2]
@@ -1807,8 +1811,10 @@ module Interpolation =
         /// <param name="xVal2">Upper bound of integration.</param>
         /// <returns>Definite integral (signed area under the curve) from xVal1 to xVal2.</returns>
         /// <remarks>xVal1 and xVal2 should lie within the range of the input x values; values outside are handled by extrapolating the nearest segment's polynomial.</remarks>
-        let integrate (coefficients: CubicSplineCoef) xVal1 xVal2 =
-            if xVal1 = xVal2 then 0.
+        let rec integrate (coefficients: CubicSplineCoef) xVal1 xVal2 =
+            if xVal1 > xVal2 then
+                - integrate coefficients xVal2 xVal1
+            elif xVal1 = xVal2 then 0.
             else
                 let sortedX = coefficients.XData |> Seq.sort |> Array.ofSeq
                 let n = sortedX.Length - 1 // number of intervals
