@@ -575,9 +575,9 @@ module Interpolation =
         /// <param name="xVal2">Upper bound of integration.</param>
         /// <returns>Definite integral (signed area under the curve) from xVal1 to xVal2.</returns>
         /// <remarks>xVal1 and xVal2 should lie within the range of the input x values; values outside the range are extrapolated using the nearest segment.</remarks>
-        let rec integrate (lsc: LinearSplineCoef) xVal1 xVal2 =
+        let rec getIntegralBetween (lsc: LinearSplineCoef) xVal1 xVal2 =
             if xVal1 > xVal2 then
-                - integrate lsc xVal2 xVal1
+                - getIntegralBetween lsc xVal2 xVal1
             elif xVal1 = xVal2 then 0.
             else
                 // Integral of segment k from x1 to x2:
@@ -779,9 +779,9 @@ module Interpolation =
         /// <param name="xVal2">Upper bound of integration.</param>
         /// <returns>Definite integral (signed area under the step function) from xVal1 to xVal2.</returns>
         /// <remarks>xVal1 and xVal2 should lie within the range of the input x values.</remarks>
-        let rec integrate (lsc: StepCoef) xVal1 xVal2 =
+        let rec getIntegralBetween (lsc: StepCoef) xVal1 xVal2 =
             if xVal1 > xVal2 then
-                - integrate lsc xVal2 xVal1
+                - getIntegralBetween lsc xVal2 xVal1
             elif xVal1 = xVal2 then 0.
             else
                 let n = lsc.XValues.Length
@@ -1811,9 +1811,9 @@ module Interpolation =
         /// <param name="xVal2">Upper bound of integration.</param>
         /// <returns>Definite integral (signed area under the curve) from xVal1 to xVal2.</returns>
         /// <remarks>xVal1 and xVal2 should lie within the range of the input x values; values outside are handled by extrapolating the nearest segment's polynomial.</remarks>
-        let rec integrate (coefficients: CubicSplineCoef) xVal1 xVal2 =
+        let rec getIntegralBetween (coefficients: CubicSplineCoef) xVal1 xVal2 =
             if xVal1 > xVal2 then
-                - integrate coefficients xVal2 xVal1
+                - getIntegralBetween coefficients xVal2 xVal1
             elif xVal1 = xVal2 then 0.
             else
                 let sortedX = coefficients.XData |> Seq.sort |> Array.ofSeq
