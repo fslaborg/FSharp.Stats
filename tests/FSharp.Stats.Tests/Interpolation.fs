@@ -146,7 +146,7 @@ let BezierInterpolationTests =
 let integrationTests =
     testList "Interpolation.integrate" [
 
-        testCase "LinearSpline.integrate linear function" <| fun () ->
+        testCase "LinearSpline.integrate positive linear function" <| fun () ->
             // y = 2x at {0,2,4} => integral [0,4] = [x^2]_0^4 = 16
             let coefs = LinearSpline.interpolate [|0.;2.;4.|] [|0.;4.;8.|]
             Expect.floatClose Accuracy.high (LinearSpline.integrate coefs 0. 4.) 16.0
@@ -155,13 +155,43 @@ let integrationTests =
             // ∫[1,3] 2x dx = [x^2]_1^3 = 9 - 1 = 8
             Expect.floatClose Accuracy.high (LinearSpline.integrate coefs 1. 3.) 8.0
                 "integral of y=2x from 1 to 3 should be 8"
+            // ∫[0.5,1.5] 2x dx = 1.5^2 - 0.5^2 = 2.25 - 0.25 = 2 
+            Expect.floatClose Accuracy.high (LinearSpline.integrate coefs 0.5 1.5) 2.0
+                "integral of y=2x from 0.5 to 1.5 should be 2"
+        
+        testCase "LinearSpline.integrate reversed limits" <| fun () ->
+            let coefs = LinearSpline.interpolate [|0.;2.;4.|] [|0.;4.;8.|]
+            let forward = LinearSpline.integrate coefs 1. 3.
+            let reverse = LinearSpline.integrate coefs 3. 1.
+
+            Expect.floatClose Accuracy.high forward (-reverse)
+                "integrating with reversed limits should negate the result"
+
+        testCase "LinearSpline.integrate is additive" <| fun () ->
+            let coefs = LinearSpline.interpolate [|0.;2.;4.|] [|0.;4.;8.|]
+            let whole = LinearSpline.integrate coefs 1. 3.
+            let partials = LinearSpline.integrate coefs 1. 2. + LinearSpline.integrate coefs 2. 3.
+            Expect.floatClose Accuracy.high whole partials
+                "integral should be additive across knot boundaries"
 
         testCase "LinearSpline.integrate returns zero for equal bounds" <| fun () ->
             let coefs = LinearSpline.interpolate [|0.;1.;2.|] [|1.;2.;3.|]
             Expect.floatClose Accuracy.high (LinearSpline.integrate coefs 1. 1.) 0.0
                 "integral with equal bounds should be 0"
+        
+        testCase "LinearSpline.integrate negative linear function" <| fun () ->
+            let coefs = LinearSpline.interpolate [|0.;1.|] [|-1.;0.|]
+            // ∫[0,1] (x-1) dx = -1/2
+            Expect.floatClose Accuracy.high (LinearSpline.integrate coefs 0. 1.) -0.5
+                "integral of negative linear function should be negative"
+        
+        testCase "LinearSpline.integrate across zero crossing" <| fun () ->
+            let coefs = LinearSpline.interpolate [|0.;1.;2.|] [|-1.;0.;1.|]
+            // ∫[0,2] (x-1) dx = 0
+            Expect.floatClose Accuracy.high (LinearSpline.integrate coefs 0. 2.) 0.0
+                "equivalent positive and negative areas should cancel"
 
-        testCase "Step.integrate constant segments" <| fun () ->
+        testCase "Step.integrate constant positive segments" <| fun () ->
             // y = 2 on [0,1), y = 3 on [1,2), y = 4 on [2,3)
             let coefs = Step.interpolate [|0.;1.;2.;3.|] [|2.;3.;4.;5.|]
             // ∫[0,3] = 2*1 + 3*1 + 4*1 = 9
@@ -170,8 +200,47 @@ let integrationTests =
             // ∫[0.5,2.5] = 2*0.5 + 3*1 + 4*0.5 = 1 + 3 + 2 = 6
             Expect.floatClose Accuracy.high (Step.integrate coefs 0.5 2.5) 6.0
                 "partial integral of step function from 0.5 to 2.5 should be 6"
+            // ∫[1,2] = 3 * 1 = 3
+            Expect.floatClose Accuracy.high (Step.integrate coefs 1. 2.) 3.0
+                "integral within exact segment boundaries should be 3"
+            Expect.floatClose Accuracy.high (Step.integrate coefs 1.5 1.5) 0.0
+                "integral over zero-width interval should be zero"
+            // Uses first interval value for values below x = 0
+            // ∫[-1,0] = 2 * 1 = 2
+            Expect.floatClose Accuracy.high (Step.integrate coefs -1 0) 2.0
+                "integral before the first breakpoint should use first segment value"
+        
+        testCase "Step.integrate is additive" <| fun () ->
+            let coefs = Step.interpolate [|0.;1.;2.;3.|] [|2.;3.;4.;5.|]
+            let whole = Step.integrate coefs 0.5 2.5
+            let partials = (Step.integrate coefs 0.5 1.5) + (Step.integrate coefs 1.5 2.5)
+            Expect.floatClose Accuracy.high whole partials
+                "integral should be additive acreoss sub-intervals"
+        
+        testCase "Step.integrate reversed limits" <| fun () ->
+            let coefs = Step.interpolate [|0.;1.;2.;3.|] [|2.;3.;4.;5.|]
 
-        testCase "CubicSpline.integrate quadratic function" <| fun () ->
+            let forward = Step.integrate coefs 0.5 2.5
+            let reverse = Step.integrate coefs 2.5 0.5
+
+            Expect.floatClose Accuracy.high reverse (-forward)
+                "integrating with reversed limits should negate the result"
+        
+        testCase "Step.integrate constant negative segments" <| fun () ->
+            // y = -2 on [0,1), y = -3 on [1,2)
+            let coefs = Step.interpolate [|0.;1.;2.|] [|-2.;-3.;-3.|]
+            //∫[0,2] = (-2)*1 + (-3)*1 = -5
+            Expect.floatClose Accuracy.high (Step.integrate coefs 0. 2.) -5.0
+                "Integral of negative step function should be negative"
+
+        testCase "Step.integrate across zero crossing" <| fun () ->
+            // y= -2 on [0,1), y = 2 on [1,2)
+            let coefs = Step.interpolate [|0.;1.;2.|] [|-2.; 2.; 2.|]
+            // ∫[0,2] = (-2)*1 + 2*1 = 0
+            Expect.floatClose Accuracy.high (Step.integrate coefs 0. 2.) 0.0
+                "equivalent positive and negative areas should cancel"
+        
+        testCase "CubicSpline.integrate positive quadratic function" <| fun () ->
             // Quadratic boundary condition reproduces y=x^2 exactly
             let t = vector [| 1.; 2.; 3.; 4. |]
             let u = vector [| 1.; 4.; 9.; 16. |]  // y = x^2
@@ -182,6 +251,18 @@ let integrationTests =
             // ∫[1,2] x^2 dx = 8/3 - 1/3 = 7/3
             Expect.floatClose Accuracy.high (CubicSpline.integrate coefs 1. 2.) (7. / 3.)
                 "integral of y=x^2 from 1 to 2 should be 7/3"
+            // ∫[1.5,3.5] x² dx = (3.5³ - 1.5³)/3
+            Expect.floatClose Accuracy.high (CubicSpline.integrate coefs 1.5 3.5) ((3.5 ** 3. - 1.5 ** 3.) / 3.)
+                "integral across several spline intervals should be correct"
+
+        testCase "CubicSpline.integrate is additive" <| fun () ->
+            let t = vector [| 1.; 2.; 3.; 4. |]
+            let u = vector [| 1.; 4.; 9.; 16. |]  // y = x^2
+            let coefs = CubicSpline.interpolate CubicSpline.Quadratic t u
+            let whole= CubicSpline.integrate coefs 1. 4.
+            let partials = CubicSpline.integrate coefs 1. 2 + CubicSpline.integrate coefs 2. 3. + CubicSpline.integrate coefs 3. 4.
+            Expect.floatClose Accuracy.high whole partials
+                "integral should be additive across sub-intervals"
 
         testCase "CubicSpline.integrate returns zero for equal bounds" <| fun () ->
             let t = vector [| 0.; 1.; 2. |]
@@ -189,6 +270,33 @@ let integrationTests =
             let coefs = CubicSpline.interpolate CubicSpline.Natural t u
             Expect.floatClose Accuracy.high (CubicSpline.integrate coefs 1. 1.) 0.0
                 "integral with equal bounds should be 0"
+        
+        testCase "CubicSpline.integrate reversed limits" <| fun () ->
+            let t = vector [| 1.; 2.; 3.; 4. |]
+            let u = vector [| 1.; 4.; 9.; 16. |]
+            let coefs = CubicSpline.interpolate CubicSpline.Quadratic t u
+
+            let forward = CubicSpline.integrate coefs 1. 4.
+            let reverse = CubicSpline.integrate coefs 4. 1.
+
+            Expect.floatClose Accuracy.high forward (-reverse)
+                "integrating with reversed limits should negate the result"
+
+        testCase "CubicSpline.integrate negative values" <| fun () ->
+            let t = vector [|1.;2.;3.;4.|]
+            let u = vector [|-1.;-4.;-9.;-16.|]
+            let coefs = CubicSpline.interpolate CubicSpline.Quadratic t u
+            // ∫[1,4] -x² dx = -21
+            Expect.floatClose Accuracy.high (CubicSpline.integrate coefs 1. 4.) -21.0
+                "integral of negative quadratic should be negative"
+        
+        testCase "CubicSpline.integrate positive and negative values" <| fun () ->
+            let t = vector [|-2.;-1.;0.;1.;2.|]
+            let u = vector [|-2.;-1.;0.;1.;2.|]
+            let coefs = CubicSpline.interpolate CubicSpline.Quadratic t u
+            // ∫[-2,2] x dx = 0
+            Expect.floatClose Accuracy.high (CubicSpline.integrate coefs -2. 2.) 0.0
+                "positive and negative contributions should cancel"
     ]
 
 
