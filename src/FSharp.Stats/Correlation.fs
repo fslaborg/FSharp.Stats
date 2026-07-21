@@ -140,8 +140,6 @@ module Correlation =
         /// </code>
         /// </example>
         let inline pearsonWeighted (seq1:seq<'T>) (seq2:seq<'T>) (weights:seq<'T>) : float =
-            // Convert to arrays once (3 passes), then compute in 2 passes instead of the
-            // previous ~12 passes (3 Seq.length + 3x weightedCoVariance x 3 sub-passes each).
             let xs = Array.ofSeq seq1
             let ys = Array.ofSeq seq2
             let ws = Array.ofSeq weights
