@@ -400,6 +400,12 @@ let pearsonWeightedTests =
         testCase "uniform weights: perfect positive correlation" <| fun () ->
             let r = Seq.pearsonWeighted x2 y2 wUniform
             Expect.floatClose Accuracy.veryHigh r 1.0 "uniform-weighted Pearson should be 1.0 for perfectly correlated data"
+        
+        testCase "uniform weights matches ordinary Pearson" <| fun () ->
+            let weighted = Seq.pearsonWeighted x2 y2 wUniform
+            let unweighted = Seq.pearson x2 y2
+            Expect.floatClose Accuracy.veryHigh weighted unweighted
+                "uniform weights should produce ordinary Pearson correlation"
 
         testCase "uniform weights: perfect negative correlation" <| fun () ->
             let r = Seq.pearsonWeighted x3 y3 wUniform
@@ -408,4 +414,14 @@ let pearsonWeightedTests =
         testCase "mismatched length throws" <| fun () ->
             Expect.throws (fun () -> Seq.pearsonWeighted [1.0; 2.0] [1.0] [1.0; 1.0] |> ignore)
                 "should throw for mismatched sequence lengths"
+
+        testCase "empty sequences return NaN" <| fun () ->
+            let r = Seq.pearsonWeighted [] [] []
+            Expect.isTrue (System.Double.IsNaN r)
+                "empty input should return NaN"
+        
+        testCase "all weights zero returns NaN" <| fun () ->
+            let r = Seq.pearsonWeighted [1.0;2.0] [3.0;4.0] [0.0;0.0]
+            Expect.isTrue (System.Double.IsNaN r)
+                "zero total weight should produce NaN"
     ]
