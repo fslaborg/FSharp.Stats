@@ -362,3 +362,66 @@ let spearmanCorrelationTests =
             Expect.floatClose Accuracy.high testCase5 0.6887298748 "Should be equal (double precision)"
             Expect.floatClose Accuracy.high testCase6 -0.632455532 "Should be equal (double precision)"            
     ]
+
+[<Tests>]
+let pearsonWeightedTests =
+    // Reference values verified with R:
+    // x <- c(1.1, 1.1, 1.2); y <- c(1.2, 0.9, 0.08); w <- c(0.2, 0.3, 0.5)
+    // library(weights); wtd.cor(x, y, weight = w)[1]  # -0.9764159
+    //
+    // x2 <- c(1.0, 2.0, 3.0, 4.0); y2 <- c(2.0, 4.0, 6.0, 8.0); w2 <- c(1.0, 1.0, 1.0, 1.0)
+    // wtd.cor(x2, y2, weight = w2)  # 1.0 (perfectly correlated, uniform weights)
+    //
+    // x3 <- c(1.0, 2.0, 3.0, 4.0); y3 <- c(8.0, 6.0, 4.0, 2.0); w3 <- c(1.0, 1.0, 1.0, 1.0)
+    // wtd.cor(x3, y3, weight = w3)  # -1.0 (perfectly anti-correlated)
+
+    let x1 = [1.1; 1.1; 1.2]
+    let y1 = [1.2; 0.9; 0.08]
+    let w1 = [0.2; 0.3; 0.5]
+
+    let x2 = [1.0; 2.0; 3.0; 4.0]
+    let y2 = [2.0; 4.0; 6.0; 8.0]
+    let wUniform = [1.0; 1.0; 1.0; 1.0]
+
+    let x3 = [1.0; 2.0; 3.0; 4.0]
+    let y3 = [8.0; 6.0; 4.0; 2.0]
+
+    testList "Correlation.Seq.pearsonWeighted" [
+        testCase "docstring example" <| fun () ->
+            // matches the example in pearsonWeightedOfTriples docstring
+            let r = Seq.pearsonWeighted x1 y1 w1
+            Expect.floatClose Accuracy.high r -0.9764158959 "weighted Pearson should match reference"
+
+        testCase "ofTriples matches pearsonWeighted" <| fun () ->
+            let rDirect = Seq.pearsonWeighted x1 y1 w1
+            let rTriples = Seq.zip3 x1 y1 w1 |> Seq.pearsonWeightedOfTriples
+            Expect.floatClose Accuracy.veryHigh rDirect rTriples "pearsonWeighted and pearsonWeightedOfTriples should agree"
+
+        testCase "uniform weights: perfect positive correlation" <| fun () ->
+            let r = Seq.pearsonWeighted x2 y2 wUniform
+            Expect.floatClose Accuracy.veryHigh r 1.0 "uniform-weighted Pearson should be 1.0 for perfectly correlated data"
+        
+        testCase "uniform weights matches ordinary Pearson" <| fun () ->
+            let weighted = Seq.pearsonWeighted x2 y2 wUniform
+            let unweighted = Seq.pearson x2 y2
+            Expect.floatClose Accuracy.veryHigh weighted unweighted
+                "uniform weights should produce ordinary Pearson correlation"
+
+        testCase "uniform weights: perfect negative correlation" <| fun () ->
+            let r = Seq.pearsonWeighted x3 y3 wUniform
+            Expect.floatClose Accuracy.veryHigh r -1.0 "uniform-weighted Pearson should be -1.0 for perfectly anti-correlated data"
+
+        testCase "mismatched length throws" <| fun () ->
+            Expect.throws (fun () -> Seq.pearsonWeighted [1.0; 2.0] [1.0] [1.0; 1.0] |> ignore)
+                "should throw for mismatched sequence lengths"
+
+        testCase "empty sequences return NaN" <| fun () ->
+            let r = Seq.pearsonWeighted [] [] []
+            Expect.isTrue (System.Double.IsNaN r)
+                "empty input should return NaN"
+        
+        testCase "all weights zero returns NaN" <| fun () ->
+            let r = Seq.pearsonWeighted [1.0;2.0] [3.0;4.0] [0.0;0.0]
+            Expect.isTrue (System.Double.IsNaN r)
+                "zero total weight should produce NaN"
+    ]
