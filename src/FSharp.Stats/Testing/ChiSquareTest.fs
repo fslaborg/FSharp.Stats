@@ -37,20 +37,62 @@ open FSharp.Stats
 type ChiSquareTest =
 
     
-    /// Computes the Chi-Square test
-    /// n data points -&gt; degrees of freedom = n - 1 
+    /// <summary>
+    ///   Computes the Chi-Square goodness-of-fit test.
+    ///   n data points -> degrees of freedom = n - 1
+    /// </summary>
     static member compute (degreesOfFreedom:int) (expected:seq<float>) (observed:seq<float>) =
-        //let chechParams =
-        //    if expected |> Seq.exists (fun x -> abs x < 5.) then printfn "Warning: A value less than 5 is present in expected values. Results may not be correct!"
-        //    let sumEx = Seq.sum expected
-        //    let sumOb = Seq.sum observed
-        //    if Math.Round(sumEx,1) <> Math.Round(sumOb,1) then printfn "Warning: The sum of observed values does not match the sum of expected values. SumEx: %.3f SumOb: %.3f" sumEx sumOb
         let chi2 =
             Seq.zip observed expected
             |> Seq.fold (fun acc (obs,exp) -> 
                 let d = obs - exp
                 acc + (d * d) / exp) 0.0
-        
+        TestStatistics.createChiSquare chi2 (float degreesOfFreedom)
+
+    /// <summary>
+    ///   Computes the Chi-Square goodness-of-fit test with Yates's continuity correction.
+    /// </summary>
+    /// <remarks>
+    ///   Yates's correction subtracts 0.5 from each |observed - expected| term before squaring.
+    ///   It is recommended when the degrees of freedom equal 1 (two categories) and expected
+    ///   cell counts are small.  For df > 1 or large samples the uncorrected <c>compute</c> is
+    ///   preferable.
+    ///
+    ///   Reference: Yates, F. (1934). Contingency tables involving small numbers and the chi-squared
+    ///   test. Supplement to the Journal of the Royal Statistical Society, 1(2), 217-235.
+    /// </remarks>
+    static member computeWithYates (degreesOfFreedom:int) (expected:seq<float>) (observed:seq<float>) =
+        let chi2 =
+            Seq.zip observed expected
+            |> Seq.fold (fun acc (obs,exp) ->
+                let diff = abs (obs - exp) - 0.5
+                acc + (diff * diff) / exp) 0.0
+        TestStatistics.createChiSquare chi2 (float degreesOfFreedom)
+
+    /// <summary>
+    ///   Computes the Chi-Square goodness-of-fit test with Williams's correction.
+    /// </summary>
+    /// <remarks>
+    ///   Williams's correction divides the chi-square statistic by
+    ///   q = 1 + (k^2 - 1) / (6 * n * k), where k is the number of categories and
+    ///   n is the total observed count.  This provides a better approximation to the
+    ///   chi-squared distribution when sample sizes are small.
+    ///
+    ///   Reference: Williams, D. A. (1976). Improved likelihood ratio tests for complete
+    ///   contingency tables. Biometrika, 63(1), 33-37.
+    /// </remarks>
+    static member computeWithWilliams (degreesOfFreedom:int) (expected:seq<float>) (observed:seq<float>) =
+        let observedArr = Seq.toArray observed
+        let expectedArr = Seq.toArray expected
+        let k = float observedArr.Length
+        let n = Array.sum observedArr
+        let q = 1.0 + (k * k - 1.0) / (6.0 * n * k)
+        let chi2Raw =
+            Array.zip observedArr expectedArr
+            |> Array.fold (fun acc (obs,exp) ->
+                let d = obs - exp
+                acc + (d * d) / exp) 0.0
+        let chi2 = chi2Raw / q
         TestStatistics.createChiSquare chi2 (float degreesOfFreedom)
 
     static member pearsonChiSquared (table:ContingencyTable<_,_>) =
