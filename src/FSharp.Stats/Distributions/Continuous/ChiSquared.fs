@@ -140,8 +140,11 @@ type ChiSquared =
     /// <param name="p">The probability value in [0.0, 1.0].</param>
     /// <returns>The quantile corresponding to the cumulative probability p.</returns>
     static member InvCDF (dof: float) (p: float) : float =
+        // Chi-squared(dof) = Gamma(alpha=dof/2, scale=2).
+        // FSharp.Stats Gamma uses the scale parameterisation (Mean = alpha * scale),
+        // so the correct scale is 2.0, not 1/2.
         let alpha = dof / 2.0
-        let beta  = 1. / 2.0
+        let beta  = 2.0
         Gamma.InvCDF alpha beta p
 
     /// <summary>Returns the support of the exponential distribution: [0, Positive Infinity).</summary>
