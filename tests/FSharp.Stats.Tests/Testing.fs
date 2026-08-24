@@ -1491,3 +1491,61 @@ let anovaTests =
             // Expect.floatClose Accuracy.low      (Math.Round (twoWayANOVARandom.Total.MeanSquares,8))            0.04597                "Total.MeanSquares deviated from expected value"               
             
         ]
+
+[<Tests>]
+let testMannWhitneyTest =
+    // Reference values cross-checked against R: wilcox.test(..., exact=FALSE, correct=FALSE)
+    // and R: wilcox.test(..., exact=FALSE, correct=TRUE)
+
+    // Test case 1: clear separation (sample1 >> sample2) -- no ties
+    // R: wilcox.test(c(6,7,8,9,10), c(1,2,3,4,5), exact=FALSE, correct=FALSE)  → W=25, p=0.004516
+    // R: wilcox.test(c(6,7,8,9,10), c(1,2,3,4,5), exact=FALSE, correct=TRUE)   → W=25, p=0.01220
+    let s1a = [| 6.; 7.; 8.; 9.; 10. |]
+    let s2a = [| 1.; 2.; 3.; 4.; 5.  |]
+    let resultNoCC  = MannWhitneyTest.create s1a s2a false
+    let resultCC    = MannWhitneyTest.create s1a s2a true
+
+    // Test case 2: moderate overlap -- no ties
+    // sample1=[2;4;6;8;10], sample2=[1;3;5;7;9]
+    // U1=15, U2=10; z(no cc)=(15-12.5)/4.787=0.5222; pRight=0.3008; pTwo=0.6016
+    let s1b = [| 2.; 4.; 6.; 8.; 10. |]
+    let s2b = [| 1.; 3.; 5.; 7.; 9.  |]
+    let resultB = MannWhitneyTest.create s1b s2b false
+
+    // Test case 3: data with ties
+    // sample1=[1;2;3;4], sample2=[2;3;5;6]
+    // U1=4, U2=12, mu=8, var=11.714, sigma=3.4225
+    // z=-1.1693, pLeft=0.1212, pRight=0.8788, pTwo=0.2423
+    let s1c = [| 1.; 2.; 3.; 4. |]
+    let s2c = [| 2.; 3.; 5.; 6. |]
+    let resultC = MannWhitneyTest.create s1c s2c false
+
+    testList "Testing.MannWhitneyTest" [
+        testCase "U statistics - clear separation" <| fun () ->
+            Expect.floatClose Accuracy.medium resultNoCC.U1 25. "U1 should be 25 (sample1 dominates)"
+            Expect.floatClose Accuracy.medium resultNoCC.U2  0. "U2 should be 0"
+        testCase "U1 + U2 = n1*n2" <| fun () ->
+            Expect.floatClose Accuracy.medium (resultNoCC.U1 + resultNoCC.U2) 25. "U1+U2 must equal n1*n2=25"
+            Expect.floatClose Accuracy.medium (resultB.U1    + resultB.U2)    25. "U1+U2 must equal n1*n2=25"
+            Expect.floatClose Accuracy.medium (resultC.U1    + resultC.U2)    16. "U1+U2 must equal n1*n2=16"
+        testCase "p-values - clear separation, no continuity correction" <| fun () ->
+            // R: p-value = 0.004516
+            Expect.isTrue (resultNoCC.PValueRight < 0.01) "PValueRight should be < 0.01 (sample1 >> sample2)"
+            Expect.isTrue (resultNoCC.PValueLeft  > 0.99) "PValueLeft should be > 0.99"
+            Expect.floatClose Accuracy.low resultNoCC.PValue (2. * resultNoCC.PValueRight) "Two-sided = 2 × one-sided min"
+        testCase "p-values - clear separation, continuity correction" <| fun () ->
+            // R: p-value ≈ 0.01220
+            Expect.floatClose Accuracy.low (Math.Round(resultCC.PValue, 4)) 0.0122 "PValue with CC should ≈ 0.0122"
+        testCase "U statistics - moderate overlap" <| fun () ->
+            Expect.floatClose Accuracy.medium resultB.U1 15. "U1 should be 15"
+            Expect.floatClose Accuracy.medium resultB.U2 10. "U2 should be 10"
+        testCase "p-value not significant - moderate overlap" <| fun () ->
+            Expect.isTrue (resultB.PValue > 0.05) "p-value should not be significant for nearly identical distributions"
+        testCase "U statistics with ties" <| fun () ->
+            Expect.floatClose Accuracy.medium resultC.U1 4. "U1 should be 4 (with ties)"
+            Expect.floatClose Accuracy.medium resultC.U2 12. "U2 should be 12"
+        testCase "p-values with ties" <| fun () ->
+            // z ≈ -1.169, pLeft ≈ 0.121, pTwo ≈ 0.242
+            Expect.floatClose Accuracy.low (Math.Round(resultC.PValueLeft, 3)) 0.121 "PValueLeft with ties should ≈ 0.121"
+            Expect.floatClose Accuracy.low (Math.Round(resultC.PValue,     3)) 0.243 "PValueTwoTailed with ties should ≈ 0.243"
+    ]
