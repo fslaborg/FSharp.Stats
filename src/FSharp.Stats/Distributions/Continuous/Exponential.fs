@@ -123,9 +123,11 @@ type Exponential =
     /// <code>
     /// </code>
     /// </example>
-    static member InvCDF lambda x =
+    static member InvCDF lambda p =
         Exponential.CheckParam lambda
-        failwithf "InvCDF not implemented yet"
+        if p < 0. || p > 1. then failwithf "p must be in [0, 1] but was %f" p
+        if p = 1. then System.Double.PositiveInfinity
+        else -(log (1. - p)) / lambda
 
     /// <summary>
     ///   Fits the underlying distribution to a given set of observations.

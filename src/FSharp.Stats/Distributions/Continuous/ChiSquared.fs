@@ -141,7 +141,7 @@ type ChiSquared =
     /// <returns>The quantile corresponding to the cumulative probability p.</returns>
     static member InvCDF (dof: float) (p: float) : float =
         let alpha = dof / 2.0
-        let beta  = 1. / 2.0
+        let beta  = 2.0       // chi-squared = Gamma(k/2, scale=2)
         Gamma.InvCDF alpha beta p
 
     /// <summary>Returns the support of the exponential distribution: [0, Positive Infinity).</summary>
