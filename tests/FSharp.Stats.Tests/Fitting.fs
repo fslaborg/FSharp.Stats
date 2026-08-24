@@ -122,6 +122,95 @@ let weightedSimpleLinearRegressionTests =
     ]
 
 [<Tests>]
+let qrDecompositionTests =
+    // Classic Golub-Van Loan 3×3 example: known Q and R
+    let A = matrix [[12.;-51.;4.];[6.;167.;-68.];[-4.;24.;-41.]]
+    // Rectangular tall matrix for thin-QR tests
+    let B = matrix [[1.;2.];[3.;4.];[5.;6.];[7.;8.]]
+
+    let matClose (m1: Matrix<float>) (m2: Matrix<float>) label =
+        Expect.equal m1.NumRows m2.NumRows (label + " – row count")
+        Expect.equal m1.NumCols m2.NumCols (label + " – col count")
+        for i in 0 .. m1.NumRows - 1 do
+            for j in 0 .. m1.NumCols - 1 do
+                Expect.floatClose Accuracy.medium m1.[i,j] m2.[i,j] (sprintf "%s [%d,%d]" label i j)
+
+    testList "QR Decomposition" [
+
+        testCase "GramSchmidt: A = Q * R (square)" (fun () ->
+            let (q, r) = LinearAlgebra.QR.gramSchmidt A
+            let qr = q * r
+            matClose qr A "GS Q*R should equal A"
+        )
+
+        testCase "Householder: A = Q * R (square)" (fun () ->
+            let (q, r) = LinearAlgebra.QR.householder A
+            let qr = q * r
+            matClose qr A "Householder Q*R should equal A"
+        )
+
+        testCase "GramSchmidt: Q is orthonormal (Q^T Q = I)" (fun () ->
+            let (q, _) = LinearAlgebra.QR.gramSchmidt A
+            let qtq = q.Transpose() * q
+            let eye = Matrix.identity q.NumCols
+            matClose qtq eye "GS Q^T Q should be identity"
+        )
+
+        testCase "Householder: Q is orthogonal (Q^T Q = I)" (fun () ->
+            let (q, _) = LinearAlgebra.QR.householder A
+            let qtq = q.Transpose() * q
+            let eye = Matrix.identity q.NumCols
+            matClose qtq eye "Householder Q^T Q should be identity"
+        )
+
+        testCase "GramSchmidt: R is upper triangular (square)" (fun () ->
+            let (_, r) = LinearAlgebra.QR.gramSchmidt A
+            for i in 1 .. r.NumRows - 1 do
+                for j in 0 .. i - 1 do
+                    Expect.floatClose Accuracy.medium r.[i,j] 0. (sprintf "GS R[%d,%d] should be 0" i j)
+        )
+
+        testCase "Householder: R is upper triangular (square)" (fun () ->
+            let (_, r) = LinearAlgebra.QR.householder A
+            for i in 1 .. r.NumRows - 1 do
+                for j in 0 .. i - 1 do
+                    Expect.floatClose Accuracy.medium r.[i,j] 0. (sprintf "HH R[%d,%d] should be 0" i j)
+        )
+
+        testCase "GramSchmidt thin QR: dimensions for 4×2 input" (fun () ->
+            let (q, r) = LinearAlgebra.QR.gramSchmidt B
+            Expect.equal q.NumRows 4 "GS thin Q should have 4 rows"
+            Expect.equal q.NumCols 2 "GS thin Q should have 2 cols"
+            Expect.equal r.NumRows 2 "GS thin R should have 2 rows"
+            Expect.equal r.NumCols 2 "GS thin R should have 2 cols"
+        )
+
+        testCase "Householder full QR: dimensions for 4×2 input" (fun () ->
+            let (q, r) = LinearAlgebra.QR.householder B
+            Expect.equal q.NumRows 4 "HH full Q should have 4 rows"
+            Expect.equal q.NumCols 4 "HH full Q should have 4 cols"
+            Expect.equal r.NumRows 4 "HH full R should have 4 rows"
+            Expect.equal r.NumCols 2 "HH full R should have 2 cols"
+        )
+
+        testCase "GramSchmidt thin QR: A = Q * R (rectangular)" (fun () ->
+            let (q, r) = LinearAlgebra.QR.gramSchmidt B
+            let qr = q * r
+            matClose qr B "GS thin Q*R should equal B"
+        )
+
+        testCase "decompose dispatches correctly" (fun () ->
+            let (qGS, _) = LinearAlgebra.QR.decompose LinearAlgebra.GramSchmidt A
+            let (qGS2, _) = LinearAlgebra.QR.gramSchmidt A
+            matClose qGS (qGS2 |> id) "decompose GramSchmidt should match gramSchmidt"
+            let (qHH, _) = LinearAlgebra.QR.decompose LinearAlgebra.Householder A
+            let (qHH2, _) = LinearAlgebra.QR.householder A
+            matClose qHH qHH2 "decompose Householder should match householder"
+        )
+    ]
+
+
+[<Tests>]
 let splineTests = 
     testList "Fitting.Spline" [
             testCase "smoothingSpline" <| fun () -> 
