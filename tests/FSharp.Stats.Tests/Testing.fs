@@ -498,6 +498,50 @@ let hochbergTests =
     ]
 
 [<Tests>]
+let dunnSidakTests =
+    // p = [0.01; 0.04; 0.03; 0.1; 0.5], m=5
+    // expected values verified with Python: 1 - (1-p)^m
+    let pValues = [| 0.01; 0.04; 0.03; 0.1; 0.5 |]
+    let pNaN    = [| 0.01; nan;  0.03; 0.1; 0.5 |]
+
+    testList "Testing.MultipleTesting.DunnSidak" [
+        testCase "singleStepBasic" <| fun () ->
+            let result = MultipleTesting.dunnSidakFWER pValues
+            // 1 - (1-p)^5 for each p
+            let expected = [| 0.049010; 0.184627; 0.141266; 0.40951; 0.96875 |]
+            Array.iter2 (fun r e ->
+                Expect.floatClose Accuracy.low r e "Single-step Šidák adjusted p-values should match."
+            ) result expected
+        testCase "singleStepNaN" <| fun () ->
+            let result = MultipleTesting.dunnSidakFWER pNaN
+            // m=4 valid values; 1 - (1-p)^4
+            Expect.floatClose Accuracy.low result.[0] 0.039404 "p[0] with NaN should match."
+            Expect.isTrue (Double.IsNaN result.[1]) "NaN position should remain NaN."
+            Expect.floatClose Accuracy.low result.[2] 0.114707 "p[2] with NaN should match."
+            Expect.floatClose Accuracy.low result.[3] 0.34390  "p[3] with NaN should match."
+            Expect.floatClose Accuracy.low result.[4] 0.93750  "p[4] with NaN should match."
+        testCase "holmSidakBasic" <| fun () ->
+            let result = MultipleTesting.holmSidakFWER pValues
+            // sorted p: [0.01, 0.03, 0.04, 0.1, 0.5]
+            // raw: [1-0.99^5, 1-0.97^4, 1-0.96^3, 1-0.9^2, 1-0.5^1]
+            // running max (already monotone): [0.04901, 0.11471, 0.11526, 0.19, 0.5]
+            // back to original order: [0.04901, 0.11526, 0.11471, 0.19, 0.5]
+            let expected = [| 0.049010; 0.115264; 0.114707; 0.19; 0.5 |]
+            Array.iter2 (fun r e ->
+                Expect.floatClose Accuracy.low r e "Holm–Šidák adjusted p-values should match."
+            ) result expected
+        testCase "holmSidakNaN" <| fun () ->
+            let result = MultipleTesting.holmSidakFWER pNaN
+            // m=4 valid values; sorted: [0.01, 0.03, 0.1, 0.5]
+            // raw: [1-0.99^4, 1-0.97^3, 1-0.9^2, 1-0.5^1] = [0.039404, 0.087327, 0.19, 0.5]
+            Expect.floatClose Accuracy.low result.[0] 0.039404 "p[0] Holm-Šidák NaN"
+            Expect.isTrue (Double.IsNaN result.[1]) "NaN position should remain NaN."
+            Expect.floatClose Accuracy.low result.[2] 0.087327 "p[2] Holm-Šidák NaN"
+            Expect.floatClose Accuracy.low result.[3] 0.19000  "p[3] Holm-Šidák NaN"
+            Expect.floatClose Accuracy.low result.[4] 0.50000  "p[4] Holm-Šidák NaN"
+    ]
+
+[<Tests>]
 let benjaminiHochbergTests =
 
 
