@@ -384,13 +384,42 @@ let chiSquaredTests =
         let df = expected.Length - 1
         ChiSquareTest.compute df expected observed
         
+    // Pearson chi-squared test of independence on a 2×3 contingency table.
+    // Verified against R: chisq.test(matrix(c(8,12,15,5,10,15), nrow=2), correct=FALSE)
+    // chi-squared = 6.7862, df = 2, p-value = 0.03360
+    let contingency2x3 =
+        Contingency.create
+            [| "A"; "B" |]      // row labels
+            [| "O1"; "O2"; "O3" |] // column labels
+            [| 8; 15; 10; 12; 5; 15 |]
+
+    // Pearson chi-squared test of independence on a 2×2 contingency table via the general path.
+    // Verified against R: chisq.test(matrix(c(8,12,15,5), nrow=2), correct=FALSE)
+    // chi-squared = 5.0128, df = 1, p-value = 0.02516
+    let contingency2x2general =
+        Contingency.create
+            [| "A"; "B" |]
+            [| "O1"; "O2" |]
+            [| 8; 15; 12; 5 |]
+
     testList "Testing.ChiSquaredTest" [
         testCase "compute" <| fun () -> 
             Expect.isTrue (0.9254 = Math.Round(testCase1.PValueRight,4)) "pValue should be equal."
             Expect.isTrue (0.4700 = Math.Round(testCase1.Statistic,4)) "statistic should be equal."
             Expect.isTrue (0.000638 = Math.Round(testCase2.PValueRight,6)) "pValue should be equal."
             Expect.isTrue (19.461 = Math.Round(testCase2.Statistic,3)) "statistic should be equal."
-            
+        testCase "pearsonChiSquared 2x3 statistic" <| fun () ->
+            let result = ChiSquareTest.pearsonChiSquared contingency2x3
+            Expect.floatClose Accuracy.medium result.Statistic 6.7862 "chi2 statistic should match R"
+        testCase "pearsonChiSquared 2x3 degrees of freedom" <| fun () ->
+            let result = ChiSquareTest.pearsonChiSquared contingency2x3
+            Expect.floatClose Accuracy.high result.DegreesOfFreedom 2.0 "df should be (2-1)*(3-1)=2"
+        testCase "pearsonChiSquared 2x3 p-value" <| fun () ->
+            let result = ChiSquareTest.pearsonChiSquared contingency2x3
+            Expect.isTrue (0.0336 = Math.Round(result.PValueRight, 4)) "p-value should match R to 4 decimal places"
+        testCase "pearsonChiSquared 2x2 general path" <| fun () ->
+            let result = ChiSquareTest.pearsonChiSquared contingency2x2general
+            Expect.floatClose Accuracy.medium result.Statistic 5.0128 "chi2 statistic should match R for 2x2"
     ]
 
 [<Tests>]
