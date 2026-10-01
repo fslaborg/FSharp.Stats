@@ -1,0 +1,41 @@
+# Contributing to FSharp.Stats
+
+FSharp.Stats is primarily maintained through agentic development under human guidance. Maintainers
+discuss proposed work and then direct coding agents to make the complete change, including
+implementation, tests, documentation, benchmarks, and other affected files.
+
+## Start With an Issue
+
+We generally prefer contributions as [GitHub issues] rather than pull requests. Search for an
+existing report first. Issues may include proposed changes, patches, reference implementations, or
+links to forks or branches. Maintainers may refine the scope and assign the issue to an agent to
+implement and validate the complete change.
+
+## Repo Assist
+
+[Repo Assist] is an automated AI assistant that runs regularly in this repository. It may triage or
+respond to issues, investigate bugs, suggest improvements, and attempt implementations as draft pull
+requests. Its work is identified as automated and remains subject to human review; Repo Assist does
+not merge pull requests or make final maintenance decisions.
+
+Maintainers can invoke Repo Assist with `/repo-assist <instructions>` for a specific agentic task,
+such as investigating an issue, preparing a fix, adding tests, or updating documentation.
+
+## Pull Requests
+
+Every pull request must have a matching issue that has been discussed with the maintainers. Link the
+pull request to that issue, keep it focused, and target the `developer` branch. Maintainers may close
+a pull request and use the issue as the basis for an agent-produced implementation instead; the
+submitted analysis and code remain valuable inputs to that work.
+
+If a pull request is the agreed approach, follow [AGENTS.md]. Statistical and machine-learning
+changes need tests and a canonical reference implementation or an explicit alternative validation
+method. Before submission, run:
+
+```bash
+./build.sh RunTests
+```
+
+[AGENTS.md]: AGENTS.md
+[GitHub issues]: https://github.com/fslaborg/FSharp.Stats/issues
+[Repo Assist]: https://github.com/githubnext/agentics/blob/main/docs/repo-assist.md

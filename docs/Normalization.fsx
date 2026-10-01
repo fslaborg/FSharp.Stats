@@ -24,19 +24,16 @@ Plotly.NET.Defaults.DefaultDisplayOptions <-
     Plotly.NET.DisplayOptions.init (PlotlyJSReference = Plotly.NET.PlotlyJSReference.NoReference)
 
 
+open Plotly.NET
+open Plotly.NET.StyleParam
+open Plotly.NET.LayoutObjects
+
 (*** condition: ipynb ***)
 #if IPYNB
 #r "nuget: Plotly.NET, 4.0.0"
 #r "nuget: Plotly.NET.Interactive, 4.0.0"
 #r "nuget: FSharp.Stats"
-
-open Plotly.NET
 #endif // IPYNB
-
-
-open Plotly.NET
-open Plotly.NET.StyleParam
-open Plotly.NET.LayoutObjects
 
 (**
 

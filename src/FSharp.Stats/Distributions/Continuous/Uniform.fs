@@ -125,9 +125,10 @@ type Uniform =
     /// <code>
     /// </code>
     /// </example>
-    static member InvCDF min max x =
+    static member InvCDF min max p =
         Uniform.CheckParam min max
-        failwithf "InvCDF not implemented yet"
+        if p < 0. || p > 1. then failwithf "p must be in [0, 1] but was %f" p
+        min + p * (max - min)
     
     /// <summary>
     ///   Fits the underlying distribution to a given set of observations.
