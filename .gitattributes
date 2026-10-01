@@ -28,4 +28,4 @@
 # ignore changes to data files
 *.csv binary
 
-.github/workflows/*.lock.yml linguist-generated=true merge=ours
+.github/workflows/*.lock.yml linguist-generated=true

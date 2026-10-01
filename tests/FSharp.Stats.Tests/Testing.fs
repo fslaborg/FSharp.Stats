@@ -384,13 +384,42 @@ let chiSquaredTests =
         let df = expected.Length - 1
         ChiSquareTest.compute df expected observed
         
+    // Pearson chi-squared test of independence on a 2×3 contingency table.
+    // Verified against R: chisq.test(matrix(c(8,12,15,5,10,15), nrow=2), correct=FALSE)
+    // chi-squared = 6.7862, df = 2, p-value = 0.03360
+    let contingency2x3 =
+        Contingency.create
+            [| "A"; "B" |]      // row labels
+            [| "O1"; "O2"; "O3" |] // column labels
+            [| 8; 15; 10; 12; 5; 15 |]
+
+    // Pearson chi-squared test of independence on a 2×2 contingency table via the general path.
+    // Verified against R: chisq.test(matrix(c(8,12,15,5), nrow=2), correct=FALSE)
+    // chi-squared = 5.0128, df = 1, p-value = 0.02516
+    let contingency2x2general =
+        Contingency.create
+            [| "A"; "B" |]
+            [| "O1"; "O2" |]
+            [| 8; 15; 12; 5 |]
+
     testList "Testing.ChiSquaredTest" [
         testCase "compute" <| fun () -> 
             Expect.isTrue (0.9254 = Math.Round(testCase1.PValueRight,4)) "pValue should be equal."
             Expect.isTrue (0.4700 = Math.Round(testCase1.Statistic,4)) "statistic should be equal."
             Expect.isTrue (0.000638 = Math.Round(testCase2.PValueRight,6)) "pValue should be equal."
             Expect.isTrue (19.461 = Math.Round(testCase2.Statistic,3)) "statistic should be equal."
-            
+        testCase "pearsonChiSquared 2x3 statistic" <| fun () ->
+            let result = ChiSquareTest.pearsonChiSquared contingency2x3
+            Expect.floatClose Accuracy.medium result.Statistic 6.7862 "chi2 statistic should match R"
+        testCase "pearsonChiSquared 2x3 degrees of freedom" <| fun () ->
+            let result = ChiSquareTest.pearsonChiSquared contingency2x3
+            Expect.floatClose Accuracy.high result.DegreesOfFreedom 2.0 "df should be (2-1)*(3-1)=2"
+        testCase "pearsonChiSquared 2x3 p-value" <| fun () ->
+            let result = ChiSquareTest.pearsonChiSquared contingency2x3
+            Expect.isTrue (0.0336 = Math.Round(result.PValueRight, 4)) "p-value should match R to 4 decimal places"
+        testCase "pearsonChiSquared 2x2 general path" <| fun () ->
+            let result = ChiSquareTest.pearsonChiSquared contingency2x2general
+            Expect.floatClose Accuracy.medium result.Statistic 5.0128 "chi2 statistic should match R for 2x2"
     ]
 
 [<Tests>]
@@ -495,6 +524,50 @@ let hochbergTests =
                 "adjusted pValues should be equal to the reference implementation."
         )
 
+    ]
+
+[<Tests>]
+let dunnSidakTests =
+    // p = [0.01; 0.04; 0.03; 0.1; 0.5], m=5
+    // expected values verified with Python: 1 - (1-p)^m
+    let pValues = [| 0.01; 0.04; 0.03; 0.1; 0.5 |]
+    let pNaN    = [| 0.01; nan;  0.03; 0.1; 0.5 |]
+
+    testList "Testing.MultipleTesting.DunnSidak" [
+        testCase "singleStepBasic" <| fun () ->
+            let result = MultipleTesting.dunnSidakFWER pValues
+            // 1 - (1-p)^5 for each p
+            let expected = [| 0.049010; 0.184627; 0.141266; 0.40951; 0.96875 |]
+            Array.iter2 (fun r e ->
+                Expect.floatClose Accuracy.low r e "Single-step Šidák adjusted p-values should match."
+            ) result expected
+        testCase "singleStepNaN" <| fun () ->
+            let result = MultipleTesting.dunnSidakFWER pNaN
+            // m=4 valid values; 1 - (1-p)^4
+            Expect.floatClose Accuracy.low result.[0] 0.039404 "p[0] with NaN should match."
+            Expect.isTrue (Double.IsNaN result.[1]) "NaN position should remain NaN."
+            Expect.floatClose Accuracy.low result.[2] 0.114707 "p[2] with NaN should match."
+            Expect.floatClose Accuracy.low result.[3] 0.34390  "p[3] with NaN should match."
+            Expect.floatClose Accuracy.low result.[4] 0.93750  "p[4] with NaN should match."
+        testCase "holmSidakBasic" <| fun () ->
+            let result = MultipleTesting.holmSidakFWER pValues
+            // sorted p: [0.01, 0.03, 0.04, 0.1, 0.5]
+            // raw: [1-0.99^5, 1-0.97^4, 1-0.96^3, 1-0.9^2, 1-0.5^1]
+            // running max (already monotone): [0.04901, 0.11471, 0.11526, 0.19, 0.5]
+            // back to original order: [0.04901, 0.11526, 0.11471, 0.19, 0.5]
+            let expected = [| 0.049010; 0.115264; 0.114707; 0.19; 0.5 |]
+            Array.iter2 (fun r e ->
+                Expect.floatClose Accuracy.low r e "Holm–Šidák adjusted p-values should match."
+            ) result expected
+        testCase "holmSidakNaN" <| fun () ->
+            let result = MultipleTesting.holmSidakFWER pNaN
+            // m=4 valid values; sorted: [0.01, 0.03, 0.1, 0.5]
+            // raw: [1-0.99^4, 1-0.97^3, 1-0.9^2, 1-0.5^1] = [0.039404, 0.087327, 0.19, 0.5]
+            Expect.floatClose Accuracy.low result.[0] 0.039404 "p[0] Holm-Šidák NaN"
+            Expect.isTrue (Double.IsNaN result.[1]) "NaN position should remain NaN."
+            Expect.floatClose Accuracy.low result.[2] 0.087327 "p[2] Holm-Šidák NaN"
+            Expect.floatClose Accuracy.low result.[3] 0.19000  "p[3] Holm-Šidák NaN"
+            Expect.floatClose Accuracy.low result.[4] 0.50000  "p[4] Holm-Šidák NaN"
     ]
 
 [<Tests>]
@@ -1169,6 +1242,41 @@ let comparisonMetricsTests =
             testCase "C: threshold 0-2" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][8])) (snd (expectedMetricsMap["C"][8])) "Incorrect metrics for threshold 0.2")
             testCase "C: threshold 0-1" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][9])) (snd (expectedMetricsMap["C"][9])) "Incorrect metrics for threshold 0.1")
             testCase "C: threshold 0-0" (fun _ -> TestExtensions.comparisonMetricsEqualRounded 3 (snd (actual["C"][10])) (snd (expectedMetricsMap["C"][10])) "Incorrect metrics for threshold 0.0")
+        ]
+        testList "multi-label threshold map with explicit thresholds" [
+            // Use a coarse threshold list [0.9; 0.5; 0.1] — a subset of all distinct thresholds.
+            // Expected values are taken from the full-threshold test above (same data).
+            let explicitThresholds = [|0.9; 0.5; 0.1|]
+            let actualExplicit =
+                ComparisonMetrics.multiLabelThresholdMap(
+                    actual = [|"A"; "A"; "A"; "A"; "A"; "B"; "B"; "B"; "C"; "C"; "C"; "C"; "C"; "C"|],
+                    predictions = [|
+                        "A", [|0.8; 0.7; 0.9; 0.4; 0.3; 0.1; 0.2; 0.5; 0.1; 0.1; 0.1; 0.3; 0.5; 0.4|]
+                        "B", [|0.0; 0.1; 0.0; 0.5; 0.1; 0.8; 0.7; 0.4; 0.0; 0.1; 0.1; 0.0; 0.1; 0.3|]
+                        "C", [|0.2; 0.2; 0.1; 0.1; 0.6; 0.1; 0.1; 0.1; 0.9; 0.8; 0.8; 0.7; 0.4; 0.3|]
+                    |],
+                    thresholds = explicitThresholds
+                )
+            // With 3 explicit thresholds the result should have 4 entries per label (prefix + 3)
+            testCase "explicit thresholds: result length" (fun _ ->
+                Expect.equal actualExplicit["A"].Length 4 "Expected 4 threshold entries for label A with 3 explicit thresholds"
+            )
+            // Values at threshold 0.9 should match the full-threshold result at that threshold
+            testCase "A: explicit threshold 0-9" (fun _ ->
+                TestExtensions.comparisonMetricsEqualRounded 3 (snd (actualExplicit["A"][1])) (BinaryConfusionMatrix.create(1,9,0,4) |> ComparisonMetrics.create) "Incorrect A metrics at threshold 0.9"
+            )
+            testCase "B: explicit threshold 0-5" (fun _ ->
+                TestExtensions.comparisonMetricsEqualRounded 3 (snd (actualExplicit["B"][2])) (BinaryConfusionMatrix.create(2,10,1,1) |> ComparisonMetrics.create) "Incorrect B metrics at threshold 0.5"
+            )
+            testCase "C: explicit threshold 0-1" (fun _ ->
+                TestExtensions.comparisonMetricsEqualRounded 3 (snd (actualExplicit["C"][3])) (BinaryConfusionMatrix.create(6,0,8,0) |> ComparisonMetrics.create) "Incorrect C metrics at threshold 0.1"
+            )
+            testCase "micro-average present" (fun _ ->
+                Expect.isTrue (actualExplicit.ContainsKey("micro-average")) "micro-average key should be present"
+            )
+            testCase "macro-average present" (fun _ ->
+                Expect.isTrue (actualExplicit.ContainsKey("macro-average")) "macro-average key should be present"
+            )
         ]
     ]
     

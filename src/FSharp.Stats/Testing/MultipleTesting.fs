@@ -78,6 +78,52 @@ module MultipleTesting =
             result
 
 
+    /// Šidák single-step FWER adjustment (NaN-safe).
+    /// Each p-value is adjusted independently as p_adj = 1 - (1 - p)^m, where m is the number of
+    /// non-NaN tests. This is slightly less conservative than Bonferroni.
+    /// NaN p-values are preserved at their original indices.
+    let inline dunnSidakFWER (p : float[]) : float[] =
+        let total  = p.Length
+        let indexed = p |> Array.mapi (fun i v -> i, v)
+        let valid   = indexed |> Array.filter (fun (_, v) -> not (Double.IsNaN v))
+        let m       = valid.Length
+        let result  = Array.create total Double.NaN
+        if m = 0 then result else
+            valid |> Array.iter (fun (i, pv) ->
+                result.[i] <- min 1.0 (1.0 - (1.0 - pv) ** float m))
+            result
+
+    /// Holm–Šidák (step-down) FWER adjustment (NaN-safe).
+    /// Uses the Šidák formula at each step of the Holm procedure, giving a slightly more
+    /// powerful test than Holm–Bonferroni while still controlling the FWER.
+    /// NaN p-values are ignored in the computation and preserved at their original indices.
+    let inline holmSidakFWER (p : float[]) : float[] =
+        let total  = p.Length
+        let indexed = p |> Array.mapi (fun i v -> i, v)
+        let valid   = indexed |> Array.filter (fun (_, v) -> not (Double.IsNaN v))
+        let m       = valid.Length
+        let result  = Array.create total Double.NaN
+        if m = 0 then result else
+            let sorted = valid |> Array.sortBy snd
+
+            // raw[i] = 1 - (1 - p_(i+1))^(m-i) for i = 0..m-1  (rank in 1-indexed sorted order = i+1)
+            let raw =
+                sorted
+                |> Array.mapi (fun i (_, pv) -> 1.0 - (1.0 - pv) ** float (m - i))
+
+            // running max from the left, capped at 1.0
+            let adjAsc =
+                raw
+                |> Array.scan (fun runningMax r -> max runningMax r) 0.0
+                |> Array.tail
+                |> Array.map (min 1.0)
+
+            Array.zip (sorted |> Array.map fst) adjAsc
+            |> Array.iter (fun (i, adj) -> result.[i] <- adj)
+
+            result
+
+
     /// Benjamini-Hochberg Correction (BH)
     /// 'projection' should return a tuple of any identifier and the pValues as float, when applied to 'rawP'
     /// This function applies the Benjamini-Hochberg multiple testing correcture and returns all False Discovery Rates to which the given p-values are still 
