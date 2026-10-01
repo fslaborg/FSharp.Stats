@@ -124,8 +124,8 @@ module Frequency =
     /// <code>
     /// </code>
     /// </example>
-    let isSubset (histA:Map<_,int>) (histB:Map<_,int>) =
-        let rec issubset (histA:list<float*int>) (histB:Map<float,int>) =
+    let isSubset (histA:Map<'a,int>) (histB:Map<'a,int>) =
+        let rec issubset (histA:list<'a*int>) (histB:Map<'a,int>) =
             match histA with
             | head::rest -> 
                 let k,v = head

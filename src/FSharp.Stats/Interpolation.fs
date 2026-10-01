@@ -567,6 +567,36 @@ module Interpolation =
             let k = leftSegmentIdx lsc.XValues x
             lsc.C1.[k]
 
+        /// <summary>
+        ///   Returns the definite integral of the linear spline from xVal1 to xVal2.
+        /// </summary>
+        /// <param name="lsc">Linear spline coefficients given as input x values, intersects, and slopes.</param>
+        /// <param name="xVal1">Lower bound of integration.</param>
+        /// <param name="xVal2">Upper bound of integration.</param>
+        /// <returns>Definite integral (signed area under the curve) from xVal1 to xVal2.</returns>
+        /// <remarks>xVal1 and xVal2 should lie within the range of the input x values; values outside the range are extrapolated using the nearest segment.</remarks>
+        let rec getIntegralBetween (lsc: LinearSplineCoef) xVal1 xVal2 =
+            if xVal1 > xVal2 then
+                - getIntegralBetween lsc xVal2 xVal1
+            elif xVal1 = xVal2 then 0.
+            else
+                // Integral of segment k from x1 to x2:
+                //   C0[k]*(x2-x1) + C1[k]*((x2-xk)^2 - (x1-xk)^2)/2
+                let segmentIntegral k x1 x2 =
+                    let xk = lsc.XValues.[k]
+                    lsc.C0.[k] * (x2 - x1) + lsc.C1.[k] * ((x2 - xk) * (x2 - xk) - (x1 - xk) * (x1 - xk)) / 2.
+                let k1 = leftSegmentIdx lsc.XValues xVal1
+                let k2 = leftSegmentIdx lsc.XValues xVal2
+                if k1 = k2 then
+                    segmentIntegral k1 xVal1 xVal2
+                else
+                    let firstPart  = segmentIntegral k1 xVal1 lsc.XValues.[k1 + 1]
+                    let lastPart   = segmentIntegral k2 lsc.XValues.[k2] xVal2
+                    let middleParts =
+                        [ k1 + 1 .. k2 - 1 ]
+                        |> List.sumBy (fun k -> segmentIntegral k lsc.XValues.[k] lsc.XValues.[k + 1])
+                    firstPart + middleParts + lastPart
+
     /// <summary>
     ///   Module to create linear splines from x,y coordinates. x,y coordinates are interpolated by straight lines between two knots.
     /// </summary>
@@ -740,6 +770,38 @@ module Interpolation =
         /// <remarks>X values that don't lie within the range of the input x values, are predicted using the nearest interpolation line!</remarks>
         let differentiate (lsc: StepCoef) x =
             0.
+
+        /// <summary>
+        ///   Returns the definite integral of the step function from xVal1 to xVal2.
+        /// </summary>
+        /// <param name="lsc">Step function coefficients given as input x values and intersects.</param>
+        /// <param name="xVal1">Lower bound of integration.</param>
+        /// <param name="xVal2">Upper bound of integration.</param>
+        /// <returns>Definite integral (signed area under the step function) from xVal1 to xVal2.</returns>
+        /// <remarks>xVal1 and xVal2 should lie within the range of the input x values.</remarks>
+        let rec getIntegralBetween (lsc: StepCoef) xVal1 xVal2 =
+            if xVal1 > xVal2 then
+                - getIntegralBetween lsc xVal2 xVal1
+            elif xVal1 = xVal2 then 0.
+            else
+                let n = lsc.XValues.Length
+                // Find interval index k such that XValues[k] <= x < XValues[k+1], clamped to [0, n-2]
+                let getInterval x =
+                    if x >= lsc.XValues.[n - 1] then n - 2
+                    elif x <= lsc.XValues.[0] then 0
+                    else
+                        lsc.XValues |> Array.findIndex (fun xk -> xk > x) |> fun idx -> idx - 1
+                let k1 = getInterval xVal1
+                let k2 = getInterval xVal2
+                if k1 = k2 then
+                    lsc.C0.[k1] * (xVal2 - xVal1)
+                else
+                    let firstPart  = lsc.C0.[k1] * (lsc.XValues.[k1 + 1] - xVal1)
+                    let lastPart   = lsc.C0.[k2] * (xVal2 - lsc.XValues.[k2])
+                    let middleParts =
+                        [ k1 + 1 .. k2 - 1 ]
+                        |> List.sumBy (fun k -> lsc.C0.[k] * (lsc.XValues.[k + 1] - lsc.XValues.[k]))
+                    firstPart + middleParts + lastPart
 
 
     /// <summary>
@@ -1740,6 +1802,51 @@ module Interpolation =
         /// <remarks>x values outside of the xValue range are predicted by straight lines defined by the nearest knot!</remarks>
         let getThirdDerivative (coefficients: CubicSplineCoef) x =
             getDerivative 3 coefficients x
+
+        /// <summary>
+        ///   Returns the definite integral of the cubic spline from xVal1 to xVal2.
+        /// </summary>
+        /// <param name="coefficients">Interpolation functions coefficients.</param>
+        /// <param name="xVal1">Lower bound of integration.</param>
+        /// <param name="xVal2">Upper bound of integration.</param>
+        /// <returns>Definite integral (signed area under the curve) from xVal1 to xVal2.</returns>
+        /// <remarks>xVal1 and xVal2 should lie within the range of the input x values; values outside are handled by extrapolating the nearest segment's polynomial.</remarks>
+        let rec getIntegralBetween (coefficients: CubicSplineCoef) xVal1 xVal2 =
+            if xVal1 > xVal2 then
+                - getIntegralBetween coefficients xVal2 xVal1
+            elif xVal1 = xVal2 then 0.
+            else
+                let sortedX = coefficients.XData |> Seq.sort |> Array.ofSeq
+                let n = sortedX.Length - 1 // number of intervals
+
+                // Find interval index k such that sortedX[k] <= x < sortedX[k+1], clamped to [0, n-1]
+                let getInterval x =
+                    if x >= sortedX.[n] then n - 1
+                    elif x < sortedX.[0] then 0
+                    else
+                        sortedX |> Array.findIndex (fun xk -> xk > x) |> fun idx -> idx - 1
+
+                // Antiderivative of the polynomial for interval k, evaluated at x:
+                //   F_k(x) = a*x^4/4 + b*x^3/3 + c*x^2/2 + d*x
+                let antideriv k x =
+                    let a = coefficients.C0_3.[4 * k + 0]
+                    let b = coefficients.C0_3.[4 * k + 1]
+                    let c = coefficients.C0_3.[4 * k + 2]
+                    let d = coefficients.C0_3.[4 * k + 3]
+                    a * x * x * x * x / 4. + b * x * x * x / 3. + c * x * x / 2. + d * x
+
+                let i1 = getInterval xVal1
+                let i2 = getInterval xVal2
+
+                if i1 = i2 then
+                    antideriv i1 xVal2 - antideriv i1 xVal1
+                else
+                    let firstPart  = antideriv i1 sortedX.[i1 + 1] - antideriv i1 xVal1
+                    let lastPart   = antideriv i2 xVal2 - antideriv i2 sortedX.[i2]
+                    let middleParts =
+                        [ i1 + 1 .. i2 - 1 ]
+                        |> List.sumBy (fun k -> antideriv k sortedX.[k + 1] - antideriv k sortedX.[k])
+                    firstPart + middleParts + lastPart
 
         /// <summary>
         /// Hermite cubic splines are defined by the function values and their slopes (first derivatives). If the slopws are unknown, they must be estimated.

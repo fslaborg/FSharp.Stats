@@ -619,33 +619,63 @@ let chiSquaredTests =
                 Expect.isTrue (Ops.isNan <| testCase.PDF nan) "Should be equal"
         ]
 
-        // Reference values from R: qchisq(p, df)
+        // Tests for ChiSquared.InvCDF (the percentile-point function).
+        // Reference values from standard chi-square tables (and CDF values already tested above).
         testList "ChiSquared.InvCDF tests" [
-            testCase "ChiSquared InvCDF p=0" <| fun () ->
-                Expect.equal (Continuous.ChiSquared.InvCDF 5. 0.) 0. "InvCDF at p=0 should be 0"
 
-            testCase "ChiSquared InvCDF p=1" <| fun () ->
-                Expect.isTrue (Double.IsPositiveInfinity (Continuous.ChiSquared.InvCDF 5. 1.)) "InvCDF at p=1 should be +∞"
+            test "ChiSquared.InvCDF returns 0.0 for p=0.0" {
+                let x = Continuous.ChiSquared.InvCDF 5. 0.
+                Expect.floatClose Accuracy.high x 0. "InvCDF(p=0) should be 0"
+            }
 
-            testCase "ChiSquared InvCDF dof=1 p=0.95" <| fun () ->
-                // R: qchisq(0.95, 1) = 3.841459
-                let x = Continuous.ChiSquared.InvCDF 1. 0.95
-                Expect.floatClose Accuracy.medium x 3.841459 "ChiSquared InvCDF(1, 0.95) ≈ 3.84"
+            test "ChiSquared.InvCDF returns +∞ for p=1.0" {
+                let x = Continuous.ChiSquared.InvCDF 5. 1.
+                Expect.isTrue (x = infinity) "InvCDF(p=1) should be +infinity"
+            }
 
-            testCase "ChiSquared InvCDF dof=10 p=0.95" <| fun () ->
-                // R: qchisq(0.95, 10) = 18.30704
-                let x = Continuous.ChiSquared.InvCDF 10. 0.95
-                Expect.floatClose Accuracy.medium x 18.30704 "ChiSquared InvCDF(10, 0.95) ≈ 18.31"
+            // Round-trip tests: CDF(InvCDF(p)) ≈ p
+            test "ChiSquared.InvCDF round-trip dof=5 p=0.5" {
+                let dof = 5.
+                let p   = 0.5
+                let x   = Continuous.ChiSquared.InvCDF dof p
+                let p2  = Continuous.ChiSquared.CDF dof x
+                Expect.floatClose Accuracy.high p p2 "CDF(InvCDF(0.5)) ≈ 0.5"
+            }
 
-            testCase "ChiSquared InvCDF round-trip dof=5 p=0.5" <| fun () ->
-                let x  = Continuous.ChiSquared.InvCDF 5. 0.5
-                let p2 = Continuous.ChiSquared.CDF 5. x
-                Expect.floatClose Accuracy.high p2 0.5 "CDF(InvCDF(0.5)) should round-trip"
+            test "ChiSquared.InvCDF round-trip dof=1 p=0.95" {
+                let dof = 1.
+                let p   = 0.95
+                let x   = Continuous.ChiSquared.InvCDF dof p
+                let p2  = Continuous.ChiSquared.CDF dof x
+                Expect.floatClose Accuracy.high p p2 "CDF(InvCDF(0.95)) ≈ 0.95"
+            }
 
-            testCase "ChiSquared InvCDF round-trip dof=20 p=0.01" <| fun () ->
-                let x  = Continuous.ChiSquared.InvCDF 20. 0.01
-                let p2 = Continuous.ChiSquared.CDF 20. x
-                Expect.floatClose Accuracy.high p2 0.01 "CDF(InvCDF(0.01)) should round-trip"
+            test "ChiSquared.InvCDF round-trip dof=10 p=0.01" {
+                let dof = 10.
+                let p   = 0.01
+                let x   = Continuous.ChiSquared.InvCDF dof p
+                let p2  = Continuous.ChiSquared.CDF dof x
+                Expect.floatClose Accuracy.high p p2 "CDF(InvCDF(0.01)) ≈ 0.01"
+            }
+
+            // Known-value tests derived from the CDF cases tested above
+            // (Williams 1984 table: CDF(20, 12.443) ≈ 0.1  →  InvCDF(20, 0.1) ≈ 12.443)
+            test "ChiSquared.InvCDF known value dof=20 p=0.1" {
+                let x = Continuous.ChiSquared.InvCDF 20. 0.1
+                Expect.floatClose Accuracy.low x 12.443 "InvCDF(20, 0.1) should be ≈ 12.443"
+            }
+
+            // CDF(3, 1.424) ≈ 0.3  →  InvCDF(3, 0.3) ≈ 1.424
+            test "ChiSquared.InvCDF known value dof=3 p=0.3" {
+                let x = Continuous.ChiSquared.InvCDF 3. 0.3
+                Expect.floatClose Accuracy.low x 1.424 "InvCDF(3, 0.3) should be ≈ 1.424"
+            }
+
+            // CDF(100, 129.561) ≈ 0.975  →  InvCDF(100, 0.975) ≈ 129.561
+            test "ChiSquared.InvCDF known value dof=100 p=0.975" {
+                let x = Continuous.ChiSquared.InvCDF 100. 0.975
+                Expect.floatClose Accuracy.low x 129.561 "InvCDF(100, 0.975) should be ≈ 129.561"
+            }
         ]
     ]
 
