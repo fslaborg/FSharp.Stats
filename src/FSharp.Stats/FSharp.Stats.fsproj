@@ -59,6 +59,7 @@
     <Compile Include="SpecialFunctions\Logistic.fs" />
     <Compile Include="SpecialFunctions\Binomial.fs" />
     <!-- Algebra -->
+    <Compile Include="LinearAlgebra.fs" />
     <!-- RootFinding -->
     <Compile Include="RootFinding\Brent.fs" />
     <!-- Integration -->
