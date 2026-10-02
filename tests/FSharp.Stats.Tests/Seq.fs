@@ -397,6 +397,22 @@ let seqGenTests =
 
 
 [<Tests>]
+let meanTruncatedByTests =
+    testList "Seq.meanTruncatedBy" [
+        testCase "trims both ends" <| fun () ->
+            let xs = [1.0 .. 10.0]
+            // k = 2: keeps 3..8, doubled mean = 11.0
+            Expect.floatClose Accuracy.high (Seq.meanTruncatedBy (fun x -> x * 2.0) 0.2 xs) 11.0 "Expected both ends trimmed"
+        testCase "matches meanTruncated for identity" <| fun () ->
+            let xs = [9.0; 1.0; 4.0; 100.0; -50.0; 3.0; 7.0; 2.0; 8.0; 5.0]
+            Expect.floatClose Accuracy.high (Seq.meanTruncatedBy id 0.2 xs) (Seq.meanTruncated 0.2 xs) "Expected equal results"
+        testCase "zero proportion equals mean" <| fun () ->
+            let xs = [1.0; 2.0; 3.0; 4.0]
+            Expect.floatClose Accuracy.high (Seq.meanTruncatedBy id 0.0 xs) 2.5 "Expected plain mean"
+    ]
+
+
+[<Tests>]
 let varTests =
     testList "Seq.var" [
         testCase "varEmpty" <| fun () ->
