@@ -155,9 +155,39 @@ type Beta =
     /// <code>
     /// </code>
     /// </example>
-    static member InvCDF alpha beta x =
+    static member InvCDF (alpha: float) (beta: float) (p: float) =
         Beta.CheckParam alpha beta
-        failwithf "InvCDF not implemented yet"
+        if p < 0. || p > 1. then failwith "p must be in [0, 1]"
+        if p = 0. then 0.
+        elif p = 1. then 1.
+        // Closed-form cases for boundary parameter values
+        elif alpha = 1. && beta = 1. then p
+        elif alpha = 1. then 1. - (1. - p) ** (1. / beta)
+        elif beta  = 1. then p ** (1. / alpha)
+        else
+            // Newton–Raphson starting from the mean, clamped to (ε, 1−ε)
+            let clamp x = max 1e-12 (min (1. - 1e-12) x)
+            let x0 = clamp (alpha / (alpha + beta))
+
+            let rec refine x iter =
+                if iter >= 50 then x
+                else
+                    let fx  = Beta.CDF alpha beta x - p
+                    let dfx = Beta.PDF alpha beta x
+                    if abs dfx < 1e-300 then x
+                    else
+                        let x' = clamp (x - fx / dfx)
+                        if abs (x' - x) < 1e-12 then x'
+                        else refine x' (iter + 1)
+
+            let xNR = refine x0 0
+            // If Newton–Raphson left residual error, polish with Brent
+            if abs (Beta.CDF alpha beta xNR - p) < 1e-8 then xNR
+            else
+                match Rootfinding.Brent.tryFindRootWith 1e-12 200
+                          (fun x -> Beta.CDF alpha beta x - p) 1e-12 (1. - 1e-12) with
+                | Some x -> x
+                | None   -> xNR // best effort
 
     /// <summary>
     ///   Fits the underlying distribution to a given set of observations.

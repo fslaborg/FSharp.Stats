@@ -143,9 +143,29 @@ type StudentT =
     /// <code>
     /// </code>
     /// </example>
-    static member InvCDF mu tau dof x =
-        StudentT.CheckParam mu tau dof            
-        failwithf "InvCDF not implemented yet" 
+    static member InvCDF mu tau dof (p: float) =
+        StudentT.CheckParam mu tau dof
+        if p < 0. || p > 1. then failwith "p must be in [0, 1]"
+        if p = 0. then Double.NegativeInfinity
+        elif p = 1. then Double.PositiveInfinity
+        else
+            // StudentT(μ,τ,ν).CDF(x) = 0.5 * I_h(ν/2, 1/2)  for x ≤ μ
+            //                        = 1 − 0.5 * I_h(ν/2, 1/2)  for x > μ
+            // where h = ν / (ν + k²),  k = (x − μ) / τ
+            // For p ≤ 0.5:
+            //   I_h(ν/2, 1/2) = 2p  ⟹  h = Beta.InvCDF(ν/2, 1/2, 2p)
+            //   k = −√(ν*(1−h)/h)   (negative since x ≤ μ)
+            // For p > 0.5: use symmetry about μ
+            let quantile q =
+                // q ≤ 0.5 branch
+                let h = Beta.InvCDF (dof / 2.) 0.5 (2. * q)
+                let k = -sqrt (dof * (1. - h) / h)
+                mu + tau * k
+            if p <= 0.5 then
+                quantile p
+            else
+                // symmetry: InvCDF(p) = 2μ − InvCDF(1−p)
+                2. * mu - quantile (1. - p)
 
     /// <summary>Returns the support of the exponential distribution: (Negative Infinity, Positive Infinity).</summary>
     /// <remarks></remarks>
