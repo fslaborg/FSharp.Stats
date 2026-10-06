@@ -281,9 +281,7 @@ module OptimizationStop =
       let testFlags =
         __.CheckIteration stopCounter |||
         __.CheckFunctionEvaluations stopCounter |||
-        __.CheckStationaryPoint stopCounter fold fnew |||
-        __.CheckFunctionEpsilon fnew |||
-        __.CheckFunctionEpsilon fold
+        __.CheckStationaryPoint stopCounter fold fnew
       stopCounter.EndCriteria <- testFlags
       testFlags = StopCriteriaType.None   
 
