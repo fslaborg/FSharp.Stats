@@ -111,10 +111,9 @@ module Imputation =
     /// <see cref="kNearestImpute"/>) to skip NaN positions when measuring distance.
     /// </param>
     /// <param name="distanceToWeight">
-    /// Converts a raw distance value into a non-negative weight.
+    /// Converts a raw distance value to a weight. The function is expected to return finite, non-negative weights.
+    /// Typically, closer neighbours should receive larger weights.
     /// For Euclidean-style metrics use an inverse such as <c>fun d -> 1.0 / (d + System.Double.Epsilon)</c>.
-    /// For similarity measures (e.g. Pearson correlation) pass <c>id</c> directly,
-    /// or its reciprocal if you stored it as a distance.
     /// </param>
     /// <param name="k">Number of nearest neighbours to consider.</param>
     /// <param name="data">Complete rows used as the neighbour pool (rows with missing values are excluded upstream by <see cref="imputeBy"/>).</param>
