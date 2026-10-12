@@ -81,6 +81,16 @@ let imputationTests =
                 Expect.floatClose Accuracy.high result 15.0 "equal-distance weighted mean should be 15.0"
             }
 
+            test "kNearestWeightedImputeDefault equals explicit inverse-distance configuration" {
+                let data = [| [|0.0; 10.0|]; [|4.0; 20.0|]; [|7.0; 5.0|] |]
+                let query = [| 1.0; nan |]
+                let expected =
+                    Imputation.kNearestWeightedImpute FSharp.Stats.DistanceMetrics.Array.euclideanNaNSquared (fun d -> 1.0 / (d + System.Double.Epsilon)) 2 data query 1
+                let result = Imputation.kNearestWeightedImputeDefault 2 data query 1
+                Expect.floatClose Accuracy.high result expected "default should match explicit configuration"
+                Expect.floatClose Accuracy.high result 11.0 "weighted average should be 11.0"
+            }
+
             test "returns nan when dataset is empty" {
                 let data : float[][] = [| |]
                 let query = [| 1.0; nan |]

@@ -156,6 +156,22 @@ module Imputation =
                     weightedSum / totalWeight
 
 
+    /// <summary>
+    /// Distance-weighted k-nearest neighbour imputation with sensible defaults:
+    /// NaN-aware squared Euclidean distance and inverse-distance weights.
+    /// Equivalent to <see cref="kNearestWeightedImpute"/> with
+    /// <c>DistanceMetrics.Array.euclideanNaNSquared</c> and <c>fun d -> 1.0 / (d + System.Double.Epsilon)</c>.
+    /// </summary>
+    /// <param name="k">Number of nearest neighbours to consider.</param>
+    /// <example>
+    /// <code>
+    /// let imputed = Imputation.imputeBy (Imputation.kNearestWeightedImputeDefault 3) System.Double.IsNaN rawData
+    /// </code>
+    /// </example>
+    let kNearestWeightedImputeDefault k : MatrixBaseImputation<float[],float> =
+        kNearestWeightedImpute DistanceMetrics.Array.euclideanNaNSquared (fun d -> 1.0 / (d + System.Double.Epsilon)) k
+
+
     /// <summary>Imputes column-wise by vector-based imputation</summary>
     /// <remarks></remarks>
     /// <param name="impute"></param>
