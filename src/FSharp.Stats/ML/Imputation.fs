@@ -99,6 +99,79 @@ module Imputation =
             tmpArr.[index]
 
 
+    /// <summary>
+    /// Imputation by distance-weighted k-nearest neighbour.
+    /// Missing values are replaced by a weighted average of the k nearest neighbours,
+    /// where each neighbour's contribution is scaled by a user-supplied weight derived
+    /// from its distance to the incomplete row.
+    /// </summary>
+    /// <param name="distanceMetric">
+    /// Distance function between two float arrays.
+    /// Use <c>DistanceMetrics.Array.euclideanNaNSquared</c> (the default in
+    /// <see cref="kNearestImpute"/>) to skip NaN positions when measuring distance.
+    /// </param>
+    /// <param name="distanceToWeight">
+    /// Converts a raw distance value to a weight. The function is expected to return finite, non-negative weights.
+    /// Typically, closer neighbours should receive larger weights.
+    /// For Euclidean-style metrics use an inverse such as <c>fun d -> 1.0 / (d + System.Double.Epsilon)</c>.
+    /// </param>
+    /// <param name="k">Number of nearest neighbours to consider.</param>
+    /// <param name="data">Complete rows used as the neighbour pool (rows with missing values are excluded upstream by <see cref="imputeBy"/>).</param>
+    /// <param name="arr">The row containing the missing value to impute.</param>
+    /// <param name="index">Column index of the missing value within <paramref name="arr"/>.</param>
+    /// <returns>Imputed value at <paramref name="index"/>.</returns>
+    /// <example>
+    /// <code>
+    /// // Distance-weighted KNN with inverse-distance weighting
+    /// let isMissing = System.Double.IsNaN
+    /// let invDistWeight d = 1.0 / (d + System.Double.Epsilon)
+    /// let imputer = Imputation.kNearestWeightedImpute DistanceMetrics.Array.euclideanNaNSquared invDistWeight 3
+    /// let imputed = Imputation.imputeBy imputer isMissing rawData
+    /// </code>
+    /// </example>
+    let kNearestWeightedImpute
+            (distanceMetric: DistanceMetrics.Distance<float[]>)
+            (distanceToWeight: float -> float)
+            k
+            : MatrixBaseImputation<float[],float> =
+        fun data arr index ->
+            let dataset = data |> Array.ofSeq
+            let n = min k dataset.Length
+            if n = 0 then
+                nan
+            else
+                let neighbors =
+                    dataset
+                    |> Array.map (fun row -> (distanceMetric row arr, row))
+                    |> Array.sortBy fst
+                    |> Array.take n
+                let weights = neighbors |> Array.map (fun (d, _) -> distanceToWeight d)
+                let totalWeight = Array.sum weights
+                if totalWeight = 0.0 then
+                    neighbors |> Array.averageBy (fun (_, row: float[]) -> row.[index])
+                else
+                    let weightedSum =
+                        Array.map2 (fun w (_, row: float[]) -> w * row.[index]) weights neighbors
+                        |> Array.sum
+                    weightedSum / totalWeight
+
+
+    /// <summary>
+    /// Distance-weighted k-nearest neighbour imputation with sensible defaults:
+    /// NaN-aware squared Euclidean distance and inverse-distance weights.
+    /// Equivalent to <see cref="kNearestWeightedImpute"/> with
+    /// <c>DistanceMetrics.Array.euclideanNaNSquared</c> and <c>fun d -> 1.0 / (d + System.Double.Epsilon)</c>.
+    /// </summary>
+    /// <param name="k">Number of nearest neighbours to consider.</param>
+    /// <example>
+    /// <code>
+    /// let imputed = Imputation.imputeBy (Imputation.kNearestWeightedImputeDefault 3) System.Double.IsNaN rawData
+    /// </code>
+    /// </example>
+    let kNearestWeightedImputeDefault k : MatrixBaseImputation<float[],float> =
+        kNearestWeightedImpute DistanceMetrics.Array.euclideanNaNSquared (fun d -> 1.0 / (d + System.Double.Epsilon)) k
+
+
     /// <summary>Imputes column-wise by vector-based imputation</summary>
     /// <remarks></remarks>
     /// <param name="impute"></param>
