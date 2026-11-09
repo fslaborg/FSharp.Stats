@@ -79,6 +79,23 @@ let imputedDataMatrix = "k nearest neighbours imputed data\r\n" + FSharp.Stats.F
 
 (**
 
+### Distance-weighted k-nearest imputation
+
+Closer neighbours contribute more to the imputed value. `kNearestWeightedImputeDefault` uses NaN-aware
+squared Euclidean distance with inverse-distance weights; `kNearestWeightedImpute` lets you choose
+the distance metric and the distance-to-weight function.
+
+*)
+
+let knw : Imputation.MatrixBaseImputation<float[],float> = Imputation.kNearestWeightedImputeDefault 2
+let imputedDataWeighted = Imputation.imputeBy knw Ops.isNan data
+
+(*** hide ***)
+let imputedWeightedMatrix = "distance-weighted k nearest neighbours imputed data\r\n" + FSharp.Stats.FSIPrinters.matrix (matrix imputedDataWeighted)
+(*** include-value:imputedWeightedMatrix ***)
+
+(**
+
 <a name="random imputation"></a>
 
 ##random imputation

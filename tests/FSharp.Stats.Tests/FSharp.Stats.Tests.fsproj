@@ -29,6 +29,7 @@
     <Compile Include="Testing.fs" />
     <Compile Include="Optimization.fs" />
     <Compile Include="SummaryStats.fs" />
+    <Compile Include="Imputation.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>
